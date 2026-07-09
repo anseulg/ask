@@ -1,0 +1,227 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 680" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b0e17"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="gravGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff5722"/>
+      <stop offset="100%" stop-color="#ff8a65"/>
+    </linearGradient>
+    <linearGradient id="prevGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2979ff"/>
+      <stop offset="100%" stop-color="#64b5f6"/>
+    </linearGradient>
+    <linearGradient id="solvGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00c853"/>
+      <stop offset="100%" stop-color="#69f0ae"/>
+    </linearGradient>
+    <linearGradient id="scoreBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00c853"/>
+      <stop offset="33%" stop-color="#ffab00"/>
+      <stop offset="66%" stop-color="#ff6d00"/>
+      <stop offset="100%" stop-color="#d50000"/>
+    </linearGradient>
+    <filter id="cardShadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="680" fill="url(#bgGrad)" rx="12"/>
+
+  <!-- Decorative shapes -->
+  <circle cx="80" cy="60" r="120" fill="#ff5722" opacity="0.04"/>
+  <circle cx="820" cy="620" r="150" fill="#00c853" opacity="0.04"/>
+
+  <!-- Title -->
+  <text x="450" y="52" text-anchor="middle" fill="#ff5722" font-size="13" font-weight="600" letter-spacing="3" text-transform="uppercase" opacity="0.9">ESSENTIAL FRAMEWORK</text>
+  <text x="450" y="90" text-anchor="middle" fill="#f0f2f5" font-size="34" font-weight="800" letter-spacing="-0.5">GPS GAP Priority Score</text>
+  <text x="450" y="116" text-anchor="middle" fill="#8b95a8" font-size="14">Quantify the gap between current state and desired outcome</text>
+
+  <!-- === G CARD === -->
+  <g filter="url(#cardShadow)">
+    <rect x="40" y="148" width="260" height="190" rx="14" fill="#141926" stroke="#ff572233" stroke-width="1"/>
+    <!-- Accent bar -->
+    <rect x="40" y="148" width="260" height="4" rx="2" fill="url(#gravGrad)"/>
+    <!-- Icon circle -->
+    <circle cx="78" cy="186" r="22" fill="#ff5722" opacity="0.12"/>
+    <text x="78" y="193" text-anchor="middle" fill="#ff5722" font-size="22" font-weight="800">G</text>
+    <!-- Label -->
+    <text x="112" y="192" fill="#f0f2f5" font-size="18" font-weight="700">Gravity</text>
+    <!-- Description -->
+    <text x="60" y="222" fill="#8b95a8" font-size="12.5" line-height="1.4">How serious is the problem?</text>
+    <text x="60" y="240" fill="#8b95a8" font-size="12.5">Impact on users, revenue, or ops.</text>
+    <!-- Scale -->
+    <text x="60" y="270" fill="#6b7280" font-size="10" font-weight="600" letter-spacing="1">SCALE 1–5</text>
+    <g transform="translate(60, 282)">
+      <rect x="0" y="0" width="36" height="24" rx="5" fill="#1e2738" stroke="#ff572244" stroke-width="1"/>
+      <text x="18" y="17" text-anchor="middle" fill="#ff8a65" font-size="11" font-weight="600">1</text>
+      <rect x="42" y="0" width="36" height="24" rx="5" fill="#1e2738" stroke="#ff572244" stroke-width="1"/>
+      <text x="60" y="17" text-anchor="middle" fill="#ff8a65" font-size="11" font-weight="600">2</text>
+      <rect x="84" y="0" width="36" height="24" rx="5" fill="#1e2738" stroke="#ff572244" stroke-width="1"/>
+      <text x="102" y="17" text-anchor="middle" fill="#ff8a65" font-size="11" font-weight="600">3</text>
+      <rect x="126" y="0" width="36" height="24" rx="5" fill="#1e2738" stroke="#ff572244" stroke-width="1"/>
+      <text x="144" y="17" text-anchor="middle" fill="#ff8a65" font-size="11" font-weight="600">4</text>
+      <rect x="168" y="0" width="36" height="24" rx="5" fill="#ff5722" stroke="none"/>
+      <text x="186" y="17" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">5</text>
+    </g>
+    <text x="60" y="324" fill="#6b7280" font-size="9.5">Minor annoyance → Critical blocker</text>
+  </g>
+
+  <!-- === P CARD === -->
+  <g filter="url(#cardShadow)">
+    <rect x="320" y="148" width="260" height="190" rx="14" fill="#141926" stroke="#2979ff33" stroke-width="1"/>
+    <rect x="320" y="148" width="260" height="4" rx="2" fill="url(#prevGrad)"/>
+    <circle cx="358" cy="186" r="22" fill="#2979ff" opacity="0.12"/>
+    <text x="358" y="193" text-anchor="middle" fill="#2979ff" font-size="22" font-weight="800">P</text>
+    <text x="392" y="192" fill="#f0f2f5" font-size="18" font-weight="700">Prevalence</text>
+    <text x="340" y="222" fill="#8b95a8" font-size="12.5">How widespread is the issue?</text>
+    <text x="340" y="240" fill="#8b95a8" font-size="12.5">% of users or frequency of occurrence.</text>
+    <text x="340" y="270" fill="#6b7280" font-size="10" font-weight="600" letter-spacing="1">SCALE 1–5</text>
+    <g transform="translate(340, 282)">
+      <rect x="0" y="0" width="36" height="24" rx="5" fill="#1e2738" stroke="#2979ff44" stroke-width="1"/>
+      <text x="18" y="17" text-anchor="middle" fill="#64b5f6" font-size="11" font-weight="600">1</text>
+      <rect x="42" y="0" width="36" height="24" rx="5" fill="#1e2738" stroke="#2979ff44" stroke-width="1"/>
+      <text x="60" y="17" text-anchor="middle" fill="#64b5f6" font-size="11" font-weight="600">2</text>
+      <rect x="84" y="0" width="36" height="24" rx="5" fill="#1e2738" stroke="#2979ff44" stroke-width="1"/>
+      <text x="102" y="17" text-anchor="middle" fill="#64b5f6" font-size="11" font-weight="600">3</text>
+      <rect x="126" y="0" width="36" height="24" rx="5" fill="#2979ff" stroke="none"/>
+      <text x="144" y="17" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">4</text>
+      <rect x="168" y="0" width="36" height="24" rx="5" fill="#1e2738" stroke="#2979ff44" stroke-width="1"/>
+      <text x="186" y="17" text-anchor="middle" fill="#64b5f6" font-size="11" font-weight="600">5</text>
+    </g>
+    <text x="340" y="324" fill="#6b7280" font-size="9.5">Rare edge case → Affects everyone</text>
+  </g>
+
+  <!-- === S CARD === -->
+  <g filter="url(#cardShadow)">
+    <rect x="600" y="148" width="260" height="190" rx="14" fill="#141926" stroke="#00c85333" stroke-width="1"/>
+    <rect x="600" y="148" width="260" height="4" rx="2" fill="url(#solvGrad)"/>
+    <circle cx="638" cy="186" r="22" fill="#00c853" opacity="0.12"/>
+    <text x="638" y="193" text-anchor="middle" fill="#00c853" font-size="22" font-weight="800">S</text>
+    <text x="672" y="192" fill="#f0f2f5" font-size="18" font-weight="700">Solvability</text>
+    <text x="620" y="222" fill="#8b95a8" font-size="12.5">How feasible is the solution?</text>
+    <text x="620" y="240" fill="#8b95a8" font-size="12.5">Effort, risk, and confidence level.</text>
+    <text x="620" y="270" fill="#6b7280" font-size="10" font-weight="600" letter-spacing="1">SCALE 1–5</text>
+    <g transform="translate(620, 282)">
+      <rect x="0" y="0" width="36" height="24" rx="5" fill="#1e2738" stroke="#00c85344" stroke-width="1"/>
+      <text x="18" y="17" text-anchor="middle" fill="#69f0ae" font-size="11" font-weight="600">1</text>
+      <rect x="42" y="0" width="36" height="24" rx="5" fill="#1e2738" stroke="#00c85344" stroke-width="1"/>
+      <text x="60" y="17" text-anchor="middle" fill="#69f0ae" font-size="11" font-weight="600">2</text>
+      <rect x="84" y="0" width="36" height="24" rx="5" fill="#00c853" stroke="none"/>
+      <text x="102" y="17" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">3</text>
+      <rect x="126" y="0" width="36" height="24" rx="5" fill="#1e2738" stroke="#00c85344" stroke-width="1"/>
+      <text x="144" y="17" text-anchor="middle" fill="#69f0ae" font-size="11" font-weight="600">4</text>
+      <rect x="168" y="0" width="36" height="24" rx="5" fill="#1e2738" stroke="#00c85344" stroke-width="1"/>
+      <text x="186" y="17" text-anchor="middle" fill="#69f0ae" font-size="11" font-weight="600">5</text>
+    </g>
+    <text x="620" y="324" fill="#6b7280" font-size="9.5">Nearly impossible → Quick win</text>
+  </g>
+
+  <!-- === FORMULA SECTION === -->
+  <g filter="url(#cardShadow)">
+    <rect x="40" y="362" width="820" height="72" rx="14" fill="#141926" stroke="#ffffff0a" stroke-width="1"/>
+  </g>
+  <text x="116" y="403" text-anchor="middle" fill="#f0f2f5" font-size="14" font-weight="600" opacity="0.5">FORMULA</text>
+
+  <!-- G pill -->
+  <rect x="180" y="382" width="70" height="36" rx="8" fill="#ff5722" opacity="0.15"/>
+  <text x="215" y="406" text-anchor="middle" fill="#ff5722" font-size="20" font-weight="800">G</text>
+
+  <text x="266" y="407" text-anchor="middle" fill="#6b7280" font-size="22" font-weight="300">&times;</text>
+
+  <!-- P pill -->
+  <rect x="282" y="382" width="70" height="36" rx="8" fill="#2979ff" opacity="0.15"/>
+  <text x="317" y="406" text-anchor="middle" fill="#2979ff" font-size="20" font-weight="800">P</text>
+
+  <text x="368" y="407" text-anchor="middle" fill="#6b7280" font-size="22" font-weight="300">&times;</text>
+
+  <!-- S pill -->
+  <rect x="384" y="382" width="70" height="36" rx="8" fill="#00c853" opacity="0.15"/>
+  <text x="419" y="406" text-anchor="middle" fill="#00c853" font-size="20" font-weight="800">S</text>
+
+  <text x="476" y="407" text-anchor="middle" fill="#f0f2f5" font-size="22" font-weight="300">=</text>
+
+  <!-- Score result -->
+  <rect x="500" y="378" width="200" height="44" rx="10" fill="#ff572215" stroke="#ff572244" stroke-width="1"/>
+  <text x="600" y="406" text-anchor="middle" fill="#ff5722" font-size="18" font-weight="800">PRIORITY SCORE</text>
+
+  <!-- Example -->
+  <text x="740" y="400" fill="#6b7280" font-size="12">e.g.  5 &times; 4 &times; 3</text>
+  <text x="740" y="418" fill="#f0f2f5" font-size="14" font-weight="700">= 60</text>
+
+  <!-- === SCORE RANGE BAR === -->
+  <text x="40" y="472" fill="#f0f2f5" font-size="15" font-weight="700">Score Interpretation</text>
+  <text x="244" y="472" fill="#6b7280" font-size="12">(Range: 1 – 125)</text>
+
+  <!-- Bar background -->
+  <rect x="40" y="488" width="820" height="18" rx="9" fill="#1e2738"/>
+  <!-- Gradient bar -->
+  <rect x="40" y="488" width="820" height="18" rx="9" fill="url(#scoreBar)" opacity="0.85"/>
+
+  <!-- Tick marks and labels -->
+  <!-- Low: 1-20 -->
+  <line x1="40" y1="510" x2="40" y2="520" stroke="#6b7280" stroke-width="1"/>
+  <text x="40" y="534" fill="#6b7280" font-size="10">1</text>
+  <rect x="40" y="542" width="150" height="22" rx="5" fill="#00c853" opacity="0.1"/>
+  <text x="115" y="558" text-anchor="middle" fill="#00c853" font-size="11" font-weight="700">LOW</text>
+  <text x="115" y="572" text-anchor="middle" fill="#6b7280" font-size="9">Monitor only</text>
+
+  <!-- Medium: 21-50 -->
+  <line x1="203" y1="510" x2="203" y2="520" stroke="#6b7280" stroke-width="1"/>
+  <text x="203" y="534" fill="#6b7280" font-size="10">20</text>
+  <rect x="203" y="542" width="230" height="22" rx="5" fill="#ffab00" opacity="0.1"/>
+  <text x="318" y="558" text-anchor="middle" fill="#ffab00" font-size="11" font-weight="700">MEDIUM</text>
+  <text x="318" y="572" text-anchor="middle" fill="#6b7280" font-size="9">Plan for next sprint</text>
+
+  <!-- High: 51-80 -->
+  <line x1="449" y1="510" x2="449" y2="520" stroke="#6b7280" stroke-width="1"/>
+  <text x="449" y="534" fill="#6b7280" font-size="10">50</text>
+  <rect x="449" y="542" width="213" height="22" rx="5" fill="#ff6d00" opacity="0.1"/>
+  <text x="555" y="558" text-anchor="middle" fill="#ff6d00" font-size="11" font-weight="700">HIGH</text>
+  <text x="555" y="572" text-anchor="middle" fill="#6b7280" font-size="9">Prioritize this sprint</text>
+
+  <!-- Critical: 81-125 -->
+  <line x1="696" y1="510" x2="696" y2="520" stroke="#6b7280" stroke-width="1"/>
+  <text x="696" y="534" fill="#6b7280" font-size="10">80</text>
+  <rect x="696" y="542" width="164" height="22" rx="5" fill="#d50000" opacity="0.1"/>
+  <text x="778" y="558" text-anchor="middle" fill="#d50000" font-size="11" font-weight="700">CRITICAL</text>
+  <text x="778" y="572" text-anchor="middle" fill="#6b7280" font-size="9">Act immediately</text>
+
+  <line x1="860" y1="510" x2="860" y2="520" stroke="#6b7280" stroke-width="1"/>
+  <text x="852" y="534" fill="#6b7280" font-size="10">125</text>
+
+  <!-- === GAP VISUALIZATION === -->
+  <g transform="translate(40, 600)">
+    <text x="0" y="14" fill="#f0f2f5" font-size="15" font-weight="700">The GAP</text>
+
+    <!-- Current state dot -->
+    <circle cx="160" cy="10" r="7" fill="#ff5722"/>
+    <text x="175" y="14" fill="#ff8a65" font-size="12" font-weight="600">Current State</text>
+
+    <!-- Arrow line -->
+    <line x1="290" y1="10" x2="540" y2="10" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="6 4"/>
+
+    <!-- GAP label -->
+    <rect x="370" y="-6" width="68" height="28" rx="6" fill="#ff572220" stroke="#ff572255" stroke-width="1"/>
+    <text x="404" y="15" text-anchor="middle" fill="#ff5722" font-size="13" font-weight="700">GAP</text>
+
+    <!-- Arrow head -->
+    <polygon points="548,4 548,16 560,10" fill="#00c853"/>
+
+    <!-- Desired state dot -->
+    <circle cx="578" cy="10" r="7" fill="#00c853"/>
+    <text x="593" y="14" fill="#69f0ae" font-size="12" font-weight="600">Desired State</text>
+
+    <!-- Explanation -->
+    <text x="720" y="14" fill="#6b7280" font-size="10.5" font-style="italic">Higher score = wider gap</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="450" y="666" text-anchor="middle" fill="#4b5563" font-size="10">GPS GAP Priority Score Framework &middot; PM Camp 2026</text>
+</svg>

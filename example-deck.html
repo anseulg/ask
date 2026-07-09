@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PM Camp — 프로덕트 매니지먼트 핵심 가이드</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet" />
+
+    <style>
+      /* === THEME VARIABLES === */
+      :root {
+        --bg-primary: #0b0e17;
+        --bg-secondary: #141926;
+        --bg-card: #1a2035;
+        --text-primary: #f0f2f5;
+        --text-secondary: #8b95a8;
+        --accent: #ff5722;
+        --accent-soft: rgba(255, 87, 34, 0.15);
+        --accent-glow: rgba(255, 87, 34, 0.4);
+        --accent-secondary: #00e5a0;
+
+        --font-display: 'Space Grotesk', 'Noto Sans KR', sans-serif;
+        --font-body: 'Noto Sans KR', 'Space Grotesk', sans-serif;
+        --title-size: clamp(2.2rem, 6vw, 5rem);
+        --subtitle-size: clamp(1.1rem, 2.2vw, 1.6rem);
+        --body-size: clamp(1.05rem, 1.8vw, 1.45rem);
+        --small-size: clamp(0.85rem, 1.3vw, 1.1rem);
+
+        --slide-padding: clamp(1.5rem, 5vw, 5rem);
+        --content-gap: clamp(1rem, 2.5vw, 2.5rem);
+        --element-gap: clamp(0.25rem, 1vw, 1rem);
+
+        --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+        --duration-normal: 0.7s;
+      }
+
+      /* === BASE RESET === */
+      *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font-family: var(--font-body); color: var(--text-primary); background: var(--bg-primary); }
+
+      /* === VIEWPORT FITTING (from viewport-base.css) === */
+      html, body { height: 100%; overflow-x: hidden; }
+      html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+
+      .slide {
+        width: 100vw; height: 100vh; height: 100dvh;
+        overflow: hidden; scroll-snap-align: start;
+        display: flex; flex-direction: column; position: relative;
+      }
+      .slide-content {
+        flex: 1; display: flex; flex-direction: column; justify-content: center;
+        max-height: 100%; overflow: hidden; padding: var(--slide-padding);
+      }
+      .card, .container, .content-box { max-width: min(90vw, 1000px); max-height: min(80vh, 700px); }
+      .feature-list, .bullet-list { gap: clamp(0.4rem, 1vh, 1rem); }
+      .feature-list li, .bullet-list li { font-size: var(--body-size); line-height: 1.4; }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+        gap: clamp(0.5rem, 1.5vw, 1rem);
+      }
+      img, .image-container { max-width: 100%; max-height: min(50vh, 400px); object-fit: contain; }
+
+      @media (max-height: 700px) {
+        :root {
+          --slide-padding: clamp(0.75rem, 3vw, 2rem);
+          --content-gap: clamp(0.4rem, 1.5vw, 1rem);
+          --title-size: clamp(1.6rem, 4.7vw, 3.2rem);
+        }
+      }
+      @media (max-height: 600px) {
+        :root {
+          --slide-padding: clamp(0.5rem, 2.5vw, 1.5rem);
+          --title-size: clamp(1.4rem, 4.2vw, 2.6rem);
+          --body-size: clamp(0.95rem, 1.5vw, 1.2rem);
+        }
+        .nav-dots, .keyboard-hint, .decorative { display: none; }
+      }
+      @media (max-height: 500px) {
+        :root {
+          --slide-padding: clamp(0.4rem, 2vw, 1rem);
+          --title-size: clamp(1.2rem, 3.7vw, 2rem);
+          --body-size: clamp(0.85rem, 1.3vw, 1.05rem);
+        }
+      }
+      @media (max-width: 600px) {
+        :root { --title-size: clamp(1.6rem, 7vw, 3rem); }
+        .grid { grid-template-columns: 1fr; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; }
+        html { scroll-behavior: auto; }
+      }
+
+      /* === PROGRESS BAR === */
+      .progress-bar {
+        position: fixed; top: 0; left: 0; height: 3px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+        z-index: 1000; transition: width 0.3s ease; width: 0;
+      }
+
+      /* === NAV DOTS === */
+      .nav-dots {
+        position: fixed; right: clamp(0.8rem, 2vw, 2rem); top: 50%;
+        transform: translateY(-50%); display: flex; flex-direction: column;
+        gap: 12px; z-index: 100;
+      }
+      .nav-dot {
+        width: 10px; height: 10px; border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2); border: none; cursor: pointer;
+        transition: all 0.3s ease; padding: 0;
+      }
+      .nav-dot.active { background: var(--accent); box-shadow: 0 0 12px var(--accent-glow); transform: scale(1.3); }
+
+      /* === ANIMATIONS === */
+      .reveal {
+        opacity: 0; transform: translateY(30px);
+        transition: opacity var(--duration-normal) var(--ease-out-expo),
+                    transform var(--duration-normal) var(--ease-out-expo);
+      }
+      .slide.visible .reveal { opacity: 1; transform: translateY(0); }
+      .reveal:nth-child(1) { transition-delay: 0.1s; }
+      .reveal:nth-child(2) { transition-delay: 0.2s; }
+      .reveal:nth-child(3) { transition-delay: 0.3s; }
+      .reveal:nth-child(4) { transition-delay: 0.4s; }
+      .reveal:nth-child(5) { transition-delay: 0.5s; }
+
+      /* === SLIDE BACKGROUNDS === */
+      .slide-bg-mesh {
+        position: absolute; inset: 0; z-index: 0;
+        background:
+          radial-gradient(ellipse at 20% 50%, rgba(255, 87, 34, 0.08) 0%, transparent 60%),
+          radial-gradient(ellipse at 80% 20%, rgba(0, 229, 160, 0.06) 0%, transparent 50%),
+          var(--bg-primary);
+      }
+      .slide-content { position: relative; z-index: 1; }
+
+      /* === TITLE SLIDE === */
+      .title-slide { justify-content: center; align-items: center; text-align: center; }
+      .title-slide .slide-content { align-items: center; }
+      .title-slide h1 {
+        font-family: var(--font-display); font-size: var(--title-size);
+        font-weight: 900; line-height: 1.1; letter-spacing: -0.03em;
+        background: linear-gradient(135deg, var(--text-primary) 40%, var(--accent));
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .title-slide .subtitle {
+        font-size: var(--subtitle-size); color: var(--text-secondary);
+        margin-top: clamp(0.5rem, 1.5vw, 1.5rem); font-weight: 400;
+      }
+      .title-slide .badge {
+        display: inline-block; padding: clamp(0.3rem, 0.6vw, 0.5rem) clamp(0.8rem, 1.5vw, 1.2rem);
+        background: var(--accent-soft); border: 1px solid rgba(255, 87, 34, 0.3);
+        border-radius: 100px; font-size: var(--small-size); color: var(--accent);
+        text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;
+        margin-bottom: clamp(0.5rem, 1.5vw, 1.5rem);
+      }
+
+      /* === CONTENT SLIDES === */
+      .slide h2 {
+        font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 3.2rem);
+        font-weight: 700; line-height: 1.15; letter-spacing: -0.02em;
+        margin-bottom: var(--content-gap);
+      }
+      .slide h2 .accent { color: var(--accent); }
+
+      /* === FEATURE CARDS === */
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+        gap: clamp(0.7rem, 1.5vw, 1.2rem);
+      }
+      .feature-card {
+        background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 16px; padding: clamp(1rem, 2vw, 1.8rem);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      }
+      .card-icon {
+        font-size: clamp(1.6rem, 3vw, 2.4rem); margin-bottom: clamp(0.4rem, 1vw, 0.8rem);
+        display: block;
+      }
+      .card-title {
+        font-family: var(--font-display); font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+        font-weight: 700; margin-bottom: clamp(0.3rem, 0.6vw, 0.5rem);
+      }
+      .card-desc {
+        font-size: var(--small-size); color: var(--text-secondary); line-height: 1.5;
+      }
+
+      /* === NUMBERED LIST === */
+      .numbered-list { list-style: none; display: flex; flex-direction: column; gap: clamp(0.6rem, 1.2vw, 1rem); }
+      .numbered-list li {
+        display: flex; align-items: flex-start; gap: clamp(0.6rem, 1.2vw, 1rem);
+        font-size: var(--body-size); line-height: 1.5;
+      }
+      .num {
+        flex-shrink: 0; width: clamp(1.8rem, 3vw, 2.4rem); height: clamp(1.8rem, 3vw, 2.4rem);
+        background: var(--accent); color: var(--bg-primary); border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-family: var(--font-display); font-weight: 700;
+        font-size: clamp(0.8rem, 1.3vw, 1.1rem);
+      }
+
+      /* === QUOTE SLIDE === */
+      .quote-slide blockquote {
+        font-family: var(--font-display); font-size: clamp(1.3rem, 3vw, 2.4rem);
+        font-weight: 700; line-height: 1.35; letter-spacing: -0.01em;
+        border-left: 4px solid var(--accent); padding-left: clamp(1rem, 2vw, 2rem);
+        max-width: min(85vw, 800px);
+      }
+      .quote-slide .attribution {
+        margin-top: clamp(0.8rem, 1.5vw, 1.5rem);
+        font-size: var(--small-size); color: var(--text-secondary); font-weight: 400;
+      }
+
+      /* === CLOSING SLIDE === */
+      .closing-slide { text-align: center; }
+      .closing-slide .slide-content { align-items: center; }
+      .closing-slide h2 {
+        font-size: var(--title-size);
+        background: linear-gradient(135deg, var(--accent-secondary), var(--accent));
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .closing-slide .contact {
+        margin-top: clamp(0.8rem, 1.5vw, 1.5rem);
+        font-size: var(--body-size); color: var(--text-secondary);
+      }
+
+      /* === FLOATING SHAPES (decorative) === */
+      .shape {
+        position: absolute; border-radius: 50%; filter: blur(80px);
+        opacity: 0.12; pointer-events: none; z-index: 0;
+      }
+      .shape-orange { background: var(--accent); width: 300px; height: 300px; }
+      .shape-green { background: var(--accent-secondary); width: 250px; height: 250px; }
+    </style>
+</head>
+<body>
+
+  <div class="progress-bar" id="progressBar"></div>
+  <nav class="nav-dots" id="navDots"></nav>
+
+  <!-- === SLIDE 1: TITLE === -->
+  <section class="slide title-slide">
+    <div class="slide-bg-mesh"></div>
+    <div class="shape shape-orange decorative" style="top: -80px; right: -60px;"></div>
+    <div class="shape shape-green decorative" style="bottom: -100px; left: -40px;"></div>
+    <div class="slide-content">
+      <span class="badge reveal">PM Camp 2026</span>
+      <h1 class="reveal">프로덕트 매니지먼트<br/>핵심 가이드</h1>
+      <p class="subtitle reveal">성공하는 PM이 알아야 할 5가지 원칙</p>
+    </div>
+  </section>
+
+  <!-- === SLIDE 2: PM의 역할 === -->
+  <section class="slide">
+    <div class="slide-bg-mesh"></div>
+    <div class="slide-content">
+      <h2 class="reveal">PM은 <span class="accent">교차점</span>에 선다</h2>
+      <div class="cards-grid">
+        <div class="feature-card reveal">
+          <span class="card-icon">🎯</span>
+          <div class="card-title">비즈니스</div>
+          <div class="card-desc">시장 기회를 포착하고, 수익 모델을 설계하며, ROI를 극대화합니다</div>
+        </div>
+        <div class="feature-card reveal">
+          <span class="card-icon">👥</span>
+          <div class="card-title">사용자</div>
+          <div class="card-desc">고객의 진짜 문제를 발견하고, 최적의 해결책을 제시합니다</div>
+        </div>
+        <div class="feature-card reveal">
+          <span class="card-icon">⚙️</span>
+          <div class="card-title">기술</div>
+          <div class="card-desc">기술적 실현 가능성을 판단하고, 개발팀과 효과적으로 협업합니다</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- === SLIDE 3: 핵심 프레임워크 === -->
+  <section class="slide">
+    <div class="slide-bg-mesh"></div>
+    <div class="shape shape-orange decorative" style="bottom: -60px; right: -80px;"></div>
+    <div class="slide-content">
+      <h2 class="reveal">의사결정 <span class="accent">프레임워크</span></h2>
+      <ol class="numbered-list">
+        <li class="reveal">
+          <span class="num">1</span>
+          <span><strong>문제 정의</strong> — 해결할 가치가 있는 문제인지 검증한다</span>
+        </li>
+        <li class="reveal">
+          <span class="num">2</span>
+          <span><strong>가설 수립</strong> — 측정 가능한 성공 지표를 설정한다</span>
+        </li>
+        <li class="reveal">
+          <span class="num">3</span>
+          <span><strong>빠른 실험</strong> — MVP로 가설을 검증하고 학습한다</span>
+        </li>
+        <li class="reveal">
+          <span class="num">4</span>
+          <span><strong>데이터 기반 판단</strong> — 감이 아닌 데이터로 결정한다</span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- === SLIDE 4: 인용구 === -->
+  <section class="slide quote-slide">
+    <div class="slide-bg-mesh"></div>
+    <div class="shape shape-green decorative" style="top: -60px; left: 20%;"></div>
+    <div class="slide-content">
+      <blockquote class="reveal">
+        "좋은 PM은 정답을 아는 사람이 아니라,<br/>올바른 질문을 던지는 사람이다."
+      </blockquote>
+      <p class="attribution reveal">— Product Management 원칙</p>
+    </div>
+  </section>
+
+  <!-- === SLIDE 5: CLOSING === -->
+  <section class="slide closing-slide">
+    <div class="slide-bg-mesh"></div>
+    <div class="shape shape-orange decorative" style="top: 20%; left: -60px;"></div>
+    <div class="shape shape-green decorative" style="bottom: 10%; right: -40px;"></div>
+    <div class="slide-content">
+      <span class="badge reveal">Thank You</span>
+      <h2 class="reveal">Start Building.</h2>
+      <p class="contact reveal">PM Camp 2026 — 함께 성장하는 프로덕트 매니저</p>
+    </div>
+  </section>
+
+  <script>
+    /* === SLIDE PRESENTATION CONTROLLER === */
+    class SlidePresentation {
+      constructor() {
+        this.slides = document.querySelectorAll('.slide');
+        this.currentSlide = 0;
+        this.navDotsContainer = document.getElementById('navDots');
+        this.progressBar = document.getElementById('progressBar');
+        this.setupIntersectionObserver();
+        this.setupKeyboardNav();
+        this.setupTouchNav();
+        this.setupProgressBar();
+        this.setupNavDots();
+      }
+
+      setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              const index = Array.from(this.slides).indexOf(entry.target);
+              this.currentSlide = index;
+              this.updateNavDots();
+              this.updateProgressBar();
+            }
+          });
+        }, { threshold: 0.5 });
+        this.slides.forEach(slide => observer.observe(slide));
+      }
+
+      setupKeyboardNav() {
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+            e.preventDefault();
+            this.goToSlide(Math.min(this.currentSlide + 1, this.slides.length - 1));
+          } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') {
+            e.preventDefault();
+            this.goToSlide(Math.max(this.currentSlide - 1, 0));
+          }
+        });
+      }
+
+      setupTouchNav() {
+        let startY = 0;
+        document.addEventListener('touchstart', (e) => { startY = e.touches[0].clientY; }, { passive: true });
+        document.addEventListener('touchend', (e) => {
+          const diff = startY - e.changedTouches[0].clientY;
+          if (Math.abs(diff) > 50) {
+            if (diff > 0) this.goToSlide(Math.min(this.currentSlide + 1, this.slides.length - 1));
+            else this.goToSlide(Math.max(this.currentSlide - 1, 0));
+          }
+        }, { passive: true });
+      }
+
+      setupProgressBar() {
+        window.addEventListener('scroll', () => this.updateProgressBar(), { passive: true });
+      }
+
+      updateProgressBar() {
+        const pct = ((this.currentSlide + 1) / this.slides.length) * 100;
+        this.progressBar.style.width = pct + '%';
+      }
+
+      setupNavDots() {
+        this.navDotsContainer.innerHTML = '';
+        this.slides.forEach((_, i) => {
+          const dot = document.createElement('button');
+          dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+          dot.setAttribute('aria-label', `Slide ${i + 1}`);
+          dot.addEventListener('click', () => this.goToSlide(i));
+          this.navDotsContainer.appendChild(dot);
+        });
+      }
+
+      updateNavDots() {
+        const dots = this.navDotsContainer.querySelectorAll('.nav-dot');
+        dots.forEach((d, i) => d.classList.toggle('active', i === this.currentSlide));
+      }
+
+      goToSlide(index) {
+        this.slides[index].scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    new SlidePresentation();
+  </script>
+</body>
+</html>
