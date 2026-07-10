@@ -224,6 +224,41 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
   .pipe-rail{display:none}
 }
 
+/* ── System Flow 7-step ── */
+.sf-overview{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;
+  margin-bottom:36px;padding:14px 24px;border-radius:var(--rs);
+  background:var(--sf-card);box-shadow:var(--shadow-card)}
+.sf-ov-tag{padding:5px 14px;border-radius:6px;font-size:12px;font-weight:700;background:var(--sf-alt);color:var(--ink)}
+.sf-ov-tag small{font-weight:500;color:var(--ink3);font-size:11px;margin-left:2px}
+.sf-ov-tag.hl{background:color-mix(in srgb,var(--blue) 12%,transparent);color:var(--blue)}
+.sf-ov-arr{color:var(--ink3);font-size:14px}
+
+.sf-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}
+@media(max-width:640px){.sf-steps{grid-template-columns:1fr}}
+.sf-final{display:grid;grid-template-columns:1fr;max-width:420px;margin:0 auto 32px}
+
+.sf-step{padding:20px;border-radius:var(--rs);background:var(--sf-card);box-shadow:var(--shadow-card);
+  border-left:3px solid var(--bdr);transition:all .3s var(--spring)}
+.sf-step:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover)}
+.sf-step.done{border-color:var(--sgreen)}
+.sf-step.wip{border-color:var(--amber)}
+.sf-step.dest{border-color:var(--blue);background:color-mix(in srgb,var(--blue) 4%,var(--sf-card))}
+
+.sf-hd{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.sf-no{width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;background:var(--sf-alt);color:var(--ink3);flex-shrink:0}
+.sf-step.done .sf-no{background:color-mix(in srgb,var(--sgreen) 15%,transparent);color:var(--sgreen)}
+.sf-step.wip .sf-no{background:color-mix(in srgb,var(--amber) 15%,transparent);color:var(--amber)}
+.sf-step.dest .sf-no{background:color-mix(in srgb,var(--blue) 15%,transparent);color:var(--blue)}
+.sf-nm{font-size:14px;font-weight:800;color:var(--ink)}
+.sf-step.dest .sf-nm{color:var(--blue)}
+.sf-module{font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;
+  background:var(--sf-alt);color:var(--ink3);margin-left:auto;white-space:nowrap}
+.sf-step.done .sf-module{color:var(--sgreen)}
+.sf-step.dest .sf-module{background:color-mix(in srgb,var(--blue) 10%,transparent);color:var(--blue)}
+.sf-desc{font-size:12px;color:var(--ink2);line-height:1.6;margin-left:36px}
+.sf-desc code{font-family:var(--mono);font-size:11px}
+
 /* ── Concept flow ── */
 .concept-flow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
   margin-bottom:48px;padding:20px;background:var(--sf-alt);border-radius:var(--rs)}
@@ -677,132 +712,97 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 <!-- ═══ Section 2: 데이터 스키마 ═══ -->
 <section id="schema" class="alt">
 <div class="container">
-  <div class="sec-label">Albatross 전체 스키마</div>
+  <div class="sec-label">System Architecture</div>
   <div class="sec-title">시스템 플로우</div>
-  <div class="sec-desc">Albatross-Claw 외부 수집부터 ESSENTIAL GPS 결과계, 검색·전시·SO 데이터 공급까지 이어지는 전체 아키텍처.</div>
+  <div class="sec-desc">수집 대상 정의부터 MD 실행 관제까지 — Albatross 아키텍처 기반 7단계 데이터 파이프라인.</div>
 
-  <div class="arch fade-in">
-    <!-- Albatross-Claw -->
-    <div class="arch-card">
-      <div class="arch-hd">
-        <span class="arch-lbl" style="background:var(--sgreen)">Claw</span>
-        <span class="arch-nm">Albatross-Claw<small>(외부 격리 인프라)</small></span>
+  <!-- Architecture Overview -->
+  <div class="sf-overview fade-in">
+    <span class="sf-ov-tag">Claw <small>(발톱)</small></span>
+    <span class="sf-ov-arr">→</span>
+    <span class="sf-ov-tag">DB</span>
+    <span class="sf-ov-arr">→</span>
+    <span class="sf-ov-tag">Brain / Heart / Wing</span>
+    <span class="sf-ov-arr">→</span>
+    <span class="sf-ov-tag hl">ESSENTIAL GPS</span>
+  </div>
+
+  <!-- 7-Step: Row 1 — 수집 -->
+  <div class="sf-steps fade-in">
+    <div class="sf-step done">
+      <div class="sf-hd">
+        <div class="sf-no">1</div>
+        <div class="sf-nm">수집 대상 정의</div>
+        <span class="sf-module">Operations · Sites</span>
       </div>
-      <div style="font-size:13px;color:var(--ink2);line-height:1.6;margin-bottom:12px">
-        10개 쇼핑몰 랭킹 수집 · 차단 회피 정찰. <strong style="color:var(--ink)">IP·트래픽 분리</strong> — 사내와 분리된 독립 인프라로 운영.
-      </div>
-      <div class="arch-chips">
-        <span class="arch-chip">abt_crawl_site <em>(허브)</em></span>
-        <span class="arch-chip">abt_crawl_job</span>
-        <span class="arch-chip">abt_crawl_site_health</span>
-      </div>
+      <div class="sf-desc">크롤 사이트 · 정책 · 작업 로그 · 헬스체크<br>
+        <code>abt_crawl_site</code> · <code>abt_crawl_job</code> · <code>abt_crawl_site_health</code></div>
     </div>
-
-    <div class="arch-conn">
-      <div class="arch-conn-bar"></div>
-      <div class="arch-conn-dot"></div>
-      <div class="arch-conn-txt">수집 데이터 적재</div>
-      <div class="arch-conn-bar"></div>
+    <div class="sf-step done">
+      <div class="sf-hd">
+        <div class="sf-no">2</div>
+        <div class="sf-nm">외부 데이터 수집</div>
+        <span class="sf-module">Claw · Albatross</span>
+      </div>
+      <div class="sf-desc">경쟁사 11개 사이트 크롤 — 상품 · 지표 · 랭킹<br>
+        <code>abt_crawl_product</code> · <code>abt_crawl_product_metric</code> · <code>abt_crawl_product_rank</code></div>
     </div>
-
-    <!-- L1 + L2 side by side -->
-    <div class="arch-pair">
-      <div class="arch-card">
-        <div class="arch-hd">
-          <span class="arch-lbl" style="background:var(--blue)">L1</span>
-          <span class="arch-nm">외부수집계<small>(경쟁사 크롤)</small></span>
-          <span class="arch-st arch-st-done">MVP 완료</span>
-        </div>
-        <div class="arch-chips">
-          <span class="arch-chip">abt_crawl_product</span>
-          <span class="arch-chip">abt_crawl_product_metric</span>
-          <span class="arch-chip">abt_crawl_product_rank</span>
-          <span class="arch-chip">abt_crawl_brand_rank</span>
-          <span class="arch-chip">abt_crawl_keyword_rank</span>
-        </div>
+    <div class="sf-step done">
+      <div class="sf-hd">
+        <div class="sf-no">3</div>
+        <div class="sf-nm">내↔외부 데이터 연동</div>
+        <span class="sf-module">Heart · API</span>
       </div>
-      <div class="arch-card">
-        <div class="arch-hd">
-          <span class="arch-lbl" style="background:var(--teal)">L2</span>
-          <span class="arch-nm">내부정보계<small>(자사)</small></span>
-          <span class="arch-st arch-st-done">MVP 완료</span>
-        </div>
-        <div class="arch-chips">
-          <span class="arch-chip">Product Metrics API</span>
-          <span class="arch-chip">BIDB</span>
-          <span class="arch-chip">Discovery</span>
-          <span class="arch-chip">Wing 카탈로그 <em>(예정)</em></span>
-        </div>
-      </div>
-    </div>
-
-    <div class="arch-conn">
-      <div class="arch-conn-bar"></div>
-      <div class="arch-conn-dot" style="background:var(--purple)"></div>
-      <div class="arch-conn-bar"></div>
-    </div>
-
-    <!-- L3 -->
-    <div class="arch-card">
-      <div class="arch-hd">
-        <span class="arch-lbl" style="background:var(--purple)">L3</span>
-        <span class="arch-nm">통합 / 상품특정계</span>
-        <span class="arch-st arch-st-new">신규 구축</span>
-      </div>
-      <div class="arch-chips">
-        <span class="arch-chip">product_identity <em>(외부 ↔ 11번가 매핑)</em></span>
-        <span class="arch-chip">unified_product <em>(유니크 통합 뷰)</em></span>
-      </div>
-    </div>
-
-    <div class="arch-conn">
-      <div class="arch-conn-bar"></div>
-      <div class="arch-conn-dot" style="background:var(--indigo)"></div>
-      <div class="arch-conn-bar"></div>
-    </div>
-
-    <!-- L4 -->
-    <div class="arch-card">
-      <div class="arch-hd">
-        <span class="arch-lbl" style="background:var(--indigo)">L4</span>
-        <span class="arch-nm">ESSENTIAL GPS 결과계</span>
-        <span class="arch-st arch-st-new">신규 구축 · ERD 확정</span>
-      </div>
-      <div class="arch-chips">
-        <span class="arch-chip">popularity_score</span>
-        <span class="arch-chip">gap_result <em>(PCI · ACR · Missing SKU)</em></span>
-        <span class="arch-chip">priority <em>(기회손실 GMV)</em></span>
-        <span class="arch-chip">score + 신호등</span>
-      </div>
-      <div class="arch-note">SOURCE_* + 매칭(IS_MATCHED·ELEVEN_PRODUCT_NO) + 자사(ELEVEN_*) + 갭(PRICE_GAP_RATE·SELECTION_GAP_TYPE) + STATUS_TAG(신호등) + IMPACT_SCORE(Priority)</div>
-    </div>
-
-    <div class="arch-conn">
-      <div class="arch-conn-bar"></div>
-      <div class="arch-conn-dot" style="background:var(--amber)"></div>
-      <div class="arch-conn-txt">데이터 공급</div>
-      <div class="arch-conn-bar"></div>
-    </div>
-
-    <!-- Consumers -->
-    <div class="arch-consumers">
-      <div class="arch-consumer">
-        <div class="arch-consumer-nm">검색 (Search)</div>
-        <div class="arch-consumer-sub">조회 · 부스팅 · 우선순위</div>
-      </div>
-      <div class="arch-consumer">
-        <div class="arch-consumer-nm">전시 (Display)</div>
-        <div class="arch-consumer-sub">신호등 기반 노출 조정</div>
-      </div>
-      <div class="arch-consumer">
-        <div class="arch-consumer-nm">SO</div>
-        <div class="arch-consumer-sub">SellerOffice 360 뷰</div>
-      </div>
+      <div class="sf-desc">자사 지표 연동 — Product Metrics API · BIDB · Discovery</div>
     </div>
   </div>
 
-  <div style="font-size:11px;color:var(--ink3);line-height:1.6;margin-bottom:20px;font-family:var(--mono)">
-    조인 자연키: 외부 (SITE_KEY, PRODUCT_ID) · 자사 ELEVEN_PRODUCT_NO · 매핑 단일 출처 = abt_gap_product. ★ = 물리명 추정(개발 확정 필요).
+  <!-- 7-Step: Row 2 — 분석 -->
+  <div class="sf-steps fade-in">
+    <div class="sf-step wip">
+      <div class="sf-hd">
+        <div class="sf-no">4</div>
+        <div class="sf-nm">상품 특정 / 매칭</div>
+        <span class="sf-module">Wing · Match</span>
+      </div>
+      <div class="sf-desc">외부상품 ↔ 11번가 상품 매핑 — 매칭/미매칭 분리<br>
+        <code>gps_unified_product</code> · <code>gps_11st_match</code></div>
+    </div>
+    <div class="sf-step wip">
+      <div class="sf-hd">
+        <div class="sf-no">5</div>
+        <div class="sf-nm">Gap 분석</div>
+        <span class="sf-module">Wing · Gap</span>
+      </div>
+      <div class="sf-desc">6대 축 격차 진단 → 신호등 판정<br>
+        <code>gps_gap_axis</code> · <code>gps_product_score</code></div>
+    </div>
+    <div class="sf-step plan">
+      <div class="sf-hd">
+        <div class="sf-no">6</div>
+        <div class="sf-nm">Score & Action</div>
+        <span class="sf-module">Brain · MCP</span>
+      </div>
+      <div class="sf-desc">종합 등급(S/A/B/C) 산출 → MCP 자동 실행<br>
+        <code>gps_action_recommendation</code></div>
+    </div>
+  </div>
+
+  <!-- 7-Step: Final Destination -->
+  <div class="sf-final fade-in">
+    <div class="sf-step dest">
+      <div class="sf-hd">
+        <div class="sf-no">7</div>
+        <div class="sf-nm">ESSENTIAL GPS</div>
+        <span class="sf-module">MD 실행 관제</span>
+      </div>
+      <div class="sf-desc">MD별 Task 배분 · Accept/Reject · 성과 트래킹 · F/B 고도화<br>
+        <code>gps_md_task</code> · <code>gps_performance_track</code> · <code>gps_product_360</code></div>
+    </div>
+  </div>
+
+  <div style="font-size:11px;color:var(--ink3);line-height:1.6;margin-bottom:20px">
+    조인 자연키: 외부 (<code>SITE_KEY</code>, <code>PRODUCT_ID</code>) · 자사 <code>ELEVEN_PRODUCT_NO</code> · 매핑 단일 출처 = <code>abt_gap_product</code>
   </div>
 
   <div style="text-align:center;margin-bottom:12px">
