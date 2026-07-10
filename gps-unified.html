@@ -365,30 +365,30 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.7;-
 
 /* gap table — key chart, redesigned for readability */
 .gap-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--r);border:1px solid var(--bd);background:var(--sf);box-shadow:var(--shm)}
-.gap-tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:15px;min-width:900px;table-layout:auto}
+.gap-tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14px;min-width:900px;table-layout:auto}
 .gap-tbl thead{background:var(--sf2)}
-.gap-tbl th{padding:12px 16px;text-align:left;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3);white-space:nowrap;border-bottom:2px solid var(--bd);position:sticky;top:0;z-index:1}
+.gap-tbl th{padding:10px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3);white-space:nowrap;border-bottom:2px solid var(--bd);position:sticky;top:0;z-index:1}
 .gap-tbl th:first-child{border-radius:var(--r) 0 0 0}
 .gap-tbl th:last-child{border-radius:0 var(--r) 0 0;text-align:center}
-.gap-tbl td{padding:14px 16px;border-bottom:1px solid var(--sf2);vertical-align:middle;color:var(--tx);line-height:1.65;font-size:15px;font-weight:500}
+.gap-tbl td{padding:12px 14px;border-bottom:1px solid var(--sf2);vertical-align:middle;color:var(--tx);line-height:1.55;font-size:13px;font-weight:500}
 .gap-tbl td:nth-child(3),.gap-tbl td:nth-child(4){white-space:nowrap}
 .gap-tbl tbody tr[data-axis]{cursor:pointer;transition:background .25s}
 .gap-tbl tbody tr[data-axis]:nth-child(4n+1) td{background:rgba(0,0,0,.008)}
 :root[data-theme="dark"] .gap-tbl tbody tr[data-axis]:nth-child(4n+1) td{background:rgba(255,255,255,.015)}
 @media(prefers-color-scheme:dark){.gap-tbl tbody tr[data-axis]:nth-child(4n+1) td{background:rgba(255,255,255,.015)}}
 .gap-tbl tbody tr[data-axis]:hover td{background:rgba(0,113,227,.04)}
-.gap-ax{font-size:20px;font-weight:800;white-space:nowrap;display:flex;align-items:center;gap:12px;color:var(--tx);letter-spacing:-.01em}
-.gap-ax-d{width:12px;height:12px;border-radius:50%;flex-shrink:0;box-shadow:0 0 6px currentColor}
-.gap-tbl td:nth-child(2){font-family:var(--f);font-size:17px;text-align:center;color:var(--tx);font-weight:800;font-variant-numeric:tabular-nums}
-.gap-tbl td:nth-child(5){font-family:var(--f);font-size:13px;color:var(--tx2);line-height:1.5;font-weight:500;white-space:nowrap}
+.gap-ax{font-size:15px;font-weight:800;white-space:nowrap;display:flex;align-items:center;gap:8px;color:var(--tx);letter-spacing:-.01em}
+.gap-ax-d{width:10px;height:10px;border-radius:50%;flex-shrink:0;box-shadow:0 0 6px currentColor}
+.gap-tbl td:nth-child(2){font-size:14px;text-align:center;color:var(--tx);font-weight:800;font-variant-numeric:tabular-nums}
+.gap-tbl td:nth-child(5){font-size:12px;font-family:var(--fm);color:var(--tx2);line-height:1.5;font-weight:500;white-space:nowrap}
 .gap-tbl td:last-child{text-align:center}
-.gap-bar-w{height:10px;background:var(--sf3);border-radius:5px;overflow:hidden;min-width:90px}
+.gap-bar-w{height:8px;background:var(--sf3);border-radius:4px;overflow:hidden;min-width:90px}
 .gap-bar{height:100%;border-radius:4px;width:0;transition:width 1.2s cubic-bezier(.16,1,.3,1)}
-.gap-sig{font-size:13px;font-weight:800;padding:6px 18px;border-radius:100px;white-space:nowrap;display:inline-block}
+.gap-sig{font-size:11px;font-weight:800;padding:5px 14px;border-radius:100px;white-space:nowrap;display:inline-block}
 .gs-g{color:var(--green);background:rgba(52,199,89,.14)}
 .gs-w{color:var(--orange);background:rgba(255,149,0,.14)}
 .gs-r{color:var(--red);background:rgba(255,59,48,.15)}
-.src-t{font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;margin-right:4px;letter-spacing:.02em;vertical-align:middle}
+.src-t{font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px;margin-right:3px;letter-spacing:.02em;vertical-align:middle}
 .src-i{background:rgba(0,113,227,.08);color:var(--blue)}
 .src-e{background:rgba(191,90,242,.08);color:var(--purple)}
 /* mvp status badge */
@@ -455,22 +455,26 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.7;-
 .sig-tier{font-size:11px;font-weight:700;padding:4px 14px;border-radius:100px;color:#fff;letter-spacing:.03em;animation:tierGlow 2s ease-in-out infinite}
 @keyframes tierGlow{0%,100%{box-shadow:0 0 8px rgba(88,86,214,.3)}50%{box-shadow:0 0 24px rgba(88,86,214,.7)}}
 .sig-cat{font-size:13px;color:var(--txm);font-weight:600;margin-left:auto}
-.sig-axes{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:20px}
-.sig-ax{text-align:center;padding:14px 6px;border-radius:var(--rs);background:var(--sf2);transition:transform .25s,box-shadow .25s;cursor:pointer;position:relative}
-.sig-ax:hover{transform:scale(1.12) translateY(-4px);box-shadow:var(--shl)}
+.sig-axes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.sig-ax{text-align:center;padding:16px 10px;border-radius:var(--rs);background:var(--sf2);transition:transform .25s,box-shadow .25s;cursor:pointer;position:relative}
+.sig-ax:hover{transform:scale(1.05) translateY(-3px);box-shadow:var(--shl)}
 .sig-ax .sig-tip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);font-size:11px;font-weight:600;padding:6px 12px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;transform:translateX(-50%) translateY(4px)}
 .sig-ax:hover .sig-tip{opacity:1;transform:translateX(-50%) translateY(0)}
-.sig-ax-n{font-size:15px;font-weight:700;color:var(--tx2);margin-bottom:6px}
-.sig-ax-src{font-size:11px;font-weight:700;margin-bottom:6px}
-.sig-light{width:32px;height:32px;border-radius:50%;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;transition:box-shadow .4s,transform .3s}
-.sig-ax:hover .sig-light{transform:scale(1.3);box-shadow:0 0 32px currentColor}
+.sig-ax-n{font-size:14px;font-weight:700;color:var(--tx2);margin-bottom:6px}
+.sig-ax-src{font-size:10px;font-weight:700;margin-bottom:8px}
+.sig-light{width:40px;height:40px;border-radius:50%;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;transition:box-shadow .4s,transform .3s}
+.sig-ax:hover .sig-light{transform:scale(1.2);box-shadow:0 0 32px currentColor}
 .sig-light.r{background:var(--red);box-shadow:0 0 16px rgba(255,59,48,.35);animation:pulseR 2s ease-in-out infinite}
 .sig-light.a{background:var(--orange);box-shadow:0 0 16px rgba(255,149,0,.3)}
 .sig-light.g{background:var(--green);box-shadow:0 0 16px rgba(52,199,89,.3)}
 @keyframes pulseR{0%,100%{box-shadow:0 0 16px rgba(255,59,48,.35)}50%{box-shadow:0 0 32px rgba(255,59,48,.65)}}
 .sig-ax-v{font-size:13px;color:var(--txm);font-variant-numeric:tabular-nums}
-.sig-bar-w{height:4px;background:var(--sf3);border-radius:2px;margin-top:6px;overflow:hidden}
-.sig-bar{height:100%;border-radius:2px;transition:width 1s cubic-bezier(.16,1,.3,1)}
+.sig-bar-w{height:5px;background:var(--sf3);border-radius:3px;margin-top:8px;overflow:hidden}
+.sig-bar{height:100%;border-radius:3px;transition:width 1s cubic-bezier(.16,1,.3,1)}
+/* signal legend */
+.sig-legend{display:flex;justify-content:center;gap:20px;margin-bottom:16px;padding:10px 0;border-bottom:1px solid var(--sf2)}
+.sig-legend-item{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--tx2)}
+.sig-legend-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
 .sig-diag{background:rgba(255,59,48,.05);border:1px solid rgba(255,59,48,.12);border-radius:var(--rs);padding:14px 18px;margin-bottom:16px}
 .sig-diag-label{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin-bottom:4px}
 .sig-diag-text{font-size:13px;color:var(--tx2);line-height:1.7}
@@ -1038,6 +1042,11 @@ html{scroll-behavior:smooth}
   <div class="sec-desc">&#44033; &#52629;&#51032; &#44148;&#44053;&#46020;&#47484; &#49888;&#54840;&#46321;&#44284; &#48148; &#52264;&#53944;&#47196; &#49884;&#44033;&#54868;. &#52629;&#51012; &#53364;&#47533;&#54616;&#47732; &#49345;&#49464; &#47784;&#45804;&#51060; &#50676;&#47549;&#45768;&#45796;.</div>
   <div class="card sig rv">
     <div class="sig-head"><span class="sig-product">[LG] &#49828;&#53472;&#48148;&#51060;&#48120; 2&#49464;&#45824; 27&#51064;&#52824;</span><span class="sig-tier" style="background:var(--red)">S Tier</span><span class="countdown" id="countdown"><span class="countdown-digit" id="cd-h">23</span>:<span class="countdown-digit" id="cd-m">59</span>:<span class="countdown-digit" id="cd-s">59</span> &#45224;&#51008;</span><span class="sig-cat">&#44032;&#51204;&#183;&#46356;&#51648;&#53560;</span></div>
+    <div class="sig-legend">
+      <div class="sig-legend-item"><div class="sig-legend-dot" style="background:var(--red)"></div>&#50676;&#50948;(&#50948;&#54744;)</div>
+      <div class="sig-legend-item"><div class="sig-legend-dot" style="background:var(--orange)"></div>&#48512;&#51652;(&#51452;&#51032;)</div>
+      <div class="sig-legend-item"><div class="sig-legend-dot" style="background:var(--green)"></div>&#50577;&#54840;(&#44148;&#44053;)</div>
+    </div>
     <div class="sig-axes stg">
       <div class="sig-ax" onclick="openAxisModal(0)"><div class="sig-tip">&#50808;&#48512; &#45824;&#48708; 8.3% &#48708;&#49912;</div><div class="sig-ax-n">&#44032;&#44201;</div><div class="sig-ax-src"><span class="src-t src-i">&#51088;&#49324;</span><span class="src-t src-e">&#50808;&#48512;</span></div><div class="sig-light r">!</div><div class="sig-ax-v">PCI &#8722;8.3%</div><div class="sig-bar-w"><div class="sig-bar" data-w="85" style="background:var(--red)"></div></div></div>
       <div class="sig-ax" onclick="openAxisModal(1)"><div class="sig-tip">&#52852;&#53580;&#44256;&#47532; &#54217;&#44512; &#54616;&#54924;</div><div class="sig-ax-n">&#46364; &#49892;&#51201;</div><div class="sig-ax-src"><span class="src-t src-i">&#51088;&#49324;</span></div><div class="sig-light a">&#9651;</div><div class="sig-ax-v">&#44396;&#51340; 82</div><div class="sig-bar-w"><div class="sig-bar" data-w="55" style="background:var(--orange)"></div></div></div>
