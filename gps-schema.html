@@ -236,66 +236,51 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 }
 
 /* ── System Flow 7-step ── */
-.sf-overview{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;
-  margin-bottom:28px;padding:14px 24px;border-radius:var(--rs);
-  background:var(--sf-card);box-shadow:var(--shadow-card)}
-.sf-ov-tag{padding:5px 14px;border-radius:6px;font-size:12px;font-weight:700;background:var(--sf-alt);color:var(--ink)}
-.sf-ov-tag small{font-weight:500;color:var(--ink3);font-size:11px;margin-left:2px}
-.sf-ov-tag.hl{background:color-mix(in srgb,var(--blue) 12%,transparent);color:var(--blue)}
-.sf-ov-arr{color:var(--ink3);font-size:14px}
+/* ── System Architecture Blocks ── */
+.arch-tier{display:grid;gap:0;align-items:stretch;margin-bottom:0}
+.arch-tier-top{grid-template-columns:1fr 24px 1fr 24px 1.2fr;margin-bottom:6px}
+.arch-tier-btm{grid-template-columns:1fr 24px 1fr;max-width:580px;margin-left:auto}
+.arch-tier-connect{text-align:right;padding:0 40px 0 0;color:var(--ink3);font-size:14px;opacity:.4;
+  margin-bottom:6px;line-height:1}
+@media(max-width:640px){.arch-tier{grid-template-columns:1fr !important;max-width:100% !important;gap:10px}
+  .arch-arrow{display:none}.arch-tier-connect{display:none}.arch-tier-btm{margin-left:0}}
+.arch-arrow{display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:16px;opacity:.4}
 
-.sf-pipeline{position:relative;margin-bottom:8px}
-.sf-rail{position:absolute;top:22px;left:calc(100%/14);right:calc(100%/14);height:2px;
-  background:var(--bdr-subtle);z-index:0;border-radius:1px}
-.sf-nodes{display:grid;grid-template-columns:repeat(7,1fr);gap:0;position:relative;z-index:1}
-@media(max-width:800px){.sf-nodes{grid-template-columns:repeat(4,1fr);gap:8px}
-  .sf-rail{display:none}}
+.arch-block{background:var(--sf-card);border-radius:var(--r);padding:16px 14px 14px;
+  box-shadow:var(--shadow-card);border-top:3px solid var(--bdr);
+  display:flex;flex-direction:column;transition:all .3s var(--spring)}
+.arch-block:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover)}
+.arch-block.done{border-top-color:var(--sgreen)}
+.arch-block.wip{border-top-color:var(--amber)}
+.arch-block.plan{border-top-color:var(--ink3)}
+.arch-block.dest{border-top-color:var(--blue);background:color-mix(in srgb,var(--blue) 3%,var(--sf-card))}
 
-.sf-node{text-align:center;padding:0 2px 10px;cursor:pointer;position:relative;
-  transition:all .35s var(--spring)}
-.sf-node:hover .sf-no{transform:translateY(-2px) scale(1.08)}
-.sf-node.active{background:color-mix(in srgb,var(--blue) 5%,transparent);border-radius:var(--rs)}
-.sf-node.active .sf-no{transform:scale(1.1);
-  box-shadow:0 0 0 6px var(--sf-alt),0 0 0 9px color-mix(in srgb,var(--blue) 25%,transparent)}
+.arch-comp{display:flex;align-items:center;gap:6px;margin-bottom:10px}
+.arch-comp-icon{width:28px;height:28px;border-radius:8px;display:inline-flex;align-items:center;
+  justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;
+  background:var(--sf-alt);color:var(--ink3);border:1px solid var(--bdr-subtle)}
+.arch-block.done .arch-comp-icon{background:color-mix(in srgb,var(--sgreen) 12%,var(--sf-card));
+  color:var(--sgreen);border-color:color-mix(in srgb,var(--sgreen) 25%,transparent)}
+.arch-block.wip .arch-comp-icon{background:color-mix(in srgb,var(--amber) 12%,var(--sf-card));
+  color:var(--amber);border-color:color-mix(in srgb,var(--amber) 25%,transparent)}
+.arch-block.dest .arch-comp-icon{background:color-mix(in srgb,var(--blue) 12%,var(--sf-card));
+  color:var(--blue);border-color:color-mix(in srgb,var(--blue) 30%,transparent)}
+.arch-comp-name{font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--ink3)}
+.arch-block.done .arch-comp-name{color:var(--sgreen)}
+.arch-block.dest .arch-comp-name{color:var(--blue)}
 
-.sf-no{width:44px;height:44px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;
-  font-size:14px;font-weight:800;letter-spacing:-.02em;margin-bottom:10px;
-  transition:all .4s var(--spring);
-  background:var(--sf-alt);color:var(--ink3);border:1.5px solid var(--bdr-subtle);
-  box-shadow:0 0 0 6px var(--sf-alt)}
-.sf-node.done .sf-no{background:color-mix(in srgb,var(--sgreen) 12%,var(--sf-alt));color:var(--sgreen);
-  border-color:color-mix(in srgb,var(--sgreen) 30%,transparent);
-  box-shadow:0 0 0 6px var(--sf-alt)}
-.sf-node.wip .sf-no{background:color-mix(in srgb,var(--amber) 12%,var(--sf-alt));color:var(--amber);
-  border-color:color-mix(in srgb,var(--amber) 30%,transparent);
-  box-shadow:0 0 0 6px var(--sf-alt)}
-.sf-node.plan .sf-no{box-shadow:0 0 0 6px var(--sf-alt)}
-.sf-node.dest .sf-no{background:color-mix(in srgb,var(--blue) 12%,var(--sf-alt));color:var(--blue);
-  border-color:color-mix(in srgb,var(--blue) 35%,transparent);
-  box-shadow:0 0 0 6px var(--sf-alt);
-  animation:destglow 3s ease-in-out infinite}
-
-.sf-module{font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
-  color:var(--ink3);margin-bottom:4px;white-space:nowrap}
-.sf-node.done .sf-module{color:var(--sgreen)}
-.sf-node.dest .sf-module{color:var(--blue)}
-.sf-nm{font-size:12px;font-weight:800;color:var(--ink);line-height:1.3;font-family:var(--font)}
-.sf-node.dest .sf-nm{color:var(--blue)}
-.sf-sdot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-top:6px;transition:all .3s}
-.sf-node.done .sf-sdot{background:var(--sgreen)}
-.sf-node.wip .sf-sdot{background:var(--amber)}
-.sf-node.plan .sf-sdot{background:var(--ink3);opacity:.35}
-.sf-node.dest .sf-sdot{background:var(--blue);box-shadow:0 0 8px color-mix(in srgb,var(--blue) 50%,transparent)}
-
-.sf-expand{background:var(--sf-card);border-radius:var(--r);padding:0;
-  box-shadow:var(--shadow-card);max-height:0;overflow:hidden;
-  transition:max-height .5s var(--spring),padding .4s var(--ease),margin .4s var(--ease);margin:0}
-.sf-expand.show{max-height:260px;padding:24px 28px;margin-top:8px;margin-bottom:20px}
-.sf-expand h4{font-size:16px;font-weight:700;margin-bottom:4px;font-family:var(--font)}
-.sf-expand .sf-lead{color:var(--ink2);font-size:13px;margin-bottom:12px;font-family:var(--font)}
-.sf-expand .sf-tables{font-size:11px;color:var(--ink3);font-family:var(--mono);line-height:1.8}
-.sf-expand .sf-tables code{font-family:var(--mono);font-size:11px;padding:2px 6px;
-  background:var(--sf-alt);border-radius:4px}
+.arch-step{padding:8px 10px;border-radius:8px;background:var(--sf-alt);margin-bottom:6px;
+  transition:background .2s}
+.arch-step:last-child{margin-bottom:0}
+.arch-step-no{font-size:10px;font-weight:800;color:var(--ink3);margin-right:4px}
+.arch-block.done .arch-step-no{color:var(--sgreen)}
+.arch-block.wip .arch-step-no{color:var(--amber)}
+.arch-block.dest .arch-step-no{color:var(--blue)}
+.arch-step-nm{font-size:12px;font-weight:700;color:var(--ink);font-family:var(--font)}
+.arch-block.dest .arch-step-nm{color:var(--blue)}
+.arch-step-desc{font-size:10.5px;color:var(--ink3);margin-top:3px;line-height:1.4;font-family:var(--font)}
+.arch-step-desc code{font-family:var(--mono);font-size:10px;padding:1px 4px;
+  background:var(--sf-card);border-radius:3px}
 
 /* ── Concept flow ── */
 .concept-flow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
@@ -761,23 +746,62 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
   <div class="sec-title">시스템 플로우</div>
   <div class="sec-desc">수집 대상 정의부터 MD 실행 관제까지 — Albatross 아키텍처 기반 7단계 데이터 파이프라인.</div>
 
-  <!-- Architecture Overview -->
-  <div class="sf-overview fade-in">
-    <span class="sf-ov-tag">Claw <small>(발톱)</small></span>
-    <span class="sf-ov-arr">→</span>
-    <span class="sf-ov-tag">DB</span>
-    <span class="sf-ov-arr">→</span>
-    <span class="sf-ov-tag">Brain / Heart / Wing</span>
-    <span class="sf-ov-arr">→</span>
-    <span class="sf-ov-tag hl">ESSENTIAL GPS</span>
+  <!-- Architecture: Top Tier — Data Layer -->
+  <div class="arch-tier arch-tier-top fade-in">
+    <div class="arch-block done">
+      <div class="arch-comp"><div class="arch-comp-icon">C</div><div class="arch-comp-name">Claw · 발톱</div></div>
+      <div class="arch-step">
+        <span class="arch-step-no">①</span><span class="arch-step-nm">수집 대상 정의</span>
+        <div class="arch-step-desc">크롤 사이트 · 정책 · 헬스체크<br><code>abt_crawl_site</code> <code>abt_crawl_job</code></div>
+      </div>
+      <div class="arch-step">
+        <span class="arch-step-no">②</span><span class="arch-step-nm">외부 데이터 수집</span>
+        <div class="arch-step-desc">경쟁사 11개 사이트 크롤<br><code>abt_crawl_product</code> <code>abt_crawl_product_rank</code></div>
+      </div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-block done">
+      <div class="arch-comp"><div class="arch-comp-icon">H</div><div class="arch-comp-name">Heart · API</div></div>
+      <div class="arch-step">
+        <span class="arch-step-no">③</span><span class="arch-step-nm">내↔외부 연동</span>
+        <div class="arch-step-desc">자사 지표 API 연동<br>Metrics API · BIDB · Discovery</div>
+      </div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-block wip">
+      <div class="arch-comp"><div class="arch-comp-icon">W</div><div class="arch-comp-name">Wing · 배치</div></div>
+      <div class="arch-step">
+        <span class="arch-step-no">④</span><span class="arch-step-nm">상품 매칭</span>
+        <div class="arch-step-desc">외부↔11번가 상품 매핑<br><code>gps_unified_product</code> <code>gps_11st_match</code></div>
+      </div>
+      <div class="arch-step">
+        <span class="arch-step-no">⑤</span><span class="arch-step-nm">Gap 분석</span>
+        <div class="arch-step-desc">6대 축 격차 진단 · 신호등<br><code>gps_gap_axis</code> <code>gps_product_score</code></div>
+      </div>
+    </div>
   </div>
 
-  <!-- 7-Step Horizontal Pipeline -->
-  <div class="sf-pipeline fade-in">
-    <div class="sf-rail"></div>
-    <div class="sf-nodes" id="sf-track"></div>
+  <!-- Connector -->
+  <div class="arch-tier-connect fade-in">↓</div>
+
+  <!-- Architecture: Bottom Tier — Intelligence Layer -->
+  <div class="arch-tier arch-tier-btm fade-in">
+    <div class="arch-block plan">
+      <div class="arch-comp"><div class="arch-comp-icon">B</div><div class="arch-comp-name">Brain · MCP</div></div>
+      <div class="arch-step">
+        <span class="arch-step-no">⑥</span><span class="arch-step-nm">Score & Action</span>
+        <div class="arch-step-desc">S/A/B/C 등급 산출 → MCP 자동 실행<br><code>gps_action_recommendation</code></div>
+      </div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-block dest">
+      <div class="arch-comp"><div class="arch-comp-icon">G</div><div class="arch-comp-name">ESSENTIAL GPS</div></div>
+      <div class="arch-step">
+        <span class="arch-step-no">⑦</span><span class="arch-step-nm">MD 실행 관제</span>
+        <div class="arch-step-desc">Task 배분 · Accept/Reject · 성과 트래킹<br><code>gps_md_task</code> <code>gps_performance_track</code></div>
+      </div>
+    </div>
   </div>
-  <div class="sf-expand" id="sf-detail"></div>
 
   <div style="font-size:11px;color:var(--ink3);line-height:1.6;margin-bottom:20px">
     조인 자연키: 외부 (<code>SITE_KEY</code>, <code>PRODUCT_ID</code>) · 자사 <code>ELEVEN_PRODUCT_NO</code> · 매핑 단일 출처 = <code>abt_gap_product</code>
@@ -1472,50 +1496,6 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
     }
   },{threshold:.3});
   pipeObs.observe(track);
-})();
-
-/* ── System Flow Pipeline ── */
-(function(){
-  const sfSteps=[
-    {no:"1",nm:"수집 대상 정의",mod:"Operations · Sites",st:"done",
-     html:`<h4>① 수집 대상 정의</h4><p class="sf-lead">크롤 사이트 · 정책 · 작업 로그 · 헬스체크</p>
-       <div class="sf-tables"><code>abt_crawl_site</code> <code>abt_crawl_job</code> <code>abt_crawl_site_health</code></div>`},
-    {no:"2",nm:"외부 데이터 수집",mod:"Claw · Albatross",st:"done",
-     html:`<h4>② 외부 데이터 수집</h4><p class="sf-lead">경쟁사 11개 사이트 크롤 — 상품 · 지표 · 랭킹</p>
-       <div class="sf-tables"><code>abt_crawl_product</code> <code>abt_crawl_product_metric</code> <code>abt_crawl_product_rank</code></div>`},
-    {no:"3",nm:"내↔외부 연동",mod:"Heart · API",st:"done",
-     html:`<h4>③ 내↔외부 데이터 연동</h4><p class="sf-lead">자사 지표 연동 — Product Metrics API · BIDB · Discovery</p>`},
-    {no:"4",nm:"상품 매칭",mod:"Wing · Match",st:"wip",
-     html:`<h4>④ 상품 특정 / 매칭</h4><p class="sf-lead">외부상품 ↔ 11번가 상품 매핑 — 매칭/미매칭 분리 트랙</p>
-       <div class="sf-tables"><code>gps_unified_product</code> <code>gps_11st_match</code></div>`},
-    {no:"5",nm:"Gap 분석",mod:"Wing · Gap",st:"wip",
-     html:`<h4>⑤ Gap 분석</h4><p class="sf-lead">6대 축 격차 진단 → 신호등 판정</p>
-       <div class="sf-tables"><code>gps_gap_axis</code> <code>gps_product_score</code></div>`},
-    {no:"6",nm:"Score & Action",mod:"Brain · MCP",st:"plan",
-     html:`<h4>⑥ Score & Action</h4><p class="sf-lead">종합 등급(S/A/B/C) 산출 → MCP 자동 실행</p>
-       <div class="sf-tables"><code>gps_action_recommendation</code></div>`},
-    {no:"7",nm:"ESSENTIAL GPS",mod:"MD 실행 관제",st:"dest",
-     html:`<h4>⑦ ESSENTIAL GPS</h4><p class="sf-lead">MD별 Task 배분 · Accept/Reject · 성과 트래킹 · F/B 고도화</p>
-       <div class="sf-tables"><code>gps_md_task</code> <code>gps_performance_track</code> <code>gps_product_360</code></div>`},
-  ];
-  const sfTrack=document.getElementById('sf-track');
-  const sfDetail=document.getElementById('sf-detail');
-  if(!sfTrack) return;
-
-  let sfCur=-1;
-  sfSteps.forEach((s,i)=>{
-    const d=document.createElement('div');
-    d.className='sf-node '+s.st;d.dataset.i=i;
-    d.innerHTML=`<div class="sf-no">${s.no}</div><div class="sf-module">${s.mod}</div><div class="sf-nm">${s.nm}</div><div class="sf-sdot"></div>`;
-    d.addEventListener('click',()=>openSf(i));sfTrack.appendChild(d);
-  });
-
-  function openSf(i){
-    const els=sfTrack.querySelectorAll('.sf-node');
-    if(sfCur===i){sfDetail.classList.remove('show');els[i].classList.remove('active');sfCur=-1;return;}
-    els.forEach(e=>e.classList.remove('active'));els[i].classList.add('active');
-    sfDetail.innerHTML=sfSteps[i].html;sfDetail.classList.add('show');sfCur=i;
-  }
 })();
 
 /* ── Toggle track ── */
