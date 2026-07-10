@@ -5,325 +5,283 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ESSENTIAL GPS — 최종 완결판</title>
 <style>
-:root {
-  --bg:#FAFBFC; --sf:#FFFFFF; --sf2:#F1F4F8; --sf3:#E4E9F0;
-  --tx:#111827; --tx2:#374151; --tx3:#6B7280; --txm:#9CA3AF;
-  --bd:#E5E7EB; --dv:#D1D5DB;
-  --core:#4F46E5; --core2:#6366F1; --core3:#818CF8; --corebg:#EEF2FF;
-  --gc:#2563EB; --pc:#8B5CF6; --sc:#10B981;
-  --gbg:#EFF6FF; --pbg:#F5F3FF; --sbg:#ECFDF5;
-  --gbd:#BFDBFE; --pbd:#DDD6FE; --sbd:#A7F3D0;
-  --red:#EF4444; --rbg:#FEF2F2; --rbd:#FECACA;
-  --amb:#F59E0B; --abg:#FFFBEB; --abd:#FDE68A;
-  --grn:#10B981; --gnbg:#ECFDF5; --gnbd:#A7F3D0;
-  --ext:#8B5CF6; --int:#2563EB;
-  --intbg:#EFF6FF; --intbd:#BFDBFE;
-  --sh:0 1px 3px rgba(0,0,0,.04), 0 1px 2px rgba(0,0,0,.06);
-  --shm:0 4px 12px rgba(0,0,0,.07), 0 2px 4px rgba(0,0,0,.04);
-  --shl:0 10px 30px rgba(0,0,0,.08), 0 4px 8px rgba(0,0,0,.04);
-  --r:16px; --r2:12px; --r3:8px;
+:root{
+  --bg:#FBFBFD;--bg2:#F5F5F7;
+  --sf:#FFFFFF;--sf2:#F2F2F7;
+  --tx:#1D1D1F;--tx2:#6E6E73;--txm:#A1A1A6;--txf:#D2D2D7;
+  --bd:rgba(0,0,0,.06);--bd2:rgba(0,0,0,.04);
+  --accent:#0071E3;
+  --gc:#0071E3;--pc:#5E5CE6;--sc:#30D158;
+  --gcbg:#E8F1FD;--pcbg:#ECEAFD;--scbg:#E3F9EC;
+  --gcbd:#C5D9F8;--pcbd:#D4D0F9;--scbd:#B8F0D0;
+  --red:#FF3B30;--amb:#FF9F0A;--grn:#34C759;
+  --rbg:#FFF0EF;--abg:#FFF8E8;--gbg:#EDFAEF;
+  --rbd:#FFCFCC;--abd:#FFE4B0;--gbd:#C4EECE;
+  --intc:#0071E3;--extc:#5E5CE6;
+  --intbg:#E8F1FD;--intbd:#C5D9F8;
+  --extbg:#ECEAFD;--extbd:#D4D0F9;
+  --sh:0 2px 8px rgba(0,0,0,.04),0 0 1px rgba(0,0,0,.06);
+  --shm:0 8px 24px rgba(0,0,0,.06),0 0 1px rgba(0,0,0,.08);
+  --shl:0 16px 48px rgba(0,0,0,.08),0 0 1px rgba(0,0,0,.1);
+  --r:20px;--r2:16px;--r3:12px;--rp:980px;
 }
 @media(prefers-color-scheme:dark){:root{
-  --bg:#0B0E18; --sf:#151928; --sf2:#1C2035; --sf3:#252A40;
-  --tx:#E5E7EB; --tx2:#D1D5DB; --tx3:#9CA3AF; --txm:#6B7280;
-  --bd:#252A40; --dv:#1C2035;
-  --core:#818CF8; --core2:#6366F1; --core3:#4F46E5; --corebg:#1E1B4B;
-  --gc:#60A5FA; --pc:#A78BFA; --sc:#34D399;
-  --gbg:#172554; --pbg:#2E1065; --sbg:#064E3B;
-  --gbd:#1E3A5F; --pbd:#3B2070; --sbd:#115E59;
-  --red:#F87171; --rbg:#2A1515; --rbd:#3D2020;
-  --amb:#FBBF24; --abg:#2A2010; --abd:#3D3010;
-  --grn:#34D399; --gnbg:#0D2818; --gnbd:#115E59;
-  --ext:#A78BFA; --int:#60A5FA;
-  --intbg:#1E2744; --intbd:#2B4070;
-  --sh:0 1px 3px rgba(0,0,0,.4); --shm:0 4px 16px rgba(0,0,0,.4); --shl:0 12px 40px rgba(0,0,0,.5);
+  --bg:#000;--bg2:#1C1C1E;
+  --sf:#1C1C1E;--sf2:#2C2C2E;
+  --tx:#F5F5F7;--tx2:#A1A1A6;--txm:#6E6E73;--txf:#3A3A3C;
+  --bd:rgba(255,255,255,.08);--bd2:rgba(255,255,255,.05);
+  --accent:#0A84FF;
+  --gc:#0A84FF;--pc:#7D7AFF;--sc:#30D158;
+  --gcbg:#0A1A2E;--pcbg:#1A172E;--scbg:#0A2014;
+  --gcbd:#0D2E52;--pcbd:#2E2860;--scbd:#164A28;
+  --red:#FF453A;--amb:#FFD60A;--grn:#30D158;
+  --rbg:#2A1210;--abg:#2A2210;--gbg:#0A2014;
+  --rbd:#4A2220;--abd:#4A3A10;--gbd:#164A28;
+  --intc:#0A84FF;--extc:#7D7AFF;
+  --intbg:#0A1A2E;--intbd:#0D2E52;
+  --extbg:#1A172E;--extbd:#2E2860;
+  --sh:0 2px 8px rgba(0,0,0,.3),0 0 1px rgba(0,0,0,.4);
+  --shm:0 8px 24px rgba(0,0,0,.3),0 0 1px rgba(0,0,0,.4);
+  --shl:0 16px 48px rgba(0,0,0,.4);
 }}
-:root[data-theme="dark"]{--bg:#0B0E18;--sf:#151928;--sf2:#1C2035;--sf3:#252A40;--tx:#E5E7EB;--tx2:#D1D5DB;--tx3:#9CA3AF;--txm:#6B7280;--bd:#252A40;--dv:#1C2035;--core:#818CF8;--core2:#6366F1;--core3:#4F46E5;--corebg:#1E1B4B;--gc:#60A5FA;--pc:#A78BFA;--sc:#34D399;--gbg:#172554;--pbg:#2E1065;--sbg:#064E3B;--gbd:#1E3A5F;--pbd:#3B2070;--sbd:#115E59;--red:#F87171;--rbg:#2A1515;--rbd:#3D2020;--amb:#FBBF24;--abg:#2A2010;--abd:#3D3010;--grn:#34D399;--gnbg:#0D2818;--gnbd:#115E59;--ext:#A78BFA;--int:#60A5FA;--intbg:#1E2744;--intbd:#2B4070;--sh:0 1px 3px rgba(0,0,0,.4);--shm:0 4px 16px rgba(0,0,0,.4);--shl:0 12px 40px rgba(0,0,0,.5)}
-:root[data-theme="light"]{--bg:#FAFBFC;--sf:#FFFFFF;--sf2:#F1F4F8;--sf3:#E4E9F0;--tx:#111827;--tx2:#374151;--tx3:#6B7280;--txm:#9CA3AF;--bd:#E5E7EB;--dv:#D1D5DB;--core:#4F46E5;--core2:#6366F1;--core3:#818CF8;--corebg:#EEF2FF;--gc:#2563EB;--pc:#8B5CF6;--sc:#10B981;--gbg:#EFF6FF;--pbg:#F5F3FF;--sbg:#ECFDF5;--gbd:#BFDBFE;--pbd:#DDD6FE;--sbd:#A7F3D0;--red:#EF4444;--rbg:#FEF2F2;--rbd:#FECACA;--amb:#F59E0B;--abg:#FFFBEB;--abd:#FDE68A;--grn:#10B981;--gnbg:#ECFDF5;--gnbd:#A7F3D0;--ext:#8B5CF6;--int:#2563EB;--intbg:#EFF6FF;--intbd:#BFDBFE;--sh:0 1px 3px rgba(0,0,0,.04),0 1px 2px rgba(0,0,0,.06);--shm:0 4px 12px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.04);--shl:0 10px 30px rgba(0,0,0,.08),0 4px 8px rgba(0,0,0,.04)}
+:root[data-theme="dark"]{--bg:#000;--bg2:#1C1C1E;--sf:#1C1C1E;--sf2:#2C2C2E;--tx:#F5F5F7;--tx2:#A1A1A6;--txm:#6E6E73;--txf:#3A3A3C;--bd:rgba(255,255,255,.08);--bd2:rgba(255,255,255,.05);--accent:#0A84FF;--gc:#0A84FF;--pc:#7D7AFF;--sc:#30D158;--gcbg:#0A1A2E;--pcbg:#1A172E;--scbg:#0A2014;--gcbd:#0D2E52;--pcbd:#2E2860;--scbd:#164A28;--red:#FF453A;--amb:#FFD60A;--grn:#30D158;--rbg:#2A1210;--abg:#2A2210;--gbg:#0A2014;--rbd:#4A2220;--abd:#4A3A10;--gbd:#164A28;--intc:#0A84FF;--extc:#7D7AFF;--intbg:#0A1A2E;--intbd:#0D2E52;--extbg:#1A172E;--extbd:#2E2860;--sh:0 2px 8px rgba(0,0,0,.3),0 0 1px rgba(0,0,0,.4);--shm:0 8px 24px rgba(0,0,0,.3),0 0 1px rgba(0,0,0,.4);--shl:0 16px 48px rgba(0,0,0,.4)}
+:root[data-theme="light"]{--bg:#FBFBFD;--bg2:#F5F5F7;--sf:#FFFFFF;--sf2:#F2F2F7;--tx:#1D1D1F;--tx2:#6E6E73;--txm:#A1A1A6;--txf:#D2D2D7;--bd:rgba(0,0,0,.06);--bd2:rgba(0,0,0,.04);--accent:#0071E3;--gc:#0071E3;--pc:#5E5CE6;--sc:#30D158;--gcbg:#E8F1FD;--pcbg:#ECEAFD;--scbg:#E3F9EC;--gcbd:#C5D9F8;--pcbd:#D4D0F9;--scbd:#B8F0D0;--red:#FF3B30;--amb:#FF9F0A;--grn:#34C759;--rbg:#FFF0EF;--abg:#FFF8E8;--gbg:#EDFAEF;--rbd:#FFCFCC;--abd:#FFE4B0;--gbd:#C4EECE;--intc:#0071E3;--extc:#5E5CE6;--intbg:#E8F1FD;--intbd:#C5D9F8;--extbg:#ECEAFD;--extbd:#D4D0F9;--sh:0 2px 8px rgba(0,0,0,.04),0 0 1px rgba(0,0,0,.06);--shm:0 8px 24px rgba(0,0,0,.06),0 0 1px rgba(0,0,0,.08);--shl:0 16px 48px rgba(0,0,0,.08),0 0 1px rgba(0,0,0,.1)}
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Apple SD Gothic Neo',system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--tx);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{font-family:'Apple SD Gothic Neo',-apple-system,BlinkMacSystemFont,system-ui,'Segoe UI',sans-serif;background:var(--bg);color:var(--tx);line-height:1.65;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden}
 
-/* ── HERO ── */
-.hero{background:linear-gradient(135deg,#0A0F1E 0%,#111936 50%,#0F1629 100%);position:relative;overflow:hidden;padding:72px 28px 56px}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 30%,rgba(99,102,241,.12),transparent 70%);pointer-events:none}
-.hero-w{max-width:880px;margin:0 auto;position:relative;z-index:1}
-.hero-ey{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:20px}
-.hero h1{font-family:Georgia,'Noto Serif KR','Batang',serif;font-size:clamp(30px,5vw,42px);font-weight:700;line-height:1.15;color:#F3F4F6;letter-spacing:-.02em;text-wrap:balance;margin-bottom:18px}
-.hero .cg{color:#60A5FA}.hero .cp{color:#A78BFA}.hero .cs{color:#34D399}
-.hero-sub{font-size:15px;color:rgba(255,255,255,.4);line-height:1.8;max-width:580px;margin-bottom:40px}
-.hero-sub strong{color:rgba(255,255,255,.8);font-weight:600}
-.hero-stats{display:flex;gap:36px;flex-wrap:wrap}
-.hs{display:flex;flex-direction:column;gap:3px}
-.hs-n{font-size:24px;font-weight:800;color:#F3F4F6;font-variant-numeric:tabular-nums}
-.hs-l{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35)}
-.hero-fade{height:72px;background:linear-gradient(#0F1629,var(--bg))}
+/* ── Hero ── */
+.hero{background:#000;padding:clamp(80px,12vw,140px) 24px clamp(60px,8vw,100px);text-align:center;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 40%,rgba(99,102,241,.06),transparent 70%);pointer-events:none}
+.hero-w{max-width:680px;margin:0 auto;position:relative;z-index:1}
+.hero-pre{font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#86868B;margin-bottom:20px}
+.hero h1{font-size:clamp(48px,8vw,72px);font-weight:700;line-height:1;letter-spacing:-.04em;margin-bottom:24px;color:#F5F5F7}
+.hero h1 .gps{background:linear-gradient(135deg,#0A84FF 0%,#5E5CE6 40%,#30D158 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:clamp(15px,2vw,19px);color:#86868B;line-height:1.6;max-width:480px;margin:0 auto 48px;font-weight:400;text-wrap:balance}
+.hero-sub strong{color:#D2D2D7;font-weight:500}
+.hero-stats{display:flex;justify-content:center;gap:clamp(24px,5vw,56px);flex-wrap:wrap}
+.hs{text-align:center}
+.hs-n{font-size:clamp(20px,3vw,28px);font-weight:700;color:#F5F5F7;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.hs-l{font-size:11px;font-weight:500;letter-spacing:.06em;color:#6E6E73;margin-top:4px}
 
-/* ── SECTION NAV ── */
-.snav{position:sticky;top:0;z-index:100;background:var(--sf);border-bottom:1px solid var(--bd);display:flex;justify-content:center;gap:2px;padding:0 16px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-.snav a{display:block;padding:12px 16px;font-size:12px;font-weight:600;color:var(--txm);text-decoration:none;letter-spacing:.04em;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;white-space:nowrap}
+/* ── Nav ── */
+.snav{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 72%,transparent);border-bottom:1px solid var(--bd);display:flex;justify-content:center;gap:4px;padding:0 16px;backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
+.snav a{padding:14px 18px;font-size:12px;font-weight:600;color:var(--txm);text-decoration:none;letter-spacing:.02em;transition:color .3s;position:relative;white-space:nowrap}
 .snav a:hover{color:var(--tx2)}
-.snav a.on{color:var(--core);border-bottom-color:var(--core)}
+.snav a.on{color:var(--tx)}
+.snav a.on::after{content:'';position:absolute;bottom:0;left:18px;right:18px;height:2px;background:var(--tx);border-radius:2px}
 
-/* ── COMMON ── */
-.wrap{max-width:900px;margin:0 auto;padding:0 24px}
-.sec{padding:56px 0 0}.sec+.sec{border-top:1px solid var(--dv)}
-.ey{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--core);margin-bottom:10px}
-.st{font-family:Georgia,'Noto Serif KR','Batang',serif;font-size:clamp(20px,3.5vw,26px);font-weight:700;letter-spacing:-.015em;line-height:1.35;text-wrap:balance;color:var(--tx);margin-bottom:10px}
-.sd{font-size:14px;color:var(--tx3);line-height:1.75;max-width:620px;margin-bottom:28px}
-.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);box-shadow:var(--sh)}
-.tag{font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;border:1px solid;display:inline-flex;align-items:center;gap:4px}
-.tag-int{background:var(--intbg);color:var(--int);border-color:var(--intbd)}
-.tag-ext{background:var(--pbg);color:var(--ext);border-color:var(--pbd)}
-.tag-sys{background:var(--gbg);color:var(--gc);border-color:var(--gbd)}
-.tag-score{background:var(--sbg);color:var(--sc);border-color:var(--sbd)}
-.section-divider{border:none;border-top:1px solid var(--dv);margin:0}
+/* ── Sections ── */
+.sec-w{background:var(--bg)}
+.sec-g{background:var(--bg2)}
+.sec-inner{max-width:980px;margin:0 auto;padding:clamp(56px,8vw,96px) 24px}
+.sec-label{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.sec-title{font-size:clamp(28px,4vw,40px);font-weight:700;letter-spacing:-.03em;line-height:1.15;color:var(--tx);margin-bottom:12px;text-wrap:balance}
+.sec-sub{font-size:17px;color:var(--tx2);line-height:1.65;max-width:600px;margin-bottom:40px}
 
-/* ── FADE-IN ── */
-.fi{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+/* ── Cards ── */
+.card{background:var(--sf);border-radius:var(--r);box-shadow:var(--sh);transition:transform .3s cubic-bezier(.25,.1,.25,1),box-shadow .3s cubic-bezier(.25,.1,.25,1)}
+.card:hover{box-shadow:var(--shm)}
+
+/* ── Tags ── */
+.tag{font-size:11px;font-weight:600;padding:4px 10px;border-radius:var(--r3);display:inline-flex;align-items:center}
+.tag-int{background:var(--intbg);color:var(--intc)}
+.tag-ext{background:var(--extbg);color:var(--extc)}
+.tag-sys{background:var(--sf2);color:var(--tx2)}
+.tag-score{background:var(--scbg);color:var(--sc)}
+.src-tag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:6px;margin-right:4px}
+.src-int{background:var(--intbg);color:var(--intc)}
+.src-ext{background:var(--extbg);color:var(--extc)}
+
+/* ── Fade in ── */
+.fi{opacity:0;transform:translateY(12px);transition:opacity .8s ease,transform .8s ease}
 .fi.vis{opacity:1;transform:none}
 
-/* ═══════════════════════════════════════════
-   1. GPS FRAMEWORK
-   ═══════════════════════════════════════════ */
+/* ═══ 1. GPS FRAMEWORK ═══ */
 .gps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 @media(max-width:640px){.gps-grid{grid-template-columns:1fr}}
-.gps-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:26px 22px;position:relative;overflow:hidden;box-shadow:var(--sh);transition:box-shadow .25s,border-color .25s,transform .25s}
-.gps-card:hover{box-shadow:var(--shm);transform:translateY(-2px)}
-.gps-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.gps-card.g-card::before{background:linear-gradient(90deg,var(--gc),#3B82F6)}
-.gps-card.p-card::before{background:linear-gradient(90deg,var(--pc),#A78BFA)}
-.gps-card.s-card::before{background:linear-gradient(90deg,var(--sc),#34D399)}
-.gps-card.g-card:hover{border-color:var(--gbd)}
-.gps-card.p-card:hover{border-color:var(--pbd)}
-.gps-card.s-card:hover{border-color:var(--sbd)}
-.gps-letter{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:21px;font-weight:700;margin-bottom:14px}
-.g-card .gps-letter{background:var(--gbg);color:var(--gc)}
-.p-card .gps-letter{background:var(--pbg);color:var(--pc)}
-.s-card .gps-letter{background:var(--sbg);color:var(--sc)}
-.gps-card h3{font-size:15px;font-weight:700;color:var(--tx);margin-bottom:3px}
-.gps-card .gps-sub{font-size:12px;font-weight:600;color:var(--tx3);margin-bottom:12px}
-.gps-card .gps-detail{font-size:12px;color:var(--txm);line-height:1.7}
+.gps-card{padding:32px 24px;transition:transform .3s cubic-bezier(.25,.1,.25,1),box-shadow .3s cubic-bezier(.25,.1,.25,1)}
+.gps-card:hover{transform:translateY(-4px)}
+.gps-icon{width:48px;height:48px;border-radius:var(--r3);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;margin-bottom:18px}
+.gps-card.g .gps-icon{background:var(--gcbg);color:var(--gc)}
+.gps-card.p .gps-icon{background:var(--pcbg);color:var(--pc)}
+.gps-card.s .gps-icon{background:var(--scbg);color:var(--sc)}
+.gps-card h3{font-size:19px;font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
+.gps-card .sub{font-size:14px;font-weight:500;color:var(--tx2);margin-bottom:12px}
+.gps-card .detail{font-size:13px;color:var(--txm);line-height:1.6}
 
-.gps-conn{display:flex;align-items:center;justify-content:center;gap:8px;padding:24px 0}
-.gps-conn-line{width:36px;height:1px;background:var(--dv)}
-.gps-conn-arr{width:26px;height:26px;border-radius:50%;background:var(--sf2);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--tx3)}
-@media(max-width:640px){.gps-conn{flex-direction:column;padding:14px 0}.gps-conn-line{width:1px;height:20px}}
+.flow-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:36px;padding:20px;background:var(--sf);border-radius:var(--r);box-shadow:var(--sh)}
+.flow-chip{padding:8px 16px;border-radius:var(--rp);font-size:12px;font-weight:600;white-space:nowrap}
+.flow-chip.c-int{background:var(--intbg);color:var(--intc)}
+.flow-chip.c-ext{background:var(--extbg);color:var(--extc)}
+.flow-chip.c-gap{background:var(--sf2);color:var(--accent)}
+.flow-chip.c-score{background:var(--scbg);color:var(--sc)}
+.flow-arr{color:var(--txm);font-size:14px;font-weight:500}
 
-.gps-flow{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
-.gps-chip{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:100px;font-size:11px;font-weight:600;white-space:nowrap}
-.gps-chip.c-int{background:var(--intbg);color:var(--int);border:1px solid var(--intbd)}
-.gps-chip.c-ext{background:var(--pbg);color:var(--ext);border:1px solid var(--pbd)}
-.gps-chip.c-gap{background:var(--corebg);color:var(--core);border:1px solid rgba(99,102,241,.2)}
-.gps-chip.c-score{background:var(--sbg);color:var(--sc);border:1px solid var(--sbd)}
-.gps-arr{color:var(--txm);font-size:13px}
+/* ═══ 2. PIPELINE ═══ */
+.pipe-badge{font-size:10px;font-weight:700;padding:4px 12px;border-radius:var(--rp);background:var(--scbg);color:var(--sc);margin-left:12px;vertical-align:middle}
+.pipe-track{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:28px}
+@media(max-width:800px){.pipe-track{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:480px){.pipe-track{grid-template-columns:repeat(2,1fr)}}
+.pipe-stage{text-align:center;padding:28px 12px;border-radius:var(--r2);cursor:pointer;transition:all .3s cubic-bezier(.25,.1,.25,1);border:2px solid transparent;background:var(--sf);box-shadow:var(--sh)}
+.pipe-stage:hover{transform:translateY(-3px);box-shadow:var(--shm)}
+.pipe-stage.active{border-color:var(--accent);box-shadow:var(--shm)}
+.pipe-icon{width:40px;height:40px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;margin-bottom:10px}
+.pipe-name{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--txm);margin-bottom:4px}
+.pipe-title{font-size:14px;font-weight:700;color:var(--tx);line-height:1.3;margin-bottom:4px}
+.pipe-sub{font-size:12px;color:var(--tx2);line-height:1.5}
 
-/* ═══════════════════════════════════════════
-   2. PIPELINE
-   ═══════════════════════════════════════════ */
-.pipe-section{background:var(--sf2);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:48px 0;margin-top:48px}
-.pipe-title-row{display:flex;align-items:center;gap:12px;margin-bottom:8px;flex-wrap:wrap}
-.pipe-badge{font-size:9px;font-weight:800;letter-spacing:.1em;padding:4px 10px;border-radius:6px;background:var(--sbg);color:var(--sc);border:1px solid var(--sbd)}
-
-.pipe-track{display:flex;gap:0;align-items:stretch;margin-bottom:32px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
-.pipe-stage{flex:1;min-width:130px;position:relative;cursor:pointer;transition:transform .2s}
-.pipe-stage:hover{transform:translateY(-3px)}
-.pipe-stage-inner{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r2);padding:18px 14px;text-align:center;height:100%;display:flex;flex-direction:column;align-items:center;gap:6px;transition:border-color .2s,box-shadow .2s}
-.pipe-stage:hover .pipe-stage-inner,.pipe-stage.active .pipe-stage-inner{box-shadow:var(--shm)}
-.pipe-stage.active .pipe-stage-inner{border-color:var(--core)}
-.pipe-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;flex-shrink:0}
-.pipe-stage-name{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--txm)}
-.pipe-stage-title{font-size:14px;font-weight:700;color:var(--tx);line-height:1.3}
-.pipe-stage-sub{font-size:11px;color:var(--tx3);line-height:1.5}
-.pipe-conn{display:flex;align-items:center;justify-content:center;width:28px;flex-shrink:0;position:relative;overflow:hidden}
-.pipe-conn::before{content:'';position:absolute;width:100%;height:2px;background:var(--bd)}
-.pipe-conn .flow-dot{position:absolute;width:6px;height:6px;border-radius:50%;background:var(--core3);animation:flowDot 2s linear infinite;opacity:0}
-@keyframes flowDot{0%{left:-6px;opacity:0}10%{opacity:1}90%{opacity:1}100%{left:28px;opacity:0}}
-.pipe-conn:nth-child(4) .flow-dot{animation-delay:.3s}
-.pipe-conn:nth-child(6) .flow-dot{animation-delay:.6s}
-.pipe-conn:nth-child(8) .flow-dot{animation-delay:.9s}
-.pipe-conn:nth-child(10) .flow-dot{animation-delay:1.2s}
-
-@media(max-width:800px){
-  .pipe-track{flex-wrap:wrap;gap:8px}
-  .pipe-stage{min-width:calc(50% - 4px);flex:none}
-  .pipe-conn{display:none}
-}
-
-/* Pipeline detail panel */
-.pipe-detail{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:0;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .4s ease,margin .4s ease;margin-bottom:0}
-.pipe-detail.open{max-height:500px;padding:24px;margin-bottom:24px}
-.pipe-detail-head{font-size:15px;font-weight:700;color:var(--tx);margin-bottom:8px;display:flex;align-items:center;gap:8px}
-.pipe-detail-body{font-size:13px;color:var(--tx3);line-height:1.7}
+.pipe-detail{background:var(--sf);border-radius:var(--r);box-shadow:var(--sh);max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.25,.1,.25,1),padding .5s cubic-bezier(.25,.1,.25,1),margin .5s cubic-bezier(.25,.1,.25,1);padding:0 28px;margin-bottom:0}
+.pipe-detail.open{max-height:260px;padding:28px;margin-bottom:28px}
+.pipe-detail-head{font-size:17px;font-weight:700;color:var(--tx);margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.pipe-detail-body{font-size:15px;color:var(--tx2);line-height:1.7}
 .pipe-detail-body strong{color:var(--tx);font-weight:600}
-.pipe-detail-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+.pipe-detail-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
 
-/* Data volume cards */
-.data-vol{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:640px){.data-vol{grid-template-columns:1fr}}
-.vol-card{padding:24px;border-top:4px solid transparent;overflow:hidden}
-.vol-card.ext-vol{border-top-color:var(--ext)}
-.vol-card.int-vol{border-top-color:var(--int)}
-.vol-label{font-size:12px;font-weight:800;letter-spacing:.08em;margin-bottom:16px;display:flex;align-items:center;gap:8px}
-.vol-card.ext-vol .vol-label{color:var(--ext)}
-.vol-card.int-vol .vol-label{color:var(--int)}
-.vol-label .vol-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.vol-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--bd)}
-.vol-row:last-child{border-bottom:none}
-.vol-name{font-size:13px;font-weight:600;color:var(--tx2)}
-.vol-val{font-size:13px;font-weight:700;color:var(--tx);font-variant-numeric:tabular-nums;text-align:right}
-.vol-sites{font-size:12px;color:var(--txm);line-height:1.7;margin-top:14px;padding-top:14px;border-top:1px dashed var(--bd)}
-.vol-fields{display:flex;flex-wrap:wrap;gap:5px;margin-top:14px;padding-top:14px;border-top:1px dashed var(--bd)}
-.vol-field{font-size:10px;font-weight:600;padding:3px 8px;border-radius:5px}
-.vol-card.ext-vol .vol-field{background:var(--pbg);color:var(--ext);border:1px solid var(--pbd)}
-.vol-card.int-vol .vol-field{background:var(--intbg);color:var(--int);border:1px solid var(--intbd)}
-.erd-link{display:flex;align-items:center;gap:10px;margin-top:16px;padding:14px 18px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r2);font-size:13px;color:var(--tx3)}
-.erd-link strong{font-size:12px;font-weight:800;color:var(--red);background:var(--rbg);padding:4px 10px;border-radius:6px;border:1px solid var(--rbd);flex-shrink:0}
+.vol-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.vol-grid{grid-template-columns:1fr}}
+.vol-card{padding:28px;border-radius:var(--r)}
+.vol-label{font-size:13px;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.vol-label .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.vol-card.ext .vol-label{color:var(--extc)}
+.vol-card.ext .vol-label .dot{background:var(--extc)}
+.vol-card.int .vol-label{color:var(--intc)}
+.vol-card.int .vol-label .dot{background:var(--intc)}
+.vol-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--bd2)}
+.vol-row:last-of-type{border-bottom:none}
+.vol-name{font-size:14px;color:var(--tx2)}
+.vol-val{font-size:14px;font-weight:600;color:var(--tx);font-variant-numeric:tabular-nums;text-align:right}
+.vol-note{font-size:13px;color:var(--txm);line-height:1.6;margin-top:16px;padding-top:16px;border-top:1px dashed var(--bd)}
+.vol-fields{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;padding-top:16px;border-top:1px dashed var(--bd)}
+.vol-field{font-size:10px;font-weight:600;padding:4px 10px;border-radius:8px}
+.vol-card.ext .vol-field{background:var(--extbg);color:var(--extc)}
+.vol-card.int .vol-field{background:var(--intbg);color:var(--intc)}
 
-/* ═══════════════════════════════════════════
-   3. DATA SOURCES
-   ═══════════════════════════════════════════ */
-.dsplit{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:28px}
-@media(min-width:640px){.dsplit{grid-template-columns:1fr 1fr}}
-.dbox{padding:24px;border-top:4px solid transparent}
-.dbox.internal{border-top-color:var(--int)}
-.dbox.external{border-top-color:var(--ext)}
-.dbox-label{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:6px}
-.dbox.internal .dbox-label{color:var(--int)}
-.dbox.external .dbox-label{color:var(--ext)}
-.dbox-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.dbox-fields{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
-.df{font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px;border:1px solid}
-.df.int{background:var(--intbg);color:var(--int);border-color:var(--intbd)}
-.df.ext{background:var(--pbg);color:var(--ext);border-color:var(--pbd)}
-.df.na{background:var(--rbg);color:var(--red);border-color:var(--rbd)}
-.dbox-note{font-size:12px;color:var(--txm);line-height:1.6}
+/* ═══ 3. DATA SOURCES ═══ */
+.ds-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px}
+@media(max-width:640px){.ds-grid{grid-template-columns:1fr}}
+.ds-card{padding:28px;border-radius:var(--r)}
+.ds-label{font-size:12px;font-weight:700;letter-spacing:.06em;margin-bottom:16px;display:flex;align-items:center;gap:6px}
+.ds-card.internal .ds-label{color:var(--intc)}
+.ds-card.external .ds-label{color:var(--extc)}
+.ds-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.ds-chip{font-size:11px;font-weight:600;padding:5px 12px;border-radius:8px}
+.ds-chip.int{background:var(--intbg);color:var(--intc)}
+.ds-chip.ext{background:var(--extbg);color:var(--extc)}
+.ds-chip.na{background:var(--rbg);color:var(--red)}
+.ds-note{font-size:13px;color:var(--txm);line-height:1.55}
 
-/* GAP TABLE */
-.gap-card{padding:24px;overflow:hidden}
+.gap-card{padding:0;overflow:hidden;border-radius:var(--r)}
 .dt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-.dt{width:100%;border-collapse:separate;border-spacing:0;font-size:13px;min-width:700px}
-.dt th{text-align:left;padding:10px 12px;font-weight:700;color:var(--txm);font-size:11px;letter-spacing:.06em;text-transform:uppercase;border-bottom:2px solid var(--bd);background:var(--sf)}
-.dt td{padding:12px;border-bottom:1px solid var(--bd);vertical-align:top}
+.dt{width:100%;border-collapse:separate;border-spacing:0;font-size:14px;min-width:700px}
+.dt th{text-align:left;padding:14px 16px;font-weight:600;color:var(--txm);font-size:12px;letter-spacing:.04em;border-bottom:1px solid var(--bd);background:var(--sf)}
+.dt td{padding:14px 16px;border-bottom:1px solid var(--bd2);vertical-align:top}
 .dt tr:last-child td{border-bottom:none}
-.dt tr:hover td{background:var(--sf2)}
-.ax{font-weight:700;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.dt tr:hover td{background:var(--bg2)}
+.ax{font-weight:600;display:flex;align-items:center;gap:8px;white-space:nowrap}
 .ax-d{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.lt{font-size:12px;color:var(--tx3);line-height:1.6}
-.pl{font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;white-space:nowrap}
-.pl.ok{color:var(--grn);background:var(--gnbg)}.pl.wn{color:var(--amb);background:var(--abg)}.pl.bd{color:var(--red);background:var(--rbg)}
-.src-tag{font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;margin-right:3px}
-.src-int{background:var(--intbg);color:var(--int)}
-.src-ext{background:var(--pbg);color:var(--ext)}
+.lt{font-size:13px;color:var(--tx2);line-height:1.55}
+.pl{font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px}
+.pl.ok{color:var(--grn);background:var(--gbg)}.pl.wn{color:var(--amb);background:var(--abg)}.pl.bd{color:var(--red);background:var(--rbg)}
 
-/* ═══════════════════════════════════════════
-   4. DIAGNOSTICS
-   ═══════════════════════════════════════════ */
-/* Scoring flow */
-.score-flow{display:flex;flex-direction:column;gap:4px;margin-bottom:20px}
-@media(min-width:640px){.score-flow{flex-direction:row;gap:0;align-items:stretch}}
-.sf-box{flex:1;padding:16px 14px;text-align:center;border-radius:var(--r2);border:1px solid var(--bd);background:var(--sf)}
-.sf-label{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--txm);margin-bottom:3px}
-.sf-value{font-size:16px;font-weight:700}
-.sf-sub{font-size:11px;color:var(--tx3);margin-top:2px;line-height:1.4}
-.sf-arr{display:none;align-items:center;justify-content:center;width:28px;flex-shrink:0;color:var(--txm);font-size:15px}
-@media(min-width:640px){.sf-arr{display:flex}}
+/* ═══ 4. DIAGNOSTICS ═══ */
+.score-flow{display:flex;gap:0;align-items:stretch;margin-bottom:24px;flex-wrap:wrap}
+@media(max-width:640px){.score-flow{flex-direction:column;gap:8px}}
+.sf-box{flex:1;padding:20px 16px;text-align:center;min-width:0}
+.sf-label{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--txm);margin-bottom:4px}
+.sf-val{font-size:17px;font-weight:700}
+.sf-sub{font-size:12px;color:var(--tx2);margin-top:3px}
+.sf-arr{display:flex;align-items:center;justify-content:center;width:32px;flex-shrink:0;color:var(--txm);font-size:16px}
+@media(max-width:640px){.sf-arr{display:none}}
 
-.tier-r{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
-@media(min-width:640px){.tier-r{grid-template-columns:repeat(4,1fr)}}
-.tier-c{padding:20px;text-align:center;cursor:pointer;transition:transform .2s,box-shadow .2s}
-.tier-c:hover{transform:translateY(-2px);box-shadow:var(--shm)}
-.tier-b{width:42px;height:42px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;margin-bottom:8px}
-.tier-l{font-size:13px;font-weight:700;color:var(--tx2);margin-bottom:3px}
-.tier-d{font-size:12px;color:var(--txm);line-height:1.5}
-.tier-rule{font-size:12px;color:var(--tx3);line-height:1.6;padding:14px 18px;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r2)}
-.tier-rule strong{color:var(--tx);font-weight:700}
+.tier-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:640px){.tier-grid{grid-template-columns:repeat(2,1fr)}}
+.tier-card{padding:24px 16px;text-align:center;border-radius:var(--r);cursor:default;transition:transform .3s cubic-bezier(.25,.1,.25,1)}
+.tier-card:hover{transform:translateY(-2px)}
+.tier-badge{width:44px;height:44px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;margin-bottom:10px}
+.tier-name{font-size:14px;font-weight:700;margin-bottom:4px}
+.tier-desc{font-size:12px;color:var(--txm);line-height:1.5}
+.tier-note{font-size:13px;color:var(--tx2);line-height:1.65;padding:18px 20px;background:var(--sf2);border-radius:var(--r3);margin-bottom:48px}
+.tier-note strong{color:var(--tx);font-weight:600}
 
 /* Signal Card */
-.sig{padding:28px}
-.sig-head{display:flex;align-items:center;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--bd);flex-wrap:wrap}
-.sig-product{font-size:17px;font-weight:700}
-.sig-tier{font-size:11px;font-weight:800;padding:4px 12px;border-radius:8px;color:#fff;background:var(--core);letter-spacing:.04em}
-.sig-cat{font-size:12px;color:var(--txm);font-weight:600;margin-left:auto}
-.sig-axes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
-@media(min-width:640px){.sig-axes{grid-template-columns:repeat(6,1fr)}}
-.sig-ax{text-align:center;padding:14px 6px;border-radius:var(--r2);background:var(--sf2);border:1px solid var(--bd);cursor:pointer;transition:transform .15s,box-shadow .15s}
-.sig-ax:hover{transform:scale(1.04);box-shadow:var(--shm)}
-.sig-ax-n{font-size:12px;font-weight:700;color:var(--tx2);margin-bottom:5px}
-.sig-ax-src{font-size:8px;font-weight:700;margin-bottom:5px}
-.sig-l{width:30px;height:30px;border-radius:50%;margin:0 auto 5px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff}
+.sig{padding:32px;border-radius:var(--r)}
+.sig-head{display:flex;align-items:center;gap:14px;margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid var(--bd);flex-wrap:wrap}
+.sig-product{font-size:19px;font-weight:700;letter-spacing:-.01em}
+.sig-tier{font-size:11px;font-weight:700;padding:5px 14px;border-radius:var(--rp);color:#fff;background:var(--accent)}
+.sig-cat{font-size:13px;color:var(--txm);font-weight:500;margin-left:auto}
+.sig-axes{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:22px}
+@media(max-width:640px){.sig-axes{grid-template-columns:repeat(3,1fr)}}
+.sig-ax{text-align:center;padding:16px 8px;border-radius:var(--r3);background:var(--bg2);cursor:pointer;transition:transform .2s cubic-bezier(.25,.1,.25,1),box-shadow .2s;border:2px solid transparent}
+.sig-ax:hover{transform:scale(1.03);box-shadow:var(--shm)}
+.sig-ax.selected{border-color:var(--accent)}
+.sig-ax-n{font-size:13px;font-weight:600;color:var(--tx);margin-bottom:6px}
+.sig-ax-src{margin-bottom:6px}
+.sig-l{width:32px;height:32px;border-radius:50%;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff}
 .sig-l.r{background:var(--red)}.sig-l.a{background:var(--amb)}.sig-l.g{background:var(--grn)}
-.sig-ax-v{font-size:10px;color:var(--txm);font-variant-numeric:tabular-nums}
-.sig-diag{border-radius:var(--r2);padding:14px 18px;margin-bottom:14px;transition:all .3s}
-.sig-diag.level-r{background:var(--rbg);border:1px solid var(--rbd)}
-.sig-diag.level-r .sig-diag-l{color:var(--red)}
-.sig-diag.level-a{background:var(--abg);border:1px solid var(--abd)}
-.sig-diag.level-a .sig-diag-l{color:var(--amb)}
-.sig-diag.level-g{background:var(--gnbg);border:1px solid var(--gnbd)}
-.sig-diag.level-g .sig-diag-l{color:var(--grn)}
-.sig-diag-l{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
-.sig-diag-t{font-size:13px;color:var(--tx2);line-height:1.65}
-.sig-acts{display:grid;grid-template-columns:1fr;gap:8px}
-@media(min-width:640px){.sig-acts{grid-template-columns:repeat(3,1fr)}}
-.sig-act{background:var(--gbg);border:1px solid var(--gbd);border-radius:var(--r2);padding:14px;text-align:center;cursor:pointer;transition:all .2s}
-.sig-act:hover{background:var(--gc);border-color:var(--gc)}
+.sig-ax-v{font-size:11px;color:var(--txm);font-variant-numeric:tabular-nums}
+.sig-diag{border-radius:var(--r3);padding:18px 20px;margin-bottom:18px;transition:background .4s,border-color .4s}
+.sig-diag.lv-r{background:var(--rbg);border:1px solid var(--rbd)}
+.sig-diag.lv-r .sig-diag-l{color:var(--red)}
+.sig-diag.lv-a{background:var(--abg);border:1px solid var(--abd)}
+.sig-diag.lv-a .sig-diag-l{color:var(--amb)}
+.sig-diag.lv-g{background:var(--gbg);border:1px solid var(--gbd)}
+.sig-diag.lv-g .sig-diag-l{color:var(--grn)}
+.sig-diag-l{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.sig-diag-t{font-size:14px;color:var(--tx2);line-height:1.65}
+.sig-acts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:640px){.sig-acts{grid-template-columns:1fr}}
+.sig-act{padding:16px;text-align:center;border-radius:var(--r3);background:var(--bg2);cursor:pointer;transition:all .2s cubic-bezier(.25,.1,.25,1)}
+.sig-act:hover{background:var(--accent)}
 .sig-act:hover .sig-act-n,.sig-act:hover .sig-act-b{color:#fff}
-.sig-act-n{font-size:14px;font-weight:700;color:var(--gc);transition:color .2s}
-.sig-act-b{font-size:11px;color:var(--txm);margin-top:2px;transition:color .2s}
+.sig-act-n{font-size:15px;font-weight:700;color:var(--accent);transition:color .2s}
+.sig-act-b{font-size:12px;color:var(--txm);margin-top:2px;transition:color .2s}
 
-/* ═══════════════════════════════════════════
-   5. ROADMAP
-   ═══════════════════════════════════════════ */
-.tl-r{display:grid;grid-template-columns:1fr;gap:10px}
-@media(min-width:640px){.tl-r{grid-template-columns:repeat(2,1fr)}}
-@media(min-width:760px){.tl-r{grid-template-columns:repeat(4,1fr)}}
-.tl-c{padding:20px;border-top:4px solid var(--bd);transition:transform .2s}
-.tl-c:hover{transform:translateY(-2px)}
-.tl-c:nth-child(1){border-top-color:var(--red)}.tl-c:nth-child(2){border-top-color:var(--amb)}.tl-c:nth-child(3){border-top-color:var(--gc)}.tl-c:nth-child(4){border-top-color:var(--grn)}
-.tl-date{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
-.tl-c:nth-child(1) .tl-date{color:var(--red)}.tl-c:nth-child(2) .tl-date{color:var(--amb)}.tl-c:nth-child(3) .tl-date{color:var(--gc)}.tl-c:nth-child(4) .tl-date{color:var(--grn)}
-.tl-title{font-size:14px;font-weight:700;margin-bottom:8px}
+/* ═══ 5. ROADMAP ═══ */
+.tl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:760px){.tl-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.tl-grid{grid-template-columns:1fr}}
+.tl-card{padding:24px 20px;border-radius:var(--r);position:relative;overflow:hidden}
+.tl-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.tl-card:nth-child(1)::before{background:var(--red)}.tl-card:nth-child(2)::before{background:var(--amb)}.tl-card:nth-child(3)::before{background:var(--gc)}.tl-card:nth-child(4)::before{background:var(--sc)}
+.tl-card:hover{transform:translateY(-2px)}
+.tl-date{font-size:12px;font-weight:700;margin-bottom:8px}
+.tl-card:nth-child(1) .tl-date{color:var(--red)}.tl-card:nth-child(2) .tl-date{color:var(--amb)}.tl-card:nth-child(3) .tl-date{color:var(--gc)}.tl-card:nth-child(4) .tl-date{color:var(--sc)}
+.tl-title{font-size:15px;font-weight:700;margin-bottom:10px}
 .tl-items{list-style:none}
-.tl-items li{font-size:12px;color:var(--tx3);line-height:1.55;padding:3px 0 3px 14px;position:relative}
-.tl-items li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--txm)}
-.tl-kpi{margin-top:10px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:6px;display:inline-block;background:var(--sf2);color:var(--txm);border:1px solid var(--bd)}
+.tl-items li{font-size:13px;color:var(--tx2);line-height:1.55;padding:3px 0 3px 14px;position:relative}
+.tl-items li::before{content:'';position:absolute;left:0;top:10px;width:5px;height:5px;border-radius:50%;background:var(--txf)}
+.tl-kpi{margin-top:12px;font-size:10px;font-weight:700;padding:4px 10px;border-radius:var(--rp);display:inline-block;background:var(--sf2);color:var(--txm)}
 
-/* SUMMARY */
-.summary{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:32px;box-shadow:var(--shl);text-align:center;margin-top:48px}
-.summary p{font-family:Georgia,'Noto Serif KR','Batang',serif;font-size:17px;font-weight:700;line-height:1.8;color:var(--tx2)}
-.summary .cg{color:var(--gc)}.summary .cp{color:var(--pc)}.summary .cs{color:var(--sc)}
-.foot{text-align:center;font-size:12px;color:var(--txm);margin-top:20px;padding-bottom:24px}
-.foot strong{color:var(--core);font-weight:700}
+/* Footer */
+.footer{text-align:center;padding:48px 24px 32px}
+.footer-line{font-size:clamp(18px,2.5vw,24px);font-weight:700;letter-spacing:-.02em;color:var(--tx);line-height:1.6;max-width:640px;margin:0 auto 8px}
+.footer-line .cg{color:var(--gc)}.footer-line .cp{color:var(--pc)}.footer-line .cs{color:var(--sc)}
+.footer-sub{font-size:12px;color:var(--txm)}
 
 @media(max-width:480px){
-  .hero{padding:56px 20px 44px}
-  .hero-stats{gap:20px}
-  .hs-n{font-size:20px}
-  .wrap{padding:0 16px}
-  .sec{padding:40px 0 0}
-  .pipe-section{padding:36px 0}
+  .hero{padding:64px 20px 48px}
+  .hero h1{letter-spacing:-.03em}
 }
+@media(prefers-reduced-motion:reduce){.fi{opacity:1;transform:none;transition:none}}
 </style>
 </head>
 <body>
 
-<!-- ▰ HERO ▰ -->
 <div class="hero">
   <div class="hero-w">
-    <div class="hero-ey">Essential GPS · 최종 완결판</div>
-    <h1>ESSENTIAL <span class="cg">G</span><span class="cp">P</span><span class="cs">S</span><br>카테고리 MD 전략 아키텍처</h1>
+    <div class="hero-pre">Essential GPS · 최종 완결판</div>
+    <h1>ESSENTIAL<br><span class="gps">GPS</span></h1>
     <p class="hero-sub"><strong>경쟁사 데이터</strong>와 <strong>자사 데이터</strong>를 합쳐서 상품별 격차를 진단하고, MD별 실행 과제까지 자동으로 만드는 흐름.</p>
     <div class="hero-stats">
-      <div class="hs"><span class="hs-n">11</span><span class="hs-l">경쟁사 크롤</span></div>
-      <div class="hs"><span class="hs-n">6</span><span class="hs-l">Gap 진단 축</span></div>
-      <div class="hs"><span class="hs-n">S/A/B/C</span><span class="hs-l">등급 스코어링</span></div>
-      <div class="hs"><span class="hs-n">6</span><span class="hs-l">파이프라인 단계</span></div>
+      <div class="hs"><span class="hs-n">11</span><div class="hs-l">경쟁사 크롤</div></div>
+      <div class="hs"><span class="hs-n">6</span><div class="hs-l">Gap 진단 축</div></div>
+      <div class="hs"><span class="hs-n">S/A/B/C</span><div class="hs-l">등급 스코어링</div></div>
+      <div class="hs"><span class="hs-n">6</span><div class="hs-l">파이프라인 단계</div></div>
     </div>
   </div>
 </div>
-<div class="hero-fade"></div>
 
-<!-- ▰ SECTION NAV ▰ -->
 <nav class="snav" id="snav">
   <a href="#s-framework" class="on">Framework</a>
   <a href="#s-pipeline">Pipeline</a>
@@ -332,275 +290,200 @@ body{font-family:'Apple SD Gothic Neo',system-ui,-apple-system,'Segoe UI',sans-s
   <a href="#s-roadmap">Roadmap</a>
 </nav>
 
-<!-- ═══════════════════════════════════════════
-     1. GPS FRAMEWORK
-     ═══════════════════════════════════════════ -->
-<div class="wrap">
-  <div class="sec fi" id="s-framework">
-    <div class="ey">Framework</div>
-    <div class="st">GPS — Gap · Priority · Score</div>
-    <div class="sd">자사 디스커버리 데이터에서 현재 상태를 파악하고, 외부 경쟁 데이터와 비교하여 Gap을 산출합니다. Gap 크기와 기회손실을 기준으로 Priority를 정렬하고, 하나의 Score로 압축하여 S/A/B/C 등급을 부여합니다.</div>
-
+<!-- ═══ 1. GPS FRAMEWORK ═══ -->
+<section class="sec-w" id="s-framework">
+  <div class="sec-inner fi">
+    <div class="sec-title">Gap · Priority · Score</div>
+    <div class="sec-sub">자사 디스커버리 데이터에서 현재 상태를 파악하고, 외부 경쟁 데이터와 비교하여 Gap을 산출합니다. Gap 크기와 기회손실을 기준으로 Priority를 정렬하고, 하나의 Score로 압축하여 S/A/B/C 등급을 부여합니다.</div>
     <div class="gps-grid">
-      <div class="gps-card g-card">
-        <div class="gps-letter">G</div>
+      <div class="card gps-card g">
+        <div class="gps-icon">G</div>
         <h3>Gap 진단</h3>
-        <div class="gps-sub">자사 vs 외부 6대 축 비교</div>
-        <div class="gps-detail">가격 · 딜실적 · 모멘텀 · 지표 · 리뷰 · 배송</div>
+        <div class="sub">자사 vs 외부 6대 축 비교</div>
+        <div class="detail">가격 · 딜실적 · 모멘텀 · 지표 · 리뷰 · 배송</div>
       </div>
-      <div class="gps-card p-card">
-        <div class="gps-letter">P</div>
+      <div class="card gps-card p">
+        <div class="gps-icon">P</div>
         <h3>Priority 정렬</h3>
-        <div class="gps-sub">기회손실 GMV 추정</div>
-        <div class="gps-detail">파급력 순 정렬 + 조직장 가중치</div>
+        <div class="sub">기회손실 GMV 추정</div>
+        <div class="detail">파급력 순 정렬 + 조직장 가중치</div>
       </div>
-      <div class="gps-card s-card">
-        <div class="gps-letter">S</div>
+      <div class="card gps-card s">
+        <div class="gps-icon">S</div>
         <h3>Score 등급</h3>
-        <div class="gps-sub">0~100 단일 점수 압축</div>
-        <div class="gps-detail">S/A/B/C 티어 → MD 즉각 실행</div>
+        <div class="sub">0~100 단일 점수 압축</div>
+        <div class="detail">S/A/B/C 티어 → MD 즉각 실행</div>
       </div>
     </div>
-
-    <div class="gps-conn">
-      <div class="gps-conn-line"></div>
-      <div class="gps-conn-arr">▼</div>
-      <div class="gps-conn-line"></div>
-    </div>
-    <div class="gps-flow">
-      <span class="gps-chip c-int">자사 디스커버리</span>
-      <span class="gps-arr">＋</span>
-      <span class="gps-chip c-ext">외부 경쟁 데이터</span>
-      <span class="gps-arr">→</span>
-      <span class="gps-chip c-gap">Gap 산출</span>
-      <span class="gps-arr">→</span>
-      <span class="gps-chip c-score">S / A / B / C</span>
+    <div class="flow-bar">
+      <span class="flow-chip c-int">자사 디스커버리</span>
+      <span class="flow-arr">＋</span>
+      <span class="flow-chip c-ext">외부 경쟁 데이터</span>
+      <span class="flow-arr">→</span>
+      <span class="flow-chip c-gap">Gap 산출</span>
+      <span class="flow-arr">→</span>
+      <span class="flow-chip c-score">S / A / B / C</span>
     </div>
   </div>
-</div>
+</section>
 
-<!-- ═══════════════════════════════════════════
-     2. CORE DATA PIPELINE
-     ═══════════════════════════════════════════ -->
-<div class="pipe-section fi" id="s-pipeline">
-  <div class="wrap">
-    <div class="pipe-title-row">
-      <div class="ey" style="margin-bottom:0">Core Data Pipeline</div>
-      <span class="pipe-badge">MVP 완료</span>
-    </div>
-    <div class="st">경쟁사 수집 → 데이터 통합 → 격차 분석 → MD 실행</div>
-    <div class="sd">경쟁사 데이터와 우리 데이터를 합쳐서 상품별 격차를 진단하고, MD별 실행 과제까지 자동으로 만드는 흐름.</div>
+<!-- ═══ 2. PIPELINE ═══ -->
+<section class="sec-g" id="s-pipeline">
+  <div class="sec-inner fi">
+    <div class="sec-title">경쟁사 수집 → 데이터 통합 → 격차 분석 → MD 실행<span class="pipe-badge">MVP 완료</span></div>
+    <div class="sec-sub">경쟁사 데이터와 우리 데이터를 합쳐서 상품별 격차를 진단하고, MD별 실행 과제까지 자동으로 만드는 흐름.</div>
 
-    <!-- Pipeline Track -->
     <div class="pipe-track" id="pipeTrack">
       <div class="pipe-stage active" data-idx="0">
-        <div class="pipe-stage-inner">
-          <div class="pipe-icon" style="background:var(--ext)">A</div>
-          <div class="pipe-stage-name">Albatross</div>
-          <div class="pipe-stage-title">외부+내부 수집</div>
-          <div class="pipe-stage-sub">11개 경쟁사 크롤<br>+ Product Metrics API</div>
-        </div>
+        <div class="pipe-icon" style="background:var(--extc)">A</div>
+        <div class="pipe-name">Albatross</div>
+        <div class="pipe-title">외부+내부 수집</div>
+        <div class="pipe-sub">11개 경쟁사 크롤<br>Product Metrics API</div>
       </div>
-      <div class="pipe-conn"><div class="flow-dot"></div></div>
       <div class="pipe-stage" data-idx="1">
-        <div class="pipe-stage-inner">
-          <div class="pipe-icon" style="background:var(--int)">AX</div>
-          <div class="pipe-stage-name">AX 모듈</div>
-          <div class="pipe-stage-title">데이터 통합</div>
-          <div class="pipe-stage-sub">동일상품 매칭<br>내부↔외부 통합</div>
-        </div>
+        <div class="pipe-icon" style="background:var(--intc)">AX</div>
+        <div class="pipe-name">AX 모듈</div>
+        <div class="pipe-title">데이터 통합</div>
+        <div class="pipe-sub">동일상품 매칭<br>내부↔외부 통합</div>
       </div>
-      <div class="pipe-conn"><div class="flow-dot"></div></div>
       <div class="pipe-stage" data-idx="2">
-        <div class="pipe-stage-inner">
-          <div class="pipe-icon" style="background:var(--gc)">G</div>
-          <div class="pipe-stage-name">Gap 분석</div>
-          <div class="pipe-stage-title">6대 축 진단</div>
-          <div class="pipe-stage-sub">PCI · ACR · CVR<br>신호등 판정</div>
-        </div>
+        <div class="pipe-icon" style="background:var(--gc)">G</div>
+        <div class="pipe-name">Gap 분석</div>
+        <div class="pipe-title">6대 축 진단</div>
+        <div class="pipe-sub">PCI · ACR · CVR<br>신호등 판정</div>
       </div>
-      <div class="pipe-conn"><div class="flow-dot"></div></div>
       <div class="pipe-stage" data-idx="3">
-        <div class="pipe-stage-inner">
-          <div class="pipe-icon" style="background:var(--core)">S</div>
-          <div class="pipe-stage-name">Scoring</div>
-          <div class="pipe-stage-title">S/A/B 티어링</div>
-          <div class="pipe-stage-sub">종합 점수 산출<br>놓치는 매출 추정</div>
-        </div>
+        <div class="pipe-icon" style="background:var(--pc)">S</div>
+        <div class="pipe-name">Scoring</div>
+        <div class="pipe-title">S/A/B 티어링</div>
+        <div class="pipe-sub">종합 점수 산출<br>놓치는 매출 추정</div>
       </div>
-      <div class="pipe-conn"><div class="flow-dot"></div></div>
       <div class="pipe-stage" data-idx="4">
-        <div class="pipe-stage-inner">
-          <div class="pipe-icon" style="background:var(--sc)">MD</div>
-          <div class="pipe-stage-name">MD 배분</div>
-          <div class="pipe-stage-title">카테고리별 매칭</div>
-          <div class="pipe-stage-sub">담당 MD 배분<br>Task 자동 생성</div>
-        </div>
+        <div class="pipe-icon" style="background:var(--sc)">MD</div>
+        <div class="pipe-name">MD 배분</div>
+        <div class="pipe-title">카테고리별 매칭</div>
+        <div class="pipe-sub">담당 MD 배분<br>Task 자동 생성</div>
       </div>
-      <div class="pipe-conn"><div class="flow-dot"></div></div>
       <div class="pipe-stage" data-idx="5">
-        <div class="pipe-stage-inner">
-          <div class="pipe-icon" style="background:var(--amb)">▶</div>
-          <div class="pipe-stage-name">실행·관제</div>
-          <div class="pipe-stage-title">진척 관리</div>
-          <div class="pipe-stage-sub">Accept/Reject<br>성과 트래킹</div>
-        </div>
+        <div class="pipe-icon" style="background:var(--amb)">▶</div>
+        <div class="pipe-name">실행·관제</div>
+        <div class="pipe-title">진척 관리</div>
+        <div class="pipe-sub">Accept/Reject<br>성과 트래킹</div>
       </div>
     </div>
 
-    <!-- Detail Panel -->
     <div class="pipe-detail open" id="pipeDetail">
-      <div class="pipe-detail-head" id="pipeDetailHead">
-        <div class="pipe-icon" style="background:var(--ext);width:28px;height:28px;font-size:12px;border-radius:8px">A</div>
-        Albatross — 외부+내부 데이터 수집
-      </div>
-      <div class="pipe-detail-body" id="pipeDetailBody">
-        <strong>11개 경쟁사 사이트를 횡단 크롤링</strong>하여 가격·리뷰·SKU·랭킹 데이터를 수집합니다. 동시에 Product Metrics API를 통해 자사 상품별 지표를 적재합니다. 판매채널을 확장 중이며, 현재 MVP가 완료된 상태입니다.
-      </div>
-      <div class="pipe-detail-tags" id="pipeDetailTags">
-        <span class="tag tag-ext">11개 경쟁사 크롤</span>
-        <span class="tag tag-int">Product Metrics API</span>
-        <span class="tag tag-sys">배치 ETL</span>
-      </div>
+      <div class="pipe-detail-head" id="pdHead"><div class="pipe-icon" style="background:var(--extc);width:28px;height:28px;font-size:11px;border-radius:8px">A</div> Albatross — 외부+내부 데이터 수집</div>
+      <div class="pipe-detail-body" id="pdBody"><strong>11개 경쟁사 사이트를 횡단 크롤링</strong>하여 가격·리뷰·SKU·랭킹 데이터를 수집합니다. 동시에 Product Metrics API를 통해 자사 상품별 지표를 적재합니다. 판매채널을 확장 중이며, 현재 MVP가 완료된 상태입니다.</div>
+      <div class="pipe-detail-tags" id="pdTags"><span class="tag tag-ext">11개 경쟁사 크롤</span> <span class="tag tag-int">Product Metrics API</span> <span class="tag tag-sys">배치 ETL</span></div>
     </div>
 
-    <!-- Data Volume Cards -->
-    <div class="data-vol">
-      <div class="card vol-card ext-vol">
-        <div class="vol-label"><span class="vol-dot" style="background:var(--ext)"></span>ALBATROSS 외부 데이터</div>
+    <div class="vol-grid">
+      <div class="card vol-card ext">
+        <div class="vol-label"><span class="dot"></span> ALBATROSS 외부 데이터</div>
         <div class="vol-row"><span class="vol-name">abt_crawl_product</span><span class="vol-val" data-target="215838">0건</span></div>
         <div class="vol-row"><span class="vol-name">abt_crawl_product_metric</span><span class="vol-val" data-target="358833">0건</span></div>
         <div class="vol-row"><span class="vol-name">abt_crawl_product_rank</span><span class="vol-val" data-target="1964436">0건</span></div>
         <div class="vol-row"><span class="vol-name">abt_crawl_site</span><span class="vol-val">11개 사이트</span></div>
-        <div class="vol-sites">네이버 · 롯데온 · 무신사 · 옥션 · G마켓 · SSG · 카카오 · GS SHOP · 오늘의집 · 마켓컬리 · 올리브영</div>
+        <div class="vol-note">네이버 · 롯데온 · 무신사 · 옥션 · G마켓 · SSG · 카카오 · GS SHOP · 오늘의집 · 마켓컬리 · 올리브영</div>
       </div>
-      <div class="card vol-card int-vol">
-        <div class="vol-label"><span class="vol-dot" style="background:var(--int)"></span>ALBATROSS 내부 데이터</div>
+      <div class="card vol-card int">
+        <div class="vol-label"><span class="dot"></span> ALBATROSS 내부 데이터</div>
         <div class="vol-row"><span class="vol-name">Product Metrics API</span><span class="vol-val">상품별 지표</span></div>
         <div class="vol-row"><span class="vol-name">Summary Detail</span><span class="vol-val">상품별 상세</span></div>
         <div class="vol-row"><span class="vol-name">BIDB 마트</span><span class="vol-val">1차 확인 완료</span></div>
         <div class="vol-row"><span class="vol-name">ITEM Flow 정의서</span><span class="vol-val">L1/L2/L3</span></div>
-        <div class="vol-fields">
-          <span class="vol-field">거래액</span><span class="vol-field">결제건수</span><span class="vol-field">PV</span><span class="vol-field">평점</span><span class="vol-field">리뷰수</span><span class="vol-field">배송타입</span><span class="vol-field">CPC광고</span><span class="vol-field">순매출율</span>
-        </div>
+        <div class="vol-fields"><span class="vol-field">거래액</span><span class="vol-field">결제건수</span><span class="vol-field">PV</span><span class="vol-field">평점</span><span class="vol-field">리뷰수</span><span class="vol-field">배송타입</span><span class="vol-field">CPC광고</span><span class="vol-field">순매출율</span></div>
       </div>
-    </div>
-
-    <div class="erd-link">
-      <strong>Albatross ERD</strong>
-      <span>데이터 모델 — 운영정보 · 수집 · 매핑갭분석 3개 도메인</span>
     </div>
   </div>
-</div>
+</section>
 
-<!-- ═══════════════════════════════════════════
-     3. DATA SOURCES & GAP TABLE
-     ═══════════════════════════════════════════ -->
-<div class="wrap">
-  <div class="sec fi" id="s-data">
-    <div class="ey">Data Sources</div>
-    <div class="st">자사 디스커버리 vs 외부 경쟁 데이터</div>
-    <div class="sd">Gap 분석의 양쪽 축입니다. 자사 데이터로 현재를 읽고, 외부 데이터로 기준선을 세웁니다.</div>
+<!-- ═══ 3. DATA SOURCES ═══ -->
+<section class="sec-w" id="s-data">
+  <div class="sec-inner fi">
+    <div class="sec-title">자사 디스커버리 vs 외부 경쟁 데이터</div>
+    <div class="sec-sub">Gap 분석의 양쪽 축입니다. 자사 데이터로 현재를 읽고, 외부 데이터로 기준선을 세웁니다.</div>
 
-    <div class="dsplit">
-      <div class="card dbox internal">
-        <div class="dbox-label"><span class="dbox-dot" style="background:var(--int)"></span>자사 디스커버리 — 11번가 내부 데이터</div>
-        <div class="dbox-fields">
-          <span class="df int">결제건수</span><span class="df int">결제구매회원수</span><span class="df int">결제거래액</span><span class="df int">PV</span><span class="df int">정상가</span><span class="df int">현재가</span><span class="df int">배송타입</span><span class="df int">배송비</span><span class="df int">평점</span><span class="df int">리뷰수</span><span class="df int">카테고리</span><span class="df int">행구좌</span>
+    <div class="ds-grid">
+      <div class="card ds-card internal">
+        <div class="ds-label"><span class="dot" style="width:8px;height:8px;border-radius:50%;background:var(--intc);flex-shrink:0"></span> 자사 디스커버리</div>
+        <div class="ds-chips">
+          <span class="ds-chip int">결제건수</span><span class="ds-chip int">결제구매회원수</span><span class="ds-chip int">결제거래액</span><span class="ds-chip int">PV</span><span class="ds-chip int">정상가</span><span class="ds-chip int">현재가</span><span class="ds-chip int">배송타입</span><span class="ds-chip int">배송비</span><span class="ds-chip int">평점</span><span class="ds-chip int">리뷰수</span><span class="ds-chip int">카테고리</span><span class="ds-chip int">행구좌</span>
         </div>
-        <div class="dbox-note">BIDB 마트 기반 1차 확보 완료</div>
-        <div class="dbox-fields" style="margin-top:10px">
-          <span class="df na">✕ UV</span><span class="df na">✕ impression</span><span class="df na">✕ session</span><span class="df na">✕ click</span><span class="df na">✕ iCTR</span><span class="df na">✕ sCTR</span>
+        <div class="ds-note">BIDB 마트 기반 1차 확보 완료</div>
+        <div class="ds-chips" style="margin-top:12px">
+          <span class="ds-chip na">✕ UV</span><span class="ds-chip na">✕ impression</span><span class="ds-chip na">✕ session</span><span class="ds-chip na">✕ click</span><span class="ds-chip na">✕ iCTR</span><span class="ds-chip na">✕ sCTR</span>
         </div>
-        <div class="dbox-note">2차 확보 대상 — 확보 시 지표 축 정밀도 향상</div>
+        <div class="ds-note">2차 확보 대상 — 확보 시 지표 축 정밀도 향상</div>
       </div>
-      <div class="card dbox external">
-        <div class="dbox-label"><span class="dbox-dot" style="background:var(--ext)"></span>외부 경쟁 데이터 — 벤치마크 기준선</div>
-        <div class="dbox-fields">
-          <span class="df ext">경쟁사 최저가</span><span class="df ext">경쟁사 리뷰수</span><span class="df ext">경쟁사 평점</span><span class="df ext">경쟁사 SKU수</span><span class="df ext">시장 트렌드</span><span class="df ext">시즌성 지수</span><span class="df ext">이슈상품</span><span class="df ext">타사 배송 속도</span>
+      <div class="card ds-card external">
+        <div class="ds-label"><span class="dot" style="width:8px;height:8px;border-radius:50%;background:var(--extc);flex-shrink:0"></span> 외부 경쟁 데이터</div>
+        <div class="ds-chips">
+          <span class="ds-chip ext">경쟁사 최저가</span><span class="ds-chip ext">경쟁사 리뷰수</span><span class="ds-chip ext">경쟁사 평점</span><span class="ds-chip ext">경쟁사 SKU수</span><span class="ds-chip ext">시장 트렌드</span><span class="ds-chip ext">시즌성 지수</span><span class="ds-chip ext">이슈상품</span><span class="ds-chip ext">타사 배송 속도</span>
         </div>
-        <div class="dbox-note">Albatross 11개 사이트 크롤링 수집. Gap 분석의 비교 대상.</div>
+        <div class="ds-note">Albatross 11개 사이트 크롤링 수집. Gap 분석의 비교 대상.</div>
       </div>
     </div>
 
-    <!-- 6-AXIS GAP TABLE -->
-    <div class="ey" style="margin-top:32px">Gap Analysis</div>
-    <div class="st">6대 축 Gap 분석 — 자사 vs 외부 비교</div>
+    <div class="sec-label">Gap Analysis</div>
+    <div class="sec-title" style="font-size:clamp(22px,3vw,28px)">6대 축 Gap 분석</div>
     <div class="card gap-card">
       <div class="dt-wrap">
         <table class="dt">
-          <thead><tr><th>진단 축</th><th>자사 데이터 (디스커버리)</th><th>외부 데이터 (벤치마크)</th><th>Gap 산출 로직</th><th>신호등</th></tr></thead>
+          <thead><tr><th>진단 축</th><th>자사 데이터</th><th>외부 데이터</th><th>Gap 산출 로직</th><th>신호등</th></tr></thead>
           <tbody>
             <tr><td><span class="ax"><span class="ax-d" style="background:var(--red)"></span>가격</span></td><td><span class="src-tag src-int">자사</span>정상가, 현재가</td><td><span class="src-tag src-ext">외부</span>경쟁사 최저가</td><td class="lt">PCI = (자사 현재가 − 외부 최저가) / 외부 최저가</td><td><span class="pl ok">우수</span> <span class="pl wn">주의</span> <span class="pl bd">열위</span></td></tr>
             <tr><td><span class="ax"><span class="ax-d" style="background:var(--amb)"></span>딜 실적</span></td><td><span class="src-tag src-int">자사</span>결제건수, 결제거래액, 행구좌</td><td><span class="src-tag src-ext">외부</span>카테고리 평균 거래 규모</td><td class="lt">구좌 지수 = 자사 거래액 / 구좌 평균 × 100</td><td><span class="pl ok">우수</span> <span class="pl wn">부진</span> <span class="pl bd">미달</span></td></tr>
-            <tr><td><span class="ax"><span class="ax-d" style="background:var(--amb)"></span>과거 딜 대비</span></td><td><span class="src-tag src-int">자사</span>D, D-1, D-1~7 결제거래액</td><td><span class="src-tag src-int">자사</span>자사 과거 실적 (시계열)</td><td class="lt">모멘텀 = (D − D-1) / D-1</td><td><span class="pl ok">성장</span> <span class="pl wn">둔화</span> <span class="pl bd">하락</span></td></tr>
-            <tr><td><span class="ax"><span class="ax-d" style="background:var(--amb)"></span>지표</span></td><td><span class="src-tag src-int">자사</span>PV, 결제건수, 결제순매출율</td><td><span class="src-tag src-ext">외부</span>카테고리 평균 전환율</td><td class="lt">1차 CVR = 결제건수 / PV<br><span style="color:var(--red);font-size:11px">2차: CTR · iCTR · sCTR (확보 후)</span></td><td><span class="pl ok">상위</span> <span class="pl wn">하회</span> <span class="pl bd">저조</span></td></tr>
+            <tr><td><span class="ax"><span class="ax-d" style="background:var(--amb)"></span>과거 딜 대비</span></td><td><span class="src-tag src-int">자사</span>D, D-1, D-1~7 결제거래액</td><td><span class="src-tag src-int">자사</span>자사 과거 실적</td><td class="lt">모멘텀 = (D − D-1) / D-1</td><td><span class="pl ok">성장</span> <span class="pl wn">둔화</span> <span class="pl bd">하락</span></td></tr>
+            <tr><td><span class="ax"><span class="ax-d" style="background:var(--amb)"></span>지표</span></td><td><span class="src-tag src-int">자사</span>PV, 결제건수, 결제순매출율</td><td><span class="src-tag src-ext">외부</span>카테고리 평균 전환율</td><td class="lt">1차 CVR = 결제건수 / PV<br><span style="color:var(--red);font-size:12px">2차: CTR · iCTR · sCTR (확보 후)</span></td><td><span class="pl ok">상위</span> <span class="pl wn">하회</span> <span class="pl bd">저조</span></td></tr>
             <tr><td><span class="ax"><span class="ax-d" style="background:var(--grn)"></span>리뷰</span></td><td><span class="src-tag src-int">자사</span>평점, 리뷰수</td><td><span class="src-tag src-ext">외부</span>경쟁사 평점, 리뷰수</td><td class="lt">Gap = (자사 평점 − 외부 평점) + 건수 차이 보정</td><td><span class="pl ok">우수</span> <span class="pl wn">보통</span> <span class="pl bd">주의</span></td></tr>
-            <tr><td><span class="ax"><span class="ax-d" style="background:var(--grn)"></span>배송</span></td><td><span class="src-tag src-int">자사</span>배송타입, 배송비</td><td><span class="src-tag src-ext">외부</span>타사 배송 속도, 무료배송 비율</td><td class="lt">배송유형 + C2D 속도 비교</td><td><span class="pl ok">익일</span> <span class="pl wn">2~3일</span> <span class="pl bd">4일+</span></td></tr>
+            <tr><td><span class="ax"><span class="ax-d" style="background:var(--grn)"></span>배송</span></td><td><span class="src-tag src-int">자사</span>배송타입, 배송비</td><td><span class="src-tag src-ext">외부</span>타사 배송 속도</td><td class="lt">배송유형 + C2D 속도 비교</td><td><span class="pl ok">익일</span> <span class="pl wn">2~3일</span> <span class="pl bd">4일+</span></td></tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- ═══════════════════════════════════════════
-       4. DIAGNOSTICS & SCORING
-       ═══════════════════════════════════════════ -->
-  <div class="sec fi" id="s-diag">
-    <div class="ey">Diagnostics · Scoring</div>
-    <div class="st">Gap 기반 S/A/B/C 등급 — 외부와의 격차가 등급을 결정한다</div>
-    <div class="sd">6대 축 Gap 분석 결과를 종합하여 상품/셀러별 등급을 부여합니다. 등급은 노출 범위와 MD 운영 방식을 결정합니다.</div>
+<!-- ═══ 4. DIAGNOSTICS ═══ -->
+<section class="sec-g" id="s-diag">
+  <div class="sec-inner fi">
+    <div class="sec-title">Gap 기반 S/A/B/C 등급</div>
+    <div class="sec-sub">6대 축 Gap 분석 결과를 종합하여 상품/셀러별 등급을 부여합니다. 등급은 노출 범위와 MD 운영 방식을 결정합니다.</div>
 
-    <div class="score-flow">
-      <div class="sf-box" style="border-left:3px solid var(--int)"><div class="sf-label">자사 디스커버리</div><div class="sf-value" style="color:var(--int)">현재 상태</div><div class="sf-sub">결제·가격·리뷰·배송 실적</div></div>
-      <div class="sf-arr">vs</div>
-      <div class="sf-box" style="border-left:3px solid var(--ext)"><div class="sf-label">외부 경쟁 데이터</div><div class="sf-value" style="color:var(--ext)">기준선</div><div class="sf-sub">경쟁사 가격·리뷰·SKU</div></div>
-      <div class="sf-arr">=</div>
-      <div class="sf-box" style="border-left:3px solid var(--gc)"><div class="sf-label">Gap 크기</div><div class="sf-value" style="color:var(--gc)">6축 격차</div><div class="sf-sub">축별 신호등 산출</div></div>
-      <div class="sf-arr">→</div>
-      <div class="sf-box" style="border-left:3px solid var(--sc)"><div class="sf-label">Score</div><div class="sf-value" style="color:var(--sc)">S/A/B/C</div><div class="sf-sub">종합 등급 판정</div></div>
+    <div class="card" style="border-radius:var(--r);overflow:hidden;margin-bottom:32px">
+      <div class="score-flow">
+        <div class="sf-box"><div class="sf-label">자사 디스커버리</div><div class="sf-val" style="color:var(--intc)">현재 상태</div><div class="sf-sub">결제·가격·리뷰·배송</div></div>
+        <div class="sf-arr">vs</div>
+        <div class="sf-box"><div class="sf-label">외부 경쟁 데이터</div><div class="sf-val" style="color:var(--extc)">기준선</div><div class="sf-sub">경쟁사 가격·리뷰·SKU</div></div>
+        <div class="sf-arr">=</div>
+        <div class="sf-box"><div class="sf-label">Gap 크기</div><div class="sf-val" style="color:var(--gc)">6축 격차</div><div class="sf-sub">축별 신호등 산출</div></div>
+        <div class="sf-arr">→</div>
+        <div class="sf-box"><div class="sf-label">Score</div><div class="sf-val" style="color:var(--sc)">S/A/B/C</div><div class="sf-sub">종합 등급 판정</div></div>
+      </div>
     </div>
 
-    <div class="tier-r">
-      <div class="card tier-c"><div class="tier-b" style="background:var(--core)">S</div><div class="tier-l">최상위 전략 상품</div><div class="tier-d">Gap 최소 · 경쟁력 확보. MD 직접 운영</div></div>
-      <div class="card tier-c"><div class="tier-b" style="background:var(--grn)">A</div><div class="tier-l">시스템 대량 유입</div><div class="tier-d">Gap 소폭 · 셀링툴 자동 운영. 홈 노출</div></div>
-      <div class="card tier-c"><div class="tier-b" style="background:var(--amb)">B</div><div class="tier-l">검색 부스팅 대상</div><div class="tier-d">Gap 존재 · 검색 정렬까지. 홈 노출 컷</div></div>
-      <div class="card tier-c"><div class="tier-b" style="background:var(--txm)">C</div><div class="tier-l">기본 노출</div><div class="tier-d">Gap 大 · 개선 과제 우선. 승격 후보</div></div>
+    <div class="tier-grid">
+      <div class="card tier-card"><div class="tier-badge" style="background:var(--accent)">S</div><div class="tier-name">최상위 전략 상품</div><div class="tier-desc">Gap 최소 · 경쟁력 확보. MD 직접 운영</div></div>
+      <div class="card tier-card"><div class="tier-badge" style="background:var(--grn)">A</div><div class="tier-name">시스템 대량 유입</div><div class="tier-desc">Gap 소폭 · 셀링툴 자동 운영. 홈 노출</div></div>
+      <div class="card tier-card"><div class="tier-badge" style="background:var(--amb)">B</div><div class="tier-name">검색 부스팅 대상</div><div class="tier-desc">Gap 존재 · 검색 정렬까지. 홈 노출 컷</div></div>
+      <div class="card tier-card"><div class="tier-badge" style="background:var(--txm)">C</div><div class="tier-name">기본 노출</div><div class="tier-desc">Gap 大 · 개선 과제 우선. 승격 후보</div></div>
     </div>
+    <div class="tier-note"><strong>등급 판정 원칙:</strong> Gap이 작을수록(외부 대비 경쟁력이 높을수록) 상위 등급. 가격 축은 PCI 기준, 딜 실적은 구좌 지수 기준, 리뷰·배송은 임계값 기반. 조직장의 카테고리 방향성(성장/효율)에 따라 가중치가 조정됩니다.</div>
 
-    <div class="tier-rule"><strong>등급 판정 원칙:</strong> Gap이 작을수록(외부 대비 경쟁력이 높을수록) 상위 등급. 가격 축은 PCI 기준, 딜 실적은 구좌 지수 기준, 리뷰·배송은 임계값 기반. 조직장의 카테고리 방향성(성장/효율)에 따라 가중치가 조정됩니다.</div>
-
-    <!-- INTERACTIVE SIGNAL CARD -->
-    <div class="ey" style="margin-top:36px">Signal Card</div>
-    <div class="st">진단 카드 — 6축 Gap을 한눈에</div>
-    <div class="sd">축을 클릭하면 해당 Gap 상세 진단이 변경됩니다.</div>
-
+    <div class="sec-title" style="font-size:clamp(22px,3vw,28px)">진단 카드 — 축을 클릭하면 진단이 변경됩니다</div>
     <div class="card sig" id="sigCard">
       <div class="sig-head"><span class="sig-product">[LG] 스탠바이미 2세대 27인치</span><span class="sig-tier">S Tier</span><span class="sig-cat">가전·디지털</span></div>
       <div class="sig-axes">
-        <div class="sig-ax" data-level="r" data-diag="가격 축 열위 (PCI −8.3%) — 쿠팡 최저가 대비 ₩52,000 높음. 외부 경쟁 대비 가격 Gap이 병목." data-name="가격">
-          <div class="sig-ax-n">가격</div><div class="sig-ax-src"><span class="src-tag src-int">자사</span><span class="src-tag src-ext">외부</span></div><div class="sig-l r">!</div><div class="sig-ax-v">PCI −8.3%</div>
-        </div>
-        <div class="sig-ax" data-level="a" data-diag="딜 실적 주의 (구좌 지수 82) — 자사 구좌 평균을 하회. 행사 구좌 활용도가 카테고리 평균 대비 부족." data-name="딜 실적">
-          <div class="sig-ax-n">딜 실적</div><div class="sig-ax-src"><span class="src-tag src-int">자사</span></div><div class="sig-l a">△</div><div class="sig-ax-v">구좌 지수 82</div>
-        </div>
-        <div class="sig-ax" data-level="g" data-diag="과거 대비 성장 (+12% MoM) — 전월 대비 거래액이 12% 증가. 모멘텀 양호." data-name="과거 대비">
-          <div class="sig-ax-n">과거 대비</div><div class="sig-ax-src"><span class="src-tag src-int">자사</span></div><div class="sig-l g">○</div><div class="sig-ax-v">+12% MoM</div>
-        </div>
-        <div class="sig-ax" data-level="a" data-diag="지표 주의 (CVR 2.1%) — 카테고리 평균 전환율 대비 소폭 하회. UV·CTR 미확보로 정밀 진단 제한." data-name="지표">
-          <div class="sig-ax-n">지표</div><div class="sig-ax-src"><span class="src-tag src-int">자사</span></div><div class="sig-l a">△</div><div class="sig-ax-v">CVR 2.1%</div>
-        </div>
-        <div class="sig-ax" data-level="g" data-diag="리뷰 양호 (4.7점, 842건) — 경쟁사 대비 평점·건수 모두 우수. 외부 리뷰 연동으로 신뢰도 확보." data-name="리뷰">
-          <div class="sig-ax-n">리뷰</div><div class="sig-ax-src"><span class="src-tag src-int">자사</span><span class="src-tag src-ext">외부</span></div><div class="sig-l g">○</div><div class="sig-ax-v">4.7 / 842건</div>
-        </div>
-        <div class="sig-ax" data-level="g" data-diag="배송 양호 (익일 배송) — 경쟁사 대비 배송 속도 우위 확보. 무료배송 조건 충족." data-name="배송">
-          <div class="sig-ax-n">배송</div><div class="sig-ax-src"><span class="src-tag src-int">자사</span><span class="src-tag src-ext">외부</span></div><div class="sig-l g">○</div><div class="sig-ax-v">익일 배송</div>
-        </div>
+        <div class="sig-ax selected" data-level="r" data-diag="가격 축 열위 (PCI −8.3%) — 쿠팡 최저가 대비 ₩52,000 높음. 외부 경쟁 대비 가격 Gap이 병목." data-name="가격"><div class="sig-ax-n">가격</div><div class="sig-ax-src"><span class="src-tag src-int">자사</span><span class="src-tag src-ext">외부</span></div><div class="sig-l r">!</div><div class="sig-ax-v">PCI −8.3%</div></div>
+        <div class="sig-ax" data-level="a" data-diag="딜 실적 주의 (구좌 지수 82) — 자사 구좌 평균을 하회. 행사 구좌 활용도가 카테고리 평균 대비 부족." data-name="딜 실적"><div class="sig-ax-n">딜 실적</div><div class="sig-ax-src"><span class="src-tag src-int">자사</span></div><div class="sig-l a">△</div><div class="sig-ax-v">구좌 지수 82</div></div>
+        <div class="sig-ax" data-level="g" data-diag="과거 대비 성장 (+12% MoM) — 전월 대비 거래액이 12% 증가. 모멘텀 양호." data-name="과거 대비"><div class="sig-ax-n">과거 대비</div><div class="sig-ax-src"><span class="src-tag src-int">자사</span></div><div class="sig-l g">○</div><div class="sig-ax-v">+12% MoM</div></div>
+        <div class="sig-ax" data-level="a" data-diag="지표 주의 (CVR 2.1%) — 카테고리 평균 전환율 대비 소폭 하회. UV·CTR 미확보로 정밀 진단 제한." data-name="지표"><div class="sig-ax-n">지표</div><div class="sig-ax-src"><span class="src-tag src-int">자사</span></div><div class="sig-l a">△</div><div class="sig-ax-v">CVR 2.1%</div></div>
+        <div class="sig-ax" data-level="g" data-diag="리뷰 양호 (4.7점, 842건) — 경쟁사 대비 평점·건수 모두 우수. 외부 리뷰 연동으로 신뢰도 확보." data-name="리뷰"><div class="sig-ax-n">리뷰</div><div class="sig-ax-src"><span class="src-tag src-int">자사</span><span class="src-tag src-ext">외부</span></div><div class="sig-l g">○</div><div class="sig-ax-v">4.7 / 842건</div></div>
+        <div class="sig-ax" data-level="g" data-diag="배송 양호 (익일 배송) — 경쟁사 대비 배송 속도 우위 확보. 무료배송 조건 충족." data-name="배송"><div class="sig-ax-n">배송</div><div class="sig-ax-src"><span class="src-tag src-int">자사</span><span class="src-tag src-ext">외부</span></div><div class="sig-l g">○</div><div class="sig-ax-v">익일 배송</div></div>
       </div>
-      <div class="sig-diag level-r" id="sigDiag">
-        <div class="sig-diag-l" id="sigDiagLabel">Gap 진단 — 가격</div>
-        <div class="sig-diag-t" id="sigDiagText">가격 축 열위 (PCI −8.3%) — 쿠팡 최저가 대비 ₩52,000 높음. 외부 경쟁 대비 가격 Gap이 병목.</div>
-      </div>
+      <div class="sig-diag lv-r" id="sigDiag"><div class="sig-diag-l" id="sigDiagL">Gap 진단 — 가격</div><div class="sig-diag-t" id="sigDiagT">가격 축 열위 (PCI −8.3%) — 쿠팡 최저가 대비 ₩52,000 높음. 외부 경쟁 대비 가격 Gap이 병목.</div></div>
       <div class="sig-acts">
         <div class="sig-act"><div class="sig-act-n">가격 MCP</div><div class="sig-act-b">바로 적용</div></div>
         <div class="sig-act"><div class="sig-act-n">정산 API</div><div class="sig-act-b">태스크 생성</div></div>
@@ -608,144 +491,73 @@ body{font-family:'Apple SD Gothic Neo',system-ui,-apple-system,'Segoe UI',sans-s
       </div>
     </div>
   </div>
+</section>
 
-  <!-- ═══════════════════════════════════════════
-       5. ROADMAP
-       ═══════════════════════════════════════════ -->
-  <div class="sec fi" id="s-roadmap">
-    <div class="ey">Roadmap</div>
-    <div class="st">추진 로드맵</div>
-    <div class="sd">7월 MVP 착수부터 11월 완전 자동화까지, 4단계 진화 경로.</div>
-    <div class="tl-r">
-      <div class="card tl-c"><div class="tl-date">7월 2주</div><div class="tl-title">돌아가는 최소 버전</div><ul class="tl-items"><li>자사 디스커버리 1차 데이터 적재</li><li>외부 경쟁 데이터 수집 파이프라인</li><li>SRP + Gap 대시보드</li><li>개발자 3인 투입</li></ul><span class="tl-kpi">KPI: 충족률</span></div>
-      <div class="card tl-c"><div class="tl-date">7월 3~4주</div><div class="tl-title">협의 · 결과물</div><ul class="tl-items"><li>검색팀 미팅 — 랭킹 부스팅</li><li>전시(편성)팀 미팅</li><li>자사 vs 외부 Gap 로직 검증</li><li>7/4주 결과물 마감</li></ul><span class="tl-kpi">담당 MD = 영업</span></div>
-      <div class="card tl-c"><div class="tl-date">8월</div><div class="tl-title">거래 · 등급 판정</div><ul class="tl-items"><li>거래 비중 KPI 전환</li><li>Gap 기반 S/A/B 등급 판정</li><li>딜카드 이미지 자동 생성</li><li>가져왔나·팔렸나 리포팅</li></ul><span class="tl-kpi">KPI: 거래 비중</span></div>
-      <div class="card tl-c"><div class="tl-date">9~11월</div><div class="tl-title">편성·노출 자동화</div><ul class="tl-items"><li>"무엇을 노출" 판단 자동화</li><li>다이나믹·CPC 자동화</li><li>MD↔편성 합의 툴</li><li>Gap Scoring 정밀화</li></ul><span class="tl-kpi">KPI: 최적 SKU 검증</span></div>
+<!-- ═══ 5. ROADMAP ═══ -->
+<section class="sec-w" id="s-roadmap">
+  <div class="sec-inner fi">
+    <div class="sec-title">추진 로드맵</div>
+    <div class="sec-sub">7월 MVP 착수부터 11월 완전 자동화까지, 4단계 진화 경로.</div>
+    <div class="tl-grid">
+      <div class="card tl-card"><div class="tl-date">7월 2주</div><div class="tl-title">돌아가는 최소 버전</div><ul class="tl-items"><li>자사 디스커버리 1차 데이터 적재</li><li>외부 경쟁 데이터 수집 파이프라인</li><li>SRP + Gap 대시보드</li><li>개발자 3인 투입</li></ul><span class="tl-kpi">KPI: 충족률</span></div>
+      <div class="card tl-card"><div class="tl-date">7월 3~4주</div><div class="tl-title">협의 · 결과물</div><ul class="tl-items"><li>검색팀 미팅 — 랭킹 부스팅</li><li>전시(편성)팀 미팅</li><li>자사 vs 외부 Gap 로직 검증</li><li>7/4주 결과물 마감</li></ul><span class="tl-kpi">담당 MD = 영업</span></div>
+      <div class="card tl-card"><div class="tl-date">8월</div><div class="tl-title">거래 · 등급 판정</div><ul class="tl-items"><li>거래 비중 KPI 전환</li><li>Gap 기반 S/A/B 등급 판정</li><li>딜카드 이미지 자동 생성</li><li>가져왔나·팔렸나 리포팅</li></ul><span class="tl-kpi">KPI: 거래 비중</span></div>
+      <div class="card tl-card"><div class="tl-date">9~11월</div><div class="tl-title">편성·노출 자동화</div><ul class="tl-items"><li>"무엇을 노출" 판단 자동화</li><li>다이나믹·CPC 자동화</li><li>MD↔편성 합의 툴</li><li>Gap Scoring 정밀화</li></ul><span class="tl-kpi">KPI: 최적 SKU 검증</span></div>
     </div>
   </div>
+</section>
 
-  <!-- SUMMARY -->
-  <div class="summary fi">
-    <p><span class="cg">Albatross 11개 사이트 크롤</span> → <span class="cp">자사·외부 데이터 통합</span> → <span class="cs">Gap 기반 S/A/B/C 스코어링</span><br>카테고리별 MD Task까지 자동 생성하는 파이프라인</p>
-  </div>
-  <div class="foot"><strong>ESSENTIAL GPS</strong> — Gap · Priority · Score &nbsp;최종 완결판</div>
+<div class="footer">
+  <div class="footer-line"><span class="cg">Albatross 11개 사이트 크롤</span> → <span class="cp">자사·외부 데이터 통합</span> → <span class="cs">Gap 기반 S/A/B/C 스코어링</span></div>
+  <div class="footer-sub">ESSENTIAL GPS — Gap · Priority · Score</div>
 </div>
 
 <script>
 (function(){
-  // ── Fade-in on scroll ──
-  var fis = document.querySelectorAll('.fi');
-  var obs = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target)}
-    });
-  },{threshold:0.08});
-  fis.forEach(function(el){obs.observe(el)});
+  var ease = function(t){return t===1?1:1-Math.pow(2,-10*t)};
 
-  // ── Section nav highlight ──
-  var navLinks = document.querySelectorAll('.snav a');
-  var sections = [];
-  navLinks.forEach(function(a){
-    var id = a.getAttribute('href').slice(1);
-    var el = document.getElementById(id);
-    if(el) sections.push({el:el,a:a});
+  document.querySelectorAll('.fi').forEach(function(el){
+    new IntersectionObserver(function(e,o){if(e[0].isIntersecting){el.classList.add('vis');o.unobserve(el)}},{threshold:.1}).observe(el);
   });
-  navLinks.forEach(function(a){
-    a.addEventListener('click',function(e){
-      e.preventDefault();
-      var t = document.getElementById(a.getAttribute('href').slice(1));
-      if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
-    });
-  });
-  var navObs = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        navLinks.forEach(function(a){a.classList.remove('on')});
-        sections.forEach(function(s){
-          if(s.el===e.target) s.a.classList.add('on');
-        });
-      }
-    });
-  },{rootMargin:'-100px 0px -60% 0px',threshold:0});
-  sections.forEach(function(s){navObs.observe(s.el)});
 
-  // ── Pipeline stage interaction ──
-  var stageData = [
-    {icon:'A',bg:'var(--ext)',title:'Albatross — 외부+내부 데이터 수집',body:'<strong>11개 경쟁사 사이트를 횡단 크롤링</strong>하여 가격·리뷰·SKU·랭킹 데이터를 수집합니다. 동시에 Product Metrics API를 통해 자사 상품별 지표를 적재합니다. 판매채널을 확장 중이며, 현재 MVP가 완료된 상태입니다.',tags:['11개 경쟁사 크롤','Product Metrics API','배치 ETL'],tagTypes:['ext','int','sys']},
-    {icon:'AX',bg:'var(--int)',title:'AX 모듈 — 데이터 통합',body:'수집된 외부 데이터와 내부 데이터를 <strong>동일상품 기준으로 매칭</strong>합니다. 상품 ID·바코드·모델명 기반 매핑으로 내부↔외부 데이터를 하나의 비교 가능한 구조로 통합합니다.',tags:['동일상품 매칭','내외부 통합','정규화'],tagTypes:['sys','sys','sys']},
-    {icon:'G',bg:'var(--gc)',title:'Gap 분석 — 6대 축 진단',body:'통합된 데이터에서 <strong>가격·딜실적·모멘텀·지표·리뷰·배송</strong> 6개 축으로 자사 vs 외부 비교를 수행합니다. 각 축마다 PCI, 구좌지수, CVR 등 전용 로직으로 Gap 크기를 산출하고 신호등(Red/Amber/Green)을 판정합니다.',tags:['PCI','ACR','CVR','신호등 판정'],tagTypes:['sys','sys','sys','sys']},
-    {icon:'S',bg:'var(--core)',title:'Scoring — S/A/B 티어링',body:'6개 축 Gap 결과를 <strong>종합 점수로 압축</strong>합니다. Gap이 작을수록 상위 등급. 놓치는 매출(기회손실 GMV)을 추정하여 Priority를 정렬하고, S/A/B/C 티어를 자동 판정합니다.',tags:['종합 점수 산출','놓치는 매출 추정','S/A/B/C 티어'],tagTypes:['score','ext','score']},
-    {icon:'MD',bg:'var(--sc)',title:'MD 배분 — 카테고리별 매칭',body:'조직장이 입력한 <strong>카테고리별 운영 방향(성장/효율)</strong> 가중치를 반영하여 Task를 재정렬합니다. 카테고리별 담당 MD를 매칭하고, 전사 행사 일정(월간/그랜드십일절/페스타)과 과거 Reject 이력(2개월 미노출)을 반영하여 개인별 배분합니다.',tags:['카테고리 가중치','행사 일정 반영','Reject 필터'],tagTypes:['score','sys','ext']},
-    {icon:'▶',bg:'var(--amb)',title:'실행·관제 — 진척 관리',body:'MD가 Task를 확인하고 <strong>Accept/Reject</strong>를 결정합니다. 수행 상태를 업데이트하면 시스템이 실적을 자동 트래킹하여 Gap 변화·등급 변동을 반영합니다. Reject 사유와 성과 데이터가 Scoring 엔진 고도화에 피드백됩니다.',tags:['Accept/Reject','성과 트래킹','Scoring 학습'],tagTypes:['ext','sys','score']}
+  var navLinks=document.querySelectorAll('.snav a'),secs=[];
+  navLinks.forEach(function(a){var el=document.getElementById(a.getAttribute('href').slice(1));if(el)secs.push({el:el,a:a})});
+  navLinks.forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var t=document.getElementById(a.getAttribute('href').slice(1));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})})});
+  new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){navLinks.forEach(function(a){a.classList.remove('on')});secs.forEach(function(s){if(s.el===e.target)s.a.classList.add('on')})}})},{rootMargin:'-80px 0px -60% 0px'}).observe(document.body);
+  secs.forEach(function(s){new IntersectionObserver(function(entries){if(entries[0].isIntersecting){navLinks.forEach(function(a){a.classList.remove('on')});s.a.classList.add('on')}},{rootMargin:'-80px 0px -60% 0px'}).observe(s.el)});
+
+  var SD=[
+    {icon:'A',bg:'var(--extc)',title:'Albatross — 외부+내부 데이터 수집',body:'<strong>11개 경쟁사 사이트를 횡단 크롤링</strong>하여 가격·리뷰·SKU·랭킹 데이터를 수집합니다. 동시에 Product Metrics API를 통해 자사 상품별 지표를 적재합니다.',tags:[['11개 경쟁사 크롤','tag-ext'],['Product Metrics API','tag-int'],['배치 ETL','tag-sys']]},
+    {icon:'AX',bg:'var(--intc)',title:'AX 모듈 — 데이터 통합',body:'수집된 외부 데이터와 내부 데이터를 <strong>동일상품 기준으로 매칭</strong>합니다. 상품 ID·바코드·모델명 기반 매핑으로 내부↔외부 데이터를 비교 가능한 구조로 통합합니다.',tags:[['동일상품 매칭','tag-sys'],['내외부 통합','tag-sys'],['정규화','tag-sys']]},
+    {icon:'G',bg:'var(--gc)',title:'Gap 분석 — 6대 축 진단',body:'<strong>가격·딜실적·모멘텀·지표·리뷰·배송</strong> 6개 축으로 자사 vs 외부 비교를 수행합니다. PCI, 구좌지수, CVR 등 전용 로직으로 Gap 크기를 산출하고 신호등을 판정합니다.',tags:[['PCI','tag-sys'],['ACR','tag-sys'],['CVR','tag-sys'],['신호등 판정','tag-sys']]},
+    {icon:'S',bg:'var(--pc)',title:'Scoring — S/A/B 티어링',body:'6개 축 Gap 결과를 <strong>종합 점수로 압축</strong>합니다. 놓치는 매출(기회손실 GMV)을 추정하여 Priority를 정렬하고, S/A/B/C 티어를 자동 판정합니다.',tags:[['종합 점수','tag-score'],['놓치는 매출 추정','tag-ext'],['S/A/B/C','tag-score']]},
+    {icon:'MD',bg:'var(--sc)',title:'MD 배분 — 카테고리별 매칭',body:'조직장이 입력한 <strong>카테고리별 운영 방향</strong> 가중치를 반영하여 Task를 재정렬합니다. 전사 행사 일정과 과거 Reject 이력(2개월 미노출)을 반영하여 개인별 배분합니다.',tags:[['카테고리 가중치','tag-score'],['행사 일정 반영','tag-sys'],['Reject 필터','tag-ext']]},
+    {icon:'▶',bg:'var(--amb)',title:'실행·관제 — 진척 관리',body:'MD가 Task를 확인하고 <strong>Accept/Reject</strong>를 결정합니다. 시스템이 실적을 자동 트래킹하여 Gap 변화·등급 변동을 반영합니다. 성과 데이터가 Scoring 엔진 고도화에 피드백됩니다.',tags:[['Accept/Reject','tag-ext'],['성과 트래킹','tag-sys'],['Scoring 학습','tag-score']]}
   ];
-  var stages = document.querySelectorAll('.pipe-stage');
-  var detail = document.getElementById('pipeDetail');
-  var detailHead = document.getElementById('pipeDetailHead');
-  var detailBody = document.getElementById('pipeDetailBody');
-  var detailTags = document.getElementById('pipeDetailTags');
-  var tagClass = {ext:'tag-ext',int:'tag-int',sys:'tag-sys',score:'tag-score'};
+  var stages=document.querySelectorAll('.pipe-stage'),pd=document.getElementById('pipeDetail'),pdH=document.getElementById('pdHead'),pdB=document.getElementById('pdBody'),pdT=document.getElementById('pdTags');
+  stages.forEach(function(s){s.addEventListener('click',function(){
+    var i=+s.dataset.idx,d=SD[i];
+    stages.forEach(function(x){x.classList.remove('active')});s.classList.add('active');
+    pd.classList.remove('open');
+    setTimeout(function(){
+      pdH.innerHTML='<div class="pipe-icon" style="background:'+d.bg+';width:28px;height:28px;font-size:11px;border-radius:8px">'+d.icon+'</div> '+d.title;
+      pdB.innerHTML=d.body;
+      pdT.innerHTML=d.tags.map(function(t){return'<span class="tag '+t[1]+'">'+t[0]+'</span>'}).join(' ');
+      pd.classList.add('open');
+    },250);
+  })});
 
-  stages.forEach(function(s){
-    s.addEventListener('click',function(){
-      var idx = parseInt(s.dataset.idx);
-      var d = stageData[idx];
-      stages.forEach(function(x){x.classList.remove('active')});
-      s.classList.add('active');
-      detail.classList.remove('open');
-      setTimeout(function(){
-        detailHead.innerHTML = '<div class="pipe-icon" style="background:'+d.bg+';width:28px;height:28px;font-size:12px;border-radius:8px">'+d.icon+'</div> '+d.title;
-        detailBody.innerHTML = d.body;
-        var tagsHtml = '';
-        d.tags.forEach(function(t,i){
-          tagsHtml += '<span class="tag '+tagClass[d.tagTypes[i]]+'">'+t+'</span>';
-        });
-        detailTags.innerHTML = tagsHtml;
-        detail.classList.add('open');
-      },200);
-    });
+  document.querySelectorAll('.vol-val[data-target]').forEach(function(el){
+    new IntersectionObserver(function(e,o){if(e[0].isIntersecting){var tgt=+el.dataset.target,start=performance.now(),dur=1800;(function tick(now){var p=Math.min((now-start)/dur,1);el.textContent=Math.floor(tgt*ease(p)).toLocaleString()+'건';if(p<1)requestAnimationFrame(tick)})(start);o.unobserve(el)}},{threshold:.5}).observe(el);
   });
 
-  // ── Animated counters ──
-  var counters = document.querySelectorAll('.vol-val[data-target]');
-  var cObs = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        animateCounter(e.target);
-        cObs.unobserve(e.target);
-      }
-    });
-  },{threshold:0.5});
-  counters.forEach(function(c){cObs.observe(c)});
-
-  function animateCounter(el){
-    var target = parseInt(el.dataset.target);
-    var dur = 1600;
-    var start = performance.now();
-    function tick(now){
-      var p = Math.min((now-start)/dur,1);
-      var eased = 1-Math.pow(1-p,3);
-      el.textContent = Math.floor(target*eased).toLocaleString()+'건';
-      if(p<1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  }
-
-  // ── Signal Card interactive axes ──
-  var sigAxes = document.querySelectorAll('.sig-ax');
-  var sigDiag = document.getElementById('sigDiag');
-  var sigDiagLabel = document.getElementById('sigDiagLabel');
-  var sigDiagText = document.getElementById('sigDiagText');
-
-  sigAxes.forEach(function(ax){
-    ax.addEventListener('click',function(){
-      var level = ax.dataset.level;
-      var diag = ax.dataset.diag;
-      var name = ax.dataset.name;
-      sigDiag.className = 'sig-diag level-'+level;
-      sigDiagLabel.textContent = 'Gap 진단 — '+name;
-      sigDiagText.textContent = diag;
-    });
-  });
+  var sigAxes=document.querySelectorAll('.sig-ax'),sigD=document.getElementById('sigDiag'),sigL=document.getElementById('sigDiagL'),sigT=document.getElementById('sigDiagT');
+  sigAxes.forEach(function(ax){ax.addEventListener('click',function(){
+    sigAxes.forEach(function(a){a.classList.remove('selected')});ax.classList.add('selected');
+    sigD.className='sig-diag lv-'+ax.dataset.level;
+    sigL.textContent='Gap 진단 — '+ax.dataset.name;
+    sigT.textContent=ax.dataset.diag;
+  })});
 })();
 </script>
 </body>
