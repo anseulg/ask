@@ -148,6 +148,10 @@ table.t{width:100%;border-collapse:separate;border-spacing:0;font-size:var(--fs-
   <div class="part-t">&#54588;&#46300;&#48177; &#47336;&#54532; &#38; &#54952;&#44284; &#52769;&#51221;</div>
   <div class="part-d">MD &#50529;&#49496; &#44208;&#44284;&#47484; GPS &#49828;&#53076;&#50612;&#50640; &#48152;&#50689;&#54616;&#44256;, &#50529;&#49496; &#54952;&#44284;&#47484; &#52769;&#51221;&#54616;&#45716; &#54617;&#49845;&#54805; &#54588;&#46300;&#48177; &#49884;&#49828;&#53596;</div>
 
+  <div class="note" style="border-left-color:var(--purple)">
+    <strong>MVP &#48276;&#50948; (7&#50900; &#47568; &#53440;&#44191;):</strong> &#54952;&#44284;&#52769;&#51221; &#44032;&#45733; &#52629;&#51008; <span class="chip chip-g">&#44032;&#44201;</span> <span class="chip chip-g">&#47532;&#48624;</span> <span class="chip chip-g">&#48288;&#49828;&#53944;&#49692;&#50948;</span> 3&#44060; &#52629;&#47564; &#54644;&#45817;. &#45208;&#47672;&#51648; &#52629;(&#46364;&#49892;&#51201;/&#47784;&#47704;&#53568;/&#48176;&#49569;)&#51008; &#45936;&#51060;&#53552; &#49688;&#51665; &#54028;&#51060;&#54532;&#46972;&#51064; &#50756;&#47308; &#54980; &#49692;&#52264;&#51201;&#51004;&#47196; &#54869;&#51109;.
+  </div>
+
   <!-- Feedback Loop Diagram -->
   <div class="sec">
     <div class="sec-t">&#54588;&#46300;&#48177; &#47336;&#54532; &#44396;&#51312;</div>
@@ -157,7 +161,7 @@ table.t{width:100%;border-collapse:separate;border-spacing:0;font-size:var(--fs-
   <div class="flow">
     <div class="flow-node" style="border-color:var(--blue)">
       <div class="flow-node-t" style="color:var(--blue)">&#9312; GPS &#49828;&#53076;&#50612;&#47553;</div>
-      <div class="flow-node-d">&#51068;&#51068; 08:00 &#48176;&#52824;<br>6&#45824;&#52629; Gap &#49328;&#52636;</div>
+      <div class="flow-node-d">&#51068;&#51068; 08:00 &#48176;&#52824;<br><span class="chip chip-g" style="font-size:10px">MVP</span> 3&#52629; Gap &#49328;&#52636;</div>
     </div>
     <div class="flow-arr">&#8594;</div>
     <div class="flow-node" style="border-color:var(--purple)">
@@ -193,46 +197,84 @@ table.t{width:100%;border-collapse:separate;border-spacing:0;font-size:var(--fs-
         <tr>
           <th>&#52769;&#51221; &#49884;&#51216;</th>
           <th>KPI</th>
+          <th>&#52769;&#51221; &#52629;</th>
           <th>&#44228;&#49328; &#48169;&#49885;</th>
           <th>&#47785;&#54364;</th>
-          <th>&#48708;&#44256;</th>
+          <th>MVP</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td><span class="chip chip-r">T+24h</span></td>
-          <td style="font-weight:700">&#51593;&#49884; &#48152;&#51025;&#47456;</td>
-          <td>&#44032;&#44201; &#48320;&#44221; &#48152;&#50689;&#47456;, &#51077;&#51216; &#50756;&#47308;&#47456;</td>
+          <td style="font-weight:700">&#44032;&#44201; &#48152;&#50689;&#47456;</td>
+          <td><span class="chip chip-g">&#44032;&#44201;</span></td>
+          <td>&#44032;&#44201; &#48320;&#44221; &#50756;&#47308; &#50668;&#48512; (PCI &#44060;&#49440;&#47456;)</td>
           <td>&#8805;70%</td>
-          <td>S&#46321;&#44553; &#44032;&#44201;/&#51077;&#51216; &#50529;&#49496; &#44592;&#51456;</td>
+          <td><span class="chip chip-g">&#48176;&#54252;&#44032;&#45733;</span></td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-r">T+24h</span></td>
+          <td style="font-weight:700">&#47532;&#48624; &#45824;&#51025;&#47456;</td>
+          <td><span class="chip chip-g">&#47532;&#48624;</span></td>
+          <td>&#48512;&#51221; &#47532;&#48624; &#45813;&#48320; &#50756;&#47308;&#47456;, &#54217;&#51216; &#48320;&#54868;</td>
+          <td>&#8805;60%</td>
+          <td><span class="chip chip-g">&#48176;&#54252;&#44032;&#45733;</span></td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-o">T+72h</span></td>
+          <td style="font-weight:700">&#48288;&#49828;&#53944;&#49692;&#50948; &#48320;&#46041;</td>
+          <td><span class="chip chip-g">&#48288;&#49828;&#53944;&#49692;&#50948;</span></td>
+          <td>&#50529;&#49496;&#54980; &#52852;&#53580;&#44256;&#47532; &#49692;&#50948; &#48320;&#54868; (&#8593;/&#8212;/&#8595;)</td>
+          <td>&#8805;+3&#44228;&#45800;</td>
+          <td><span class="chip chip-g">&#48176;&#54252;&#44032;&#45733;</span></td>
         </tr>
         <tr>
           <td><span class="chip chip-o">T+72h</span></td>
           <td style="font-weight:700">Gap &#44060;&#49440;&#47456;</td>
+          <td><span class="chip chip-g">&#44032;&#44201;</span> <span class="chip chip-g">&#47532;&#48624;</span></td>
           <td>(&#50529;&#49496;&#51204; Gap - &#50529;&#49496;&#54980; Gap) / &#50529;&#49496;&#51204; Gap</td>
           <td>&#8805;30%</td>
-          <td>&#54644;&#45817; &#52629;&#51032; Gap&#51060; &#51460;&#50612;&#46308;&#45716;&#51648;</td>
+          <td><span class="chip chip-g">&#48176;&#54252;&#44032;&#45733;</span></td>
         </tr>
-        <tr>
+        <tr style="background:var(--sf2)">
           <td><span class="chip chip-b">T+7d</span></td>
-          <td style="font-weight:700">&#51204;&#54872;&#47456; &#48320;&#54868;</td>
-          <td>(&#50529;&#49496;&#54980; CVR - &#50529;&#49496;&#51204; CVR) / &#50529;&#49496;&#51204; CVR</td>
-          <td>&#8805;+5%</td>
-          <td>CVR/&#51648;&#54364; &#52629; &#50529;&#49496; &#44592;&#51456;</td>
+          <td style="font-weight:700;color:var(--tx3)">&#51204;&#54872;&#47456; &#48320;&#54868;</td>
+          <td><span class="chip chip-m">&#51648;&#54364;/CVR</span></td>
+          <td style="color:var(--tx3)">(&#50529;&#49496;&#54980; CVR - &#50529;&#49496;&#51204; CVR) / &#50529;&#49496;&#51204; CVR</td>
+          <td style="color:var(--tx3)">&#8805;+5%</td>
+          <td><span class="chip chip-m">&#44228;&#54925;&#50504;</span></td>
+        </tr>
+        <tr style="background:var(--sf2)">
+          <td><span class="chip chip-b">T+7d</span></td>
+          <td style="font-weight:700;color:var(--tx3)">&#46364;&#47049; &#48320;&#54868;</td>
+          <td><span class="chip chip-m">&#46364;&#49892;&#51201;</span></td>
+          <td style="color:var(--tx3)">&#50529;&#49496;&#54980; &#51452;&#47928;&#44148;&#49688;/GMV &#48320;&#54868;&#47049;</td>
+          <td style="color:var(--tx3)">&#8805;+10%</td>
+          <td><span class="chip chip-m">&#44228;&#54925;&#50504;</span></td>
+        </tr>
+        <tr style="background:var(--sf2)">
+          <td><span class="chip chip-b">T+7d</span></td>
+          <td style="font-weight:700;color:var(--tx3)">&#47784;&#47704;&#53568; &#51648;&#49549;&#49457;</td>
+          <td><span class="chip chip-m">&#47784;&#47704;&#53568;</span></td>
+          <td style="color:var(--tx3)">&#50529;&#49496;&#54980; &#53944;&#47000;&#54589;/&#44160;&#49353;&#47049; &#50976;&#51648;&#50984;</td>
+          <td style="color:var(--tx3)">&#8805;80%</td>
+          <td><span class="chip chip-m">&#44228;&#54925;&#50504;</span></td>
         </tr>
         <tr>
           <td><span class="chip chip-g">T+14d</span></td>
           <td style="font-weight:700">GPS &#49828;&#53076;&#50612; &#48320;&#54868;</td>
-          <td>&#50529;&#49496;&#54980; GPS - &#50529;&#49496;&#51204; GPS</td>
+          <td><span class="chip chip-g">&#44032;&#44201;</span> <span class="chip chip-g">&#47532;&#48624;</span> <span class="chip chip-g">&#48288;&#49828;&#53944;</span></td>
+          <td>&#50529;&#49496;&#54980; GPS - &#50529;&#49496;&#51204; GPS (3&#52629; &#44592;&#51456;)</td>
           <td>&#8805;+10pt</td>
-          <td>&#51333;&#54633; &#49828;&#53076;&#50612; &#44060;&#49440; &#54869;&#51064;</td>
+          <td><span class="chip chip-g">&#48176;&#54252;&#44032;&#45733;</span></td>
         </tr>
-        <tr>
+        <tr style="background:var(--sf2)">
           <td><span class="chip chip-p">T+30d</span></td>
-          <td style="font-weight:700">GMV &#44592;&#50668;&#47049;</td>
-          <td>&#50529;&#49496; &#54980; &#48156;&#49373; GMV - &#50696;&#49345; GMV(&#48708;&#50529;&#49496; &#49884;)</td>
-          <td>&#8805;+15%</td>
-          <td>&#45824;&#51312;&#44400; &#45824;&#48708; &#52628;&#51221;</td>
+          <td style="font-weight:700;color:var(--tx3)">GMV &#44592;&#50668;&#47049;</td>
+          <td><span class="chip chip-m">&#51333;&#54633;</span></td>
+          <td style="color:var(--tx3)">&#50529;&#49496; &#54980; GMV - &#50696;&#49345; GMV(&#45824;&#51312;&#44400;)</td>
+          <td style="color:var(--tx3)">&#8805;+15%</td>
+          <td><span class="chip chip-m">&#44228;&#54925;&#50504;</span></td>
         </tr>
       </tbody>
     </table>
@@ -244,31 +286,55 @@ table.t{width:100%;border-collapse:separate;border-spacing:0;font-size:var(--fs-
     <div class="sec-d">&#50529;&#49496; &#44208;&#44284;&#44032; &#45796;&#51020; GPS &#49828;&#53076;&#50612;&#50640; &#48152;&#50689;&#46104;&#45716; &#47700;&#52964;&#45768;&#51608;</div>
   </div>
 
-  <div class="code"><span class="kw">function</span> <span class="fn">applyFeedback</span>(product, actionResult) {
+  <div class="code"><span class="cm">// MVP: &#44032;&#44201; / &#47532;&#48624; / &#48288;&#49828;&#53944;&#49692;&#50948; 3&#52629;&#47564; &#54952;&#44284;&#52769;&#51221; &#44032;&#45733;</span>
+<span class="kw">const</span> MVP_MEASURABLE = [<span class="st">'price'</span>, <span class="st">'review'</span>, <span class="st">'bestRank'</span>]
+
+<span class="kw">function</span> <span class="fn">applyFeedback</span>(product, actionResult) {
+  <span class="kw">const</span> axis = actionResult.targetAxis
+
+  <span class="cm">// MVP &#52629;&#51060; &#50500;&#45772; &#44221;&#50864; &#54588;&#46300;&#48177; &#49828;&#53429;</span>
+  <span class="kw">if</span> (!MVP_MEASURABLE.includes(axis)) {
+    <span class="kw">return</span> <span class="fn">recalcGPS</span>(product)  <span class="cm">// &#52769;&#51221; &#48520;&#44032; &#8594; &#48372;&#51221;&#50630;&#51060; &#45796;&#51020; &#49324;&#51060;&#53364;</span>
+  }
+
   <span class="kw">const</span> effect = <span class="fn">measureEffect</span>(product, actionResult)
 
-  <span class="cm">// 1. Gap &#48320;&#54868;&#47049; &#52769;&#51221;</span>
-  <span class="kw">const</span> gapDelta = effect.prevGap - effect.currentGap
-  <span class="kw">const</span> improvementRate = gapDelta / effect.prevGap
-
-  <span class="cm">// 2. &#50529;&#49496; &#54952;&#44284; &#44228;&#49688; &#49328;&#52636; (0.0 ~ 1.5)</span>
+  <span class="cm">// 1. &#52629;&#48324; &#54952;&#44284; &#52769;&#51221;</span>
   <span class="kw">let</span> effectCoeff = <span class="nu">1.0</span>
-  <span class="kw">if</span> (improvementRate >= <span class="nu">0.5</span>)  effectCoeff = <span class="nu">1.3</span>  <span class="cm">// &#45824;&#54253; &#44060;&#49440;</span>
-  <span class="kw">if</span> (improvementRate >= <span class="nu">0.3</span>)  effectCoeff = <span class="nu">1.1</span>  <span class="cm">// &#51201;&#51221; &#44060;&#49440;</span>
-  <span class="kw">if</span> (improvementRate < <span class="nu">0.1</span>)   effectCoeff = <span class="nu">0.8</span>  <span class="cm">// &#48120;&#48120;&#51089; &#8594; &#50864;&#49440;&#46020; &#54616;&#46973;</span>
-  <span class="kw">if</span> (improvementRate < <span class="nu">0</span>)     effectCoeff = <span class="nu">0.6</span>  <span class="cm">// &#50501;&#54868; &#8594; &#50864;&#49440;&#46020; &#44553;&#46973;</span>
+  <span class="kw">if</span> (axis === <span class="st">'price'</span>) {
+    <span class="cm">// &#44032;&#44201;: PCI &#44060;&#49440;&#47456; &#44592;&#51456;</span>
+    <span class="kw">const</span> pciDelta = effect.prevPCI - effect.currentPCI
+    <span class="kw">if</span> (pciDelta >= <span class="nu">20</span>)  effectCoeff = <span class="nu">1.3</span>  <span class="cm">// PCI 20p+ &#44060;&#49440;</span>
+    <span class="kw">else if</span> (pciDelta >= <span class="nu">10</span>)  effectCoeff = <span class="nu">1.1</span>
+    <span class="kw">else if</span> (pciDelta < <span class="nu">5</span>)   effectCoeff = <span class="nu">0.8</span>
+    <span class="kw">else if</span> (pciDelta < <span class="nu">0</span>)    effectCoeff = <span class="nu">0.6</span>  <span class="cm">// &#50501;&#54868;</span>
+  }
+  <span class="kw">if</span> (axis === <span class="st">'review'</span>) {
+    <span class="cm">// &#47532;&#48624;: &#48512;&#51221;&#47532;&#48624; &#45813;&#48320;&#47456; + &#54217;&#51216;&#48320;&#54868;</span>
+    <span class="kw">const</span> resolved = effect.negReviewResolved / effect.negReviewTotal
+    <span class="kw">if</span> (resolved >= <span class="nu">0.8</span>)  effectCoeff = <span class="nu">1.3</span>
+    <span class="kw">else if</span> (resolved >= <span class="nu">0.5</span>)  effectCoeff = <span class="nu">1.1</span>
+    <span class="kw">else if</span> (resolved < <span class="nu">0.2</span>)  effectCoeff = <span class="nu">0.8</span>
+  }
+  <span class="kw">if</span> (axis === <span class="st">'bestRank'</span>) {
+    <span class="cm">// &#48288;&#49828;&#53944;&#49692;&#50948;: &#52852;&#53580;&#44256;&#47532;&#45236; &#49692;&#50948; &#48320;&#46041;</span>
+    <span class="kw">const</span> rankDelta = effect.prevRank - effect.currentRank  <span class="cm">// &#49692;&#50948; &#49345;&#49849;=&#50577;&#49688;</span>
+    <span class="kw">if</span> (rankDelta >= <span class="nu">10</span>)  effectCoeff = <span class="nu">1.3</span>
+    <span class="kw">else if</span> (rankDelta >= <span class="nu">3</span>)   effectCoeff = <span class="nu">1.1</span>
+    <span class="kw">else if</span> (rankDelta <= <span class="nu">0</span>)   effectCoeff = <span class="nu">0.8</span>
+    <span class="kw">else if</span> (rankDelta < <span class="nu">-5</span>)   effectCoeff = <span class="nu">0.6</span>
+  }
 
-  <span class="cm">// 3. &#54644;&#45817; &#52629; Priority &#44032;&#51473;&#52824; &#48372;&#51221;</span>
-  <span class="kw">const</span> axis = actionResult.targetAxis
+  <span class="cm">// 2. &#54644;&#45817; &#52629; Priority &#44032;&#51473;&#52824; &#48372;&#51221;</span>
   product.axisWeight[axis] *= effectCoeff
   <span class="fn">normalizeWeights</span>(product)  <span class="cm">// &#52509;&#54633; 100% &#50976;&#51648;</span>
 
-  <span class="cm">// 4. &#49345;&#54408; &#49888;&#47280;&#46020; &#49828;&#53076;&#50612; &#44049;&#49888;</span>
+  <span class="cm">// 3. SLA / &#48152;&#48373;&#49892;&#54056; &#44048;&#51648;</span>
   <span class="kw">if</span> (actionResult.slaBreached) {
-    product.reliabilityScore -= <span class="nu">5</span>  <span class="cm">// SLA &#50948;&#48152; &#54056;&#45328;&#54000;</span>
+    product.reliabilityScore -= <span class="nu">5</span>
   }
   <span class="kw">if</span> (actionResult.repeatedFail >= <span class="nu">3</span>) {
-    product.escalationFlag = <span class="hl">true</span>  <span class="cm">// 3&#54924; &#50672;&#49549; &#48120;&#44060;&#49440; &#8594; &#50640;&#49828;&#52972;&#47112;&#51060;&#49496;</span>
+    product.escalationFlag = <span class="hl">true</span>
   }
 
   <span class="kw">return</span> <span class="fn">recalcGPS</span>(product)
@@ -284,47 +350,75 @@ table.t{width:100%;border-collapse:separate;border-spacing:0;font-size:var(--fs-
       <thead>
         <tr>
           <th>&#44508;&#52825;</th>
+          <th>&#52629;</th>
           <th>&#51312;&#44148;</th>
           <th>GPS &#48152;&#50689;</th>
-          <th>&#48708;&#44256;</th>
+          <th>MVP</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td style="font-weight:700">&#49457;&#44277; &#48372;&#49345;</td>
-          <td>Gap &#44060;&#49440;&#47456; &#8805;50%</td>
-          <td>&#54644;&#45817;&#52629; &#44032;&#51473;&#52824; &#215;1.3, &#49828;&#53076;&#50612; +5pt &#48372;&#45320;&#49828;</td>
-          <td>&#50976;&#54952; &#50529;&#49496; &#54056;&#53556; &#44053;&#54868;</td>
+          <td style="font-weight:700">&#44032;&#44201; &#44060;&#49440;</td>
+          <td><span class="chip chip-g">&#44032;&#44201;</span></td>
+          <td>PCI &#8805;20p &#44060;&#49440;</td>
+          <td>&#44032;&#44201;&#52629; &#44032;&#51473;&#52824; &#215;1.3, &#49828;&#53076;&#50612; +5pt</td>
+          <td><span class="chip chip-g">&#9679;</span></td>
         </tr>
         <tr>
-          <td style="font-weight:700">&#51201;&#51221; &#44060;&#49440;</td>
-          <td>Gap &#44060;&#49440;&#47456; 10~49%</td>
-          <td>&#54644;&#45817;&#52629; &#44032;&#51473;&#52824; &#215;1.1</td>
-          <td>&#44592;&#48376; &#50577;&#49457; &#54588;&#46300;&#48177;</td>
+          <td style="font-weight:700">&#47532;&#48624; &#44060;&#49440;</td>
+          <td><span class="chip chip-g">&#47532;&#48624;</span></td>
+          <td>&#48512;&#51221;&#47532;&#48624; &#45813;&#48320;&#47456; &#8805;80%</td>
+          <td>&#47532;&#48624;&#52629; &#44032;&#51473;&#52824; &#215;1.3, &#54217;&#51216; &#49345;&#49849; &#48152;&#50689;</td>
+          <td><span class="chip chip-g">&#9679;</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:700">&#49692;&#50948; &#49345;&#49849;</td>
+          <td><span class="chip chip-g">&#48288;&#49828;&#53944;</span></td>
+          <td>&#52852;&#53580;&#44256;&#47532;&#45236; &#49692;&#50948; &#8805;+3&#44228;&#45800;</td>
+          <td>&#48288;&#49828;&#53944;&#52629; &#44032;&#51473;&#52824; &#215;1.3</td>
+          <td><span class="chip chip-g">&#9679;</span></td>
         </tr>
         <tr>
           <td style="font-weight:700">&#48120;&#44060;&#49440;</td>
-          <td>Gap &#44060;&#49440;&#47456; &lt;10%</td>
+          <td><span class="chip chip-g">3&#52629; &#44277;&#53685;</span></td>
+          <td>&#52629;&#48324; &#44060;&#49440;&#47456; &lt;10%</td>
           <td>&#54644;&#45817;&#52629; &#50864;&#49440;&#46020; &#215;0.8, &#45796;&#47480;&#52629;&#51004;&#47196; &#51116;&#48176;&#48516;</td>
-          <td>&#48708;&#54952;&#50984; &#52629;&#51008; &#51088;&#46041; &#50864;&#49440;&#49692;&#50948; &#54616;&#46973;</td>
+          <td><span class="chip chip-g">&#9679;</span></td>
         </tr>
         <tr>
           <td style="font-weight:700">&#50501;&#54868;</td>
+          <td><span class="chip chip-g">3&#52629; &#44277;&#53685;</span></td>
           <td>Gap &#51613;&#44032; (&#44060;&#49440;&#47456; &lt;0)</td>
           <td>&#50864;&#49440;&#46020; &#215;0.6 + <span class="chip chip-r">&#50508;&#47548;</span> &#48156;&#49569;</td>
-          <td>&#44540;&#48376;&#50896;&#51064; &#48516;&#49437; &#54596;&#50836;</td>
+          <td><span class="chip chip-g">&#9679;</span></td>
         </tr>
         <tr>
           <td style="font-weight:700">SLA &#50948;&#48152;</td>
+          <td><span class="chip chip-m">&#51204;&#52404;</span></td>
           <td>&#48120;&#52376;&#47532; &#49884;&#44036; &#52488;&#44284;</td>
           <td>&#49888;&#47280;&#46020; -5pt, &#54644;&#45817;&#49345;&#54408; gap +10</td>
-          <td>&#50640;&#49828;&#52972;&#47112;&#51060;&#49496; &#54532;&#47196;&#49464;&#49828; &#50672;&#46041;</td>
+          <td><span class="chip chip-g">&#9679;</span></td>
         </tr>
-        <tr>
-          <td style="font-weight:700">&#48152;&#48373; &#49892;&#54056;</td>
-          <td>&#46041;&#51068;&#52629; 3&#54924; &#50672;&#49549; &#48120;&#44060;&#49440;</td>
-          <td><span class="chip chip-r">ESCALATION</span> &#53944;&#47532;&#44144; + &#50529;&#49496;&#51204;&#47029; &#51116;&#44160;&#53664;</td>
-          <td>&#54644;&#45817; &#52629;&#51032; &#44540;&#48376; &#44396;&#51312;&#51201; &#47928;&#51228; &#54869;&#51064;</td>
+        <tr style="background:var(--sf2)">
+          <td style="font-weight:700;color:var(--tx3)">&#46364;&#47049; &#54588;&#46300;&#48177;</td>
+          <td><span class="chip chip-m">&#46364;&#49892;&#51201;</span></td>
+          <td style="color:var(--tx3)">&#51452;&#47928;&#44148;&#49688;/GMV &#48320;&#54868;&#47049;</td>
+          <td style="color:var(--tx3)">&#46364;&#52629; &#44032;&#51473;&#52824; &#48372;&#51221;</td>
+          <td><span class="chip chip-m">&#44228;&#54925;&#50504;</span></td>
+        </tr>
+        <tr style="background:var(--sf2)">
+          <td style="font-weight:700;color:var(--tx3)">&#47784;&#47704;&#53568; &#54588;&#46300;&#48177;</td>
+          <td><span class="chip chip-m">&#47784;&#47704;&#53568;</span></td>
+          <td style="color:var(--tx3)">&#53944;&#47000;&#54589;/&#44160;&#49353;&#47049; &#50976;&#51648;&#50984;</td>
+          <td style="color:var(--tx3)">&#47784;&#47704;&#53568;&#52629; &#44032;&#51473;&#52824; &#48372;&#51221;</td>
+          <td><span class="chip chip-m">&#44228;&#54925;&#50504;</span></td>
+        </tr>
+        <tr style="background:var(--sf2)">
+          <td style="font-weight:700;color:var(--tx3)">&#48176;&#49569; &#54588;&#46300;&#48177;</td>
+          <td><span class="chip chip-m">&#48176;&#49569;</span></td>
+          <td style="color:var(--tx3)">&#48176;&#49569;&#49549;&#46020;/&#48176;&#49569;&#54408;&#51656; &#48320;&#54868;</td>
+          <td style="color:var(--tx3)">&#48176;&#49569;&#52629; &#44032;&#51473;&#52824; &#48372;&#51221;</td>
+          <td><span class="chip chip-m">&#44228;&#54925;&#50504;</span></td>
         </tr>
       </tbody>
     </table>
