@@ -295,10 +295,10 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
   border-top:1px solid rgba(255,255,255,.05);font-size:11px;color:#48484A}
 
 /* ── ERD Diagram ── */
-.erd-wrap{position:relative;margin-bottom:0;overflow-x:auto;-webkit-overflow-scrolling:touch;
+.erd-wrap{position:relative;margin-bottom:0;overflow:visible;
   padding:24px 32px;background:var(--sf-alt)}
 .erd-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
-.erd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;min-width:1060px;
+.erd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
   padding:16px 0;position:relative;z-index:2}
 .erd-col{display:flex;flex-direction:column;gap:8px}
 .erd-col-head{font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;
@@ -318,8 +318,7 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 .erd-ent-cols{display:flex;flex-direction:column;gap:1px;padding-top:6px;margin-top:6px;border-top:1px solid var(--bdr-subtle)}
 .erd-cr{font-family:var(--mono);font-size:9.5px;color:var(--ink2);display:flex;align-items:center;gap:4px;padding:1.5px 0}
 .erd-cr .pk,.erd-cr .fk{margin-left:auto;font-size:8px}
-.erd-sys-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:700;
-  letter-spacing:.06em;padding:2px 10px;border-radius:10px;white-space:nowrap;z-index:3}
+.erd-sys-label{font-size:10px;font-weight:700;letter-spacing:.06em;padding:4px 14px;border-radius:10px;white-space:nowrap}
 .erd-sys-alb{background:var(--blue);color:#fff}
 .erd-sys-gps{background:linear-gradient(135deg,var(--indigo),var(--purple));color:#fff}
 
@@ -476,8 +475,11 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 
   <!-- ERD Diagram -->
   <div class="erd-wrap fade-in" id="erd" style="position:relative">
-    <span class="erd-sys-label erd-sys-alb" style="left:12%;top:-11px;transform:none">Albatross</span>
-    <span class="erd-sys-label erd-sys-gps" style="left:42%;top:-11px;transform:none">ESSENTIAL GPS</span>
+    <div style="display:flex;gap:12px;margin-bottom:12px">
+      <span class="erd-sys-label erd-sys-alb" style="position:static;transform:none">Albatross</span>
+      <span style="color:var(--ink3);font-size:11px;display:flex;align-items:center">→</span>
+      <span class="erd-sys-label erd-sys-gps" style="position:static;transform:none">ESSENTIAL GPS</span>
+    </div>
     <svg class="erd-svg" id="erd-svg"></svg>
     <div class="erd-grid">
       <!-- L1: Albatross -->
