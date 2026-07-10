@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11st AX TF · Albatross — ESSENTIAL GPS</title>
+<style>
+:root{
+  --sf:#FBFBFD;--sf-alt:#F5F5F7;--sf-card:#FFF;
+  --ink:#1D1D1F;--ink2:#6E6E73;--ink3:#86868B;
+  --bdr:#D2D2D7;--bdr-subtle:rgba(0,0,0,.06);
+  --blue:#0A84FF;--purple:#BF5AF2;--indigo:#5E5CE6;--green:#30D158;--teal:#64D2FF;
+  --red:#FF3B30;--amber:#FF9F0A;--sgreen:#34C759;
+  --matched:#5E5CE6;--unmatched:#FF9F0A;
+  --r:20px;--rs:12px;--rx:8px;
+  --ease:cubic-bezier(.25,.1,.25,1);--spring:cubic-bezier(.175,.885,.32,1.275);
+  --font:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text',system-ui,sans-serif;
+  --mono:'SF Mono',ui-monospace,'Cascadia Code','Consolas',monospace;
+  --shadow-card:0 0 1px rgba(0,0,0,.04),0 2px 6px rgba(0,0,0,.04),0 16px 40px rgba(0,0,0,.06);
+  --shadow-hover:0 0 1px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.06),0 20px 48px rgba(0,0,0,.08);
+}
+@media(prefers-color-scheme:dark){:root{
+  --sf:#000;--sf-alt:#1C1C1E;--sf-card:#1C1C1E;
+  --ink:#F5F5F7;--ink2:#A1A1A6;--ink3:#6E6E73;
+  --bdr:#38383A;--bdr-subtle:rgba(255,255,255,.06);
+  --shadow-card:0 0 1px rgba(0,0,0,.2),0 2px 8px rgba(0,0,0,.25),0 16px 40px rgba(0,0,0,.3);
+  --shadow-hover:0 0 1px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.3),0 20px 48px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"]{
+  --sf:#000;--sf-alt:#1C1C1E;--sf-card:#1C1C1E;
+  --ink:#F5F5F7;--ink2:#A1A1A6;--ink3:#6E6E73;
+  --bdr:#38383A;--bdr-subtle:rgba(255,255,255,.06);
+  --shadow-card:0 0 1px rgba(0,0,0,.2),0 2px 8px rgba(0,0,0,.25),0 16px 40px rgba(0,0,0,.3);
+  --shadow-hover:0 0 1px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.3),0 20px 48px rgba(0,0,0,.35);
+}
+:root[data-theme="light"]{
+  --sf:#FBFBFD;--sf-alt:#F5F5F7;--sf-card:#FFF;
+  --ink:#1D1D1F;--ink2:#6E6E73;--ink3:#86868B;
+  --bdr:#D2D2D7;--bdr-subtle:rgba(0,0,0,.06);
+  --shadow-card:0 0 1px rgba(0,0,0,.04),0 2px 6px rgba(0,0,0,.04),0 16px 40px rgba(0,0,0,.06);
+  --shadow-hover:0 0 1px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.06),0 20px 48px rgba(0,0,0,.08);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font);color:var(--ink);background:var(--sf);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:var(--blue);text-decoration:none}
+code{font-family:var(--mono);font-size:.82em;padding:2px 6px;background:var(--bdr-subtle);border-radius:4px}
+
+/* ── Nav ── */
+nav{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--sf) 72%,transparent);
+  backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:.5px solid var(--bdr);padding:0 32px;display:flex;align-items:center;gap:28px;height:48px;font-size:13px}
+nav .logo{font-weight:700;font-size:14px;letter-spacing:-.02em}
+nav a{color:var(--ink3);font-weight:500;transition:color .2s var(--ease)}
+nav a:hover{color:var(--ink2)}nav a.active{color:var(--ink)}
+nav .draft{margin-left:auto;font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--amber);font-weight:600;padding:2px 10px;border:1px solid color-mix(in srgb,var(--amber) 40%,transparent);border-radius:20px}
+
+/* ── Hero ── */
+.hero{background:#000;color:#F5F5F7;padding:72px 32px 56px;text-align:center;position:relative;overflow:hidden}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
+.hero>*:not(canvas){position:relative;z-index:1}
+.hero h1{font-size:clamp(36px,6vw,64px);font-weight:700;letter-spacing:-.035em;text-wrap:balance;
+  background:linear-gradient(135deg,#0A84FF 0%,#5E5CE6 40%,#30D158 100%);-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+.hero .sub{font-size:clamp(15px,2vw,20px);color:#A1A1A6;font-weight:400;letter-spacing:-.01em;margin-bottom:20px}
+.hero .desc{max-width:560px;margin:0 auto 28px;color:#6E6E73;font-size:14px;line-height:1.65}
+.phase-legend{display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
+.phase-legend span{display:flex;align-items:center;gap:5px;font-size:12px;color:#86868B;font-weight:500}
+.pdot{width:7px;height:7px;border-radius:50%;display:inline-block}
+
+/* ── Sections ── */
+section{padding:80px 32px}section.alt{background:var(--sf-alt)}
+.container{max-width:960px;margin:0 auto}
+.sec-label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);font-weight:600;margin-bottom:6px}
+.sec-title{font-size:clamp(26px,4vw,40px);font-weight:700;letter-spacing:-.035em;text-wrap:balance;margin-bottom:6px}
+.sec-desc{color:var(--ink2);font-size:15px;max-width:600px;margin-bottom:48px;line-height:1.6}
+
+/* ── Cards ── */
+.card{background:var(--sf-card);border-radius:var(--r);padding:32px;box-shadow:var(--shadow-card);
+  transition:box-shadow .3s var(--ease),transform .3s var(--ease)}
+
+/* ── Toggle ── */
+.toggle-group{display:inline-flex;background:var(--sf-alt);border-radius:var(--rx);padding:3px;margin-bottom:36px}
+.toggle-btn{padding:7px 22px;border-radius:6px;border:none;background:transparent;
+  color:var(--ink3);font-size:13px;font-weight:500;cursor:pointer;transition:all .25s var(--spring);font-family:var(--font)}
+.toggle-btn.active{background:var(--sf-card);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.toggle-btn[data-track="matched"].active{color:var(--matched)}
+.toggle-btn[data-track="unmatched"].active{color:var(--unmatched)}
+
+/* ── Stacked bar formula ── */
+.track{display:none}.track.active{display:block}
+.stacked-bar{display:flex;height:40px;border-radius:var(--rx);overflow:hidden;margin-bottom:20px;gap:2px}
+.stacked-seg{display:flex;align-items:center;justify-content:center;cursor:default;position:relative;
+  transition:flex .5s var(--spring),filter .2s;min-width:0}
+.stacked-seg span{font-size:11px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 8px}
+.stacked-seg:hover{filter:brightness(1.15)}
+.formula-legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin-bottom:20px}
+.fl-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2)}
+.fl-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.fl-item strong{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* ── GPS Framework ── */
+.gps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:640px){.gps-grid{grid-template-columns:1fr}}
+.gps-card{padding:32px 24px;cursor:pointer;position:relative;
+  transition:transform .35s var(--spring),box-shadow .35s var(--ease),border-color .35s var(--ease);border:2px solid transparent}
+.gps-card.lit{transform:translateY(-4px);box-shadow:var(--shadow-hover)}
+.gps-card.g.lit{border-color:var(--red)}
+.gps-card.p.lit{border-color:var(--blue)}
+.gps-card.s.lit{border-color:var(--sgreen)}
+.gps-card .gps-role{font-size:12px;font-weight:600;color:var(--ink3);margin-bottom:8px}
+.gps-card .gps-big{font-size:clamp(32px,5vw,44px);font-weight:800;letter-spacing:-.04em;margin-bottom:8px;line-height:1.1}
+.gps-card.g .gps-big{color:var(--red)}
+.gps-card.p .gps-big{color:var(--blue)}
+.gps-card.s .gps-big{color:var(--sgreen)}
+.gps-card .gps-axes{font-size:12px;font-weight:600;color:var(--ink);margin-bottom:10px;line-height:1.5}
+.gps-card .gps-detail{font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:10px}
+.gps-card .gps-kpi{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--ink3);
+  padding:5px 0;border-top:1px solid var(--bdr-subtle);margin-top:auto}
+.gps-card.g .gps-kpi{color:color-mix(in srgb,var(--red) 70%,var(--ink2))}
+.gps-card.p .gps-kpi{color:color-mix(in srgb,var(--blue) 70%,var(--ink2))}
+.gps-card.s .gps-kpi{color:color-mix(in srgb,var(--sgreen) 70%,var(--ink2))}
+
+/* ── GPS Flow pipeline ── */
+.gps-pipe{margin-top:36px;padding:28px;background:var(--sf-card);border-radius:var(--r);box-shadow:var(--shadow-card);position:relative}
+.gps-pipe-label{font-size:12px;font-weight:600;color:var(--ink3);margin-bottom:20px}
+.gps-pipe-track{display:flex;align-items:stretch;gap:0;position:relative}
+.gps-phase{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 8px}
+.gps-phase-tag{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:3px 10px;border-radius:20px;transition:all .4s var(--ease);opacity:.5}
+.gps-phase[data-phase="g"] .gps-phase-tag{background:color-mix(in srgb,var(--red) 15%,transparent);color:var(--red)}
+.gps-phase[data-phase="p"] .gps-phase-tag{background:color-mix(in srgb,var(--blue) 15%,transparent);color:var(--blue)}
+.gps-phase[data-phase="s"] .gps-phase-tag{background:color-mix(in srgb,var(--sgreen) 15%,transparent);color:var(--sgreen)}
+.gps-phase.lit .gps-phase-tag{opacity:1;transform:scale(1.05)}
+.gps-phase-nodes{display:flex;align-items:center;gap:8px;width:100%}
+.gps-phase-node{flex:1;text-align:center;padding:14px 8px;border-radius:var(--rs);
+  background:color-mix(in srgb,var(--ink) 4%,transparent);border:1.5px solid var(--bdr-subtle);
+  transition:all .4s var(--ease);min-width:0}
+.gps-phase.lit .gps-phase-node{background:color-mix(in srgb,var(--ink) 8%,transparent)}
+.gps-phase[data-phase="g"].lit .gps-phase-node{border-color:color-mix(in srgb,var(--red) 40%,transparent);
+  box-shadow:0 0 20px color-mix(in srgb,var(--red) 12%,transparent)}
+.gps-phase[data-phase="p"].lit .gps-phase-node{border-color:color-mix(in srgb,var(--blue) 40%,transparent);
+  box-shadow:0 0 20px color-mix(in srgb,var(--blue) 12%,transparent)}
+.gps-phase[data-phase="s"].lit .gps-phase-node{border-color:color-mix(in srgb,var(--sgreen) 40%,transparent);
+  box-shadow:0 0 20px color-mix(in srgb,var(--sgreen) 12%,transparent)}
+.gps-phase-node strong{display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gps-phase-node span{font-size:10px;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.gps-phase-arr{display:flex;align-items:center;justify-content:center;width:24px;flex-shrink:0;
+  font-size:14px;font-weight:700;color:var(--ink3);transition:color .4s var(--ease)}
+.gps-phase.lit .gps-phase-arr{color:var(--ink2)}
+.gps-phase-divider{width:1px;background:var(--bdr);align-self:stretch;margin:0 4px;flex-shrink:0}
+.gps-pulse{position:absolute;bottom:-2px;left:0;height:3px;border-radius:2px;
+  transition:left .5s var(--spring),width .5s var(--spring),background .3s var(--ease)}
+@media(max-width:640px){
+  .gps-pipe-track{flex-direction:column;gap:12px}
+  .gps-phase-divider{width:100%;height:1px;margin:4px 0}
+  .gps-pulse{display:none}
+}
+
+/* ── Pipeline ── */
+.pipe-narrative{font-size:16px;font-weight:600;letter-spacing:.08em;line-height:1.4;
+  margin-bottom:8px;color:var(--ink2)}
+.pipe-narrative .pn-a{color:var(--ink3);font-weight:400;margin:0 .2em}
+.pipe-narrative .pn-end{background:linear-gradient(135deg,var(--blue),var(--teal));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700}
+
+.pipe-flow{position:relative;margin-bottom:24px;padding-top:4px}
+.pipe-rail{position:absolute;top:28px;left:calc(100%/12);right:calc(100%/12);height:2px;
+  background:var(--bdr-subtle);z-index:0;border-radius:1px;overflow:visible}
+.pipe-rail-fill{position:absolute;top:0;left:0;height:100%;width:0;border-radius:1px;
+  background:linear-gradient(90deg,var(--sgreen),var(--sgreen));transition:width 1.6s var(--ease)}
+.pipe-rail::after{content:'';position:absolute;width:40px;height:2px;top:0;left:-40px;border-radius:1px;
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--blue) 80%,transparent),transparent);
+  animation:pflow 4s linear infinite}
+@keyframes pflow{0%{left:-40px;opacity:0}8%{opacity:.8}92%{opacity:.8}100%{left:100%;opacity:0}}
+
+.pipe-cards{display:grid;grid-template-columns:repeat(6,1fr);gap:0;position:relative;z-index:1}
+.pipe-card{text-align:center;padding:0 4px 14px;cursor:pointer;position:relative;
+  transition:all .35s var(--spring)}
+.pipe-card:hover .pipe-ic{transform:translateY(-2px) scale(1.08)}
+.pipe-card.active{background:color-mix(in srgb,var(--blue) 5%,transparent);border-radius:var(--rs)}
+.pipe-card.active .pipe-ic{transform:scale(1.1);
+  box-shadow:0 0 0 6px var(--sf-alt),0 0 0 9px color-mix(in srgb,var(--blue) 25%,transparent)}
+
+.pipe-ic{width:48px;height:48px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;letter-spacing:-.02em;margin-bottom:12px;
+  transition:all .4s var(--spring);position:relative;
+  background:var(--sf-alt);color:var(--ink3);border:1.5px solid var(--bdr-subtle);
+  box-shadow:0 0 0 6px var(--sf-alt)}
+.pipe-card.done .pipe-ic{background:color-mix(in srgb,var(--sgreen) 12%,var(--sf-alt));color:var(--sgreen);
+  border-color:color-mix(in srgb,var(--sgreen) 30%,transparent);
+  box-shadow:0 0 0 6px var(--sf-alt)}
+.pipe-card.wip .pipe-ic{background:color-mix(in srgb,var(--amber) 12%,var(--sf-alt));color:var(--amber);
+  border-color:color-mix(in srgb,var(--amber) 30%,transparent);
+  box-shadow:0 0 0 6px var(--sf-alt)}
+.pipe-card.plan .pipe-ic{box-shadow:0 0 0 6px var(--sf-alt)}
+.pipe-card.dest .pipe-ic{background:color-mix(in srgb,var(--blue) 12%,var(--sf-alt));color:var(--blue);
+  border-color:color-mix(in srgb,var(--blue) 35%,transparent);
+  box-shadow:0 0 0 6px var(--sf-alt);
+  animation:destglow 3s ease-in-out infinite}
+@keyframes destglow{0%,100%{box-shadow:0 0 0 6px var(--sf-alt),0 0 12px color-mix(in srgb,var(--blue) 10%,transparent)}
+  50%{box-shadow:0 0 0 6px var(--sf-alt),0 0 24px color-mix(in srgb,var(--blue) 28%,transparent)}}
+
+.pipe-sys{font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--ink3);margin-bottom:5px}
+.pipe-card.dest .pipe-sys{color:var(--blue)}
+.pipe-nm{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:2px;line-height:1.3;font-family:var(--font)}
+.pipe-card.dest .pipe-nm{color:var(--blue)}
+.pipe-mt{font-size:10px;color:var(--ink3);line-height:1.35;font-family:var(--font)}
+
+.pipe-sdot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-top:8px;transition:all .3s}
+.pipe-card.done .pipe-sdot{background:var(--sgreen)}
+.pipe-card.wip .pipe-sdot{background:var(--amber)}
+.pipe-card.plan .pipe-sdot{background:var(--ink3);opacity:.35}
+.pipe-card.dest .pipe-sdot{background:var(--blue);box-shadow:0 0 8px color-mix(in srgb,var(--blue) 50%,transparent)}
+
+.pipe-status{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.pipe-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;font-family:var(--font)}
+.pipe-badge-done{background:color-mix(in srgb,var(--sgreen) 15%,transparent);color:var(--sgreen)}
+.pipe-badge-wip{background:color-mix(in srgb,var(--amber) 15%,transparent);color:var(--amber)}
+.pipe-badge-plan{background:color-mix(in srgb,var(--ink3) 15%,transparent);color:var(--ink3)}
+
+.pipe-expand{background:var(--sf-card);border-radius:var(--r);padding:0;
+  box-shadow:var(--shadow-card);max-height:0;overflow:hidden;
+  transition:max-height .5s var(--spring),padding .4s var(--ease),margin .4s var(--ease);margin:0}
+.pipe-expand.show{max-height:420px;padding:28px;margin-top:8px}
+.pipe-expand h4{font-size:17px;font-weight:700;margin-bottom:4px;font-family:var(--font)}
+.pipe-expand .pipe-lead{color:var(--ink2);font-size:13.5px;margin-bottom:16px;font-family:var(--font)}
+.pipe-counters{display:flex;gap:24px;flex-wrap:wrap;margin:10px 0}
+.pipe-counter .pc-v{font-size:28px;font-weight:800;color:var(--blue);font-variant-numeric:tabular-nums;font-family:var(--font)}
+.pipe-counter .pc-l{font-size:11px;color:var(--ink3);font-family:var(--font)}
+.pipe-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.pipe-tag{font-size:12px;padding:6px 12px;border-radius:8px;background:var(--sf-alt);
+  color:var(--ink2);border:1px solid var(--bdr-subtle);font-weight:500}
+.pipe-tag.off{opacity:.45;text-decoration:line-through}
+
+@media(max-width:640px){
+  .pipe-cards{grid-template-columns:repeat(3,1fr);gap:8px}
+  .pipe-rail{display:none}
+}
+
+/* ── System Architecture Blocks ── */
+.arch-tier{display:grid;gap:0;align-items:stretch;margin-bottom:0}
+.arch-tier-top{grid-template-columns:1fr 24px 1fr 24px 1.2fr;margin-bottom:6px}
+.arch-tier-btm{grid-template-columns:1fr 24px 1fr;max-width:580px;margin-left:auto}
+.arch-tier-connect{text-align:right;padding:0 40px 0 0;color:var(--ink3);font-size:14px;opacity:.4;
+  margin-bottom:6px;line-height:1}
+@media(max-width:640px){.arch-tier{grid-template-columns:1fr !important;max-width:100% !important;gap:10px}
+  .arch-arrow{display:none}.arch-tier-connect{display:none}.arch-tier-btm{margin-left:0}}
+.arch-arrow{display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:16px;opacity:.4}
+
+.arch-block{background:var(--sf-card);border-radius:var(--r);padding:16px 14px 14px;
+  box-shadow:var(--shadow-card);border-top:3px solid var(--bdr);
+  display:flex;flex-direction:column;transition:all .3s var(--spring)}
+.arch-block:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover)}
+.arch-block.done{border-top-color:var(--sgreen)}
+.arch-block.wip{border-top-color:var(--amber)}
+.arch-block.plan{border-top-color:var(--ink3)}
+.arch-block.dest{border-top-color:var(--blue);background:color-mix(in srgb,var(--blue) 3%,var(--sf-card))}
+
+.arch-comp{display:flex;align-items:center;gap:6px;margin-bottom:10px}
+.arch-comp-icon{width:28px;height:28px;border-radius:8px;display:inline-flex;align-items:center;
+  justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;
+  background:var(--sf-alt);color:var(--ink3);border:1px solid var(--bdr-subtle)}
+.arch-block.done .arch-comp-icon{background:color-mix(in srgb,var(--sgreen) 12%,var(--sf-card));
+  color:var(--sgreen);border-color:color-mix(in srgb,var(--sgreen) 25%,transparent)}
+.arch-block.wip .arch-comp-icon{background:color-mix(in srgb,var(--amber) 12%,var(--sf-card));
+  color:var(--amber);border-color:color-mix(in srgb,var(--amber) 25%,transparent)}
+.arch-block.dest .arch-comp-icon{background:color-mix(in srgb,var(--blue) 12%,var(--sf-card));
+  color:var(--blue);border-color:color-mix(in srgb,var(--blue) 30%,transparent)}
+.arch-comp-name{font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--ink3)}
+.arch-block.done .arch-comp-name{color:var(--sgreen)}
+.arch-block.dest .arch-comp-name{color:var(--blue)}
+
+.arch-step{padding:8px 10px;border-radius:8px;background:var(--sf-alt);margin-bottom:6px;
+  transition:background .2s}
+.arch-step:last-child{margin-bottom:0}
+.arch-step-no{font-size:10px;font-weight:800;color:var(--ink3);margin-right:4px}
+.arch-block.done .arch-step-no{color:var(--sgreen)}
+.arch-block.wip .arch-step-no{color:var(--amber)}
+.arch-block.dest .arch-step-no{color:var(--blue)}
+.arch-step-nm{font-size:12px;font-weight:700;color:var(--ink);font-family:var(--font)}
+.arch-block.dest .arch-step-nm{color:var(--blue)}
+.arch-step-desc{font-size:10.5px;color:var(--ink3);margin-top:3px;line-height:1.4;font-family:var(--font)}
+.arch-step-desc code{font-family:var(--mono);font-size:10px;padding:1px 4px;
+  background:var(--sf-card);border-radius:3px}
+
+/* ── Concept flow ── */
+.concept-flow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
+  margin-bottom:48px;padding:20px;background:var(--sf-alt);border-radius:var(--rs)}
+.cf-box{padding:8px 18px;background:var(--sf-card);border-radius:6px;font-size:13px;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.cf-arrow{color:var(--ink3);font-size:16px}
+.cf-result{padding:8px 18px;background:var(--blue);color:#fff;border-radius:6px;font-size:13px;font-weight:600}
+
+/* ── Insight ── */
+.insight{padding:20px 24px;border-radius:var(--rs);background:color-mix(in srgb,var(--blue) 5%,var(--sf));
+  border:1px solid color-mix(in srgb,var(--blue) 12%,transparent);margin-bottom:36px}
+.insight-title{font-size:12px;font-weight:700;color:var(--blue);letter-spacing:.02em;margin-bottom:4px}
+.insight p{font-size:14px;color:var(--ink2);line-height:1.65}
+
+/* ── Channel table ── */
+.ch-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px}
+@media(max-width:640px){.ch-grid{grid-template-columns:1fr}}
+.ch-table{width:100%;border-collapse:collapse;font-size:13px}
+.ch-table th{text-align:left;padding:10px 14px;border-bottom:1.5px solid var(--bdr);color:var(--ink3);
+  font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.ch-table td{padding:10px 14px;border-bottom:1px solid var(--bdr-subtle)}
+.ch-table tr:last-child td{border-bottom:none}
+.ch-table .site{font-weight:600;font-size:14px}.ch-table .weight{font-variant-numeric:tabular-nums;font-weight:700;font-size:14px}
+.ch-table .note{color:var(--ink3);font-size:12px}
+
+/* ── Architecture flow ── */
+.arch-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px;position:relative}
+@media(max-width:768px){.arch-flow{grid-template-columns:repeat(2,1fr)}}
+.layer-tab{padding:20px 14px;border-radius:var(--rs);background:var(--sf-card);cursor:pointer;
+  border:1.5px solid transparent;transition:all .3s var(--spring);text-align:center;position:relative;
+  box-shadow:var(--shadow-card)}
+.layer-tab:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover)}
+.layer-tab.active{border-color:var(--blue);box-shadow:0 0 0 3px color-mix(in srgb,var(--blue) 15%,transparent),var(--shadow-card)}
+.l-num{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:3px}
+.l-name{font-size:15px;font-weight:700;letter-spacing:-.01em;margin-bottom:6px}
+.l-vol{font-size:22px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--blue);margin-bottom:6px}
+.l-vol-label{font-size:11px;color:var(--ink3);font-weight:500}
+.layer-tab .arrow{position:absolute;right:-7px;top:50%;transform:translateY(-50%);color:var(--ink3);font-size:14px;z-index:2}
+@media(max-width:768px){.layer-tab .arrow{display:none}}
+
+.layer-detail{display:none;animation:slideUp .35s var(--ease)}
+.layer-detail.active{display:block}
+@keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Schema tables ── */
+.schema-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:28px}
+.schema-tbl caption{text-align:left;font-family:var(--mono);font-size:14px;font-weight:700;
+  padding:10px 0 8px;color:var(--ink);display:flex;align-items:center;gap:12px}
+.tbl-vol{font-family:var(--font);font-size:12px;color:var(--ink3);font-weight:500;
+  padding:2px 10px;background:var(--sf-alt);border-radius:20px}
+.schema-tbl th{text-align:left;padding:10px 14px;background:color-mix(in srgb,var(--sf-alt) 60%,var(--sf-card));
+  font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);font-weight:600;
+  border-bottom:1px solid var(--bdr)}
+.schema-tbl td{padding:10px 14px;border-bottom:1px solid var(--bdr-subtle);transition:background .15s}
+.schema-tbl tbody tr:hover td{background:color-mix(in srgb,var(--blue) 3%,transparent)}
+.schema-tbl td:first-child{font-family:var(--mono);font-weight:500;color:var(--blue);white-space:nowrap}
+.schema-tbl td:nth-child(2){font-family:var(--mono);color:var(--ink3);font-size:12px;white-space:nowrap}
+.pk,.fk{display:inline-block;font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;
+  margin-left:6px;vertical-align:middle;letter-spacing:.03em}
+.pk{background:color-mix(in srgb,var(--amber) 15%,transparent);color:var(--amber)}
+.fk{background:color-mix(in srgb,var(--ink3) 12%,transparent);color:var(--ink3)}
+.tbl-overflow{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--rx);
+  border:1px solid var(--bdr-subtle);margin-bottom:16px}
+.tbl-overflow .schema-tbl{margin-bottom:0}
+
+/* ── Phase & availability badges ── */
+.ph{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;
+  padding:3px 9px;border-radius:20px;letter-spacing:.02em}
+.ph-1{background:color-mix(in srgb,var(--blue) 12%,transparent);color:var(--blue)}
+.ph-2{background:color-mix(in srgb,var(--purple) 10%,transparent);color:var(--purple)}
+.ph-3{background:color-mix(in srgb,var(--teal) 12%,transparent);color:var(--teal)}
+.avail{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px}
+.avail-ok{background:color-mix(in srgb,var(--sgreen) 10%,transparent);color:var(--sgreen)}
+.avail-wip{background:color-mix(in srgb,var(--amber) 10%,transparent);color:var(--amber)}
+.avail-need{background:color-mix(in srgb,var(--red) 10%,transparent);color:var(--red)}
+
+/* ── Signal card preview ── */
+.signal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:28px}
+@media(max-width:640px){.signal-grid{grid-template-columns:1fr}}
+.sig{padding:18px;border-radius:var(--rs);background:var(--sf-card);box-shadow:var(--shadow-card);
+  border-left:3px solid var(--bdr);transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+.sig:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover)}
+.sig-red{border-left-color:var(--red)}.sig-amber{border-left-color:var(--amber)}.sig-green{border-left-color:var(--sgreen)}
+.sig-axis{font-size:10px;font-weight:600;color:var(--ink3);letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px;
+  display:flex;justify-content:space-between;align-items:center}
+.sig-val{font-size:24px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.sig-detail{font-size:12px;color:var(--ink2);margin-top:4px;line-height:1.5}
+.sig-source{font-size:10px;font-family:var(--mono);color:var(--ink3);margin-top:10px;padding-top:10px;
+  border-top:1px solid var(--bdr-subtle);line-height:1.5}
+
+/* ── Timeline ── */
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:36px}
+@media(max-width:900px){.timeline{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.timeline{grid-template-columns:1fr}}
+.tl{border-radius:var(--r);padding:28px;background:var(--sf-card);box-shadow:var(--shadow-card);position:relative;overflow:hidden}
+.tl::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.tl-1::before{background:var(--blue)}.tl-2::before{background:var(--purple)}.tl-3::before{background:var(--teal)}.tl-4::before{background:var(--red)}
+.tl-phase{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+.tl-1 .tl-phase{color:var(--blue)}.tl-2 .tl-phase{color:var(--purple)}.tl-3 .tl-phase{color:var(--teal)}.tl-4 .tl-phase{color:var(--red)}
+.tl-name{font-size:20px;font-weight:700;letter-spacing:-.02em;margin-bottom:2px}
+.tl-period{font-size:12px;color:var(--ink3);margin-bottom:16px}
+.tl-items{list-style:none;display:flex;flex-direction:column;gap:7px}
+.tl-items li{font-size:13px;padding-left:18px;position:relative;color:var(--ink2);line-height:1.5}
+.tl-items li::before{content:'';position:absolute;left:0;top:6px;width:7px;height:7px;border-radius:50%}
+.tl-1 li::before{background:var(--blue)}.tl-2 li::before{background:var(--purple)}.tl-3 li::before{background:var(--teal)}.tl-4 li::before{background:var(--red)}
+
+/* ── Consumer & availability tables ── */
+.data-table{width:100%;border-collapse:collapse;font-size:13px}
+.data-table th{text-align:left;padding:12px 14px;border-bottom:1.5px solid var(--bdr);font-size:10px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+.data-table td{padding:12px 14px;border-bottom:1px solid var(--bdr-subtle);vertical-align:top;transition:background .15s}
+.data-table tbody tr:hover td{background:color-mix(in srgb,var(--blue) 3%,transparent)}
+.data-table tr:last-child td{border-bottom:none}
+
+/* ── Diagnostic Hero ── */
+.diag-layout{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+@media(max-width:768px){.diag-layout{grid-template-columns:1fr;text-align:center}}
+.radar-wrap{position:relative;aspect-ratio:1;max-width:320px;margin:0 auto}
+.radar-wrap canvas{width:100%;height:100%;display:block}
+
+.score-side{display:flex;flex-direction:column;gap:20px}
+.score-top{display:flex;align-items:flex-end;gap:14px}
+@media(max-width:768px){.score-top{justify-content:center}}
+.score-number{font-size:72px;font-weight:800;letter-spacing:-.05em;line-height:1;
+  font-variant-numeric:tabular-nums;background:linear-gradient(135deg,var(--blue),var(--indigo));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.score-max{font-size:22px;font-weight:500;color:var(--ink3);margin-bottom:10px}
+
+.tier-badge-lg{display:inline-flex;align-items:center;justify-content:center;
+  width:60px;height:60px;border-radius:18px;font-size:30px;font-weight:800;color:#fff;
+  margin-left:8px;margin-bottom:6px;position:relative;
+  animation:tierGlow 3s ease-in-out infinite}
+.tier-badge-lg::after{content:'';position:absolute;inset:-3px;border-radius:21px;
+  border:2px solid rgba(255,255,255,.15);pointer-events:none}
+@keyframes tierGlow{
+  0%,100%{box-shadow:0 4px 20px rgba(0,0,0,.15)}
+  50%{box-shadow:0 4px 32px var(--tier-glow,rgba(94,92,230,.35))}
+}
+.tier-s{background:linear-gradient(135deg,#FFD60A,#FF9F0A);--tier-glow:rgba(255,159,10,.4)}
+.tier-a{background:linear-gradient(135deg,var(--blue),var(--indigo));--tier-glow:rgba(94,92,230,.4)}
+.tier-b{background:linear-gradient(135deg,#64D2FF,#0A84FF);--tier-glow:rgba(10,132,255,.35)}
+.tier-c{background:linear-gradient(135deg,var(--ink3),#48484A);--tier-glow:rgba(110,110,115,.3)}
+
+.status-line{display:flex;align-items:center;gap:8px;margin-top:-4px}
+@media(max-width:768px){.status-line{justify-content:center}}
+.status-dot{width:10px;height:10px;border-radius:50%;animation:statusPulse 2s ease-in-out infinite}
+@keyframes statusPulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+.tier-scale{display:flex;flex-direction:column;gap:4px;margin-top:4px}
+.tier-row{display:flex;align-items:center;gap:10px;font-size:13px;padding:10px 16px;
+  border-radius:var(--rx);transition:all .3s var(--spring);cursor:default}
+.tier-row:hover{background:color-mix(in srgb,var(--blue) 4%,transparent)}
+.tier-row.current{background:color-mix(in srgb,var(--blue) 8%,transparent);
+  box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--blue) 20%,transparent);
+  transform:scale(1.02)}
+.tier-dot{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;
+  justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0;
+  transition:transform .25s var(--spring)}
+.tier-row:hover .tier-dot{transform:scale(1.1)}
+.tier-range{font-variant-numeric:tabular-nums;font-weight:700;color:var(--ink);min-width:56px}
+.tier-desc{color:var(--ink2);font-weight:500}
+.tier-arrow{margin-left:auto;color:var(--blue);font-weight:700;font-size:15px;
+  opacity:0;transition:opacity .2s,transform .2s}
+.tier-row.current .tier-arrow{opacity:1;transform:translateX(0)}
+
+/* ── Signal Bars v2 ── */
+.sig-bars{display:flex;flex-direction:column;gap:6px;margin-top:32px}
+.sig-bar{display:grid;grid-template-columns:120px 1fr 90px 60px;align-items:center;gap:16px;
+  padding:16px 22px;background:var(--sf-card);border-radius:var(--rs);box-shadow:var(--shadow-card);
+  transition:all .25s var(--ease);position:relative;overflow:hidden}
+.sig-bar::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  transition:width .3s var(--ease)}
+.sig-bar:hover{transform:translateX(6px);box-shadow:var(--shadow-hover)}
+.sig-bar:hover::before{width:4px}
+.sig-bar-red::before{background:var(--red)}
+.sig-bar-amber::before{background:var(--amber)}
+.sig-bar-green::before{background:var(--sgreen)}
+@media(max-width:640px){.sig-bar{grid-template-columns:90px 1fr 70px 48px;padding:12px 14px;gap:10px}}
+.sig-bar-name{font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
+.sig-bar-name .sig-icon{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.sig-bar-track{height:8px;background:var(--bdr-subtle);border-radius:4px;overflow:hidden;position:relative}
+.sig-bar-fill{height:100%;border-radius:4px;transition:width 1.4s cubic-bezier(.16,1,.3,1);width:0}
+.sig-bar-val{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;text-align:right;letter-spacing:-.02em}
+.sig-bar-badge{font-size:11px;font-weight:600;text-align:center;padding:4px 0;border-radius:20px}
+.badge-red{background:color-mix(in srgb,var(--red) 10%,transparent);color:var(--red)}
+.badge-amber{background:color-mix(in srgb,var(--amber) 10%,transparent);color:var(--amber)}
+.badge-green{background:color-mix(in srgb,var(--sgreen) 10%,transparent);color:var(--sgreen)}
+
+/* ── Diagnosis Terminal ── */
+.diag-terminal{margin-top:24px;background:#111113;border-radius:var(--rs);padding:28px;position:relative;
+  font-family:var(--mono);font-size:13px;line-height:1.9;color:#A1A1A6;overflow-x:auto;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03),var(--shadow-card)}
+.diag-terminal::before{content:'DIAGNOSIS';position:absolute;top:10px;right:16px;
+  font-size:9px;letter-spacing:.12em;color:#38383A;font-weight:700}
+.dt-prompt{color:#5E5CE6;font-weight:600}
+.dt-key{color:#64D2FF}.dt-red{color:#FF453A}.dt-green{color:#32D74B}
+.dt-amber{color:#FFD60A}.dt-white{color:#F5F5F7;font-weight:600}
+.dt-dim{color:#48484A}
+.dt-source{display:block;margin-top:14px;padding-top:14px;
+  border-top:1px solid rgba(255,255,255,.05);font-size:11px;color:#48484A}
+
+/* ── Animations ── */
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){.fade-in{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">11st AX TF · Albatross</span>
+  <a href="#framework" class="active">Framework</a>
+  <a href="#pipeline">Pipeline</a>
+  <a href="#ranking">통합 랭킹</a>
+  <a href="#schema">데이터 플로우</a>
+  <a href="#output">결과물</a>
+  <a href="#roadmap">실행계획</a>
+  <span class="draft">초안 v0.1</span>
+</nav>
+
+<header class="hero">
+  <canvas id="flow"></canvas>
+  <div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#86868B;font-weight:600;margin-bottom:10px">11st AX TF · Albatross</div>
+  <h1>ESSENTIAL GPS</h1>
+  <div class="sub">Gap · Priority · Score</div>
+  <div class="desc">외부 수집 → 상품 매칭 → Gap 분석 → 스코어링 → MD Task까지,<br>ESSENTIAL GPS의 데이터가 어떻게 쌓이고 소비되는지 한 장의 청사진.</div>
+  <div class="phase-legend">
+    <span><span class="pdot" style="background:var(--blue)"></span>Phase 1 · MVP 완료</span>
+    <span><span class="pdot" style="background:var(--purple)"></span>Phase 2 · 단기 구현</span>
+    <span><span class="pdot" style="background:var(--teal)"></span>Phase 3 · 장기 구축</span>
+  </div>
+</header>
+
+<!-- ═══ Section 0: GPS Framework ═══ -->
+<section id="framework">
+<div class="container">
+  <div class="sec-label">Framework</div>
+  <div class="sec-title">세 단계로 실행한다</div>
+  <div class="sec-desc">6대 축을 <strong style="color:var(--ink)">진단(Gap)</strong>해 · 기회손실 크기순으로 <strong style="color:var(--ink)">정렬(Priority)</strong>하고 · 하나의 <strong style="color:var(--ink)">등급(Score)</strong>으로 실행시킨다.</div>
+
+  <div class="gps-grid fade-in" id="gps-cards">
+    <div class="card gps-card g" data-gps="g">
+      <div class="gps-role">진단</div>
+      <div class="gps-big">Gap</div>
+      <div class="gps-axes">가격 경쟁력 · 구색 커버리지 · 미입점</div>
+      <div class="gps-detail">매출 기회가 벌어지는 지점 포착</div>
+      <div class="gps-kpi">PCI · ACR · CVR</div>
+    </div>
+    <div class="card gps-card p" data-gps="p">
+      <div class="gps-role">정렬</div>
+      <div class="gps-big">Priority</div>
+      <div class="gps-axes">인기도 신호 · 매출 요소를 가중 결합</div>
+      <div class="gps-detail">기회손실 GMV 크기순 정렬</div>
+      <div class="gps-kpi">Opportunity GMV</div>
+    </div>
+    <div class="card gps-card s" data-gps="s">
+      <div class="gps-role">등급</div>
+      <div class="gps-big">Score</div>
+      <div class="gps-axes">S/A/B 티어링 종합 등급 산출</div>
+      <div class="gps-detail">신호등 직관화 → MCP 액션 실행</div>
+      <div class="gps-kpi">S · A · B · C</div>
+    </div>
+  </div>
+
+  <div class="gps-pipe fade-in" id="gps-pipe">
+    <div class="gps-pipe-label">실행 플로우</div>
+    <div class="gps-pipe-track" id="gps-track">
+      <div class="gps-phase" data-phase="g">
+        <div class="gps-phase-tag">Gap</div>
+        <div class="gps-phase-nodes">
+          <div class="gps-phase-node"><strong>자사 데이터</strong><span>Metrics API · BIDB · Discovery</span></div>
+          <span class="gps-phase-arr">↔</span>
+          <div class="gps-phase-node"><strong>외부 데이터</strong><span>경쟁사 11개 크롤 (Albatross)</span></div>
+        </div>
+      </div>
+      <div class="gps-phase-divider"></div>
+      <div class="gps-phase" data-phase="p">
+        <div class="gps-phase-tag">Priority</div>
+        <div class="gps-phase-nodes">
+          <div class="gps-phase-node"><strong>기회손실 정렬</strong><span>GMV 파급력 × 조직장 가중치</span></div>
+        </div>
+      </div>
+      <div class="gps-phase-divider"></div>
+      <div class="gps-phase" data-phase="s">
+        <div class="gps-phase-tag">Score</div>
+        <div class="gps-phase-nodes">
+          <div class="gps-phase-node"><strong>등급 산출</strong><span>0~100 → S/A/B/C</span></div>
+          <span class="gps-phase-arr">→</span>
+          <div class="gps-phase-node"><strong>실행 연동</strong><span>검색 · 전시 · SO</span></div>
+        </div>
+      </div>
+      <div class="gps-pulse" id="gps-pulse"></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══ Section 1: Pipeline ═══ -->
+<section id="pipeline" class="alt">
+<div class="container">
+  <div class="sec-label">Core Data Pipeline</div>
+  <div class="sec-title">경쟁사 수집에서 MD 실행까지</div>
+  <div class="pipe-narrative fade-in">수집 <span class="pn-a">→</span> 통합 <span class="pn-a">→</span> 진단 <span class="pn-a">→</span> 스코어링 <span class="pn-a">→</span> 배분 <span class="pn-a">→</span> <span class="pn-end">실행</span></div>
+  <div class="sec-desc fade-in">경쟁사 데이터와 우리 데이터를 합쳐서 상품별 격차를 진단하고, MD별 실행 과제까지 자동으로 만드는 흐름.</div>
+
+  <div class="pipe-flow fade-in">
+    <div class="pipe-rail"><div class="pipe-rail-fill" id="pipe-fill"></div></div>
+    <div class="pipe-cards" id="pipe-track"></div>
+  </div>
+  <div class="pipe-expand" id="pipe-detail"></div>
+</div>
+</section>
+
+<!-- ═══ Section 2: 통합 랭킹 ═══ -->
+<section id="ranking">
+<div class="container">
+  <div class="sec-label">Unified Ranking</div>
+  <div class="sec-title">통합 랭킹 체계</div>
+  <div class="sec-desc">네이버 판매순 + 다채널 가중치 + 리뷰 + 정책을 하나의 기준값으로 합산하여 전체 수집 상품을 정렬합니다.</div>
+
+  <div class="concept-flow fade-in">
+    <span class="cf-box">1 Product</span><span class="cf-arrow">×</span>
+    <span class="cf-box">N Channels</span><span class="cf-arrow">→</span>
+    <span class="cf-box">Dedup</span><span class="cf-arrow">→</span>
+    <span class="cf-result">1 Rank Score</span>
+  </div>
+
+  <div class="insight fade-in">
+    <div class="insight-title">핵심 원칙</div>
+    <p>네이버 기준으로 유니크 상품을 잡되, 동일 상품의 다채널 소스(쿠팡·SSG·무신사 등)를 모두 수집하여 가중 합산합니다.
+       11번가 상품이 특정된 것과 안 된 것은 <strong>분리 정책</strong>으로 랭킹합니다.</p>
+  </div>
+
+  <div class="toggle-group fade-in">
+    <button class="toggle-btn active" data-track="matched" onclick="switchTrack('matched')">매칭 상품</button>
+    <button class="toggle-btn" data-track="unmatched" onclick="switchTrack('unmatched')">미매칭 상품</button>
+  </div>
+
+  <!-- Matched -->
+  <div id="track-matched" class="track active">
+    <div class="card fade-in" style="margin-bottom:24px">
+      <div style="font-size:12px;color:var(--ink3);margin-bottom:14px">
+        <strong style="color:var(--matched)">11번가 매칭 상품</strong> — 외부 데이터 + 내부 Gap 분석 결과를 모두 반영
+      </div>
+      <div class="stacked-bar" data-animate>
+        <div class="stacked-seg" style="flex:30;background:var(--matched)"><span>Naver 30%</span></div>
+        <div class="stacked-seg" style="flex:20;background:#7B7AEC"><span>채널 20%</span></div>
+        <div class="stacked-seg" style="flex:15;background:#A09FEE"><span>리뷰 15%</span></div>
+        <div class="stacked-seg" style="flex:25;background:var(--red)"><span>Gap 25%</span></div>
+        <div class="stacked-seg" style="flex:10;background:var(--ink3)"><span>10%</span></div>
+      </div>
+      <div class="formula-legend">
+        <div class="fl-item"><span class="fl-dot" style="background:var(--matched)"></span>Naver 판매순 <strong>30%</strong></div>
+        <div class="fl-item"><span class="fl-dot" style="background:#7B7AEC"></span>채널 가중 랭킹 <strong>20%</strong></div>
+        <div class="fl-item"><span class="fl-dot" style="background:#A09FEE"></span>리뷰 종합 <strong>15%</strong></div>
+        <div class="fl-item"><span class="fl-dot" style="background:var(--red)"></span>Gap 심각도 <strong>25%</strong></div>
+        <div class="fl-item"><span class="fl-dot" style="background:var(--ink3)"></span>정책 조정 <strong>10%</strong></div>
+      </div>
+      <div style="padding-top:14px;border-top:1px solid var(--bdr-subtle);font-size:12px;color:var(--ink3);line-height:1.6">
+        <strong>정책 조정값:</strong> 전사행사(월간/그랜드십일절) 가중 +, 시즌성 반영 ±, MD Reject 이력 2개월 감점 −<br>
+        <strong>Naver 기준:</strong> 판매순 + 대분류 or 중분류 기준, 0~100 정규화
+      </div>
+    </div>
+  </div>
+
+  <!-- Unmatched -->
+  <div id="track-unmatched" class="track">
+    <div class="card fade-in" style="margin-bottom:24px">
+      <div style="font-size:12px;color:var(--ink3);margin-bottom:14px">
+        <strong style="color:var(--unmatched)">미매칭 상품</strong> — Gap 분석 불가, 카테고리 기회 점수로 대체
+      </div>
+      <div class="stacked-bar" data-animate>
+        <div class="stacked-seg" style="flex:35;background:var(--unmatched)"><span>Naver 35%</span></div>
+        <div class="stacked-seg" style="flex:25;background:#FFB94D"><span>채널 25%</span></div>
+        <div class="stacked-seg" style="flex:15;background:#FFD080"><span>리뷰 15%</span></div>
+        <div class="stacked-seg" style="flex:25;background:var(--purple)"><span>기회 25%</span></div>
+      </div>
+      <div class="formula-legend">
+        <div class="fl-item"><span class="fl-dot" style="background:var(--unmatched)"></span>Naver 판매순 <strong>35%</strong></div>
+        <div class="fl-item"><span class="fl-dot" style="background:#FFB94D"></span>채널 가중 랭킹 <strong>25%</strong></div>
+        <div class="fl-item"><span class="fl-dot" style="background:#FFD080"></span>리뷰 종합 <strong>15%</strong></div>
+        <div class="fl-item"><span class="fl-dot" style="background:var(--purple)"></span>카테고리 기회 <strong>25%</strong></div>
+      </div>
+      <div style="padding-top:14px;border-top:1px solid var(--bdr-subtle);font-size:12px;color:var(--ink3);line-height:1.6">
+        <strong>카테고리 기회:</strong> 해당 카테고리 내 11번가 점유율이 낮을수록 → 신규 입점 기회 점수 상승
+      </div>
+    </div>
+  </div>
+
+  <!-- Channel Weights -->
+  <div class="card fade-in" style="margin-top:8px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <span style="font-size:17px;font-weight:700;letter-spacing:-.02em">판매채널별 가중치</span>
+      <span class="ph ph-2">Phase 2</span>
+    </div>
+    <div style="font-size:12px;color:var(--ink3);margin-bottom:8px">네이버 = 1.00 기준, 카테고리 특화 채널은 해당 카테고리에서 추가 가중</div>
+    <div class="ch-grid">
+      <div class="tbl-overflow" style="border:none;margin:0">
+        <table class="ch-table">
+          <thead><tr><th>채널</th><th>가중치</th><th>비고</th></tr></thead>
+          <tbody>
+            <tr><td class="site">네이버</td><td class="weight">1.00</td><td class="note">기준 채널</td></tr>
+            <tr><td class="site">쿠팡</td><td class="weight">0.85</td><td class="note">거래량 기반</td></tr>
+            <tr><td class="site">SSG</td><td class="weight">0.70</td><td class="note">프리미엄</td></tr>
+            <tr><td class="site">무신사</td><td class="weight">0.80</td><td class="note">패션 특화 ↑</td></tr>
+            <tr><td class="site">올리브영</td><td class="weight">0.75</td><td class="note">H&B 특화 ↑</td></tr>
+            <tr><td class="site">마켓컬리</td><td class="weight">0.75</td><td class="note">식품 특화 ↑</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tbl-overflow" style="border:none;margin:0">
+        <table class="ch-table">
+          <thead><tr><th>채널</th><th>가중치</th><th>비고</th></tr></thead>
+          <tbody>
+            <tr><td class="site">오늘의집</td><td class="weight">0.70</td><td class="note">리빙 특화 ↑</td></tr>
+            <tr><td class="site">롯데온</td><td class="weight">0.65</td><td class="note"></td></tr>
+            <tr><td class="site">G마켓</td><td class="weight">0.60</td><td class="note">오픈마켓</td></tr>
+            <tr><td class="site">옥션</td><td class="weight">0.60</td><td class="note">오픈마켓</td></tr>
+            <tr><td class="site">카카오</td><td class="weight">0.55</td><td class="note">선물하기 중심</td></tr>
+            <tr><td class="site">GS SHOP</td><td class="weight">0.55</td><td class="note">홈쇼핑</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══ Section 2: 데이터 스키마 ═══ -->
+<section id="schema" class="alt">
+<div class="container">
+  <div class="sec-label">System Architecture</div>
+  <div class="sec-title">시스템 플로우</div>
+  <div class="sec-desc">수집 대상 정의부터 MD 실행 관제까지 — Albatross 아키텍처 기반 7단계 데이터 파이프라인.</div>
+
+  <!-- Architecture: Top Tier — Data Layer -->
+  <div class="arch-tier arch-tier-top fade-in">
+    <div class="arch-block done">
+      <div class="arch-comp"><div class="arch-comp-icon">C</div><div class="arch-comp-name">Claw · 발톱</div></div>
+      <div class="arch-step">
+        <span class="arch-step-no">①</span><span class="arch-step-nm">수집 대상 정의</span>
+        <div class="arch-step-desc">크롤 사이트 · 정책 · 헬스체크<br><code>abt_crawl_site</code> <code>abt_crawl_job</code></div>
+      </div>
+      <div class="arch-step">
+        <span class="arch-step-no">②</span><span class="arch-step-nm">외부 데이터 수집</span>
+        <div class="arch-step-desc">경쟁사 11개 사이트 크롤<br><code>abt_crawl_product</code> <code>abt_crawl_product_rank</code></div>
+      </div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-block done">
+      <div class="arch-comp"><div class="arch-comp-icon">H</div><div class="arch-comp-name">Heart · API</div></div>
+      <div class="arch-step">
+        <span class="arch-step-no">③</span><span class="arch-step-nm">내↔외부 연동</span>
+        <div class="arch-step-desc">자사 지표 API 연동<br>Metrics API · BIDB · Discovery</div>
+      </div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-block wip">
+      <div class="arch-comp"><div class="arch-comp-icon">W</div><div class="arch-comp-name">Wing · 배치</div></div>
+      <div class="arch-step">
+        <span class="arch-step-no">④</span><span class="arch-step-nm">상품 매칭</span>
+        <div class="arch-step-desc">외부↔11번가 상품 매핑<br><code>gps_unified_product</code> <code>gps_11st_match</code></div>
+      </div>
+      <div class="arch-step">
+        <span class="arch-step-no">⑤</span><span class="arch-step-nm">Gap 분석</span>
+        <div class="arch-step-desc">6대 축 격차 진단 · 신호등<br><code>gps_gap_axis</code> <code>gps_product_score</code></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Connector -->
+  <div class="arch-tier-connect fade-in">↓</div>
+
+  <!-- Architecture: Bottom Tier — Intelligence Layer -->
+  <div class="arch-tier arch-tier-btm fade-in">
+    <div class="arch-block plan">
+      <div class="arch-comp"><div class="arch-comp-icon">B</div><div class="arch-comp-name">Brain · MCP</div></div>
+      <div class="arch-step">
+        <span class="arch-step-no">⑥</span><span class="arch-step-nm">Score & Action</span>
+        <div class="arch-step-desc">S/A/B/C 등급 산출 → MCP 자동 실행<br><code>gps_action_recommendation</code></div>
+      </div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-block dest">
+      <div class="arch-comp"><div class="arch-comp-icon">G</div><div class="arch-comp-name">ESSENTIAL GPS</div></div>
+      <div class="arch-step">
+        <span class="arch-step-no">⑦</span><span class="arch-step-nm">MD 실행 관제</span>
+        <div class="arch-step-desc">Task 배분 · Accept/Reject · 성과 트래킹<br><code>gps_md_task</code> <code>gps_performance_track</code></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="font-size:11px;color:var(--ink3);line-height:1.6;margin-bottom:20px">
+    조인 자연키: 외부 (<code>SITE_KEY</code>, <code>PRODUCT_ID</code>) · 자사 <code>ELEVEN_PRODUCT_NO</code> · 매핑 단일 출처 = <code>abt_gap_product</code>
+  </div>
+
+  <div style="text-align:center;margin-bottom:12px">
+    <span style="font-size:11px;color:var(--ink3);font-weight:500">각 레이어의 테이블 상세는 아래 탭에서 확인</span>
+  </div>
+
+  <div class="arch-flow fade-in">
+    <div class="layer-tab active" data-layer="l1" onclick="switchLayer('l1')">
+      <div class="l-num">Layer 1</div>
+      <div class="l-name">외부 수집</div>
+      <div class="l-vol" data-count="2539107">0</div>
+      <div class="l-vol-label">총 레코드</div>
+      <div style="margin-top:8px"><span class="ph ph-1">MVP 완료</span></div>
+      <span class="arrow">›</span>
+    </div>
+    <div class="layer-tab" data-layer="l2" onclick="switchLayer('l2')">
+      <div class="l-num">Layer 2</div>
+      <div class="l-name">매칭 & 랭킹</div>
+      <div class="l-vol" style="color:var(--purple)">4 tbl</div>
+      <div class="l-vol-label">테이블</div>
+      <div style="margin-top:8px"><span class="ph ph-2">Phase 2</span></div>
+      <span class="arrow">›</span>
+    </div>
+    <div class="layer-tab" data-layer="l3" onclick="switchLayer('l3')">
+      <div class="l-num">Layer 3</div>
+      <div class="l-name">Gap 분석</div>
+      <div class="l-vol" style="color:var(--purple)">3 tbl</div>
+      <div class="l-vol-label">테이블</div>
+      <div style="margin-top:8px"><span class="ph ph-2">Phase 2</span></div>
+      <span class="arrow">›</span>
+    </div>
+    <div class="layer-tab" data-layer="l4" onclick="switchLayer('l4')">
+      <div class="l-num">Layer 4</div>
+      <div class="l-name">통합 & 소비</div>
+      <div class="l-vol" style="color:var(--teal)">3 tbl</div>
+      <div class="l-vol-label">테이블</div>
+      <div style="margin-top:8px"><span class="ph ph-3">Phase 3</span></div>
+    </div>
+  </div>
+
+  <!-- L1 -->
+  <div id="detail-l1" class="layer-detail active">
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px">
+        <span class="ph ph-1">MVP 완료</span>
+        <span style="font-size:13px;color:var(--ink2)">Albatross 크롤러 — 11개 사이트 외부 데이터</span>
+      </div>
+      <div class="tbl-overflow">
+        <table class="schema-tbl"><caption>abt_crawl_site <span class="tbl-vol">11건</span></caption>
+        <thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td>site_id <span class="pk">PK</span></td><td>INT</td><td>사이트 고유 ID</td></tr>
+          <tr><td>site_name</td><td>VARCHAR</td><td>네이버, 쿠팡, SSG …</td></tr>
+          <tr><td>channel_weight</td><td>DECIMAL</td><td>통합 랭킹 가중치 (0~1)</td></tr>
+          <tr><td>category_specialty</td><td>VARCHAR</td><td>특화 카테고리 (패션/식품/H&B …)</td></tr>
+          <tr><td>is_active</td><td>BOOLEAN</td><td>수집 활성 여부</td></tr>
+        </tbody></table>
+      </div>
+      <div class="tbl-overflow">
+        <table class="schema-tbl"><caption>abt_crawl_product <span class="tbl-vol">215,838건</span></caption>
+        <thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td>crawl_product_id <span class="pk">PK</span></td><td>BIGINT</td><td>수집 상품 ID</td></tr>
+          <tr><td>site_id <span class="fk">FK</span></td><td>INT</td><td>수집 사이트</td></tr>
+          <tr><td>external_product_id</td><td>VARCHAR</td><td>원천 사이트 상품 코드</td></tr>
+          <tr><td>product_name</td><td>VARCHAR</td><td>상품명</td></tr>
+          <tr><td>brand</td><td>VARCHAR</td><td>브랜드</td></tr>
+          <tr><td>seller_name</td><td>VARCHAR</td><td>셀러/판매자</td></tr>
+          <tr><td>price</td><td>INT</td><td>현재 판매가</td></tr>
+          <tr><td>original_price</td><td>INT</td><td>정가</td></tr>
+          <tr><td>category_l1 / l2 / l3</td><td>VARCHAR</td><td>대/중/소분류</td></tr>
+          <tr><td>image_url</td><td>TEXT</td><td>대표 이미지</td></tr>
+          <tr><td>crawl_date</td><td>DATE</td><td>수집 일자</td></tr>
+        </tbody></table>
+      </div>
+      <div class="tbl-overflow">
+        <table class="schema-tbl"><caption>abt_crawl_product_metric <span class="tbl-vol">358,833건</span></caption>
+        <thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td>metric_id <span class="pk">PK</span></td><td>BIGINT</td><td>메트릭 ID</td></tr>
+          <tr><td>crawl_product_id <span class="fk">FK</span></td><td>BIGINT</td><td>수집 상품</td></tr>
+          <tr><td>review_count</td><td>INT</td><td>리뷰 수</td></tr>
+          <tr><td>review_avg_score</td><td>DECIMAL</td><td>평균 평점 (5.0 만점)</td></tr>
+          <tr><td>sales_rank</td><td>INT</td><td>카테고리 내 판매 순위</td></tr>
+          <tr><td>rank_category_level</td><td>ENUM</td><td>대분류 / 중분류 기준</td></tr>
+          <tr><td>crawl_date</td><td>DATE</td><td>수집 일자</td></tr>
+        </tbody></table>
+      </div>
+      <div class="tbl-overflow">
+        <table class="schema-tbl"><caption>abt_crawl_product_rank <span class="tbl-vol">1,964,436건</span></caption>
+        <thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td>rank_id <span class="pk">PK</span></td><td>BIGINT</td><td>랭킹 레코드 ID</td></tr>
+          <tr><td>crawl_product_id <span class="fk">FK</span></td><td>BIGINT</td><td>수집 상품</td></tr>
+          <tr><td>site_id <span class="fk">FK</span></td><td>INT</td><td>수집 사이트</td></tr>
+          <tr><td>rank_type</td><td>ENUM</td><td>판매순 / 인기순 / 리뷰순 / 최신순</td></tr>
+          <tr><td>rank_position</td><td>INT</td><td>순위</td></tr>
+          <tr><td>category_id</td><td>VARCHAR</td><td>카테고리 코드</td></tr>
+          <tr><td>category_level</td><td>ENUM</td><td>대/중/소분류</td></tr>
+          <tr><td>crawl_date</td><td>DATE</td><td>수집 일자</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- L2 -->
+  <div id="detail-l2" class="layer-detail">
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px">
+        <span class="ph ph-2">Phase 2</span>
+        <span style="font-size:13px;color:var(--ink2)">다채널 상품 통합 + 11번가 매칭 + 통합 랭킹 산출</span>
+      </div>
+      <div class="tbl-overflow">
+        <table class="schema-tbl"><caption>gps_unified_product <span class="tbl-vol">유니크 상품 풀</span></caption>
+        <thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td>unified_product_id <span class="pk">PK</span></td><td>BIGINT</td><td>통합 상품 ID</td></tr>
+          <tr><td>product_name_normalized</td><td>VARCHAR</td><td>정규화된 상품명</td></tr>
+          <tr><td>brand_normalized</td><td>VARCHAR</td><td>정규화된 브랜드</td></tr>
+          <tr><td>category_l1 / l2 / l3</td><td>VARCHAR</td><td>대/중/소분류</td></tr>
+          <tr><td>channel_count</td><td>INT</td><td>수집된 채널 수 (1~11)</td></tr>
+          <tr><td>representative_image</td><td>TEXT</td><td>대표 이미지</td></tr>
+          <tr><td>first_seen</td><td>DATE</td><td>최초 수집일</td></tr>
+        </tbody></table>
+      </div>
+      <div class="tbl-overflow">
+        <table class="schema-tbl"><caption>gps_product_source <span class="tbl-vol">M:N 매핑</span></caption>
+        <thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td>unified_product_id <span class="fk">FK</span></td><td>BIGINT</td><td>통합 상품</td></tr>
+          <tr><td>crawl_product_id <span class="fk">FK</span></td><td>BIGINT</td><td>원천 수집 상품</td></tr>
+          <tr><td>site_id <span class="fk">FK</span></td><td>INT</td><td>채널</td></tr>
+          <tr><td>match_confidence</td><td>DECIMAL</td><td>매칭 신뢰도 (0~1)</td></tr>
+          <tr><td>match_method</td><td>ENUM</td><td>exact_name / brand+model / barcode</td></tr>
+        </tbody></table>
+      </div>
+      <div class="tbl-overflow">
+        <table class="schema-tbl"><caption>gps_11st_match <span class="tbl-vol">11번가 상품 특정</span></caption>
+        <thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td>unified_product_id <span class="fk">FK</span></td><td>BIGINT</td><td>통합 상품</td></tr>
+          <tr><td>prd_no</td><td>BIGINT</td><td>11번가 상품번호</td></tr>
+          <tr><td>match_status</td><td>ENUM</td><td>MATCHED / UNMATCHED / CANDIDATE</td></tr>
+          <tr><td>match_confidence</td><td>DECIMAL</td><td>매칭 신뢰도</td></tr>
+          <tr><td>match_method</td><td>ENUM</td><td>매칭 방법</td></tr>
+          <tr><td>matched_date</td><td>DATE</td><td>매칭 완료일</td></tr>
+        </tbody></table>
+      </div>
+      <div class="tbl-overflow">
+        <table class="schema-tbl"><caption>gps_unified_rank <span class="tbl-vol">통합 랭킹 점수</span></caption>
+        <thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td>unified_product_id <span class="fk">FK</span></td><td>BIGINT</td><td>통합 상품</td></tr>
+          <tr><td>naver_rank_score</td><td>DECIMAL</td><td>네이버 판매순 정규화 (0~100)</td></tr>
+          <tr><td>channel_weighted_score</td><td>DECIMAL</td><td>채널 가중 랭킹 점수</td></tr>
+          <tr><td>review_composite_score</td><td>DECIMAL</td><td>리뷰 종합 점수</td></tr>
+          <tr><td>gap_severity_score</td><td>DECIMAL</td><td>Gap 심각도 (매칭 전용)</td></tr>
+          <tr><td>category_opportunity</td><td>DECIMAL</td><td>카테고리 기회 (미매칭 전용)</td></tr>
+          <tr><td>policy_adjustment</td><td>DECIMAL</td><td>정책 조정값</td></tr>
+          <tr><td>final_rank_score</td><td>DECIMAL</td><td>최종 랭킹 점수</td></tr>
+          <tr><td>is_matched</td><td>BOOLEAN</td><td>11번가 매칭 여부</td></tr>
+          <tr><td>score_date</td><td>DATE</td><td>산출 일자</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- L3 -->
+  <div id="detail-l3" class="layer-detail">
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px">
+        <span class="ph ph-2">Phase 2</span>
+        <span style="font-size:13px;color:var(--ink2)">6대 축 Gap 측정 → 종합 스코어 → 자동 진단 + 액션 추천</span>
+      </div>
+      <div class="tbl-overflow">
+        <table class="schema-tbl"><caption>gps_gap_axis <span class="tbl-vol">6대 축 × 상품 수</span></caption>
+        <thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td>gap_id <span class="pk">PK</span></td><td>BIGINT</td><td>Gap 레코드 ID</td></tr>
+          <tr><td>unified_product_id <span class="fk">FK</span></td><td>BIGINT</td><td>통합 상품</td></tr>
+          <tr><td>prd_no <span class="fk">FK</span></td><td>BIGINT</td><td>11번가 상품번호</td></tr>
+          <tr><td>axis_type</td><td>ENUM</td><td>PRICE / DEAL / MOMENTUM / CVR / REVIEW / DELIVERY</td></tr>
+          <tr><td>external_value</td><td>VARCHAR</td><td>외부 기준값 (예: 20,300원)</td></tr>
+          <tr><td>internal_value</td><td>VARCHAR</td><td>내부 현재값 (예: 21,900원)</td></tr>
+          <tr><td>gap_value</td><td>DECIMAL</td><td>Gap 절대값</td></tr>
+          <tr><td>gap_pct</td><td>DECIMAL</td><td>Gap 비율 (%)</td></tr>
+          <tr><td>signal</td><td>ENUM</td><td>RED(열위) / AMBER(주의) / GREEN(양호)</td></tr>
+          <tr><td>data_availability</td><td>ENUM</td><td>AVAILABLE / COLLECTING / NEEDED</td></tr>
+          <tr><td>analysis_date</td><td>DATE</td><td>분석 일자</td></tr>
+        </tbody></table>
+      </div>
+      <div class="tbl-overflow">
+        <table class="schema-tbl"><caption>gps_product_score <span class="tbl-vol">상품별 종합 스코어</span></caption>
+        <thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td>score_id <span class="pk">PK</span></td><td>BIGINT</td><td>스코어 ID</td></tr>
+          <tr><td>unified_product_id <span class="fk">FK</span></td><td>BIGINT</td><td>통합 상품</td></tr>
+          <tr><td>prd_no <span class="fk">FK</span></td><td>BIGINT</td><td>11번가 상품번호</td></tr>
+          <tr><td>total_score</td><td>INT</td><td>종합 점수 (0~100)</td></tr>
+          <tr><td>tier</td><td>ENUM</td><td>S / A / B / C</td></tr>
+          <tr><td>tier_label</td><td>VARCHAR</td><td>성장 가속 / 유지 / 관찰 / 재검토</td></tr>
+          <tr><td>overall_status</td><td>ENUM</td><td>양호 / 주의 / 열위 / 위험</td></tr>
+          <tr><td>problem_definition</td><td>TEXT</td><td>자동 진단 (예: 가격 열위 → CVR 저하)</td></tr>
+          <tr><td>primary_gap_axis</td><td>ENUM</td><td>최대 Gap 축</td></tr>
+          <tr><td>gap_count_red</td><td>INT</td><td>열위(RED) 축 수</td></tr>
+          <tr><td>gap_count_amber</td><td>INT</td><td>주의(AMBER) 축 수</td></tr>
+          <tr><td>estimated_missed_gmv</td><td>BIGINT</td><td>추정 놓치는 매출 (원)</td></tr>
+          <tr><td>score_date</td><td>DATE</td><td>산출 일자</td></tr>
+        </tbody></table>
+      </div>
+      <div class="tbl-overflow">
+        <table class="schema-tbl"><caption>gps_action_recommendation <span class="tbl-vol">추천 액션 아이템</span></caption>
+        <thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td>recommendation_id <span class="pk">PK</span></td><td>BIGINT</td><td>추천 ID</td></tr>
+          <tr><td>score_id <span class="fk">FK</span></td><td>BIGINT</td><td>스코어 참조</td></tr>
+          <tr><td>action_type</td><td>ENUM</td><td>PRICE_ADJUST / COUPON / DEAL_RELIST / PROMOTION / CPC …</td></tr>
+          <tr><td>action_description</td><td>TEXT</td><td>설명 (예: DP쿠폰 적용 → 실질가 20,200원)</td></tr>
+          <tr><td>connected_system</td><td>VARCHAR</td><td>가격MCP / 정산API / 편성·광고MCP</td></tr>
+          <tr><td>auto_executable</td><td>BOOLEAN</td><td>자동 실행 가능 여부</td></tr>
+          <tr><td>priority</td><td>INT</td><td>우선순위 (1~5)</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- L4 -->
+  <div id="detail-l4" class="layer-detail">
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px">
+        <span class="ph ph-3">Phase 3</span>
+        <span style="font-size:13px;color:var(--ink2)">검색 · 전시 · SO · MD Task 등이 소비하는 통합 뷰</span>
+      </div>
+      <div class="tbl-overflow">
+        <table class="schema-tbl"><caption>gps_product_360 <span class="tbl-vol">Materialized View · Daily Refresh</span></caption>
+        <thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td>unified_product_id <span class="pk">PK</span></td><td>BIGINT</td><td>통합 상품</td></tr>
+          <tr><td>prd_no</td><td>BIGINT</td><td>11번가 상품번호 (nullable)</td></tr>
+          <tr><td>match_status</td><td>ENUM</td><td>MATCHED / UNMATCHED</td></tr>
+          <tr><td>final_rank_score</td><td>DECIMAL</td><td>통합 랭킹 점수</td></tr>
+          <tr><td>tier</td><td>ENUM</td><td>S / A / B / C</td></tr>
+          <tr><td>overall_status</td><td>ENUM</td><td>양호 / 주의 / 열위 / 위험</td></tr>
+          <tr><td>signal_price … signal_delivery</td><td>ENUM</td><td>6대 축 신호등</td></tr>
+          <tr><td>problem_definition</td><td>TEXT</td><td>자동 진단</td></tr>
+          <tr><td>top_action</td><td>TEXT</td><td>최우선 액션 요약</td></tr>
+          <tr><td>channel_count</td><td>INT</td><td>수집 채널 수</td></tr>
+          <tr><td>category_l1 / l2 / l3</td><td>VARCHAR</td><td>카테고리</td></tr>
+          <tr><td>refresh_date</td><td>DATE</td><td>갱신 일자</td></tr>
+        </tbody></table>
+      </div>
+      <div class="tbl-overflow">
+        <table class="schema-tbl"><caption>gps_md_task <span class="tbl-vol">MD Task 배분</span></caption>
+        <thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td>task_id <span class="pk">PK</span></td><td>BIGINT</td><td>Task ID</td></tr>
+          <tr><td>prd_no <span class="fk">FK</span></td><td>BIGINT</td><td>11번가 상품번호</td></tr>
+          <tr><td>md_id</td><td>VARCHAR</td><td>담당 MD</td></tr>
+          <tr><td>category_id</td><td>VARCHAR</td><td>카테고리</td></tr>
+          <tr><td>task_type</td><td>ENUM</td><td>DAILY / WEEKLY / MONTHLY</td></tr>
+          <tr><td>source_recommendation_id <span class="fk">FK</span></td><td>BIGINT</td><td>원천 추천 ID</td></tr>
+          <tr><td>status</td><td>ENUM</td><td>ASSIGNED / ACCEPTED / REJECTED / COMPLETED</td></tr>
+          <tr><td>reject_reason</td><td>TEXT</td><td>Reject 사유 (2개월 미노출 반영)</td></tr>
+          <tr><td>assigned_date</td><td>DATE</td><td>배분 일자</td></tr>
+          <tr><td>completed_date</td><td>DATE</td><td>완료 일자</td></tr>
+        </tbody></table>
+      </div>
+      <div class="tbl-overflow">
+        <table class="schema-tbl"><caption>gps_performance_track <span class="tbl-vol">실적 트래킹</span></caption>
+        <thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td>track_id <span class="pk">PK</span></td><td>BIGINT</td><td>트래킹 ID</td></tr>
+          <tr><td>task_id <span class="fk">FK</span></td><td>BIGINT</td><td>연관 Task</td></tr>
+          <tr><td>prd_no <span class="fk">FK</span></td><td>BIGINT</td><td>상품번호</td></tr>
+          <tr><td>metric_type</td><td>ENUM</td><td>GMV / CVR / CTR / RANK_CHANGE</td></tr>
+          <tr><td>baseline_value</td><td>DECIMAL</td><td>기준값 (Task 시작 시점)</td></tr>
+          <tr><td>current_value</td><td>DECIMAL</td><td>현재값</td></tr>
+          <tr><td>delta_pct</td><td>DECIMAL</td><td>변화율 (%)</td></tr>
+          <tr><td>tracking_period</td><td>VARCHAR</td><td>측정 기간</td></tr>
+          <tr><td>tracked_date</td><td>DATE</td><td>측정 일자</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══ Section 3: 결과물 ═══ -->
+<section id="output">
+<div class="container">
+  <div class="sec-label">Diagnostic Output</div>
+  <div class="sec-title">상품 실적 신호등</div>
+  <div class="sec-desc">전체 스키마가 만들어내는 최종 진단. 6대 축 레이더 + S/A/B/C 티어 판정을 한 눈에.</div>
+
+  <div class="card fade-in" style="padding:44px 40px">
+    <div style="margin-bottom:24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <span style="font-size:15px;font-weight:700;color:var(--ink)">브리타 맥스트라 프로 필터 3입</span>
+      <span style="font-size:12px;color:var(--ink3);font-family:var(--mono)">prd_no: 7284901</span>
+      <span style="font-size:11px;padding:3px 10px;background:var(--sf-alt);border-radius:20px;color:var(--ink3);font-weight:500">정수기필터</span>
+    </div>
+    <div class="diag-layout">
+      <div class="radar-wrap">
+        <canvas id="radar"></canvas>
+      </div>
+      <div class="score-side">
+        <div class="score-top">
+          <div class="score-number" data-score="82">0</div>
+          <div class="score-max">/ 100</div>
+          <div class="tier-badge-lg tier-a">A</div>
+        </div>
+        <div class="status-line">
+          <span class="status-dot" style="background:var(--amber)"></span>
+          <span style="font-size:14px;font-weight:600;color:var(--amber)">주의</span>
+          <span style="font-size:13px;color:var(--ink3)">· RED 1축 · AMBER 3축</span>
+        </div>
+        <div class="tier-scale">
+          <div class="tier-row">
+            <span class="tier-dot tier-s">S</span>
+            <span class="tier-range">90–100</span>
+            <span class="tier-desc">성장 가속</span>
+            <span class="tier-arrow">←</span>
+          </div>
+          <div class="tier-row current">
+            <span class="tier-dot tier-a">A</span>
+            <span class="tier-range">70–89</span>
+            <span class="tier-desc">유지 · 개선 가능</span>
+            <span class="tier-arrow">←</span>
+          </div>
+          <div class="tier-row">
+            <span class="tier-dot tier-b">B</span>
+            <span class="tier-range">40–69</span>
+            <span class="tier-desc">관찰 필요</span>
+            <span class="tier-arrow">←</span>
+          </div>
+          <div class="tier-row">
+            <span class="tier-dot tier-c">C</span>
+            <span class="tier-range">0–39</span>
+            <span class="tier-desc">재검토 대상</span>
+            <span class="tier-arrow">←</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sig-bars fade-in">
+    <div class="sig-bar sig-bar-red">
+      <div class="sig-bar-name"><span class="sig-icon" style="background:var(--red)"></span>가격 경쟁력</div>
+      <div class="sig-bar-track"><div class="sig-bar-fill" style="background:var(--red)" data-width="30"></div></div>
+      <div class="sig-bar-val">+7.9%</div>
+      <div class="sig-bar-badge badge-red">열위</div>
+    </div>
+    <div class="sig-bar sig-bar-amber">
+      <div class="sig-bar-name"><span class="sig-icon" style="background:var(--amber)"></span>딜 구좌 실적</div>
+      <div class="sig-bar-track"><div class="sig-bar-fill" style="background:var(--amber)" data-width="65"></div></div>
+      <div class="sig-bar-val">85 / 100</div>
+      <div class="sig-bar-badge badge-amber">주의</div>
+    </div>
+    <div class="sig-bar sig-bar-amber">
+      <div class="sig-bar-name"><span class="sig-icon" style="background:var(--amber)"></span>과거 딜 모멘텀</div>
+      <div class="sig-bar-track"><div class="sig-bar-fill" style="background:var(--amber)" data-width="55"></div></div>
+      <div class="sig-bar-val">−2%</div>
+      <div class="sig-bar-badge badge-amber">둔화</div>
+    </div>
+    <div class="sig-bar sig-bar-amber">
+      <div class="sig-bar-name"><span class="sig-icon" style="background:var(--amber)"></span>CTR / CVR</div>
+      <div class="sig-bar-track"><div class="sig-bar-fill" style="background:var(--amber)" data-width="40"></div></div>
+      <div class="sig-bar-val">2.4 / 1.1%</div>
+      <div class="sig-bar-badge badge-amber">하회</div>
+    </div>
+    <div class="sig-bar sig-bar-green">
+      <div class="sig-bar-name"><span class="sig-icon" style="background:var(--sgreen)"></span>리뷰 평점</div>
+      <div class="sig-bar-track"><div class="sig-bar-fill" style="background:var(--sgreen)" data-width="92"></div></div>
+      <div class="sig-bar-val">4.8 / 5.0</div>
+      <div class="sig-bar-badge badge-green">양호</div>
+    </div>
+    <div class="sig-bar sig-bar-green">
+      <div class="sig-bar-name"><span class="sig-icon" style="background:var(--sgreen)"></span>C2D 배송</div>
+      <div class="sig-bar-track"><div class="sig-bar-fill" style="background:var(--sgreen)" data-width="85"></div></div>
+      <div class="sig-bar-val">익일 무배</div>
+      <div class="sig-bar-badge badge-green">양호</div>
+    </div>
+  </div>
+
+  <div class="diag-terminal fade-in">
+    <span class="dt-prompt">$</span> <span class="dt-key">problem_definition</span><br>
+    <span class="dt-red">가격 열위(+7.9%)</span> <span class="dt-dim">→</span>
+    <span class="dt-amber">CVR 저하(1.1%)</span> <span class="dt-dim">→</span>
+    <span class="dt-amber">딜 실적 부진(구좌 85)</span><br>
+    <span class="dt-dim">│</span> 직전 딜 대비 <span class="dt-amber">−2%</span> 모멘텀 둔화<br>
+    <span class="dt-dim">│</span> 병목 = <span class="dt-white">가격 갭</span> (외부최저 20,300원 vs 자사 21,900원)<br><br>
+    <span class="dt-prompt">$</span> <span class="dt-key">recommended_actions</span><br>
+    <span class="dt-dim">1.</span> DP쿠폰 적용 → 실질가 <span class="dt-green">20,200원</span> (−7.8%)<br>
+    <span class="dt-dim">2.</span> 타임딜 재편성 검토 → 모멘텀 회복<br>
+    <span class="dt-dim">3.</span> CPC 비딩 조정 → CTR 개선<br>
+    <span class="dt-source">source: gps_product_score.problem_definition → gps_action_recommendation</span>
+  </div>
+</div>
+</section>
+
+<!-- ═══ Section 4: 로드맵 — 핵심 ═══ -->
+<section id="roadmap" class="alt">
+<div class="container">
+  <div class="sec-label">Roadmap — 7월 → 11월</div>
+  <div class="sec-title" style="font-size:clamp(30px,5vw,48px)">실행 로드맵</div>
+  <div class="sec-desc">4단계 타임라인. 기반 MVP → 매칭·인기도 → 진단 고도화 → 실행 관제. 조만간 구현 → 장기 구축을 구분.</div>
+
+  <div class="timeline fade-in">
+    <div class="tl tl-1">
+      <div class="tl-phase">JUL · Phase 1</div>
+      <div class="tl-name">기반 · MVP</div>
+      <div class="tl-period">7월 · 완료/운영 중</div>
+      <ul class="tl-items">
+        <li>운영정보·외부수집 안정화</li>
+        <li>랭킹 3종(상품/브랜드/키워드)</li>
+        <li>자사 지표 API 연동 (4구간)</li>
+        <li>abt_gap_product 1차 매칭+가격갭</li>
+      </ul>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid color-mix(in srgb,var(--blue) 20%,transparent)">
+        <div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);font-weight:700;margin-bottom:8px">완료 현황</div>
+        <ul class="tl-items" style="gap:5px">
+          <li style="font-size:12px">Albatross 크롤러 11개 사이트 운영</li>
+          <li style="font-size:12px">네이버 판매순 대/중분류 수집</li>
+          <li style="font-size:12px">리뷰 수 · 평점 수집 확인</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tl tl-2">
+      <div class="tl-phase">AUG · Phase 2</div>
+      <div class="tl-name">매칭 · 인기도</div>
+      <div class="tl-period">8월</div>
+      <ul class="tl-items">
+        <li>MATCH_TIER/SCORE 튜닝</li>
+        <li>통합 인기도 Score baseline</li>
+        <li>SELECTION_GAP (Missing SKU)</li>
+      </ul>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid color-mix(in srgb,var(--purple) 20%,transparent)">
+        <div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--purple);font-weight:700;margin-bottom:8px">연동 과제</div>
+        <ul class="tl-items" style="gap:5px">
+          <li style="font-size:12px">다채널 상품 통합 (Dedup)</li>
+          <li style="font-size:12px">11번가 상품 매칭 (AX 모듈)</li>
+          <li style="font-size:12px">통합 랭킹 산출 엔진</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tl tl-3">
+      <div class="tl-phase">SEP–OCT · Phase 3</div>
+      <div class="tl-name">진단 고도화</div>
+      <div class="tl-period">9–10월</div>
+      <ul class="tl-items">
+        <li>IMPACT_SCORE (기회손실 GMV)</li>
+        <li>6대 축 STATUS_TAG 신호등</li>
+        <li>채널 확대·가중치 정교화</li>
+        <li>전시·검색 부스팅 파일럿</li>
+      </ul>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid color-mix(in srgb,var(--teal) 20%,transparent)">
+        <div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:8px">연동 시스템 · MCP</div>
+        <ul class="tl-items" style="gap:5px">
+          <li style="font-size:12px"><strong>가격 MCP</strong> — Gap 기반 자동 가격 조정</li>
+          <li style="font-size:12px"><strong>편성 · 광고 MCP</strong> — 딜 편성 + CPC 연동</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tl tl-4">
+      <div class="tl-phase">NOV · Phase 4</div>
+      <div class="tl-name">실행 관제</div>
+      <div class="tl-period">11월</div>
+      <ul class="tl-items">
+        <li>MCP 액션 연동 (진단→실행)</li>
+        <li>UV·노출·클릭 반영</li>
+        <li>검색·전시·SO 표준 서비스</li>
+      </ul>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid color-mix(in srgb,var(--red) 20%,transparent)">
+        <div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:8px">연동 시스템 · MCP</div>
+        <ul class="tl-items" style="gap:5px">
+          <li style="font-size:12px"><strong>MD Task 시스템</strong> — 티어별 자동 배분</li>
+          <li style="font-size:12px"><strong>검색 · 전시 API</strong> — 실시간 연동</li>
+          <li style="font-size:12px"><strong>SO (SellerOffice)</strong> — 360 뷰 + 액션</li>
+          <li style="font-size:12px"><strong>정산 API</strong> — 쿠폰 자동 실행</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card fade-in" style="margin-top:20px">
+    <div style="font-size:17px;font-weight:700;letter-spacing:-.02em;margin-bottom:16px">데이터 가용성 현황</div>
+    <div class="tbl-overflow" style="border:none;margin:0">
+      <table class="data-table">
+        <thead><tr><th>축</th><th>외부 원천</th><th>내부 원천</th><th>가용성</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:600">가격 경쟁력</td><td>abt_crawl_product.price</td><td>Product Metrics API</td><td><span class="avail avail-ok">가능</span></td><td>외부최저가 vs 자사가</td></tr>
+          <tr><td style="font-weight:600">딜 구좌 실적</td><td>—</td><td>BIDB 딜 마트</td><td><span class="avail avail-ok">가능</span></td><td>구좌 지수 0~100</td></tr>
+          <tr><td style="font-weight:600">과거 딜 대비</td><td>—</td><td>BIDB 딜 이력</td><td><span class="avail avail-ok">가능</span></td><td>직전딜 매출 비교</td></tr>
+          <tr><td style="font-weight:600">CTR / CVR</td><td>—</td><td>로그 지표 연결</td><td><span class="avail avail-wip">수집중</span></td><td>로그지표 연결 후 가능</td></tr>
+          <tr><td style="font-weight:600">리뷰 평점</td><td>abt_crawl_product_metric</td><td>내부 리뷰 DB</td><td><span class="avail avail-ok">가능</span></td><td>리뷰 수 수집 여부 확인 필요</td></tr>
+          <tr><td style="font-weight:600">C2D 배송속도</td><td>—</td><td>배송 원천 추가 필요</td><td><span class="avail avail-need">필요</span></td><td>추가 데이터 원천 연결 필요</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</section>
+
+<footer style="padding:36px 32px;text-align:center;color:var(--ink3);font-size:12px;letter-spacing:.01em;border-top:.5px solid var(--bdr)">
+  11st AX TF · Albatross · ESSENTIAL GPS · 초안 v0.1 · 기획팀 + 개발그룹 공유용
+</footer>
+
+<script>
+/* ── Canvas particle flow ── */
+(function(){
+  const c=document.getElementById('flow'),ctx=c.getContext('2d');
+  let W,H,dpr,nodes=[],particles=[];
+  const COLORS=['#0A84FF','#5E5CE6','#BF5AF2','#64D2FF','#30D158'];
+  const LABELS=['수집','매칭','분석','소비'];
+
+  function resize(){
+    dpr=devicePixelRatio||1;W=c.offsetWidth;H=c.offsetHeight;
+    c.width=W*dpr;c.height=H*dpr;ctx.scale(dpr,dpr);
+    nodes=LABELS.map((_,i)=>({x:W*(.18+i*.22),y:H*.52}));
+  }
+
+  function spawnParticle(){
+    if(particles.length>60)return;
+    const n=nodes[0];
+    particles.push({x:n.x-60,y:n.y+(Math.random()-.5)*30,vx:.4+Math.random()*.6,
+      vy:(Math.random()-.5)*.15,r:1.5+Math.random()*1.5,
+      color:COLORS[Math.floor(Math.random()*COLORS.length)],alpha:0,phase:0});
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='rgba(255,255,255,.06)';ctx.lineWidth=1;
+    for(let i=0;i<nodes.length-1;i++){
+      ctx.beginPath();ctx.moveTo(nodes[i].x,nodes[i].y);ctx.lineTo(nodes[i+1].x,nodes[i+1].y);ctx.stroke();
+    }
+    nodes.forEach((n,i)=>{
+      ctx.beginPath();ctx.arc(n.x,n.y,5,0,Math.PI*2);
+      ctx.fillStyle=COLORS[i]||COLORS[0];ctx.globalAlpha=.7;ctx.fill();ctx.globalAlpha=1;
+      ctx.fillStyle='rgba(255,255,255,.35)';ctx.font='500 10px -apple-system,system-ui,sans-serif';
+      ctx.textAlign='center';ctx.fillText(LABELS[i],n.x,n.y+20);
+    });
+    particles.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;p.phase+=.02;
+      if(p.phase<1)p.alpha=Math.min(p.alpha+.03,.7);
+      if(p.x>W*.95)p.alpha-=.04;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=p.color;ctx.globalAlpha=Math.max(0,p.alpha);ctx.fill();ctx.globalAlpha=1;
+    });
+    particles=particles.filter(p=>p.alpha>0&&p.x<W);
+    if(Math.random()<.15)spawnParticle();
+    requestAnimationFrame(draw);
+  }
+  resize();draw();
+  window.addEventListener('resize',resize);
+
+  const rmq=matchMedia('(prefers-reduced-motion:reduce)');
+  if(rmq.matches)c.style.display='none';
+})();
+
+/* ── GPS interactive flow ── */
+(function(){
+  const cards=document.querySelectorAll('[data-gps]');
+  const phases=document.querySelectorAll('.gps-phase');
+  const pulse=document.getElementById('gps-pulse');
+  const track=document.getElementById('gps-track');
+  if(!cards.length||!phases.length||!pulse||!track) return;
+
+  const colors={g:'var(--red)',p:'var(--blue)',s:'var(--sgreen)'};
+  let autoTimer=null, current=0, paused=false;
+  const keys=['g','p','s'];
+
+  function light(key){
+    cards.forEach(c=>{c.classList.toggle('lit',c.dataset.gps===key)});
+    phases.forEach(p=>{p.classList.toggle('lit',p.dataset.phase===key)});
+    const active=[...phases].find(p=>p.dataset.phase===key);
+    if(active&&track.offsetWidth){
+      const tl=track.getBoundingClientRect().left;
+      const al=active.getBoundingClientRect().left-tl;
+      const aw=active.getBoundingClientRect().width;
+      pulse.style.left=al+'px';pulse.style.width=aw+'px';
+      pulse.style.background=colors[key];
+    }
+  }
+
+  function startAuto(){
+    if(autoTimer) return;
+    autoTimer=setInterval(()=>{
+      if(paused) return;
+      light(keys[current]);
+      current=(current+1)%keys.length;
+    },2200);
+  }
+
+  function stopAuto(){clearInterval(autoTimer);autoTimer=null;}
+
+  cards.forEach(c=>{
+    c.addEventListener('mouseenter',()=>{paused=true;light(c.dataset.gps);});
+    c.addEventListener('mouseleave',()=>{paused=false;});
+    c.addEventListener('click',()=>{paused=true;light(c.dataset.gps);setTimeout(()=>paused=false,3000);});
+  });
+  phases.forEach(p=>{
+    p.addEventListener('mouseenter',()=>{paused=true;light(p.dataset.phase);});
+    p.addEventListener('mouseleave',()=>{paused=false;});
+  });
+
+  const obs=new IntersectionObserver(es=>{
+    if(es[0].isIntersecting){light(keys[0]);startAuto();}else{stopAuto();}
+  },{threshold:.3});
+  obs.observe(document.getElementById('gps-pipe'));
+})();
+
+/* ── Pipeline stages ── */
+(function(){
+  const stages=[
+    {sys:"ALBATROSS",nm:"외부+내부 수집",mt:"11개 경쟁사 크롤\n+ Product Metrics API",st:"done",ic:"ALB",
+     html:'<h4>① 외부+내부 수집</h4><div class="pipe-status"><span class="pipe-badge pipe-badge-done">MVP 완료</span><span class="pipe-badge pipe-badge-wip">확장 진행중</span></div><p class="pipe-lead">경쟁사 11개 사이트 크롤(Albatross) + 자사 지표 API 연동</p><div class="pipe-counters"><div class="pipe-counter"><div class="pc-v" data-pc="215838">0</div><div class="pc-l">크롤 상품</div></div><div class="pipe-counter"><div class="pc-v" data-pc="358833">0</div><div class="pc-l">수집 지표</div></div><div class="pipe-counter"><div class="pc-v" data-pc="1964436">0</div><div class="pc-l">랭킹 데이터</div></div></div><div class="pipe-tags" id="pSites"></div>'},
+    {sys:"AX 모듈",nm:"데이터 통합",mt:"동일상품 매칭\n내부↔외부 데이터 통합",st:"wip",ic:"AX",
+     html:'<h4>② 데이터 통합</h4><div class="pipe-status"><span class="pipe-badge pipe-badge-wip">진행중</span></div><p class="pipe-lead">외부상품 ↔ 11번가 상품 매핑 → 하나의 상품 뷰</p><div class="pipe-tags"><span class="pipe-tag">IS_MATCHED</span><span class="pipe-tag">MATCH_TIER</span><span class="pipe-tag">MATCH_SCORE</span><span class="pipe-tag">ELEVEN_PRODUCT_NO</span></div><p style="font-size:12px;color:var(--ink3);margin-top:12px">네이버 유니크 상품 1개 → 랭킹 소스 평균 10.7행 → dedup 후 매핑. 매칭/미매칭 분리 트랙.</p>'},
+    {sys:"GAP 분석",nm:"6대 축 진단",mt:"PCI · ACR · CVR\n신호등 판정",st:"wip",ic:"GAP",
+     html:'<h4>③ 6대 축 Gap 분석</h4><div class="pipe-status"><span class="pipe-badge pipe-badge-wip">진행중</span></div><p class="pipe-lead">자사 ↔ 외부 격차를 6대 축으로 진단 → 신호등 판정</p><div class="pipe-tags"><span class="pipe-tag">PRICE_GAP_RATE</span><span class="pipe-tag">SELECTION_GAP_TYPE</span><span class="pipe-tag">STATUS_TAG</span><span class="pipe-tag">PCI</span><span class="pipe-tag">ACR</span><span class="pipe-tag">CVR</span></div>'},
+    {sys:"SCORING",nm:"S/A/B 티어링",mt:"종합 점수 산출\n놓치는 매출 추정",st:"plan",ic:"S",
+     html:'<h4>④ Scoring · 등급 산출</h4><div class="pipe-status"><span class="pipe-badge pipe-badge-plan">예정</span></div><p class="pipe-lead">Priority(기회손실 GMV)로 정렬 후 S/A/B/C 단일 등급 직관화</p><div class="pipe-tags"><span class="pipe-tag">IMPACT_SCORE</span><span class="pipe-tag">IS_REVIEW_NEEDED</span><span class="pipe-tag">S/A/B/C 등급</span></div>'},
+    {sys:"MD 배분",nm:"카테고리별 매칭",mt:"담당 MD 배분\nTask 자동 생성",st:"plan",ic:"MD",
+     html:'<h4>⑤ MD 배분</h4><div class="pipe-status"><span class="pipe-badge pipe-badge-plan">예정</span></div><p class="pipe-lead">조직장 운영방향 가중치 반영 → 카테고리별 담당 MD 자동 매칭</p><div class="pipe-tags"><span class="pipe-tag">Task 자동생성</span><span class="pipe-tag">우선순위 배분</span><span class="pipe-tag">조직장 가중치</span><span class="pipe-tag">행사 일정 반영</span></div><p style="font-size:12px;color:var(--ink3);margin-top:12px">전사 행사(월간/그랜드십일절) 일정 고려. 과거 Reject 상품/셀러 2개월 미노출.</p>'},
+    {sys:"실행·관제",nm:"진척 관리",mt:"Accept/Reject\n성과 트래킹",st:"dest",ic:"▶",
+     html:'<h4>⑥ 실행·관제</h4><div class="pipe-status"><span class="pipe-badge pipe-badge-plan">예정</span></div><p class="pipe-lead">MD별 Daily/Weekly/Monthly Task 수행 → Accept/Reject → 성과 트래킹</p><div class="pipe-tags"><span class="pipe-tag">Accept/Reject</span><span class="pipe-tag">진척도 관리</span><span class="pipe-tag">성과 조회</span><span class="pipe-tag">F/B 고도화</span></div><p style="font-size:12px;color:var(--ink3);margin-top:12px">MD 입력 Reject 사유로 시스템 추천 로직 고도화. 주/월/분기 기간별 성과 대시보드.</p>'},
+  ];
+  const sites=[["네이버 쇼핑",1],["카카오 스토어",1],["마켓컬리",1],["롯데온",1],["무신사",1],["오늘의집",1],["SSG.COM",1],["GS SHOP",1],["올리브영",1],["옥션",1],["G마켓",1],["쿠팡",0]];
+  const track=document.getElementById('pipe-track');
+  const detail=document.getElementById('pipe-detail');
+  const fill=document.getElementById('pipe-fill');
+  if(!track) return;
+
+  const doneCount=stages.filter(s=>s.st==='done').length;
+  const wipCount=stages.filter(s=>s.st==='wip').length;
+  const progressPct=Math.round(((doneCount+(wipCount*.5))/stages.length)*100);
+
+  let cur=-1;
+  stages.forEach((s,i)=>{
+    const d=document.createElement('div');
+    d.className='pipe-card '+s.st;d.dataset.i=i;
+    d.innerHTML='<div class="pipe-ic">'+s.ic+'</div><div class="pipe-sys">'+s.sys+'</div><div class="pipe-nm">'+s.nm+'</div><div class="pipe-mt">'+s.mt.replace(/\n/g,'<br>')+'</div><div class="pipe-sdot"></div>';
+    d.addEventListener('click',function(){openPipe(i)});track.appendChild(d);
+  });
+
+  function openPipe(i){
+    var els=track.querySelectorAll('.pipe-card');
+    if(cur===i){detail.classList.remove('show');els[i].classList.remove('active');cur=-1;return;}
+    els.forEach(function(e){e.classList.remove('active')});els[i].classList.add('active');
+    detail.innerHTML=stages[i].html;detail.classList.add('show');cur=i;
+    if(i===0){
+      var sl=detail.querySelector('#pSites');
+      if(sl) sites.forEach(function(s){var sp=document.createElement('span');sp.className='pipe-tag'+(s[1]?'':' off');sp.textContent=s[0];sl.appendChild(sp);});
+      detail.querySelectorAll('[data-pc]').forEach(function(el){var t=+el.dataset.pc;var c=0;var s=Math.ceil(t/50);var iv=setInterval(function(){c+=s;if(c>=t){c=t;clearInterval(iv);}el.textContent=c.toLocaleString();},20);});
+    }
+  }
+
+  var pipeObs=new IntersectionObserver(function(es){
+    if(es[0].isIntersecting){
+      fill.style.width=progressPct+'%';
+      pipeObs.disconnect();
+    }
+  },{threshold:.3});
+  pipeObs.observe(track);
+})();
+
+/* ── Toggle track ── */
+function switchTrack(t){
+  document.querySelectorAll('.toggle-btn').forEach(function(b){b.classList.toggle('active',b.dataset.track===t)});
+  document.querySelectorAll('.track').forEach(function(d){d.classList.toggle('active',d.id==='track-'+t)});
+}
+
+/* ── Layer tabs ── */
+function switchLayer(l){
+  document.querySelectorAll('.layer-tab').forEach(function(t){t.classList.toggle('active',t.dataset.layer===l)});
+  document.querySelectorAll('.layer-detail').forEach(function(d){d.classList.toggle('active',d.id==='detail-'+l)});
+}
+
+/* ── Nav scroll highlight ── */
+var secs=document.querySelectorAll('section[id]');
+var links=document.querySelectorAll('nav a');
+var navObs=new IntersectionObserver(function(es){
+  es.forEach(function(e){if(e.isIntersecting)links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id)});});
+},{threshold:.15,rootMargin:'-48px 0px -55% 0px'});
+secs.forEach(function(s){navObs.observe(s)});
+
+/* ── Fade-in ── */
+var fio=new IntersectionObserver(function(es){
+  es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');fio.unobserve(e.target);}});
+},{threshold:.06});
+document.querySelectorAll('.fade-in').forEach(function(el){fio.observe(el)});
+
+/* ── Counter animation ── */
+var cio=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(!e.isIntersecting)return;
+    var el=e.target,target=parseInt(el.dataset.count);
+    if(!target)return;
+    cio.unobserve(el);
+    var dur=1200,start=null;
+    function step(ts){
+      if(!start)start=ts;
+      var t=Math.min((ts-start)/dur,1);
+      var ease=1-Math.pow(1-t,4);
+      var v=Math.round(ease*target);
+      el.textContent=v>=1000000?(v/1000000).toFixed(1)+'M':v>=1000?Math.round(v/1000).toLocaleString()+'K':v.toLocaleString();
+      if(t<1)requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  });
+},{threshold:.3});
+document.querySelectorAll('[data-count]').forEach(function(el){cio.observe(el)});
+
+/* ── Radar Chart ── */
+(function(){
+  var canvas=document.getElementById('radar');
+  if(!canvas)return;
+  var ctx=canvas.getContext('2d');
+  var dpr=devicePixelRatio||1;
+  var AXES=[
+    {label:'가격',score:30,color:'#FF3B30'},
+    {label:'딜실적',score:65,color:'#FF9F0A'},
+    {label:'모멘텀',score:55,color:'#FF9F0A'},
+    {label:'CTR/CVR',score:40,color:'#FF9F0A'},
+    {label:'리뷰',score:92,color:'#34C759'},
+    {label:'배송',score:85,color:'#34C759'}
+  ];
+  var animProgress=0,animating=false;
+
+  function resize(){
+    var w=canvas.offsetWidth;
+    canvas.width=w*dpr;canvas.height=w*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    draw(w,animProgress);
+  }
+
+  function draw(size,t){
+    var cx=size/2,cy=size/2,maxR=size*.36,n=AXES.length;
+    var cs=getComputedStyle(document.documentElement);
+    var bdr=cs.getPropertyValue('--bdr').trim()||'#D2D2D7';
+    var bdrS=cs.getPropertyValue('--bdr-subtle').trim()||'rgba(0,0,0,.06)';
+    var sfCard=cs.getPropertyValue('--sf-card').trim()||'#fff';
+    var inkColor=cs.getPropertyValue('--ink').trim()||'#1D1D1F';
+    var ink3=cs.getPropertyValue('--ink3').trim()||'#86868B';
+
+    ctx.clearRect(0,0,size,size);
+
+    [.33,.66,1].forEach(function(lv){
+      ctx.beginPath();
+      for(var i=0;i<=n;i++){
+        var a=(Math.PI*2/n)*i-Math.PI/2;
+        var x=cx+Math.cos(a)*maxR*lv,y=cy+Math.sin(a)*maxR*lv;
+        i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+      }
+      ctx.closePath();ctx.strokeStyle=bdr;ctx.lineWidth=.5;ctx.globalAlpha=.4;ctx.stroke();ctx.globalAlpha=1;
+    });
+
+    AXES.forEach(function(_,i){
+      var a=(Math.PI*2/n)*i-Math.PI/2;
+      ctx.beginPath();ctx.moveTo(cx,cy);
+      ctx.lineTo(cx+Math.cos(a)*maxR,cy+Math.sin(a)*maxR);
+      ctx.strokeStyle=bdrS;ctx.lineWidth=.5;ctx.stroke();
+    });
+
+    ctx.beginPath();
+    AXES.forEach(function(ax,i){
+      var a=(Math.PI*2/n)*i-Math.PI/2;
+      var r=maxR*(ax.score/100)*t;
+      var x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r;
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.closePath();
+    var grad=ctx.createRadialGradient(cx,cy,0,cx,cy,maxR);
+    grad.addColorStop(0,'rgba(10,132,255,0.15)');grad.addColorStop(1,'rgba(94,92,230,0.06)');
+    ctx.fillStyle=grad;ctx.fill();
+    ctx.strokeStyle='rgba(10,132,255,0.6)';ctx.lineWidth=2;ctx.stroke();
+
+    AXES.forEach(function(ax,i){
+      var a=(Math.PI*2/n)*i-Math.PI/2;
+      var r=maxR*(ax.score/100)*t;
+      var x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r;
+      ctx.beginPath();ctx.arc(x,y,8,0,Math.PI*2);ctx.fillStyle=sfCard;ctx.fill();
+      ctx.beginPath();ctx.arc(x,y,5.5,0,Math.PI*2);ctx.fillStyle=ax.color;ctx.fill();
+    });
+
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    AXES.forEach(function(ax,i){
+      var a=(Math.PI*2/n)*i-Math.PI/2;
+      var lr=maxR+26;
+      var x=cx+Math.cos(a)*lr,y=cy+Math.sin(a)*lr;
+      ctx.font='600 11px -apple-system,system-ui,sans-serif';
+      ctx.fillStyle=inkColor;ctx.fillText(ax.label,x,y);
+      ctx.font='700 10px -apple-system,system-ui,sans-serif';
+      ctx.fillStyle=ax.color;ctx.fillText(Math.round(ax.score*t),x,y+14);
+    });
+
+    ctx.font='700 11px -apple-system,system-ui,sans-serif';
+    ctx.fillStyle=ink3;ctx.globalAlpha=.5;
+    ctx.fillText('100',cx,cy-maxR-8);ctx.fillText('66',cx,cy-maxR*.66-6);ctx.fillText('33',cx,cy-maxR*.33-6);
+    ctx.globalAlpha=1;
+  }
+
+  function animate(){
+    if(animating)return;animating=true;
+    var dur=1400,start=null;
+    function step(ts){
+      if(!start)start=ts;
+      var p=Math.min((ts-start)/dur,1);
+      animProgress=1-Math.pow(1-p,4);
+      var w=canvas.offsetWidth;
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      draw(w,animProgress);
+      if(p<1)requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  var rio=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){rio.unobserve(e.target);animate();}});
+  },{threshold:.2});
+  rio.observe(canvas);
+
+  resize();draw(canvas.offsetWidth,0);
+  window.addEventListener('resize',resize);
+  var mq=matchMedia('(prefers-color-scheme:dark)');
+  mq.addEventListener('change',function(){resize()});
+})();
+
+/* ── Score counter ── */
+var scoreEl=document.querySelector('[data-score]');
+if(scoreEl){
+  var sio2=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting)return;sio2.unobserve(e.target);
+      var target=parseInt(e.target.dataset.score),dur=1500,start=null;
+      function step(ts){
+        if(!start)start=ts;var t=Math.min((ts-start)/dur,1);
+        e.target.textContent=Math.round((1-Math.pow(1-t,4))*target);
+        if(t<1)requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  },{threshold:.3});
+  sio2.observe(scoreEl);
+}
+
+/* ── Signal bar fill ── */
+var barObs=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(!e.isIntersecting)return;barObs.unobserve(e.target);
+    e.target.querySelectorAll('.sig-bar-fill').forEach(function(b){
+      requestAnimationFrame(function(){b.style.width=b.dataset.width+'%';});
+    });
+  });
+},{threshold:.1});
+document.querySelectorAll('.sig-bars').forEach(function(el){barObs.observe(el)});
+</script>
+</body>
+</html>
