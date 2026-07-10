@@ -1,4 +1,4 @@
-<title>GPS Schema — 전체 스키마 & 통합 랭킹 체계</title>
+<title>11st AX TF · Albatross · ESSENTIAL GPS — 전체 스키마 & 통합 랭킹 체계</title>
 <style>
 :root{
   --sf:#FBFBFD;--sf-alt:#F5F5F7;--sf-card:#FFF;
@@ -207,6 +207,93 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 .data-table tbody tr:hover td{background:color-mix(in srgb,var(--blue) 3%,transparent)}
 .data-table tr:last-child td{border-bottom:none}
 
+/* ── Diagnostic Hero ── */
+.diag-layout{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+@media(max-width:768px){.diag-layout{grid-template-columns:1fr;text-align:center}}
+.radar-wrap{position:relative;aspect-ratio:1;max-width:320px;margin:0 auto}
+.radar-wrap canvas{width:100%;height:100%;display:block}
+
+.score-side{display:flex;flex-direction:column;gap:20px}
+.score-top{display:flex;align-items:flex-end;gap:14px}
+@media(max-width:768px){.score-top{justify-content:center}}
+.score-number{font-size:72px;font-weight:800;letter-spacing:-.05em;line-height:1;
+  font-variant-numeric:tabular-nums;background:linear-gradient(135deg,var(--blue),var(--indigo));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.score-max{font-size:22px;font-weight:500;color:var(--ink3);margin-bottom:10px}
+
+.tier-badge-lg{display:inline-flex;align-items:center;justify-content:center;
+  width:60px;height:60px;border-radius:18px;font-size:30px;font-weight:800;color:#fff;
+  margin-left:8px;margin-bottom:6px;position:relative;
+  animation:tierGlow 3s ease-in-out infinite}
+.tier-badge-lg::after{content:'';position:absolute;inset:-3px;border-radius:21px;
+  border:2px solid rgba(255,255,255,.15);pointer-events:none}
+@keyframes tierGlow{
+  0%,100%{box-shadow:0 4px 20px rgba(0,0,0,.15)}
+  50%{box-shadow:0 4px 32px var(--tier-glow,rgba(94,92,230,.35))}
+}
+.tier-s{background:linear-gradient(135deg,#FFD60A,#FF9F0A);--tier-glow:rgba(255,159,10,.4)}
+.tier-a{background:linear-gradient(135deg,var(--blue),var(--indigo));--tier-glow:rgba(94,92,230,.4)}
+.tier-b{background:linear-gradient(135deg,#64D2FF,#0A84FF);--tier-glow:rgba(10,132,255,.35)}
+.tier-c{background:linear-gradient(135deg,var(--ink3),#48484A);--tier-glow:rgba(110,110,115,.3)}
+
+.status-line{display:flex;align-items:center;gap:8px;margin-top:-4px}
+@media(max-width:768px){.status-line{justify-content:center}}
+.status-dot{width:10px;height:10px;border-radius:50%;animation:statusPulse 2s ease-in-out infinite}
+@keyframes statusPulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+.tier-scale{display:flex;flex-direction:column;gap:4px;margin-top:4px}
+.tier-row{display:flex;align-items:center;gap:10px;font-size:13px;padding:10px 16px;
+  border-radius:var(--rx);transition:all .3s var(--spring);cursor:default}
+.tier-row:hover{background:color-mix(in srgb,var(--blue) 4%,transparent)}
+.tier-row.current{background:color-mix(in srgb,var(--blue) 8%,transparent);
+  box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--blue) 20%,transparent);
+  transform:scale(1.02)}
+.tier-dot{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;
+  justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0;
+  transition:transform .25s var(--spring)}
+.tier-row:hover .tier-dot{transform:scale(1.1)}
+.tier-range{font-variant-numeric:tabular-nums;font-weight:700;color:var(--ink);min-width:56px}
+.tier-desc{color:var(--ink2);font-weight:500}
+.tier-arrow{margin-left:auto;color:var(--blue);font-weight:700;font-size:15px;
+  opacity:0;transition:opacity .2s,transform .2s}
+.tier-row.current .tier-arrow{opacity:1;transform:translateX(0)}
+
+/* ── Signal Bars v2 ── */
+.sig-bars{display:flex;flex-direction:column;gap:6px;margin-top:32px}
+.sig-bar{display:grid;grid-template-columns:120px 1fr 90px 60px;align-items:center;gap:16px;
+  padding:16px 22px;background:var(--sf-card);border-radius:var(--rs);box-shadow:var(--shadow-card);
+  transition:all .25s var(--ease);position:relative;overflow:hidden}
+.sig-bar::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  transition:width .3s var(--ease)}
+.sig-bar:hover{transform:translateX(6px);box-shadow:var(--shadow-hover)}
+.sig-bar:hover::before{width:4px}
+.sig-bar-red::before{background:var(--red)}
+.sig-bar-amber::before{background:var(--amber)}
+.sig-bar-green::before{background:var(--sgreen)}
+@media(max-width:640px){.sig-bar{grid-template-columns:90px 1fr 70px 48px;padding:12px 14px;gap:10px}}
+.sig-bar-name{font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
+.sig-bar-name .sig-icon{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.sig-bar-track{height:8px;background:var(--bdr-subtle);border-radius:4px;overflow:hidden;position:relative}
+.sig-bar-fill{height:100%;border-radius:4px;transition:width 1.4s cubic-bezier(.16,1,.3,1);width:0}
+.sig-bar-val{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;text-align:right;letter-spacing:-.02em}
+.sig-bar-badge{font-size:11px;font-weight:600;text-align:center;padding:4px 0;border-radius:20px}
+.badge-red{background:color-mix(in srgb,var(--red) 10%,transparent);color:var(--red)}
+.badge-amber{background:color-mix(in srgb,var(--amber) 10%,transparent);color:var(--amber)}
+.badge-green{background:color-mix(in srgb,var(--sgreen) 10%,transparent);color:var(--sgreen)}
+
+/* ── Diagnosis Terminal ── */
+.diag-terminal{margin-top:24px;background:#111113;border-radius:var(--rs);padding:28px;position:relative;
+  font-family:var(--mono);font-size:13px;line-height:1.9;color:#A1A1A6;overflow-x:auto;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03),var(--shadow-card)}
+.diag-terminal::before{content:'DIAGNOSIS';position:absolute;top:10px;right:16px;
+  font-size:9px;letter-spacing:.12em;color:#38383A;font-weight:700}
+.dt-prompt{color:#5E5CE6;font-weight:600}
+.dt-key{color:#64D2FF}.dt-red{color:#FF453A}.dt-green{color:#32D74B}
+.dt-amber{color:#FFD60A}.dt-white{color:#F5F5F7;font-weight:600}
+.dt-dim{color:#48484A}
+.dt-source{display:block;margin-top:14px;padding-top:14px;
+  border-top:1px solid rgba(255,255,255,.05);font-size:11px;color:#48484A}
+
 /* ── Animations ── */
 .fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
 .fade-in.visible{opacity:1;transform:translateY(0)}
@@ -214,18 +301,18 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 </style>
 
 <nav>
-  <span class="logo">GPS Schema</span>
+  <span class="logo">11st AX TF · Albatross</span>
   <a href="#ranking" class="active">통합 랭킹</a>
   <a href="#schema">데이터 스키마</a>
   <a href="#output">결과물</a>
-  <a href="#roadmap">로드맵</a>
+  <a href="#roadmap">실행계획</a>
   <span class="draft">초안 v0.1</span>
 </nav>
 
 <header class="hero">
   <canvas id="flow"></canvas>
-  <h1>GPS Schema</h1>
-  <div class="sub">전체 스키마 & 통합 랭킹 체계</div>
+  <h1>ESSENTIAL GPS</h1>
+  <div class="sub">11st AX TF · Albatross — 전체 스키마 & 통합 랭킹 체계</div>
   <div class="desc">외부 수집 → 상품 매칭 → Gap 분석 → 스코어링 → MD Task까지,<br>ESSENTIAL GPS의 데이터가 어떻게 쌓이고 소비되는지 한 장의 청사진.</div>
   <div class="phase-legend">
     <span><span class="pdot" style="background:var(--blue)"></span>Phase 1 · MVP 완료</span>
@@ -640,75 +727,122 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 <!-- ═══ Section 3: 결과물 ═══ -->
 <section id="output">
 <div class="container">
-  <div class="sec-label">Output Schema</div>
-  <div class="sec-title">결과물 — 신호등 카드</div>
-  <div class="sec-desc">전체 스키마가 만들어내는 최종 결과. 각 축의 데이터 원천과 가용성을 표시합니다.</div>
+  <div class="sec-label">Diagnostic Output</div>
+  <div class="sec-title">상품 실적 신호등</div>
+  <div class="sec-desc">전체 스키마가 만들어내는 최종 진단. 6대 축 레이더 + S/A/B/C 티어 판정을 한 눈에.</div>
 
-  <div class="signal-grid fade-in">
-    <div class="sig sig-red">
-      <div class="sig-axis">가격 경쟁력 <span class="avail avail-ok">가능</span></div>
-      <div class="sig-val">+7.9% <span style="font-size:13px;font-weight:500;color:var(--red)">열위</span></div>
-      <div class="sig-detail">21,900원 vs 외부최저 20,300원</div>
-      <div class="sig-source">L1 abt_crawl_product.price → L3 gps_gap_axis.PRICE</div>
+  <div class="card fade-in" style="padding:44px 40px">
+    <div style="margin-bottom:24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <span style="font-size:15px;font-weight:700;color:var(--ink)">브리타 맥스트라 프로 필터 3입</span>
+      <span style="font-size:12px;color:var(--ink3);font-family:var(--mono)">prd_no: 7284901</span>
+      <span style="font-size:11px;padding:3px 10px;background:var(--sf-alt);border-radius:20px;color:var(--ink3);font-weight:500">정수기필터</span>
     </div>
-    <div class="sig sig-amber">
-      <div class="sig-axis">딜 구좌 실적 <span class="avail avail-ok">가능</span></div>
-      <div class="sig-val">85 <span style="font-size:13px;font-weight:500;color:var(--ink3)">/ 100</span></div>
-      <div class="sig-detail">구좌 평균 대비 매출 −15%</div>
-      <div class="sig-source">내부 BIDB → L3 gps_gap_axis.DEAL</div>
-    </div>
-    <div class="sig sig-amber">
-      <div class="sig-axis">과거 딜 대비 <span class="avail avail-ok">가능</span></div>
-      <div class="sig-val">−2% <span style="font-size:13px;font-weight:500;color:var(--amber)">둔화</span></div>
-      <div class="sig-detail">직전 딜 대비 매출 하락</div>
-      <div class="sig-source">내부 딜 이력 → L3 gps_gap_axis.MOMENTUM</div>
-    </div>
-    <div class="sig sig-amber">
-      <div class="sig-axis">CTR / CVR <span class="avail avail-wip">수집중</span></div>
-      <div class="sig-val">2.4% <span style="font-size:13px;font-weight:400">/ 1.1%</span></div>
-      <div class="sig-detail">CVR 구좌평균 1.8% 하회</div>
-      <div class="sig-source">내부 로그지표 연결 후 → L3 gps_gap_axis.CVR</div>
-    </div>
-    <div class="sig sig-green">
-      <div class="sig-axis">리뷰 평점 <span class="avail avail-ok">가능</span></div>
-      <div class="sig-val">4.8 <span style="font-size:13px;font-weight:400">/ 5.0</span></div>
-      <div class="sig-detail">19,803건 · 부정리뷰 3%</div>
-      <div class="sig-source">L1 abt_crawl_product_metric → L3 gps_gap_axis.REVIEW</div>
-    </div>
-    <div class="sig sig-green">
-      <div class="sig-axis">C2D 배송속도 <span class="avail avail-need">필요</span></div>
-      <div class="sig-val">익일 <span style="font-size:13px;font-weight:500;color:var(--sgreen)">무배</span></div>
-      <div class="sig-detail">3시 전 주문 → 익일 도착</div>
-      <div class="sig-source">추가 원천 필요 → L3 gps_gap_axis.DELIVERY</div>
+    <div class="diag-layout">
+      <div class="radar-wrap">
+        <canvas id="radar"></canvas>
+      </div>
+      <div class="score-side">
+        <div class="score-top">
+          <div class="score-number" data-score="82">0</div>
+          <div class="score-max">/ 100</div>
+          <div class="tier-badge-lg tier-a">A</div>
+        </div>
+        <div class="status-line">
+          <span class="status-dot" style="background:var(--amber)"></span>
+          <span style="font-size:14px;font-weight:600;color:var(--amber)">주의</span>
+          <span style="font-size:13px;color:var(--ink3)">· RED 1축 · AMBER 3축</span>
+        </div>
+        <div class="tier-scale">
+          <div class="tier-row">
+            <span class="tier-dot tier-s">S</span>
+            <span class="tier-range">90–100</span>
+            <span class="tier-desc">성장 가속</span>
+            <span class="tier-arrow">←</span>
+          </div>
+          <div class="tier-row current">
+            <span class="tier-dot tier-a">A</span>
+            <span class="tier-range">70–89</span>
+            <span class="tier-desc">유지 · 개선 가능</span>
+            <span class="tier-arrow">←</span>
+          </div>
+          <div class="tier-row">
+            <span class="tier-dot tier-b">B</span>
+            <span class="tier-range">40–69</span>
+            <span class="tier-desc">관찰 필요</span>
+            <span class="tier-arrow">←</span>
+          </div>
+          <div class="tier-row">
+            <span class="tier-dot tier-c">C</span>
+            <span class="tier-range">0–39</span>
+            <span class="tier-desc">재검토 대상</span>
+            <span class="tier-arrow">←</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="card fade-in" style="margin-top:28px">
-    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px">
-      <span style="font-size:18px;font-weight:700;letter-spacing:-.02em">종합 판정</span>
-      <span style="background:var(--blue);color:#fff;padding:4px 16px;border-radius:20px;font-size:13px;font-weight:700">Tier A</span>
-      <span style="display:flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:var(--amber)">
-        <span style="width:9px;height:9px;border-radius:50%;background:var(--amber)"></span>주의
-      </span>
+  <div class="sig-bars fade-in">
+    <div class="sig-bar sig-bar-red">
+      <div class="sig-bar-name"><span class="sig-icon" style="background:var(--red)"></span>가격 경쟁력</div>
+      <div class="sig-bar-track"><div class="sig-bar-fill" style="background:var(--red)" data-width="30"></div></div>
+      <div class="sig-bar-val">+7.9%</div>
+      <div class="sig-bar-badge badge-red">열위</div>
     </div>
-    <div style="padding:16px 20px;background:var(--sf-alt);border-radius:var(--rx);font-size:13px;line-height:1.7;color:var(--ink2)">
-      <strong style="color:var(--red)">문제 정의:</strong> 가격 열위(+7.9%) → CVR 저하 → 딜 실적 부진(구좌 85)<br>
-      직전 딜 대비 −2% 모멘텀 둔화 · 병목 = <strong style="color:var(--ink)">가격 갭</strong><br><br>
-      <strong style="color:var(--ink)">데이터 원천:</strong>
-      <code>gps_product_score.problem_definition</code> +
-      <code>gps_product_score.tier</code> +
-      <code>gps_product_score.overall_status</code>
+    <div class="sig-bar sig-bar-amber">
+      <div class="sig-bar-name"><span class="sig-icon" style="background:var(--amber)"></span>딜 구좌 실적</div>
+      <div class="sig-bar-track"><div class="sig-bar-fill" style="background:var(--amber)" data-width="65"></div></div>
+      <div class="sig-bar-val">85 / 100</div>
+      <div class="sig-bar-badge badge-amber">주의</div>
     </div>
+    <div class="sig-bar sig-bar-amber">
+      <div class="sig-bar-name"><span class="sig-icon" style="background:var(--amber)"></span>과거 딜 모멘텀</div>
+      <div class="sig-bar-track"><div class="sig-bar-fill" style="background:var(--amber)" data-width="55"></div></div>
+      <div class="sig-bar-val">−2%</div>
+      <div class="sig-bar-badge badge-amber">둔화</div>
+    </div>
+    <div class="sig-bar sig-bar-amber">
+      <div class="sig-bar-name"><span class="sig-icon" style="background:var(--amber)"></span>CTR / CVR</div>
+      <div class="sig-bar-track"><div class="sig-bar-fill" style="background:var(--amber)" data-width="40"></div></div>
+      <div class="sig-bar-val">2.4 / 1.1%</div>
+      <div class="sig-bar-badge badge-amber">하회</div>
+    </div>
+    <div class="sig-bar sig-bar-green">
+      <div class="sig-bar-name"><span class="sig-icon" style="background:var(--sgreen)"></span>리뷰 평점</div>
+      <div class="sig-bar-track"><div class="sig-bar-fill" style="background:var(--sgreen)" data-width="92"></div></div>
+      <div class="sig-bar-val">4.8 / 5.0</div>
+      <div class="sig-bar-badge badge-green">양호</div>
+    </div>
+    <div class="sig-bar sig-bar-green">
+      <div class="sig-bar-name"><span class="sig-icon" style="background:var(--sgreen)"></span>C2D 배송</div>
+      <div class="sig-bar-track"><div class="sig-bar-fill" style="background:var(--sgreen)" data-width="85"></div></div>
+      <div class="sig-bar-val">익일 무배</div>
+      <div class="sig-bar-badge badge-green">양호</div>
+    </div>
+  </div>
+
+  <div class="diag-terminal fade-in">
+    <span class="dt-prompt">$</span> <span class="dt-key">problem_definition</span><br>
+    <span class="dt-red">가격 열위(+7.9%)</span> <span class="dt-dim">→</span>
+    <span class="dt-amber">CVR 저하(1.1%)</span> <span class="dt-dim">→</span>
+    <span class="dt-amber">딜 실적 부진(구좌 85)</span><br>
+    <span class="dt-dim">│</span> 직전 딜 대비 <span class="dt-amber">−2%</span> 모멘텀 둔화<br>
+    <span class="dt-dim">│</span> 병목 = <span class="dt-white">가격 갭</span> (외부최저 20,300원 vs 자사 21,900원)<br><br>
+    <span class="dt-prompt">$</span> <span class="dt-key">recommended_actions</span><br>
+    <span class="dt-dim">1.</span> DP쿠폰 적용 → 실질가 <span class="dt-green">20,200원</span> (−7.8%)<br>
+    <span class="dt-dim">2.</span> 타임딜 재편성 검토 → 모멘텀 회복<br>
+    <span class="dt-dim">3.</span> CPC 비딩 조정 → CTR 개선<br>
+    <span class="dt-source">source: gps_product_score.problem_definition → gps_action_recommendation</span>
   </div>
 </div>
 </section>
 
-<!-- ═══ Section 4: 로드맵 & 소비처 ═══ -->
+<!-- ═══ Section 4: 로드맵 & 실행계획 ═══ -->
 <section id="roadmap" class="alt">
 <div class="container">
-  <div class="sec-label">Roadmap & Consumers</div>
-  <div class="sec-title">Phase 로드맵 & 소비처 매핑</div>
-  <div class="sec-desc">단계별로 구현되는 내용과, 각 단계의 데이터를 소비하는 시스템.</div>
+  <div class="sec-label">Roadmap & Execution Plan</div>
+  <div class="sec-title">Phase 로드맵 & 실행계획</div>
+  <div class="sec-desc">단계별 과제와 연동 시스템 · MCP 실행계획을 포함한 전체 구현 일정.</div>
 
   <div class="timeline fade-in">
     <div class="tl tl-1">
@@ -734,6 +868,15 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
         <li>종합 스코어링 + 티어 판정</li>
         <li>액션 아이템 추천</li>
       </ul>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid color-mix(in srgb,var(--purple) 20%,transparent)">
+        <div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--purple);font-weight:700;margin-bottom:8px">연동 시스템 · MCP</div>
+        <ul class="tl-items" style="gap:5px">
+          <li style="font-size:12px"><strong>가격 MCP</strong> — Gap 기반 자동 가격 조정</li>
+          <li style="font-size:12px"><strong>편성 · 광고 MCP</strong> — 딜 편성 + CPC 연동</li>
+          <li style="font-size:12px"><strong>MD Task 시스템</strong> — 티어별 자동 배분</li>
+          <li style="font-size:12px"><strong>전시 기획</strong> — 신호등 기반 노출 조정</li>
+        </ul>
+      </div>
     </div>
     <div class="tl tl-3">
       <div class="tl-phase">Phase 3 · 장기</div>
@@ -741,30 +884,20 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
       <div class="tl-period">Q4 2026 ~</div>
       <ul class="tl-items">
         <li>gps_product_360 통합 뷰</li>
-        <li>검색 · 전시 · SO 연동 API</li>
-        <li>MD Task 자동 배분</li>
+        <li>MD Task 자동 배분 고도화</li>
         <li>실적 트래킹 + 피드백 루프</li>
         <li>배송 데이터 원천 연결</li>
         <li>로그지표(CTR/CVR) 통합</li>
       </ul>
-    </div>
-  </div>
-
-  <div class="card fade-in" style="margin-top:36px">
-    <div style="font-size:17px;font-weight:700;letter-spacing:-.02em;margin-bottom:16px">소비처 매핑</div>
-    <div class="tbl-overflow" style="border:none;margin:0">
-      <table class="data-table">
-        <thead><tr><th>소비처</th><th>사용 테이블</th><th>주요 필드</th><th>Phase</th></tr></thead>
-        <tbody>
-          <tr><td style="font-weight:600">MD Task 시스템</td><td><code>gps_md_task</code> + <code>gps_product_score</code></td><td>tier, actions, priority</td><td><span class="ph ph-2">Phase 2</span></td></tr>
-          <tr><td style="font-weight:600">가격 MCP</td><td><code>gps_gap_axis</code> (PRICE)</td><td>gap_pct, external_value, signal</td><td><span class="ph ph-2">Phase 2</span></td></tr>
-          <tr><td style="font-weight:600">편성 · 광고 MCP</td><td><code>gps_action_recommendation</code></td><td>action_type, connected_system</td><td><span class="ph ph-2">Phase 2</span></td></tr>
-          <tr><td style="font-weight:600">검색 최적화</td><td><code>gps_product_360</code></td><td>final_rank_score, tier, category</td><td><span class="ph ph-3">Phase 3</span></td></tr>
-          <tr><td style="font-weight:600">전시 기획</td><td><code>gps_product_score</code> + <code>gps_gap_axis</code></td><td>tier, signals, problem_definition</td><td><span class="ph ph-2">Phase 2</span></td></tr>
-          <tr><td style="font-weight:600">SO (Strategic Op)</td><td><code>gps_product_360</code> + <code>gps_action_recommendation</code></td><td>full 360 view + actions</td><td><span class="ph ph-3">Phase 3</span></td></tr>
-          <tr><td style="font-weight:600">정산 API</td><td><code>gps_action_recommendation</code></td><td>COUPON type, auto_executable</td><td><span class="ph ph-3">Phase 3</span></td></tr>
-        </tbody>
-      </table>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid color-mix(in srgb,var(--teal) 20%,transparent)">
+        <div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:8px">연동 시스템 · MCP</div>
+        <ul class="tl-items" style="gap:5px">
+          <li style="font-size:12px"><strong>검색 최적화</strong> — 랭킹 점수 검색 반영</li>
+          <li style="font-size:12px"><strong>SO (Strategic Op)</strong> — 360 뷰 + 액션 연동</li>
+          <li style="font-size:12px"><strong>정산 API</strong> — 쿠폰 자동 실행</li>
+          <li style="font-size:12px"><strong>검색 · 전시 API</strong> — 실시간 연동</li>
+        </ul>
+      </div>
     </div>
   </div>
 
@@ -788,7 +921,7 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 </section>
 
 <footer style="padding:36px 32px;text-align:center;color:var(--ink3);font-size:12px;letter-spacing:.01em;border-top:.5px solid var(--bdr)">
-  ESSENTIAL GPS · 전체 스키마 & 통합 랭킹 체계 · 초안 v0.1 · 기획팀 + 개발그룹 공유용
+  11st AX TF · Albatross · ESSENTIAL GPS — 전체 스키마 & 통합 랭킹 체계 · 초안 v0.1 · 기획팀 + 개발그룹 공유용
 </footer>
 
 <script>
@@ -892,4 +1025,148 @@ const cio=new IntersectionObserver(es=>{
   });
 },{threshold:.3});
 document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+
+/* ── Radar Chart ── */
+(function(){
+  const canvas=document.getElementById('radar');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const dpr=devicePixelRatio||1;
+  const AXES=[
+    {label:'가격',score:30,color:'#FF3B30'},
+    {label:'딜실적',score:65,color:'#FF9F0A'},
+    {label:'모멘텀',score:55,color:'#FF9F0A'},
+    {label:'CTR/CVR',score:40,color:'#FF9F0A'},
+    {label:'리뷰',score:92,color:'#34C759'},
+    {label:'배송',score:85,color:'#34C759'}
+  ];
+  let animProgress=0,animating=false;
+
+  function resize(){
+    const w=canvas.offsetWidth;
+    canvas.width=w*dpr;canvas.height=w*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    draw(w,animProgress);
+  }
+
+  function draw(size,t){
+    const cx=size/2,cy=size/2,maxR=size*.36,n=AXES.length;
+    const cs=getComputedStyle(document.documentElement);
+    const bdr=cs.getPropertyValue('--bdr').trim()||'#D2D2D7';
+    const bdrS=cs.getPropertyValue('--bdr-subtle').trim()||'rgba(0,0,0,.06)';
+    const sfCard=cs.getPropertyValue('--sf-card').trim()||'#fff';
+    const inkColor=cs.getPropertyValue('--ink').trim()||'#1D1D1F';
+    const ink3=cs.getPropertyValue('--ink3').trim()||'#86868B';
+
+    ctx.clearRect(0,0,size,size);
+
+    [.33,.66,1].forEach(lv=>{
+      ctx.beginPath();
+      for(let i=0;i<=n;i++){
+        const a=(Math.PI*2/n)*i-Math.PI/2;
+        const x=cx+Math.cos(a)*maxR*lv,y=cy+Math.sin(a)*maxR*lv;
+        i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+      }
+      ctx.closePath();ctx.strokeStyle=bdr;ctx.lineWidth=.5;ctx.globalAlpha=.4;ctx.stroke();ctx.globalAlpha=1;
+    });
+
+    AXES.forEach((_,i)=>{
+      const a=(Math.PI*2/n)*i-Math.PI/2;
+      ctx.beginPath();ctx.moveTo(cx,cy);
+      ctx.lineTo(cx+Math.cos(a)*maxR,cy+Math.sin(a)*maxR);
+      ctx.strokeStyle=bdrS;ctx.lineWidth=.5;ctx.stroke();
+    });
+
+    ctx.beginPath();
+    AXES.forEach((ax,i)=>{
+      const a=(Math.PI*2/n)*i-Math.PI/2;
+      const r=maxR*(ax.score/100)*t;
+      const x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r;
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.closePath();
+    const grad=ctx.createRadialGradient(cx,cy,0,cx,cy,maxR);
+    grad.addColorStop(0,'rgba(10,132,255,0.15)');grad.addColorStop(1,'rgba(94,92,230,0.06)');
+    ctx.fillStyle=grad;ctx.fill();
+    ctx.strokeStyle='rgba(10,132,255,0.6)';ctx.lineWidth=2;ctx.stroke();
+
+    AXES.forEach((ax,i)=>{
+      const a=(Math.PI*2/n)*i-Math.PI/2;
+      const r=maxR*(ax.score/100)*t;
+      const x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r;
+      ctx.beginPath();ctx.arc(x,y,8,0,Math.PI*2);ctx.fillStyle=sfCard;ctx.fill();
+      ctx.beginPath();ctx.arc(x,y,5.5,0,Math.PI*2);ctx.fillStyle=ax.color;ctx.fill();
+    });
+
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    AXES.forEach((ax,i)=>{
+      const a=(Math.PI*2/n)*i-Math.PI/2;
+      const lr=maxR+26;
+      const x=cx+Math.cos(a)*lr,y=cy+Math.sin(a)*lr;
+      ctx.font=`600 11px ${cs.getPropertyValue('--font').split(',')[0].replace(/['"]/g,'')||'-apple-system'},system-ui,sans-serif`;
+      ctx.fillStyle=inkColor;ctx.fillText(ax.label,x,y);
+      ctx.font=`700 10px ${cs.getPropertyValue('--font').split(',')[0].replace(/['"]/g,'')||'-apple-system'},system-ui,sans-serif`;
+      ctx.fillStyle=ax.color;ctx.fillText(Math.round(ax.score*t),x,y+14);
+    });
+
+    ctx.font=`700 11px ${cs.getPropertyValue('--font').split(',')[0].replace(/['"]/g,'')||'-apple-system'},system-ui,sans-serif`;
+    ctx.fillStyle=ink3;ctx.globalAlpha=.5;
+    ctx.fillText('100',cx,cy-maxR-8);ctx.fillText('66',cx,cy-maxR*.66-6);ctx.fillText('33',cx,cy-maxR*.33-6);
+    ctx.globalAlpha=1;
+  }
+
+  function animate(){
+    if(animating)return;animating=true;
+    const dur=1400;let start=null;
+    function step(ts){
+      if(!start)start=ts;
+      const p=Math.min((ts-start)/dur,1);
+      animProgress=1-Math.pow(1-p,4);
+      const w=canvas.offsetWidth;
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      draw(w,animProgress);
+      if(p<1)requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  const rio=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){rio.unobserve(e.target);animate();}});
+  },{threshold:.2});
+  rio.observe(canvas);
+
+  resize();draw(canvas.offsetWidth,0);
+  window.addEventListener('resize',resize);
+  const mq=matchMedia('(prefers-color-scheme:dark)');
+  mq.addEventListener('change',()=>resize());
+})();
+
+/* ── Score counter ── */
+const scoreEl=document.querySelector('[data-score]');
+if(scoreEl){
+  const sio2=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(!e.isIntersecting)return;sio2.unobserve(e.target);
+      const target=parseInt(e.target.dataset.score),dur=1500;let start=null;
+      function step(ts){
+        if(!start)start=ts;const t=Math.min((ts-start)/dur,1);
+        e.target.textContent=Math.round((1-Math.pow(1-t,4))*target);
+        if(t<1)requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  },{threshold:.3});
+  sio2.observe(scoreEl);
+}
+
+/* ── Signal bar fill ── */
+const barObs=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(!e.isIntersecting)return;barObs.unobserve(e.target);
+    e.target.querySelectorAll('.sig-bar-fill').forEach(b=>{
+      requestAnimationFrame(()=>{b.style.width=b.dataset.width+'%';});
+    });
+  });
+},{threshold:.1});
+document.querySelectorAll('.sig-bars').forEach(el=>barObs.observe(el));
 </script>
