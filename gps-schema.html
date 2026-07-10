@@ -515,8 +515,8 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 .arch-consumer-sub{font-size:11px;color:var(--ink3);margin-top:3px}
 
 /* ── Animations ── */
-.fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
-.fade-in.visible{opacity:1;transform:translateY(0)}
+.js-ready .fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.js-ready .fade-in.visible{opacity:1;transform:translateY(0)}
 @media(prefers-reduced-motion:reduce){.fade-in{opacity:1;transform:none;transition:none}}
 </style>
 
@@ -1519,6 +1519,7 @@ const navObs=new IntersectionObserver(es=>{
 secs.forEach(s=>navObs.observe(s));
 
 /* ── Fade-in ── */
+document.body.classList.add('js-ready');
 const fio=new IntersectionObserver(es=>{
   es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');fio.unobserve(e.target);}});
 },{threshold:.06});
