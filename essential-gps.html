@@ -558,6 +558,41 @@ html{scroll-behavior:smooth}
 .hover-meter-fill::after{content:attr(data-val);position:absolute;right:-4px;top:-22px;font-size:10px;font-weight:700;font-family:var(--fm);color:var(--tx2);opacity:0;transition:opacity .2s}
 .hover-meter:hover .hover-meter-fill::after{opacity:1}
 
+/* orbiting particles around hero GPS letters */
+.orbit-ring{position:absolute;border:1px solid rgba(255,255,255,.06);border-radius:50%;animation:orbitSpin linear infinite}
+@keyframes orbitSpin{to{transform:rotate(360deg)}}
+.orbit-dot{position:absolute;width:6px;height:6px;border-radius:50%;top:-3px;left:50%;margin-left:-3px;box-shadow:0 0 10px currentColor}
+
+/* interactive competitive radar overlay */
+.radar-overlay{position:relative}
+.radar-legend{display:flex;justify-content:center;gap:16px;margin-top:8px;flex-wrap:wrap}
+.radar-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--tx3);cursor:pointer;transition:opacity .3s;padding:4px 10px;border-radius:100px;border:1px solid var(--bd)}
+.radar-legend-item:hover{border-color:var(--blue)}
+.radar-legend-item.dimmed{opacity:.3}
+.radar-legend-dot{width:8px;height:8px;border-radius:50%}
+
+/* animated number morph */
+.morph-num{display:inline-block;transition:transform .3s cubic-bezier(.68,-.55,.27,1.55),color .3s;font-variant-numeric:tabular-nums}
+.morph-num.bump{transform:scale(1.4);color:var(--blue)}
+
+/* draggable score comparison bar */
+.drag-compare{position:relative;height:48px;background:var(--sf2);border-radius:var(--rs);margin:20px 0;overflow:hidden;cursor:grab;user-select:none;border:1px solid var(--bd)}
+.drag-compare:active{cursor:grabbing}
+.drag-compare-fill{position:absolute;top:0;left:0;bottom:0;background:linear-gradient(90deg,var(--green),var(--blue),var(--orange),var(--red));border-radius:var(--rs) 0 0 var(--rs);transition:width .05s}
+.drag-compare-label{position:absolute;top:50%;transform:translateY(-50%);font-size:12px;font-weight:700;font-family:var(--fm);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.3);padding:0 12px;z-index:2}
+.drag-compare-markers{position:absolute;inset:0;display:flex;pointer-events:none}
+.drag-compare-mark{flex:1;border-right:1px dashed rgba(255,255,255,.15);display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;font-size:9px;font-weight:600;color:rgba(255,255,255,.4)}
+
+/* wave animation background for sections */
+.wave-bg{position:relative;overflow:hidden}
+.wave-bg::before{content:'';position:absolute;bottom:-50%;left:-10%;width:120%;height:100%;background:radial-gradient(ellipse at center,rgba(0,113,227,.03) 0%,transparent 70%);animation:waveBg 8s ease-in-out infinite alternate;pointer-events:none}
+@keyframes waveBg{0%{transform:translateY(0) scale(1)}100%{transform:translateY(-10%) scale(1.1)}}
+
+/* floating action tooltip */
+.float-action{position:relative}
+.float-action-tip{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(4px);background:var(--tx);color:var(--bg);font-size:11px;font-weight:600;padding:6px 14px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:all .25s cubic-bezier(.16,1,.3,1);z-index:10}
+.float-action:hover .float-action-tip{opacity:1;transform:translateX(-50%) translateY(0)}
+
 /* back to top */
 .btt{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glassBd);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:900;opacity:0;transform:translateY(16px);transition:opacity .3s,transform .3s;box-shadow:var(--shm)}
 .btt.show{opacity:1;transform:translateY(0)}
@@ -764,6 +799,7 @@ html{scroll-behavior:smooth}
       <div class="sig-ax" onclick="openAxisModal(5)"><div class="sig-tip">&#51061;&#51068;&#48176;&#49569; &#54869;&#48372;</div><div class="sig-ax-n">&#48176;&#49569;</div><div class="sig-ax-src"><span class="src-t src-i">&#51088;&#49324;</span><span class="src-t src-e">&#50808;&#48512;</span></div><div class="sig-light g">&#9675;</div><div class="sig-ax-v">&#51061;&#51068; &#48176;&#49569;</div><div class="sig-bar-w"><div class="sig-bar" data-w="15" style="background:var(--green)"></div></div></div>
     </div>
     <div style="margin-bottom:16px"><div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--txm);margin-bottom:8px">6&#52629; &#44148;&#44053;&#46020; &#55176;&#53944;&#47605;</div><div class="heatmap" id="heatmapGrid"></div></div>
+    <div style="margin-bottom:16px"><div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--txm);margin-bottom:8px">&#44081; &#53356;&#44592; &#45908;&#47000;&#44536; &#48708;&#44368; &#8212; &#46300;&#47000;&#44536;&#54644;&#49436; &#48708;&#44368;&#54616;&#49464;&#50836;</div><div class="drag-compare" id="dragCompare"><div class="drag-compare-fill" id="dragFill" style="width:68%"></div><div class="drag-compare-label" id="dragLabel">68 / 100</div><div class="drag-compare-markers"><div class="drag-compare-mark">C</div><div class="drag-compare-mark">B</div><div class="drag-compare-mark">A</div><div class="drag-compare-mark">S</div></div></div></div>
     <div class="sig-diag"><div class="sig-diag-label">Gap &#51652;&#45800;</div><div class="sig-diag-text">&#44032;&#44201; &#52629; &#50676;&#50948; (PCI &#8722;8.3%) &#8212; &#53216;&#54049; &#52572;&#51200;&#44032; &#45824;&#48708; &#8361;52,000 &#45458;&#51020;. &#50808;&#48512; &#44221;&#51137; &#45824;&#48708; &#44032;&#44201; Gap&#51060; &#48337;&#47785;. &#46364; &#49892;&#51201;&#51008; &#51088;&#49324; &#44396;&#51340; &#54217;&#44512; &#54616;&#54924;.</div></div>
     <div class="sig-actions">
       <div class="sig-act ripple"><div class="sig-act-n">&#44032;&#44201; MCP</div><div class="sig-act-b">&#48148;&#47196; &#51201;&#50857;</div></div>
@@ -794,7 +830,7 @@ html{scroll-behavior:smooth}
         <div class="sim-axis"><label><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green)"></span> &#47532;&#48624;</label><div class="sim-axis-row"><input type="range" min="0" max="100" value="80" id="sl-4" oninput="calcGPS()"><span class="val" id="v-4">80</span></div></div>
         <div class="sim-axis"><label><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green)"></span> &#48176;&#49569;</label><div class="sim-axis-row"><input type="range" min="0" max="100" value="90" id="sl-5" oninput="calcGPS()"><span class="val" id="v-5">90</span></div></div>
       </div>
-      <div class="sim-radar"><canvas id="radarCanvas" width="200" height="200"></canvas></div>
+      <div class="sim-radar radar-overlay"><canvas id="radarCanvas" width="200" height="200"></canvas><div class="radar-legend"><span class="radar-legend-item" onclick="toggleRadarComp(this,0)"><span class="radar-legend-dot" style="background:#0a84ff"></span>11ST</span><span class="radar-legend-item" onclick="toggleRadarComp(this,1)"><span class="radar-legend-dot" style="background:#bf5af2"></span>&#53216;&#54049;</span><span class="radar-legend-item" onclick="toggleRadarComp(this,2)"><span class="radar-legend-dot" style="background:#ff9500"></span>&#45348;&#51060;&#48260;</span></div></div>
     </div>
     <div class="sim-result">
       <div class="big-grade" id="sim-grade" style="background:rgba(255,149,0,.1);color:var(--orange)">A</div>
@@ -1465,6 +1501,106 @@ document.querySelectorAll('.gap-bar').forEach(function(bar){
     });
   },5000);
 })();
+
+// draggable comparison bar
+(function(){
+  var bar=document.getElementById('dragCompare');
+  var fill=document.getElementById('dragFill');
+  var label=document.getElementById('dragLabel');
+  if(!bar)return;
+  var dragging=false;
+  function update(e){
+    var r=bar.getBoundingClientRect();
+    var x=Math.max(0,Math.min(e.clientX-r.left,r.width));
+    var pct=Math.round(x/r.width*100);
+    fill.style.width=pct+'%';
+    label.textContent=pct+' / 100';
+    label.style.left=Math.max(8,Math.min(x-20,r.width-60))+'px';
+    var grade;
+    if(pct>=85)grade='S';else if(pct>=65)grade='A';else if(pct>=40)grade='B';else grade='C';
+    label.textContent=pct+' / 100  ('+grade+')';
+  }
+  bar.addEventListener('mousedown',function(e){dragging=true;update(e)});
+  document.addEventListener('mousemove',function(e){if(dragging)update(e)});
+  document.addEventListener('mouseup',function(){dragging=false});
+  bar.addEventListener('touchstart',function(e){dragging=true;update(e.touches[0])},{passive:true});
+  document.addEventListener('touchmove',function(e){if(dragging)update(e.touches[0])},{passive:true});
+  document.addEventListener('touchend',function(){dragging=false});
+})();
+
+// competitive radar overlay
+var radarComps=[[75,60,50,65,82,90],[80,78,68,72,75,80],[72,82,55,60,78,85]];
+var radarCompColors=['rgba(10,132,255,.4)','rgba(191,90,242,.4)','rgba(255,149,0,.4)'];
+var radarCompVisible=[true,false,false];
+function toggleRadarComp(el,idx){
+  radarCompVisible[idx]=!radarCompVisible[idx];
+  el.classList.toggle('dimmed',!radarCompVisible[idx]);
+  calcGPS();
+}
+var origDrawRadar=window.drawRadar;
+window.drawRadar=function(vals){
+  origDrawRadar(vals);
+  var cv=document.getElementById('radarCanvas');if(!cv)return;
+  var ctx=cv.getContext('2d'),cx=100,cy=100,maxR=80,n=6;
+  radarComps.forEach(function(comp,ci){
+    if(!radarCompVisible[ci])return;
+    ctx.beginPath();
+    for(var i=0;i<n;i++){
+      var a=-Math.PI/2+(2*Math.PI/n)*i;
+      var rv=comp[i]/100*maxR;
+      if(i===0)ctx.moveTo(cx+Math.cos(a)*rv,cy+Math.sin(a)*rv);
+      else ctx.lineTo(cx+Math.cos(a)*rv,cy+Math.sin(a)*rv);
+    }
+    ctx.closePath();
+    ctx.strokeStyle=radarCompColors[ci];ctx.lineWidth=1.5;ctx.setLineDash([4,4]);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle=radarCompColors[ci].replace('.4','.06');ctx.fill();
+  });
+};
+
+// orbiting particles around hero
+(function(){
+  var hero=document.querySelector('.hero-inner');if(!hero)return;
+  var sizes=[180,260,340];
+  var speeds=[20,28,38];
+  var hues=['#0a84ff','#bf5af2','#30d158'];
+  sizes.forEach(function(s,i){
+    var ring=document.createElement('div');
+    ring.className='orbit-ring';
+    ring.style.cssText='width:'+s+'px;height:'+s+'px;left:50%;top:50%;margin-left:-'+(s/2)+'px;margin-top:-'+(s/2)+'px;animation-duration:'+speeds[i]+'s';
+    var dot=document.createElement('div');
+    dot.className='orbit-dot';
+    dot.style.cssText='background:'+hues[i]+';color:'+hues[i];
+    ring.appendChild(dot);
+    hero.style.position='relative';
+    hero.appendChild(ring);
+  });
+})();
+
+// number morphing animation on simulator values
+(function(){
+  document.querySelectorAll('.val').forEach(function(el){
+    var obs=new MutationObserver(function(){
+      el.classList.add('morph-num','bump');
+      setTimeout(function(){el.classList.remove('bump')},300);
+    });
+    obs.observe(el,{childList:true,characterData:true,subtree:true});
+  });
+})();
+
+// wave background on key sections
+document.querySelectorAll('#s-sim,#s-signal,#s-boost').forEach(function(s){
+  s.classList.add('wave-bg');
+});
+
+// floating action tooltips on sig-act buttons
+document.querySelectorAll('.sig-act').forEach(function(el,i){
+  el.classList.add('float-action');
+  var tips=['\u{D074}\u{B9AD}\u{D558}\u{BA74} \u{AC00}\u{ACA9} MCP \u{C801}\u{C6A9}','\u{D074}\u{B9AD}\u{D558}\u{BA74} \u{C815}\u{C0B0} Task \u{C0DD}\u{C131}','\u{D074}\u{B9AD}\u{D558}\u{BA74} \u{D3B8}\u{C131} \u{C124}\u{C815} \u{C5F4}\u{AE30}'];
+  var tip=document.createElement('span');
+  tip.className='float-action-tip';
+  tip.textContent=tips[i]||'';
+  el.appendChild(tip);
+});
 
 // heatmap grid builder
 (function(){
