@@ -294,6 +294,35 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 .dt-source{display:block;margin-top:14px;padding-top:14px;
   border-top:1px solid rgba(255,255,255,.05);font-size:11px;color:#48484A}
 
+/* ── ERD Diagram ── */
+.erd-wrap{position:relative;margin-bottom:48px;overflow-x:auto;-webkit-overflow-scrolling:touch;
+  padding:4px;border-radius:var(--r);background:var(--sf-alt);border:1px solid var(--bdr-subtle)}
+.erd-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.erd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;min-width:880px;
+  padding:20px 16px;position:relative;z-index:2}
+.erd-col{display:flex;flex-direction:column;gap:8px}
+.erd-col-head{font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;
+  padding:8px 12px;border-radius:6px;text-align:center;margin-bottom:2px}
+.erd-col-l1 .erd-col-head{background:color-mix(in srgb,var(--blue) 10%,transparent);color:var(--blue)}
+.erd-col-l2 .erd-col-head{background:color-mix(in srgb,var(--indigo) 10%,transparent);color:var(--indigo)}
+.erd-col-l3 .erd-col-head{background:color-mix(in srgb,var(--purple) 10%,transparent);color:var(--purple)}
+.erd-col-l4 .erd-col-head{background:color-mix(in srgb,var(--teal) 10%,transparent);color:var(--teal)}
+.erd-ent{background:var(--sf-card);border-radius:var(--rx);padding:10px 12px;
+  box-shadow:var(--shadow-card);border:1.5px solid transparent;
+  transition:all .25s var(--ease);cursor:pointer;position:relative}
+.erd-ent:hover,.erd-ent.erd-hl{border-color:var(--blue);transform:translateY(-1px);box-shadow:var(--shadow-hover)}
+.erd-ent-name{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--blue);margin-bottom:3px;
+  display:flex;align-items:center;gap:6px;line-height:1.3}
+.erd-col-l2 .erd-ent-name{color:var(--indigo)}.erd-col-l3 .erd-ent-name{color:var(--purple)}.erd-col-l4 .erd-ent-name{color:var(--teal)}
+.erd-ent-vol{font-size:9px;color:var(--ink3);font-weight:500;margin-left:auto;white-space:nowrap}
+.erd-ent-cols{display:flex;flex-direction:column;gap:1px;padding-top:6px;margin-top:6px;border-top:1px solid var(--bdr-subtle)}
+.erd-cr{font-family:var(--mono);font-size:9.5px;color:var(--ink2);display:flex;align-items:center;gap:4px;padding:1.5px 0}
+.erd-cr .pk,.erd-cr .fk{margin-left:auto;font-size:8px}
+.erd-sys-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:700;
+  letter-spacing:.06em;padding:2px 10px;border-radius:10px;white-space:nowrap;z-index:3}
+.erd-sys-alb{background:var(--blue);color:#fff}
+.erd-sys-gps{background:linear-gradient(135deg,var(--indigo),var(--purple));color:#fff}
+
 /* ── Animations ── */
 .fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
 .fade-in.visible{opacity:1;transform:translateY(0)}
@@ -442,7 +471,161 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 <div class="container">
   <div class="sec-label">Data Architecture</div>
   <div class="sec-title">전체 데이터 스키마</div>
-  <div class="sec-desc">외부수집 → 매칭·랭킹 → Gap분석 → 통합·소비, 4개 레이어의 테이블 구조.</div>
+  <div class="sec-desc">Albatross 수집 데이터가 ESSENTIAL GPS를 거쳐 최종 360 뷰 · MD Task까지 이어지는 전체 관계도.</div>
+
+  <!-- ERD Diagram -->
+  <div class="erd-wrap fade-in" id="erd" style="position:relative">
+    <span class="erd-sys-label erd-sys-alb" style="left:12.5%;top:-11px;transform:none">Albatross</span>
+    <span class="erd-sys-label erd-sys-gps" style="left:38%;top:-11px;transform:none">ESSENTIAL GPS</span>
+    <svg class="erd-svg" id="erd-svg"></svg>
+    <div class="erd-grid">
+      <!-- L1: Albatross -->
+      <div class="erd-col erd-col-l1">
+        <div class="erd-col-head">Layer 1 · 외부 수집</div>
+        <div class="erd-ent" data-ent="site" data-layer="l1">
+          <div class="erd-ent-name">abt_crawl_site <span class="erd-ent-vol">11건</span></div>
+          <div class="erd-ent-cols">
+            <div class="erd-cr"><span>site_id</span><span class="pk">PK</span></div>
+            <div class="erd-cr"><span>site_name</span></div>
+            <div class="erd-cr"><span>channel_weight</span></div>
+          </div>
+        </div>
+        <div class="erd-ent" data-ent="product" data-layer="l1">
+          <div class="erd-ent-name">abt_crawl_product <span class="erd-ent-vol">215K</span></div>
+          <div class="erd-ent-cols">
+            <div class="erd-cr"><span>crawl_product_id</span><span class="pk">PK</span></div>
+            <div class="erd-cr"><span>site_id</span><span class="fk">FK</span></div>
+            <div class="erd-cr"><span>product_name, price</span></div>
+            <div class="erd-cr"><span>category_l1/l2/l3</span></div>
+          </div>
+        </div>
+        <div class="erd-ent" data-ent="metric" data-layer="l1">
+          <div class="erd-ent-name">abt_crawl_product_metric <span class="erd-ent-vol">358K</span></div>
+          <div class="erd-ent-cols">
+            <div class="erd-cr"><span>metric_id</span><span class="pk">PK</span></div>
+            <div class="erd-cr"><span>crawl_product_id</span><span class="fk">FK</span></div>
+            <div class="erd-cr"><span>review_count, sales_rank</span></div>
+          </div>
+        </div>
+        <div class="erd-ent" data-ent="rank" data-layer="l1">
+          <div class="erd-ent-name">abt_crawl_product_rank <span class="erd-ent-vol">1.96M</span></div>
+          <div class="erd-ent-cols">
+            <div class="erd-cr"><span>rank_id</span><span class="pk">PK</span></div>
+            <div class="erd-cr"><span>crawl_product_id</span><span class="fk">FK</span></div>
+            <div class="erd-cr"><span>site_id</span><span class="fk">FK</span></div>
+            <div class="erd-cr"><span>rank_type, rank_position</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- L2: Matching & Ranking -->
+      <div class="erd-col erd-col-l2">
+        <div class="erd-col-head">Layer 2 · 매칭 & 랭킹</div>
+        <div class="erd-ent" data-ent="unified" data-layer="l2">
+          <div class="erd-ent-name">gps_unified_product <span class="erd-ent-vol">유니크 풀</span></div>
+          <div class="erd-ent-cols">
+            <div class="erd-cr"><span>unified_product_id</span><span class="pk">PK</span></div>
+            <div class="erd-cr"><span>product_name_normalized</span></div>
+            <div class="erd-cr"><span>channel_count</span></div>
+          </div>
+        </div>
+        <div class="erd-ent" data-ent="psource" data-layer="l2">
+          <div class="erd-ent-name">gps_product_source <span class="erd-ent-vol">M:N</span></div>
+          <div class="erd-ent-cols">
+            <div class="erd-cr"><span>unified_product_id</span><span class="fk">FK</span></div>
+            <div class="erd-cr"><span>crawl_product_id</span><span class="fk">FK</span></div>
+            <div class="erd-cr"><span>site_id</span><span class="fk">FK</span></div>
+            <div class="erd-cr"><span>match_confidence</span></div>
+          </div>
+        </div>
+        <div class="erd-ent" data-ent="match" data-layer="l2">
+          <div class="erd-ent-name">gps_11st_match <span class="erd-ent-vol">11번가 특정</span></div>
+          <div class="erd-ent-cols">
+            <div class="erd-cr"><span>unified_product_id</span><span class="fk">FK</span></div>
+            <div class="erd-cr"><span>prd_no</span></div>
+            <div class="erd-cr"><span>match_status</span></div>
+          </div>
+        </div>
+        <div class="erd-ent" data-ent="urank" data-layer="l2">
+          <div class="erd-ent-name">gps_unified_rank <span class="erd-ent-vol">랭킹 점수</span></div>
+          <div class="erd-ent-cols">
+            <div class="erd-cr"><span>unified_product_id</span><span class="fk">FK</span></div>
+            <div class="erd-cr"><span>naver_rank_score</span></div>
+            <div class="erd-cr"><span>final_rank_score</span></div>
+            <div class="erd-cr"><span>is_matched</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- L3: Gap Analysis -->
+      <div class="erd-col erd-col-l3">
+        <div class="erd-col-head">Layer 3 · Gap 분석</div>
+        <div class="erd-ent" data-ent="gaxis" data-layer="l3">
+          <div class="erd-ent-name">gps_gap_axis <span class="erd-ent-vol">6축 × N</span></div>
+          <div class="erd-ent-cols">
+            <div class="erd-cr"><span>gap_id</span><span class="pk">PK</span></div>
+            <div class="erd-cr"><span>unified_product_id</span><span class="fk">FK</span></div>
+            <div class="erd-cr"><span>prd_no</span><span class="fk">FK</span></div>
+            <div class="erd-cr"><span>axis_type, signal</span></div>
+          </div>
+        </div>
+        <div class="erd-ent" data-ent="pscore" data-layer="l3">
+          <div class="erd-ent-name">gps_product_score <span class="erd-ent-vol">종합</span></div>
+          <div class="erd-ent-cols">
+            <div class="erd-cr"><span>score_id</span><span class="pk">PK</span></div>
+            <div class="erd-cr"><span>unified_product_id</span><span class="fk">FK</span></div>
+            <div class="erd-cr"><span>total_score, tier</span></div>
+            <div class="erd-cr"><span>overall_status</span></div>
+          </div>
+        </div>
+        <div class="erd-ent" data-ent="arec" data-layer="l3">
+          <div class="erd-ent-name">gps_action_recommendation <span class="erd-ent-vol">액션</span></div>
+          <div class="erd-ent-cols">
+            <div class="erd-cr"><span>recommendation_id</span><span class="pk">PK</span></div>
+            <div class="erd-cr"><span>score_id</span><span class="fk">FK</span></div>
+            <div class="erd-cr"><span>action_type</span></div>
+            <div class="erd-cr"><span>connected_system</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- L4: Integration -->
+      <div class="erd-col erd-col-l4">
+        <div class="erd-col-head">Layer 4 · 통합 & 소비</div>
+        <div class="erd-ent" data-ent="p360" data-layer="l4">
+          <div class="erd-ent-name">gps_product_360 <span class="erd-ent-vol">MV Daily</span></div>
+          <div class="erd-ent-cols">
+            <div class="erd-cr"><span>unified_product_id</span><span class="pk">PK</span></div>
+            <div class="erd-cr"><span>prd_no, tier</span></div>
+            <div class="erd-cr"><span>signal_price…delivery</span></div>
+            <div class="erd-cr"><span>top_action</span></div>
+          </div>
+        </div>
+        <div class="erd-ent" data-ent="mdtask" data-layer="l4">
+          <div class="erd-ent-name">gps_md_task <span class="erd-ent-vol">Task 배분</span></div>
+          <div class="erd-ent-cols">
+            <div class="erd-cr"><span>task_id</span><span class="pk">PK</span></div>
+            <div class="erd-cr"><span>prd_no</span><span class="fk">FK</span></div>
+            <div class="erd-cr"><span>md_id, task_type</span></div>
+            <div class="erd-cr"><span>status, reject_reason</span></div>
+          </div>
+        </div>
+        <div class="erd-ent" data-ent="ptrack" data-layer="l4">
+          <div class="erd-ent-name">gps_performance_track <span class="erd-ent-vol">실적</span></div>
+          <div class="erd-ent-cols">
+            <div class="erd-cr"><span>track_id</span><span class="pk">PK</span></div>
+            <div class="erd-cr"><span>task_id</span><span class="fk">FK</span></div>
+            <div class="erd-cr"><span>prd_no</span><span class="fk">FK</span></div>
+            <div class="erd-cr"><span>metric_type, delta_pct</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-bottom:36px">
+    <span style="font-size:11px;color:var(--ink3);font-weight:500">테이블 상세 컬럼은 아래 레이어 탭에서 확인</span>
+  </div>
 
   <div class="arch-flow fade-in">
     <div class="layer-tab active" data-layer="l1" onclick="switchLayer('l1')">
@@ -1170,4 +1353,107 @@ const barObs=new IntersectionObserver(es=>{
   });
 },{threshold:.1});
 document.querySelectorAll('.sig-bars').forEach(el=>barObs.observe(el));
+
+/* ── ERD Connections ── */
+(function(){
+  const svg=document.getElementById('erd-svg');
+  const wrap=document.getElementById('erd');
+  if(!svg||!wrap)return;
+
+  const CONNS=[
+    {from:'product',to:'psource',color:'#0A84FF',dash:false},
+    {from:'site',to:'psource',color:'#0A84FF',dash:false},
+    {from:'metric',to:'psource',color:'#0A84FF',dash:true},
+    {from:'rank',to:'urank',color:'#0A84FF',dash:true},
+    {from:'unified',to:'gaxis',color:'#BF5AF2',dash:false},
+    {from:'unified',to:'pscore',color:'#BF5AF2',dash:false},
+    {from:'match',to:'gaxis',color:'#BF5AF2',dash:true},
+    {from:'pscore',to:'p360',color:'#64D2FF',dash:false},
+    {from:'arec',to:'p360',color:'#64D2FF',dash:true},
+    {from:'pscore',to:'mdtask',color:'#64D2FF',dash:false},
+    {from:'mdtask',to:'ptrack',color:'#64D2FF',dash:true}
+  ];
+
+  function ent(id){return wrap.querySelector('[data-ent="'+id+'"]');}
+
+  function drawAll(){
+    const ns='http://www.w3.org/2000/svg';
+    svg.innerHTML='';
+    const wr=wrap.getBoundingClientRect();
+    svg.setAttribute('width',wr.width);
+    svg.setAttribute('height',wr.height);
+    svg.setAttribute('viewBox','0 0 '+wr.width+' '+wr.height);
+
+    const defs=document.createElementNS(ns,'defs');
+    const marker=document.createElementNS(ns,'marker');
+    marker.setAttribute('id','arw');marker.setAttribute('viewBox','0 0 6 6');
+    marker.setAttribute('refX','5');marker.setAttribute('refY','3');
+    marker.setAttribute('markerWidth','5');marker.setAttribute('markerHeight','5');
+    marker.setAttribute('orient','auto-start-reverse');
+    const poly=document.createElementNS(ns,'path');
+    poly.setAttribute('d','M0,0 L6,3 L0,6 Z');poly.setAttribute('fill','currentColor');
+    marker.appendChild(poly);defs.appendChild(marker);svg.appendChild(defs);
+
+    CONNS.forEach(c=>{
+      const f=ent(c.from),t=ent(c.to);
+      if(!f||!t)return;
+      const fr=f.getBoundingClientRect(),tr=t.getBoundingClientRect();
+      const sameCol=Math.abs(fr.left-tr.left)<50;
+
+      let x1,y1,x2,y2,d;
+      if(sameCol){
+        x1=fr.right-wr.left-4;y1=fr.bottom-wr.top;
+        x2=tr.right-wr.left-4;y2=tr.top-wr.top;
+        const mx=x1+18;
+        d='M'+x1+','+y1+' C'+mx+','+(y1+8)+' '+mx+','+(y2-8)+' '+x2+','+y2;
+      }else{
+        x1=fr.right-wr.left;y1=fr.top+fr.height/2-wr.top;
+        x2=tr.left-wr.left;y2=tr.top+tr.height/2-wr.top;
+        const dx=(x2-x1)*.45;
+        d='M'+x1+','+y1+' C'+(x1+dx)+','+y1+' '+(x2-dx)+','+y2+' '+x2+','+y2;
+      }
+      const path=document.createElementNS(ns,'path');
+      path.setAttribute('d',d);path.setAttribute('stroke',c.color);
+      path.setAttribute('stroke-width','1.5');path.setAttribute('fill','none');
+      path.setAttribute('opacity','0.25');path.setAttribute('marker-end','url(#arw)');
+      path.style.color=c.color;
+      if(c.dash)path.setAttribute('stroke-dasharray','4,3');
+      path.dataset.from=c.from;path.dataset.to=c.to;
+      svg.appendChild(path);
+    });
+  }
+
+  function highlight(id){
+    svg.querySelectorAll('path').forEach(p=>{
+      const hit=p.dataset.from===id||p.dataset.to===id;
+      p.setAttribute('opacity',hit?'0.8':'0.08');
+      p.setAttribute('stroke-width',hit?'2.5':'1.5');
+    });
+    wrap.querySelectorAll('.erd-ent').forEach(e=>{
+      const eid=e.dataset.ent;
+      const connected=Array.from(svg.querySelectorAll('path')).some(p=>
+        (p.dataset.from===id&&p.dataset.to===eid)||(p.dataset.to===id&&p.dataset.from===eid));
+      e.classList.toggle('erd-hl',eid===id||connected);
+    });
+  }
+  function unhighlight(){
+    svg.querySelectorAll('path').forEach(p=>{p.setAttribute('opacity','0.25');p.setAttribute('stroke-width','1.5');});
+    wrap.querySelectorAll('.erd-ent').forEach(e=>e.classList.remove('erd-hl'));
+  }
+
+  wrap.querySelectorAll('.erd-ent').forEach(e=>{
+    e.addEventListener('mouseenter',()=>highlight(e.dataset.ent));
+    e.addEventListener('mouseleave',unhighlight);
+    e.addEventListener('click',()=>{
+      const ly=e.dataset.layer;if(ly)switchLayer(ly);
+      document.querySelector('.arch-flow')?.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+
+  const erdObs=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){erdObs.unobserve(e.target);drawAll();}});
+  },{threshold:.05});
+  erdObs.observe(wrap);
+  window.addEventListener('resize',drawAll);
+})();
 </script>
