@@ -185,19 +185,20 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
   border-top:1px solid var(--bdr-subtle);line-height:1.5}
 
 /* ── Timeline ── */
-.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
-@media(max-width:640px){.timeline{grid-template-columns:1fr}}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:36px}
+@media(max-width:900px){.timeline{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.timeline{grid-template-columns:1fr}}
 .tl{border-radius:var(--r);padding:28px;background:var(--sf-card);box-shadow:var(--shadow-card);position:relative;overflow:hidden}
 .tl::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.tl-1::before{background:var(--blue)}.tl-2::before{background:var(--purple)}.tl-3::before{background:var(--teal)}
+.tl-1::before{background:var(--blue)}.tl-2::before{background:var(--purple)}.tl-3::before{background:var(--teal)}.tl-4::before{background:var(--red)}
 .tl-phase{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
-.tl-1 .tl-phase{color:var(--blue)}.tl-2 .tl-phase{color:var(--purple)}.tl-3 .tl-phase{color:var(--teal)}
+.tl-1 .tl-phase{color:var(--blue)}.tl-2 .tl-phase{color:var(--purple)}.tl-3 .tl-phase{color:var(--teal)}.tl-4 .tl-phase{color:var(--red)}
 .tl-name{font-size:20px;font-weight:700;letter-spacing:-.02em;margin-bottom:2px}
 .tl-period{font-size:12px;color:var(--ink3);margin-bottom:16px}
 .tl-items{list-style:none;display:flex;flex-direction:column;gap:7px}
 .tl-items li{font-size:13px;padding-left:18px;position:relative;color:var(--ink2);line-height:1.5}
 .tl-items li::before{content:'';position:absolute;left:0;top:6px;width:7px;height:7px;border-radius:50%}
-.tl-1 li::before{background:var(--blue)}.tl-2 li::before{background:var(--purple)}.tl-3 li::before{background:var(--teal)}
+.tl-1 li::before{background:var(--blue)}.tl-2 li::before{background:var(--purple)}.tl-3 li::before{background:var(--teal)}.tl-4 li::before{background:var(--red)}
 
 /* ── Consumer & availability tables ── */
 .data-table{width:100%;border-collapse:collapse;font-size:13px}
@@ -294,33 +295,39 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 .dt-source{display:block;margin-top:14px;padding-top:14px;
   border-top:1px solid rgba(255,255,255,.05);font-size:11px;color:#48484A}
 
-/* ── ERD Diagram ── */
-.erd-wrap{position:relative;margin-bottom:0;overflow:visible;
-  padding:24px 32px;background:var(--sf-alt)}
-.erd-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
-.erd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
-  padding:16px 0;position:relative;z-index:2}
-.erd-col{display:flex;flex-direction:column;gap:8px}
-.erd-col-head{font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;
-  padding:8px 12px;border-radius:6px;text-align:center;margin-bottom:2px}
-.erd-col-l1 .erd-col-head{background:color-mix(in srgb,var(--blue) 10%,transparent);color:var(--blue)}
-.erd-col-l2 .erd-col-head{background:color-mix(in srgb,var(--indigo) 10%,transparent);color:var(--indigo)}
-.erd-col-l3 .erd-col-head{background:color-mix(in srgb,var(--purple) 10%,transparent);color:var(--purple)}
-.erd-col-l4 .erd-col-head{background:color-mix(in srgb,var(--teal) 10%,transparent);color:var(--teal)}
-.erd-ent{background:var(--sf-card);border-radius:var(--rx);padding:10px 12px;
-  box-shadow:var(--shadow-card);border:1.5px solid transparent;
-  transition:all .25s var(--ease);cursor:pointer;position:relative}
-.erd-ent:hover,.erd-ent.erd-hl{border-color:var(--blue);transform:translateY(-1px);box-shadow:var(--shadow-hover)}
-.erd-ent-name{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--blue);margin-bottom:3px;
-  display:flex;align-items:center;gap:6px;line-height:1.3}
-.erd-col-l2 .erd-ent-name{color:var(--indigo)}.erd-col-l3 .erd-ent-name{color:var(--purple)}.erd-col-l4 .erd-ent-name{color:var(--teal)}
-.erd-ent-vol{font-size:9px;color:var(--ink3);font-weight:500;margin-left:auto;white-space:nowrap}
-.erd-ent-cols{display:flex;flex-direction:column;gap:1px;padding-top:6px;margin-top:6px;border-top:1px solid var(--bdr-subtle)}
-.erd-cr{font-family:var(--mono);font-size:9.5px;color:var(--ink2);display:flex;align-items:center;gap:4px;padding:1.5px 0}
-.erd-cr .pk,.erd-cr .fk{margin-left:auto;font-size:8px}
-.erd-sys-label{font-size:10px;font-weight:700;letter-spacing:.06em;padding:4px 14px;border-radius:10px;white-space:nowrap}
-.erd-sys-alb{background:var(--blue);color:#fff}
-.erd-sys-gps{background:linear-gradient(135deg,var(--indigo),var(--purple));color:#fff}
+/* ── Pipeline ── */
+.pipe-badge{font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;
+  background:color-mix(in srgb,var(--sgreen) 12%,transparent);color:var(--sgreen);margin-left:12px;vertical-align:middle}
+.pipe-track{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px}
+@media(max-width:900px){.pipe-track{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.pipe-track{grid-template-columns:1fr}}
+.pipe-stage{text-align:center;padding:24px 12px;border-radius:var(--rs);cursor:pointer;
+  transition:all .3s var(--spring);border:2px solid transparent;background:var(--sf-card);box-shadow:var(--shadow-card)}
+.pipe-stage:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover)}
+.pipe-stage.active{border-color:var(--blue);box-shadow:var(--shadow-hover)}
+.pipe-icon{width:40px;height:40px;border-radius:10px;display:inline-flex;align-items:center;
+  justify-content:center;font-size:14px;font-weight:800;color:#fff;margin-bottom:10px}
+.pipe-name{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px}
+.pipe-title{font-size:14px;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:4px}
+.pipe-sub{font-size:12px;color:var(--ink2);line-height:1.5}
+.pipe-status{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;margin-top:8px;padding:2px 8px;border-radius:20px}
+.pipe-status-done{background:color-mix(in srgb,var(--sgreen) 10%,transparent);color:var(--sgreen)}
+.pipe-status-wip{background:color-mix(in srgb,var(--amber) 10%,transparent);color:var(--amber)}
+.pipe-status-plan{background:color-mix(in srgb,var(--ink3) 8%,transparent);color:var(--ink3)}
+.pipe-status::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+.pipe-detail{background:var(--sf-card);border-radius:var(--r);box-shadow:var(--shadow-card);
+  max-height:0;overflow:hidden;transition:max-height .5s var(--ease),padding .5s var(--ease),margin .5s var(--ease);
+  padding:0 28px;margin-bottom:0}
+.pipe-detail.open{max-height:300px;padding:28px;margin-bottom:28px}
+.pipe-detail-head{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.pipe-detail-body{font-size:14px;color:var(--ink2);line-height:1.7}
+.pipe-detail-body strong{color:var(--ink);font-weight:600}
+.pipe-detail-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.ptag{font-size:11px;font-weight:600;padding:4px 10px;border-radius:var(--rx);display:inline-flex;align-items:center}
+.ptag-int{background:color-mix(in srgb,var(--blue) 10%,transparent);color:var(--blue)}
+.ptag-ext{background:color-mix(in srgb,var(--sgreen) 10%,transparent);color:var(--sgreen)}
+.ptag-sys{background:var(--sf-alt);color:var(--ink2)}
+.ptag-score{background:color-mix(in srgb,var(--purple) 10%,transparent);color:var(--purple)}
 
 /* ── Animations ── */
 .fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
@@ -331,7 +338,7 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 <nav>
   <span class="logo">11st AX TF · Albatross</span>
   <a href="#ranking" class="active">통합 랭킹</a>
-  <a href="#schema">데이터 스키마</a>
+  <a href="#schema">데이터 플로우</a>
   <a href="#output">결과물</a>
   <a href="#roadmap">실행계획</a>
   <span class="draft">초안 v0.1</span>
@@ -468,170 +475,79 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 <!-- ═══ Section 2: 데이터 스키마 ═══ -->
 <section id="schema" class="alt">
 <div class="container">
-  <div class="sec-label">Data Architecture</div>
-  <div class="sec-title">전체 데이터 스키마</div>
-  <div class="sec-desc">Albatross 수집 데이터가 ESSENTIAL GPS를 거쳐 최종 360 뷰 · MD Task까지 이어지는 전체 관계도.</div>
-</div><!-- close container for full-width ERD -->
+  <div class="sec-label">Core Data Pipeline</div>
+  <div class="sec-title">전체 시스템 플로우<span class="pipe-badge">MVP 진행중</span></div>
+  <div class="sec-desc">외부 수집 → 자사 연동 → 상품 매칭 → Gap 진단 → 스코어링 → 소비처 연동 → 성과관리 → 편성자동화까지 이어지는 전체 파이프라인.</div>
 
-  <!-- ERD Diagram -->
-  <div class="erd-wrap fade-in" id="erd" style="position:relative">
-    <div style="display:flex;gap:12px;margin-bottom:12px">
-      <span class="erd-sys-label erd-sys-alb" style="position:static;transform:none">Albatross</span>
-      <span style="color:var(--ink3);font-size:11px;display:flex;align-items:center">→</span>
-      <span class="erd-sys-label erd-sys-gps" style="position:static;transform:none">ESSENTIAL GPS</span>
+  <div class="pipe-track fade-in" id="pipeTrack">
+    <div class="pipe-stage active" data-idx="0">
+      <div class="pipe-icon" style="background:var(--sgreen)">A</div>
+      <div class="pipe-name">Albatross</div>
+      <div class="pipe-title">외부 데이터 수집</div>
+      <div class="pipe-sub">11개 경쟁사 크롤<br>254만+ 레코드</div>
+      <div class="pipe-status pipe-status-done">완료</div>
     </div>
-    <svg class="erd-svg" id="erd-svg"></svg>
-    <div class="erd-grid">
-      <!-- L1: Albatross -->
-      <div class="erd-col erd-col-l1">
-        <div class="erd-col-head">Layer 1 · 외부 수집</div>
-        <div class="erd-ent" data-ent="site" data-layer="l1">
-          <div class="erd-ent-name">abt_crawl_site <span class="erd-ent-vol">11건</span></div>
-          <div class="erd-ent-cols">
-            <div class="erd-cr"><span>site_id</span><span class="pk">PK</span></div>
-            <div class="erd-cr"><span>site_name</span></div>
-            <div class="erd-cr"><span>channel_weight</span></div>
-          </div>
-        </div>
-        <div class="erd-ent" data-ent="product" data-layer="l1">
-          <div class="erd-ent-name">abt_crawl_product <span class="erd-ent-vol">215K</span></div>
-          <div class="erd-ent-cols">
-            <div class="erd-cr"><span>crawl_product_id</span><span class="pk">PK</span></div>
-            <div class="erd-cr"><span>site_id</span><span class="fk">FK</span></div>
-            <div class="erd-cr"><span>product_name, price</span></div>
-            <div class="erd-cr"><span>category_l1/l2/l3</span></div>
-          </div>
-        </div>
-        <div class="erd-ent" data-ent="metric" data-layer="l1">
-          <div class="erd-ent-name">abt_crawl_product_metric <span class="erd-ent-vol">358K</span></div>
-          <div class="erd-ent-cols">
-            <div class="erd-cr"><span>metric_id</span><span class="pk">PK</span></div>
-            <div class="erd-cr"><span>crawl_product_id</span><span class="fk">FK</span></div>
-            <div class="erd-cr"><span>review_count, sales_rank</span></div>
-          </div>
-        </div>
-        <div class="erd-ent" data-ent="rank" data-layer="l1">
-          <div class="erd-ent-name">abt_crawl_product_rank <span class="erd-ent-vol">1.96M</span></div>
-          <div class="erd-ent-cols">
-            <div class="erd-cr"><span>rank_id</span><span class="pk">PK</span></div>
-            <div class="erd-cr"><span>crawl_product_id</span><span class="fk">FK</span></div>
-            <div class="erd-cr"><span>site_id</span><span class="fk">FK</span></div>
-            <div class="erd-cr"><span>rank_type, rank_position</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- L2: Matching & Ranking -->
-      <div class="erd-col erd-col-l2">
-        <div class="erd-col-head">Layer 2 · 매칭 & 랭킹</div>
-        <div class="erd-ent" data-ent="unified" data-layer="l2">
-          <div class="erd-ent-name">gps_unified_product <span class="erd-ent-vol">유니크 풀</span></div>
-          <div class="erd-ent-cols">
-            <div class="erd-cr"><span>unified_product_id</span><span class="pk">PK</span></div>
-            <div class="erd-cr"><span>product_name_normalized</span></div>
-            <div class="erd-cr"><span>channel_count</span></div>
-          </div>
-        </div>
-        <div class="erd-ent" data-ent="psource" data-layer="l2">
-          <div class="erd-ent-name">gps_product_source <span class="erd-ent-vol">M:N</span></div>
-          <div class="erd-ent-cols">
-            <div class="erd-cr"><span>unified_product_id</span><span class="fk">FK</span></div>
-            <div class="erd-cr"><span>crawl_product_id</span><span class="fk">FK</span></div>
-            <div class="erd-cr"><span>site_id</span><span class="fk">FK</span></div>
-            <div class="erd-cr"><span>match_confidence</span></div>
-          </div>
-        </div>
-        <div class="erd-ent" data-ent="match" data-layer="l2">
-          <div class="erd-ent-name">gps_11st_match <span class="erd-ent-vol">11번가 특정</span></div>
-          <div class="erd-ent-cols">
-            <div class="erd-cr"><span>unified_product_id</span><span class="fk">FK</span></div>
-            <div class="erd-cr"><span>prd_no</span></div>
-            <div class="erd-cr"><span>match_status</span></div>
-          </div>
-        </div>
-        <div class="erd-ent" data-ent="urank" data-layer="l2">
-          <div class="erd-ent-name">gps_unified_rank <span class="erd-ent-vol">랭킹 점수</span></div>
-          <div class="erd-ent-cols">
-            <div class="erd-cr"><span>unified_product_id</span><span class="fk">FK</span></div>
-            <div class="erd-cr"><span>naver_rank_score</span></div>
-            <div class="erd-cr"><span>final_rank_score</span></div>
-            <div class="erd-cr"><span>is_matched</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- L3: Gap Analysis -->
-      <div class="erd-col erd-col-l3">
-        <div class="erd-col-head">Layer 3 · Gap 분석</div>
-        <div class="erd-ent" data-ent="gaxis" data-layer="l3">
-          <div class="erd-ent-name">gps_gap_axis <span class="erd-ent-vol">6축 × N</span></div>
-          <div class="erd-ent-cols">
-            <div class="erd-cr"><span>gap_id</span><span class="pk">PK</span></div>
-            <div class="erd-cr"><span>unified_product_id</span><span class="fk">FK</span></div>
-            <div class="erd-cr"><span>prd_no</span><span class="fk">FK</span></div>
-            <div class="erd-cr"><span>axis_type, signal</span></div>
-          </div>
-        </div>
-        <div class="erd-ent" data-ent="pscore" data-layer="l3">
-          <div class="erd-ent-name">gps_product_score <span class="erd-ent-vol">종합</span></div>
-          <div class="erd-ent-cols">
-            <div class="erd-cr"><span>score_id</span><span class="pk">PK</span></div>
-            <div class="erd-cr"><span>unified_product_id</span><span class="fk">FK</span></div>
-            <div class="erd-cr"><span>total_score, tier</span></div>
-            <div class="erd-cr"><span>overall_status</span></div>
-          </div>
-        </div>
-        <div class="erd-ent" data-ent="arec" data-layer="l3">
-          <div class="erd-ent-name">gps_action_recommendation <span class="erd-ent-vol">액션</span></div>
-          <div class="erd-ent-cols">
-            <div class="erd-cr"><span>recommendation_id</span><span class="pk">PK</span></div>
-            <div class="erd-cr"><span>score_id</span><span class="fk">FK</span></div>
-            <div class="erd-cr"><span>action_type</span></div>
-            <div class="erd-cr"><span>connected_system</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- L4: Integration -->
-      <div class="erd-col erd-col-l4">
-        <div class="erd-col-head">Layer 4 · 통합 & 소비</div>
-        <div class="erd-ent" data-ent="p360" data-layer="l4">
-          <div class="erd-ent-name">gps_product_360 <span class="erd-ent-vol">MV Daily</span></div>
-          <div class="erd-ent-cols">
-            <div class="erd-cr"><span>unified_product_id</span><span class="pk">PK</span></div>
-            <div class="erd-cr"><span>prd_no, tier</span></div>
-            <div class="erd-cr"><span>signal_price…delivery</span></div>
-            <div class="erd-cr"><span>top_action</span></div>
-          </div>
-        </div>
-        <div class="erd-ent" data-ent="mdtask" data-layer="l4">
-          <div class="erd-ent-name">gps_md_task <span class="erd-ent-vol">Task 배분</span></div>
-          <div class="erd-ent-cols">
-            <div class="erd-cr"><span>task_id</span><span class="pk">PK</span></div>
-            <div class="erd-cr"><span>prd_no</span><span class="fk">FK</span></div>
-            <div class="erd-cr"><span>md_id, task_type</span></div>
-            <div class="erd-cr"><span>status, reject_reason</span></div>
-          </div>
-        </div>
-        <div class="erd-ent" data-ent="ptrack" data-layer="l4">
-          <div class="erd-ent-name">gps_performance_track <span class="erd-ent-vol">실적</span></div>
-          <div class="erd-ent-cols">
-            <div class="erd-cr"><span>track_id</span><span class="pk">PK</span></div>
-            <div class="erd-cr"><span>task_id</span><span class="fk">FK</span></div>
-            <div class="erd-cr"><span>prd_no</span><span class="fk">FK</span></div>
-            <div class="erd-cr"><span>metric_type, delta_pct</span></div>
-          </div>
-        </div>
-      </div>
+    <div class="pipe-stage" data-idx="1">
+      <div class="pipe-icon" style="background:var(--blue)">11</div>
+      <div class="pipe-name">자사 연동</div>
+      <div class="pipe-title">내부 데이터 수집</div>
+      <div class="pipe-sub">Metrics API · BIDB<br>Discovery 연동</div>
+      <div class="pipe-status pipe-status-wip">진행중</div>
+    </div>
+    <div class="pipe-stage" data-idx="2">
+      <div class="pipe-icon" style="background:var(--indigo)">M</div>
+      <div class="pipe-name">AX 모듈</div>
+      <div class="pipe-title">상품 매칭 & 통합</div>
+      <div class="pipe-sub">동일상품 특정<br>내외부 데이터 통합</div>
+      <div class="pipe-status pipe-status-wip">진행중</div>
+    </div>
+    <div class="pipe-stage" data-idx="3">
+      <div class="pipe-icon" style="background:var(--red)">G</div>
+      <div class="pipe-name">Gap 분석</div>
+      <div class="pipe-title">6대 축 진단</div>
+      <div class="pipe-sub">가격·딜·모멘텀<br>CTR/CVR·리뷰·배송</div>
+      <div class="pipe-status pipe-status-plan">예정</div>
+    </div>
+    <div class="pipe-stage" data-idx="4">
+      <div class="pipe-icon" style="background:var(--purple)">S</div>
+      <div class="pipe-name">Scoring</div>
+      <div class="pipe-title">S/A/B/C 스코어링</div>
+      <div class="pipe-sub">종합 점수 산출<br>기회손실 GMV 추정</div>
+      <div class="pipe-status pipe-status-plan">예정</div>
+    </div>
+    <div class="pipe-stage" data-idx="5">
+      <div class="pipe-icon" style="background:var(--teal)">▶</div>
+      <div class="pipe-name">소비처</div>
+      <div class="pipe-title">검색 · 전시 · SO</div>
+      <div class="pipe-sub">Search · Display<br>SellerOffice 연동</div>
+      <div class="pipe-status pipe-status-plan">예정</div>
+    </div>
+    <div class="pipe-stage" data-idx="6">
+      <div class="pipe-icon" style="background:var(--amber)">◎</div>
+      <div class="pipe-name">성과관리</div>
+      <div class="pipe-title">MD Task 관제</div>
+      <div class="pipe-sub">진척도 관리<br>실적 트래킹</div>
+      <div class="pipe-status pipe-status-plan">예정</div>
+    </div>
+    <div class="pipe-stage" data-idx="7">
+      <div class="pipe-icon" style="background:linear-gradient(135deg,var(--blue),var(--purple))">AX</div>
+      <div class="pipe-name">장기 과제</div>
+      <div class="pipe-title">편성자동화 & AX</div>
+      <div class="pipe-sub">자동 편성<br>AX 고도화</div>
+      <div class="pipe-status pipe-status-plan">예정</div>
     </div>
   </div>
 
-  <div style="text-align:center;padding:16px 0 0">
-    <span style="font-size:11px;color:var(--ink3);font-weight:500">테이블 상세 컬럼은 아래 레이어 탭에서 확인</span>
+  <div class="pipe-detail open fade-in" id="pipeDetail">
+    <div class="pipe-detail-head" id="pdHead"><div class="pipe-icon" style="background:var(--sgreen);width:28px;height:28px;font-size:11px;border-radius:8px">A</div> Albatross — 외부 데이터 수집</div>
+    <div class="pipe-detail-body" id="pdBody"><strong>11개 경쟁사 사이트를 횡단 크롤링</strong>하여 상품·가격/할인·리뷰수/평점 · 상품/브랜드/키워드 랭킹 데이터를 수집합니다. 네이버 · 쿠팡 · SSG · 무신사 · 올리브영 · 마켓컬리 · 오늘의집 · 롯데온 · G마켓 · 옥션 · 카카오 등 총 <strong>254만+ 레코드</strong>를 적재하고 있습니다.</div>
+    <div class="pipe-detail-tags" id="pdTags"><span class="ptag ptag-ext">11개 사이트</span> <span class="ptag ptag-ext">254만+ records</span> <span class="ptag ptag-sys">배치 ETL</span> <span class="ptag ptag-score">MVP 완료</span></div>
   </div>
 
-<div class="container"><!-- reopen container -->
-  <div style="height:36px"></div>
+  <div style="text-align:center;margin-bottom:12px">
+    <span style="font-size:11px;color:var(--ink3);font-weight:500">각 레이어의 테이블 상세는 아래 탭에서 확인</span>
+  </div>
+
   <div class="arch-flow fade-in">
     <div class="layer-tab active" data-layer="l1" onclick="switchLayer('l1')">
       <div class="l-num">Layer 1</div>
@@ -1026,65 +942,85 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 </div>
 </section>
 
-<!-- ═══ Section 4: 로드맵 & 실행계획 ═══ -->
+<!-- ═══ Section 4: 로드맵 — 핵심 ═══ -->
 <section id="roadmap" class="alt">
 <div class="container">
-  <div class="sec-label">Roadmap & Execution Plan</div>
-  <div class="sec-title">Phase 로드맵 & 실행계획</div>
-  <div class="sec-desc">단계별 과제와 연동 시스템 · MCP 실행계획을 포함한 전체 구현 일정.</div>
+  <div class="sec-label">Roadmap — 7월 → 11월</div>
+  <div class="sec-title" style="font-size:clamp(30px,5vw,48px)">실행 로드맵</div>
+  <div class="sec-desc">4단계 타임라인. 기반 MVP → 매칭·인기도 → 진단 고도화 → 실행 관제. 조만간 구현 → 장기 구축을 구분.</div>
 
   <div class="timeline fade-in">
     <div class="tl tl-1">
-      <div class="tl-phase">Phase 1 · MVP</div>
-      <div class="tl-name">외부 수집</div>
-      <div class="tl-period">완료 · 운영 중</div>
+      <div class="tl-phase">JUL · Phase 1</div>
+      <div class="tl-name">기반 · MVP</div>
+      <div class="tl-period">7월 · 완료/운영 중</div>
       <ul class="tl-items">
-        <li>Albatross 크롤러 11개 사이트</li>
-        <li>상품 · 메트릭 · 랭킹 적재</li>
-        <li>네이버 판매순 대/중분류 수집</li>
-        <li>리뷰 수 · 평점 수집 확인</li>
+        <li>운영정보·외부수집 안정화</li>
+        <li>랭킹 3종(상품/브랜드/키워드)</li>
+        <li>자사 지표 API 연동 (4구간)</li>
+        <li>abt_gap_product 1차 매칭+가격갭</li>
       </ul>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid color-mix(in srgb,var(--blue) 20%,transparent)">
+        <div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);font-weight:700;margin-bottom:8px">완료 현황</div>
+        <ul class="tl-items" style="gap:5px">
+          <li style="font-size:12px">Albatross 크롤러 11개 사이트 운영</li>
+          <li style="font-size:12px">네이버 판매순 대/중분류 수집</li>
+          <li style="font-size:12px">리뷰 수 · 평점 수집 확인</li>
+        </ul>
+      </div>
     </div>
     <div class="tl tl-2">
-      <div class="tl-phase">Phase 2 · 단기</div>
-      <div class="tl-name">매칭 & 분석</div>
-      <div class="tl-period">~Q3 2026</div>
+      <div class="tl-phase">AUG · Phase 2</div>
+      <div class="tl-name">매칭 · 인기도</div>
+      <div class="tl-period">8월</div>
       <ul class="tl-items">
-        <li>다채널 상품 통합 (Dedup)</li>
-        <li>11번가 상품 매칭 (AX 모듈)</li>
-        <li>통합 랭킹 산출 엔진</li>
-        <li>6대 축 Gap 분석 + 신호등</li>
-        <li>종합 스코어링 + 티어 판정</li>
-        <li>액션 아이템 추천</li>
+        <li>MATCH_TIER/SCORE 튜닝</li>
+        <li>통합 인기도 Score baseline</li>
+        <li>SELECTION_GAP (Missing SKU)</li>
       </ul>
       <div style="margin-top:14px;padding-top:14px;border-top:1px solid color-mix(in srgb,var(--purple) 20%,transparent)">
-        <div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--purple);font-weight:700;margin-bottom:8px">연동 시스템 · MCP</div>
+        <div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--purple);font-weight:700;margin-bottom:8px">연동 과제</div>
         <ul class="tl-items" style="gap:5px">
-          <li style="font-size:12px"><strong>가격 MCP</strong> — Gap 기반 자동 가격 조정</li>
-          <li style="font-size:12px"><strong>편성 · 광고 MCP</strong> — 딜 편성 + CPC 연동</li>
-          <li style="font-size:12px"><strong>MD Task 시스템</strong> — 티어별 자동 배분</li>
-          <li style="font-size:12px"><strong>전시 기획</strong> — 신호등 기반 노출 조정</li>
+          <li style="font-size:12px">다채널 상품 통합 (Dedup)</li>
+          <li style="font-size:12px">11번가 상품 매칭 (AX 모듈)</li>
+          <li style="font-size:12px">통합 랭킹 산출 엔진</li>
         </ul>
       </div>
     </div>
     <div class="tl tl-3">
-      <div class="tl-phase">Phase 3 · 장기</div>
-      <div class="tl-name">통합 & 연동</div>
-      <div class="tl-period">Q4 2026 ~</div>
+      <div class="tl-phase">SEP–OCT · Phase 3</div>
+      <div class="tl-name">진단 고도화</div>
+      <div class="tl-period">9–10월</div>
       <ul class="tl-items">
-        <li>gps_product_360 통합 뷰</li>
-        <li>MD Task 자동 배분 고도화</li>
-        <li>실적 트래킹 + 피드백 루프</li>
-        <li>배송 데이터 원천 연결</li>
-        <li>로그지표(CTR/CVR) 통합</li>
+        <li>IMPACT_SCORE (기회손실 GMV)</li>
+        <li>6대 축 STATUS_TAG 신호등</li>
+        <li>채널 확대·가중치 정교화</li>
+        <li>전시·검색 부스팅 파일럿</li>
       </ul>
       <div style="margin-top:14px;padding-top:14px;border-top:1px solid color-mix(in srgb,var(--teal) 20%,transparent)">
         <div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:8px">연동 시스템 · MCP</div>
         <ul class="tl-items" style="gap:5px">
-          <li style="font-size:12px"><strong>검색 최적화</strong> — 랭킹 점수 검색 반영</li>
-          <li style="font-size:12px"><strong>SO (Strategic Op)</strong> — 360 뷰 + 액션 연동</li>
-          <li style="font-size:12px"><strong>정산 API</strong> — 쿠폰 자동 실행</li>
+          <li style="font-size:12px"><strong>가격 MCP</strong> — Gap 기반 자동 가격 조정</li>
+          <li style="font-size:12px"><strong>편성 · 광고 MCP</strong> — 딜 편성 + CPC 연동</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tl tl-4">
+      <div class="tl-phase">NOV · Phase 4</div>
+      <div class="tl-name">실행 관제</div>
+      <div class="tl-period">11월</div>
+      <ul class="tl-items">
+        <li>MCP 액션 연동 (진단→실행)</li>
+        <li>UV·노출·클릭 반영</li>
+        <li>검색·전시·SO 표준 서비스</li>
+      </ul>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid color-mix(in srgb,var(--red) 20%,transparent)">
+        <div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:8px">연동 시스템 · MCP</div>
+        <ul class="tl-items" style="gap:5px">
+          <li style="font-size:12px"><strong>MD Task 시스템</strong> — 티어별 자동 배분</li>
           <li style="font-size:12px"><strong>검색 · 전시 API</strong> — 실시간 연동</li>
+          <li style="font-size:12px"><strong>SO (SellerOffice)</strong> — 360 뷰 + 액션</li>
+          <li style="font-size:12px"><strong>정산 API</strong> — 쿠폰 자동 실행</li>
         </ul>
       </div>
     </div>
@@ -1359,106 +1295,29 @@ const barObs=new IntersectionObserver(es=>{
 },{threshold:.1});
 document.querySelectorAll('.sig-bars').forEach(el=>barObs.observe(el));
 
-/* ── ERD Connections ── */
-(function(){
-  const svg=document.getElementById('erd-svg');
-  const wrap=document.getElementById('erd');
-  if(!svg||!wrap)return;
-
-  const CONNS=[
-    {from:'product',to:'psource',color:'#0A84FF',dash:false},
-    {from:'site',to:'psource',color:'#0A84FF',dash:false},
-    {from:'metric',to:'psource',color:'#0A84FF',dash:true},
-    {from:'rank',to:'urank',color:'#0A84FF',dash:true},
-    {from:'unified',to:'gaxis',color:'#BF5AF2',dash:false},
-    {from:'unified',to:'pscore',color:'#BF5AF2',dash:false},
-    {from:'match',to:'gaxis',color:'#BF5AF2',dash:true},
-    {from:'pscore',to:'p360',color:'#64D2FF',dash:false},
-    {from:'arec',to:'p360',color:'#64D2FF',dash:true},
-    {from:'pscore',to:'mdtask',color:'#64D2FF',dash:false},
-    {from:'mdtask',to:'ptrack',color:'#64D2FF',dash:true}
-  ];
-
-  function ent(id){return wrap.querySelector('[data-ent="'+id+'"]');}
-
-  function drawAll(){
-    const ns='http://www.w3.org/2000/svg';
-    svg.innerHTML='';
-    const wr=wrap.getBoundingClientRect();
-    svg.setAttribute('width',wr.width);
-    svg.setAttribute('height',wr.height);
-    svg.setAttribute('viewBox','0 0 '+wr.width+' '+wr.height);
-
-    const defs=document.createElementNS(ns,'defs');
-    const marker=document.createElementNS(ns,'marker');
-    marker.setAttribute('id','arw');marker.setAttribute('viewBox','0 0 6 6');
-    marker.setAttribute('refX','5');marker.setAttribute('refY','3');
-    marker.setAttribute('markerWidth','5');marker.setAttribute('markerHeight','5');
-    marker.setAttribute('orient','auto-start-reverse');
-    const poly=document.createElementNS(ns,'path');
-    poly.setAttribute('d','M0,0 L6,3 L0,6 Z');poly.setAttribute('fill','currentColor');
-    marker.appendChild(poly);defs.appendChild(marker);svg.appendChild(defs);
-
-    CONNS.forEach(c=>{
-      const f=ent(c.from),t=ent(c.to);
-      if(!f||!t)return;
-      const fr=f.getBoundingClientRect(),tr=t.getBoundingClientRect();
-      const sameCol=Math.abs(fr.left-tr.left)<50;
-
-      let x1,y1,x2,y2,d;
-      if(sameCol){
-        x1=fr.right-wr.left-4;y1=fr.bottom-wr.top;
-        x2=tr.right-wr.left-4;y2=tr.top-wr.top;
-        const mx=x1+18;
-        d='M'+x1+','+y1+' C'+mx+','+(y1+8)+' '+mx+','+(y2-8)+' '+x2+','+y2;
-      }else{
-        x1=fr.right-wr.left;y1=fr.top+fr.height/2-wr.top;
-        x2=tr.left-wr.left;y2=tr.top+tr.height/2-wr.top;
-        const dx=(x2-x1)*.45;
-        d='M'+x1+','+y1+' C'+(x1+dx)+','+y1+' '+(x2-dx)+','+y2+' '+x2+','+y2;
-      }
-      const path=document.createElementNS(ns,'path');
-      path.setAttribute('d',d);path.setAttribute('stroke',c.color);
-      path.setAttribute('stroke-width','1.5');path.setAttribute('fill','none');
-      path.setAttribute('opacity','0.25');path.setAttribute('marker-end','url(#arw)');
-      path.style.color=c.color;
-      if(c.dash)path.setAttribute('stroke-dasharray','4,3');
-      path.dataset.from=c.from;path.dataset.to=c.to;
-      svg.appendChild(path);
-    });
-  }
-
-  function highlight(id){
-    svg.querySelectorAll('path').forEach(p=>{
-      const hit=p.dataset.from===id||p.dataset.to===id;
-      p.setAttribute('opacity',hit?'0.8':'0.08');
-      p.setAttribute('stroke-width',hit?'2.5':'1.5');
-    });
-    wrap.querySelectorAll('.erd-ent').forEach(e=>{
-      const eid=e.dataset.ent;
-      const connected=Array.from(svg.querySelectorAll('path')).some(p=>
-        (p.dataset.from===id&&p.dataset.to===eid)||(p.dataset.to===id&&p.dataset.from===eid));
-      e.classList.toggle('erd-hl',eid===id||connected);
-    });
-  }
-  function unhighlight(){
-    svg.querySelectorAll('path').forEach(p=>{p.setAttribute('opacity','0.25');p.setAttribute('stroke-width','1.5');});
-    wrap.querySelectorAll('.erd-ent').forEach(e=>e.classList.remove('erd-hl'));
-  }
-
-  wrap.querySelectorAll('.erd-ent').forEach(e=>{
-    e.addEventListener('mouseenter',()=>highlight(e.dataset.ent));
-    e.addEventListener('mouseleave',unhighlight);
-    e.addEventListener('click',()=>{
-      const ly=e.dataset.layer;if(ly)switchLayer(ly);
-      document.querySelector('.arch-flow')?.scrollIntoView({behavior:'smooth',block:'start'});
-    });
-  });
-
-  const erdObs=new IntersectionObserver(es=>{
-    es.forEach(e=>{if(e.isIntersecting){erdObs.unobserve(e.target);drawAll();}});
-  },{threshold:.05});
-  erdObs.observe(wrap);
-  window.addEventListener('resize',drawAll);
-})();
+/* ── Pipeline click ── */
+var SD=[
+  {icon:'A',bg:'var(--sgreen)',title:'Albatross — 외부 데이터 수집',body:'<strong>11개 경쟁사 사이트를 횡단 크롤링</strong>하여 상품·가격/할인·리뷰수/평점 · 상품/브랜드/키워드 랭킹 데이터를 수집합니다. 네이버 · 쿠팡 · SSG · 무신사 · 올리브영 · 마켓컬리 · 오늘의집 · 롯데온 · G마켓 · 옥션 · 카카오 등 총 <strong>254만+ 레코드</strong>.',tags:[['11개 사이트','ptag-ext'],['254만+ records','ptag-ext'],['배치 ETL','ptag-sys'],['MVP 완료','ptag-score']]},
+  {icon:'11',bg:'var(--blue)',title:'자사 연동 — 내부 데이터 수집',body:'<strong>결제건수 · 구매회원수 · 결제/즉차 거래액 · 순매출액·율 · CPC · PV(4구간)</strong> 등 자사 핵심 지표를 Product Metrics API · BIDB · Discovery를 통해 연동합니다. UV·노출·클릭은 순차 제공 예정.',tags:[['Metrics API','ptag-int'],['BIDB','ptag-int'],['Discovery','ptag-int'],['진행중','ptag-score']]},
+  {icon:'M',bg:'var(--indigo)',title:'AX 모듈 — 상품 매칭 & 통합',body:'수집된 외부 데이터와 내부 데이터를 <strong>동일상품 기준으로 매칭</strong>합니다. 상품 ID·바코드·모델명 기반 매핑으로 내부↔외부 데이터를 비교 가능한 구조로 통합합니다. MATCH_TIER/SCORE 튜닝이 핵심.',tags:[['동일상품 매칭','ptag-sys'],['내외부 통합','ptag-sys'],['MATCH_TIER','ptag-score']]},
+  {icon:'G',bg:'var(--red)',title:'Gap 분석 — 6대 축 진단',body:'<strong>가격·딜실적·모멘텀·CTR/CVR·리뷰·배송</strong> 6개 축으로 자사 vs 외부 비교를 수행합니다. 각 축별 PCI·구좌지수·CVR 등 전용 로직으로 Gap 크기를 산출하고 RED/AMBER/GREEN 신호등을 판정합니다.',tags:[['가격·딜·모멘텀','ptag-ext'],['CTR/CVR','ptag-int'],['리뷰·배송','ptag-sys'],['STATUS_TAG','ptag-score']]},
+  {icon:'S',bg:'var(--purple)',title:'Scoring — S/A/B/C 스코어링',body:'6개 축 Gap 결과를 <strong>종합 점수(0~100)로 압축</strong>합니다. IMPACT_SCORE로 기회손실 GMV를 추정하여 Priority를 정렬하고, S(90+)/A(70~89)/B(40~69)/C(0~39) 티어를 자동 판정합니다.',tags:[['종합 점수','ptag-score'],['IMPACT_SCORE','ptag-score'],['S/A/B/C 티어','ptag-score']]},
+  {icon:'▶',bg:'var(--teal)',title:'소비처 — 검색 · 전시 · SO',body:'GPS 결과를 <strong>검색(Search) · 전시(Display) · SO(SellerOffice)</strong>에 실시간 연동합니다. 신호등 기반 노출 조정, 랭킹 점수 검색 반영, 360 뷰 + 액션 연동이 핵심입니다.',tags:[['검색 Search','ptag-int'],['전시 Display','ptag-int'],['SellerOffice','ptag-int'],['표준 서비스','ptag-sys']]},
+  {icon:'◎',bg:'var(--amber)',title:'성과관리 — MD Task 관제',body:'조직장의 <strong>카테고리별 운영 방향</strong> 가중치를 반영하여 MD별 Task를 자동 배분합니다. Accept/Reject 기반 피드백, 주/월/분기별 진척도 관리, 실적 트래킹으로 Scoring 엔진을 고도화합니다.',tags:[['MD Task 배분','ptag-sys'],['Accept/Reject','ptag-ext'],['실적 트래킹','ptag-sys'],['Scoring 학습','ptag-score']]},
+  {icon:'AX',bg:'linear-gradient(135deg,var(--blue),var(--purple))',title:'편성자동화 & AX — 장기 과제',body:'Gap 진단 결과를 <strong>MCP 액션(가격조정·딜편성·CPC)</strong>과 직접 연동하여 자동 실행합니다. 편성 자동화, 정산 API 연동, 검색·전시 실시간 API까지 AX TF 장기 과제로 확장합니다.',tags:[['가격 MCP','ptag-int'],['편성·광고 MCP','ptag-int'],['정산 API','ptag-sys'],['장기 AX','ptag-score']]}
+];
+var stages=document.querySelectorAll('.pipe-stage'),pd=document.getElementById('pipeDetail'),pdH=document.getElementById('pdHead'),pdB=document.getElementById('pdBody'),pdT=document.getElementById('pdTags');
+if(stages.length&&pd){
+  stages.forEach(function(s){s.addEventListener('click',function(){
+    var i=+s.dataset.idx,d=SD[i];
+    stages.forEach(function(x){x.classList.remove('active')});s.classList.add('active');
+    pd.classList.remove('open');
+    setTimeout(function(){
+      pdH.innerHTML='<div class="pipe-icon" style="background:'+d.bg+';width:28px;height:28px;font-size:11px;border-radius:8px">'+d.icon+'</div> '+d.title;
+      pdB.innerHTML=d.body;
+      pdT.innerHTML=d.tags.map(function(t){return'<span class="ptag '+t[1]+'">'+t[0]+'</span>'}).join(' ');
+      pd.classList.add('open');
+    },250);
+  })});
+}
 </script>
