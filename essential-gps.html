@@ -142,23 +142,27 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.7;-
 .gap-tbl th{padding:10px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3);white-space:nowrap;border-bottom:2px solid var(--bd);position:sticky;top:0;z-index:1}
 .gap-tbl th:first-child{border-radius:var(--r) 0 0 0}
 .gap-tbl th:last-child{border-radius:0 var(--r) 0 0;text-align:center}
-.gap-tbl td{padding:12px 14px;border-bottom:1px solid var(--sf2);vertical-align:middle;color:var(--tx);line-height:1.55;font-size:13px;font-weight:500}
+.gap-tbl td{padding:14px 16px;border-bottom:1px solid var(--sf2);vertical-align:middle;color:var(--tx);line-height:1.55;font-size:14px;font-weight:500}
 .gap-tbl td:nth-child(3),.gap-tbl td:nth-child(4){white-space:nowrap}
 .gap-tbl tbody tr[data-axis]{cursor:pointer;transition:background .25s}
 .gap-tbl tbody tr[data-axis]:nth-child(4n+1) td{background:rgba(0,0,0,.008)}
 :root[data-theme="dark"] .gap-tbl tbody tr[data-axis]:nth-child(4n+1) td{background:rgba(255,255,255,.015)}
 @media(prefers-color-scheme:dark){.gap-tbl tbody tr[data-axis]:nth-child(4n+1) td{background:rgba(255,255,255,.015)}}
 .gap-tbl tbody tr[data-axis]:hover td{background:rgba(0,113,227,.04)}
-.gap-ax{font-size:15px;font-weight:800;white-space:nowrap;display:flex;align-items:center;gap:8px;color:var(--tx);letter-spacing:-.01em}
+.gap-ax{font-size:16px;font-weight:800;white-space:nowrap;display:flex;align-items:center;gap:10px;color:var(--tx);letter-spacing:-.01em}
 .gap-ax-d{display:none}
-.gap-ax-ico{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;transform:perspective(200px) rotateY(-8deg) rotateX(4deg);box-shadow:0 3px 8px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.08);transition:transform .3s,box-shadow .3s}
+.gap-ax-ico{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;transform:perspective(200px) rotateY(-8deg) rotateX(4deg);box-shadow:0 3px 8px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.08);transition:transform .3s,box-shadow .3s}
 .gap-tbl tbody tr[data-axis]:hover .gap-ax-ico{transform:perspective(200px) rotateY(0) rotateX(0) scale(1.15);box-shadow:0 5px 14px rgba(0,0,0,.18)}
-.gap-tbl td:nth-child(2){font-size:14px;text-align:center;color:var(--tx);font-weight:800;font-variant-numeric:tabular-nums}
-.gap-tbl td:nth-child(5){font-size:12px;font-family:var(--fm);color:var(--tx2);line-height:1.5;font-weight:500;white-space:nowrap}
+.gap-tbl td:nth-child(2){font-size:15px;text-align:center;color:var(--tx);font-weight:800;font-variant-numeric:tabular-nums}
+.gap-tbl td:nth-child(5){font-size:13px;font-family:var(--fm);color:var(--tx2);line-height:1.5;font-weight:500;white-space:nowrap}
 .gap-tbl td:last-child{text-align:center}
-.gap-bar-w{height:8px;background:var(--sf3);border-radius:4px;overflow:hidden;min-width:90px}
-.gap-bar{height:100%;border-radius:4px;width:0;transition:width 1.2s cubic-bezier(.16,1,.3,1)}
-.gap-sig{font-size:11px;font-weight:800;padding:5px 14px;border-radius:100px;white-space:nowrap;display:inline-block}
+.gap-bar-w{height:10px;background:var(--sf3);border-radius:5px;overflow:hidden;min-width:100px}
+.gap-bar{height:100%;border-radius:5px;width:0;transition:width 1.2s cubic-bezier(.16,1,.3,1)}
+.gap-sig{font-size:12px;font-weight:800;padding:6px 14px;border-radius:100px;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.gap-sig::before{content:'';width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.gs-g::before{background:var(--green);box-shadow:0 0 6px rgba(52,199,89,.5)}
+.gs-w::before{background:var(--orange);box-shadow:0 0 6px rgba(255,149,0,.5)}
+.gs-r::before{background:var(--red);box-shadow:0 0 6px rgba(255,59,48,.5)}
 .gs-g{color:var(--green);background:rgba(52,199,89,.14)}
 .gs-w{color:var(--orange);background:rgba(255,149,0,.14)}
 .gs-r{color:var(--red);background:rgba(255,59,48,.15)}
@@ -243,6 +247,22 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.7;-
 .sig-light.g{background:var(--green);box-shadow:0 0 16px rgba(52,199,89,.3)}
 @keyframes pulseR{0%,100%{box-shadow:0 0 16px rgba(255,59,48,.35)}50%{box-shadow:0 0 32px rgba(255,59,48,.65)}}
 .sig-ax-v{font-size:13px;color:var(--txm);font-variant-numeric:tabular-nums}
+/* traffic light tier examples */
+.sig-examples{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
+.sig-ex{padding:18px 14px;border-radius:var(--r);background:var(--sf2);border:1px solid var(--bd);text-align:center;transition:transform .25s,box-shadow .25s}
+.sig-ex:hover{transform:translateY(-3px);box-shadow:var(--shl)}
+.sig-ex-tier{font-size:12px;font-weight:800;padding:4px 14px;border-radius:100px;color:#fff;display:inline-block;margin-bottom:10px;letter-spacing:.03em}
+.sig-ex-product{font-size:13px;font-weight:700;color:var(--tx);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sig-ex-cat{font-size:11px;color:var(--txm);margin-bottom:12px}
+.sig-ex-lights{display:flex;justify-content:center;gap:6px;margin-bottom:10px}
+.sig-ex-dot{width:14px;height:14px;border-radius:50%;position:relative}
+.sig-ex-dot.r{background:var(--red);box-shadow:0 0 6px rgba(255,59,48,.4)}
+.sig-ex-dot.a{background:var(--orange);box-shadow:0 0 6px rgba(255,149,0,.4)}
+.sig-ex-dot.g{background:var(--green);box-shadow:0 0 6px rgba(52,199,89,.4)}
+.sig-ex-dot.off{background:var(--sf3);box-shadow:none}
+.sig-ex-score{font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;margin-bottom:2px}
+.sig-ex-label{font-size:11px;color:var(--txm);font-weight:600}
+@media(max-width:700px){.sig-examples{grid-template-columns:repeat(2,1fr)}}
 .sig-bar-w{height:5px;background:var(--sf3);border-radius:3px;margin-top:8px;overflow:hidden}
 .sig-bar{height:100%;border-radius:3px;transition:width 1s cubic-bezier(.16,1,.3,1)}
 /* signal legend */
@@ -730,8 +750,8 @@ html{scroll-behavior:smooth}
 
 <!-- floating side nav -->
 <nav class="side-nav" id="sideNav">
-  <a href="#s-albatross" data-label="System"></a>
   <a href="#s-gps" data-label="GPS"></a>
+  <a href="#s-arch" data-label="Architecture"></a>
   <a href="#s-data" data-label="Data"></a>
   <a href="#s-gap" data-label="Gap"></a>
   <a href="#s-scoring" data-label="Scoring"></a>
@@ -742,9 +762,7 @@ html{scroll-behavior:smooth}
   <a href="#s-expo" data-label="Exposure"></a>
   <a href="#s-boost" data-label="Revenue"></a>
   <a href="#s-roles" data-label="Roles"></a>
-  <a href="#s-harness" data-label="Harness"></a>
   <a href="#s-progress" data-label="Progress"></a>
-  <a href="#s-road" data-label="Roadmap"></a>
   <a href="#s-mvp" data-label="MVP"></a>
 </nav>
 
@@ -780,10 +798,23 @@ html{scroll-behavior:smooth}
 
 <div class="page">
 
-<div class="sec" id="s-albatross">
+<div class="sec" id="s-gps">
+  <div class="eyebrow rv">Framework</div>
+  <div class="sec-title rv">GPS &#54532;&#47112;&#51076;&#50892;&#53356; &#8212; &#44201;&#52264;&#47484; &#49688;&#52824;&#47196;, &#49892;&#54665;&#51012; &#46321;&#44553;&#51004;&#47196;</div>
+  <div class="sec-desc rv">&#44201;&#52264;&#47484; &#51221;&#47049; &#51652;&#45800;&#54616;&#44256;<strong>(Gap)</strong>, &#44592;&#54924;&#49552;&#49892; &#44508;&#47784; &#49692;&#51004;&#47196; &#51221;&#47148;&#54616;&#44256;<strong>(Priority)</strong>, &#45800;&#51068; Score &rarr; S/A/B/C &#46321;&#44553;&#51004;&#47196; &#51593;&#49884; &#49892;&#54665;&#54633;&#45768;&#45796;<strong>(Score)</strong>.</div>
+  <div class="pillars stg rv">
+    <div class="card pillar tilt-card ripple"><div class="pillar-letter">G</div><div class="pillar-name">Gap &#51652;&#45800;</div><div class="pillar-desc">&#51088;&#49324; vs &#50808;&#48512; 6&#45824; &#52629; &#48708;&#44368;<br>&#44032;&#44201;&#183;&#46364;&#49892;&#51201;&#183;&#47784;&#47704;&#53568;&#183;&#51648;&#54364;&#183;&#47532;&#48624;&#183;&#48176;&#49569;</div></div>
+    <div class="card pillar tilt-card ripple"><div class="pillar-letter">P</div><div class="pillar-name">Priority &#51221;&#47148;</div><div class="pillar-desc">&#44592;&#54924;&#49552;&#49892; GMV &#52628;&#51221;<br>&#54028;&#44553;&#47141; &#49692; &#51221;&#47148; + &#51312;&#51649;&#51109; &#44032;&#51473;&#52824;</div></div>
+    <div class="card pillar tilt-card ripple"><div class="pillar-letter">S</div><div class="pillar-name">Score &#46321;&#44553;</div><div class="pillar-desc">0~100 &#45800;&#51068; &#51216;&#49688; &#50517;&#52629;<br>S/A/B/C &#54000;&#50612; &#8594; MD &#51593;&#49884; &#49892;&#54665;</div></div>
+  </div>
+</div>
+
+<div class="section-connector"><svg width="2" height="32" viewBox="0 0 2 32"><line x1="1" y1="0" x2="1" y2="32" stroke="var(--bd)" stroke-width="2" stroke-dasharray="4 4"/></svg></div>
+
+<div class="sec" id="s-arch">
   <div class="eyebrow rv">System Architecture</div>
-  <div class="sec-title rv">&#50508;&#48148;&#53944;&#47196;&#49828; &#49884;&#49828;&#53596; &#51204;&#52404; &#49828;&#53412;&#47560;</div>
-  <div class="sec-desc rv">Essential GPS&#45716; &#50508;&#48148;&#53944;&#47196;&#49828; &#49884;&#49828;&#53596;&#51032; &#54645;&#49900; &#51032;&#49324;&#44208;&#51221; &#50644;&#51652;&#51077;&#45768;&#45796;. &#50808;&#48512; &#53356;&#47204;&#47553;&#48512;&#53552; MD &#49892;&#54665;&#44620;&#51648;, &#51204;&#52404; &#45936;&#51060;&#53552; &#55120;&#47492;&#51012; &#54620;&#45576;&#50640; &#54869;&#51064;&#54624; &#49688; &#51080;&#49845;&#45768;&#45796;.</div>
+  <div class="sec-title rv">&#51204;&#52404; &#49884;&#49828;&#53596; &#50500;&#53412;&#53581;&#52376; &#8212; &#49688;&#51665;&#50640;&#49436; &#49892;&#54665;&#44620;&#51648;</div>
+  <div class="sec-desc rv">&#50808;&#48512; &#53356;&#47204;&#47553;&#183;&#45236;&#48512; &#45936;&#51060;&#53552;&#47484; &#49688;&#51665;&#54616;&#44256;, GPS &#50644;&#51652;&#51060; &#54032;&#51221;&#54616;&#44256;, MD&#44032; &#49892;&#54665;&#54633;&#45768;&#45796;. &#54588;&#46300;&#48177;&#51060; &#46028;&#50500;&#50752; &#45796;&#51020; &#54032;&#51221;&#51012; &#48372;&#51221;&#54633;&#45768;&#45796;.</div>
   <div class="sys-schema stg rv">
     <div class="sys-layer">
       <div class="sys-layer-label">&#45936;&#51060;&#53552; &#49688;&#51665; &#44228;&#52789;</div>
@@ -815,7 +846,7 @@ html{scroll-behavior:smooth}
         <div class="card sys-node sys-core">
           <div class="sys-icon">&#128161;</div>
           <div class="sys-node-title">Essential GPS Engine</div>
-          <div class="sys-node-desc">6&#45824;&#52629; Gap &#49328;&#52636; &#8594; Priority &#51221;&#47148; &#8594; Score &#54032;&#51221;</div>
+          <div class="sys-node-desc">6&#45824;&#52629; Gap &#49328;&#52636; &rarr; Priority &#51221;&#47148; &rarr; Score &#54032;&#51221;</div>
           <div class="sys-badge sys-badge-core">&#9733; &#54645;&#49900; &#50644;&#51652;</div>
           <div class="sys-sub-nodes">
             <span class="sys-chip">Gap &#48516;&#49437;</span>
@@ -861,29 +892,16 @@ html{scroll-behavior:smooth}
         <defs><marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="var(--blue)" opacity=".5"/></marker></defs>
         <path d="M560,35 C580,35 590,20 590,5 L590,5 L10,5 C10,5 0,20 20,35" fill="none" stroke="var(--blue)" stroke-width="1.5" stroke-dasharray="6 4" opacity=".4" marker-end="url(#arr)"/>
       </svg>
-      <span class="sys-feedback-label">&#54588;&#46300;&#48177; &#47336;&#54532; &#8212; &#54952;&#44284; &#52769;&#51221; &#8594; Gap &#51116;&#49328;&#52636; &#8594; &#46321;&#44553; &#51116;&#54032;&#51221;</span>
+      <span class="sys-feedback-label">&#54588;&#46300;&#48177; &#47336;&#54532; &#8212; &#54952;&#44284; &#52769;&#51221; &rarr; Gap &#51116;&#49328;&#52636; &rarr; &#46321;&#44553; &#51116;&#54032;&#51221;</span>
     </div>
-  </div>
-</div>
-
-<div class="section-connector"><svg width="2" height="32" viewBox="0 0 2 32"><line x1="1" y1="0" x2="1" y2="32" stroke="var(--bd)" stroke-width="2" stroke-dasharray="4 4"/></svg></div>
-
-<div class="sec" id="s-gps">
-  <div class="eyebrow rv">Framework</div>
-  <div class="sec-title rv">GPS &#8212; Gap &#183; Priority &#183; Score</div>
-  <div class="sec-desc rv">&#44201;&#52264;&#47484; &#51221;&#47049; &#51652;&#45800;&#54616;&#44256;<strong>(Gap)</strong>, &#44592;&#54924;&#49552;&#49892; &#44508;&#47784; &#49692;&#51004;&#47196; &#51221;&#47148;&#54616;&#44256;<strong>(Priority)</strong>, &#45800;&#51068; Score &#8594; S/A/B/C &#46321;&#44553;&#51004;&#47196; &#51593;&#49884; &#49892;&#54665;&#54633;&#45768;&#45796;<strong>(Score)</strong>.</div>
-  <div class="pillars stg rv">
-    <div class="card pillar tilt-card ripple"><div class="pillar-letter">G</div><div class="pillar-name">Gap &#51652;&#45800;</div><div class="pillar-desc">&#51088;&#49324; vs &#50808;&#48512; 6&#45824; &#52629; &#48708;&#44368;<br>&#44032;&#44201;&#183;&#46364;&#49892;&#51201;&#183;&#47784;&#47704;&#53568;&#183;&#51648;&#54364;&#183;&#47532;&#48624;&#183;&#48176;&#49569;</div></div>
-    <div class="card pillar tilt-card ripple"><div class="pillar-letter">P</div><div class="pillar-name">Priority &#51221;&#47148;</div><div class="pillar-desc">&#44592;&#54924;&#49552;&#49892; GMV &#52628;&#51221;<br>&#54028;&#44553;&#47141; &#49692; &#51221;&#47148; + &#51312;&#51649;&#51109; &#44032;&#51473;&#52824;</div></div>
-    <div class="card pillar tilt-card ripple"><div class="pillar-letter">S</div><div class="pillar-name">Score &#46321;&#44553;</div><div class="pillar-desc">0~100 &#45800;&#51068; &#51216;&#49688; &#50517;&#52629;<br>S/A/B/C &#54000;&#50612; &#8594; MD &#51593;&#49884; &#49892;&#54665;</div></div>
   </div>
 </div>
 
 <div class="section-connector"><svg width="2" height="32" viewBox="0 0 2 32"><line x1="1" y1="0" x2="1" y2="32" stroke="var(--bd)" stroke-width="2" stroke-dasharray="4 4"/></svg></div>
 <div class="sec rv" id="s-data">
   <div class="eyebrow">Data Sources</div>
-  <div class="sec-title">&#45936;&#51060;&#53552; &#49548;&#49828; &#8212; &#51088;&#49324; &#46356;&#49828;&#52964;&#48260;&#47532; vs &#50808;&#48512; &#44221;&#51137;</div>
-  <div class="sec-desc">Gap &#48516;&#49437;&#51032; &#50577;&#51901; &#52629;. &#51088;&#49324; &#45936;&#51060;&#53552;&#47196; &#54788;&#51116;&#47484; &#51069;&#44256;, &#50808;&#48512; &#45936;&#51060;&#53552;&#47196; &#44592;&#51456;&#49440;&#51012; &#49464;&#50881;&#45768;&#45796;.</div>
+  <div class="sec-title">&#45936;&#51060;&#53552; &#49688;&#51665; &#8212; &#51088;&#49324; &#46356;&#49828;&#52964;&#48260;&#47532; + &#50808;&#48512; &#44221;&#51137; 11&#44060; &#49324;&#51060;&#53944;</div>
+  <div class="sec-desc">Gap&#51012; &#49328;&#52636;&#54616;&#47140;&#47732; &#50577;&#51901; &#45936;&#51060;&#53552;&#44032; &#54596;&#50836;&#54633;&#45768;&#45796;. &#51088;&#49324; &#45936;&#51060;&#53552;&#47196; &#54788;&#51116;&#47484; &#51069;&#44256;, &#50808;&#48512; &#53356;&#47204;&#47553; &#45936;&#51060;&#53552;&#47196; &#44592;&#51456;&#49440;&#51012; &#49464;&#50881;&#45768;&#45796;.</div>
   <div class="dsplit stg rv">
     <div class="card dbox int ripple">
       <div class="dbox-label"><span class="dbox-dot" style="background:var(--blue)"></span>&#51088;&#49324; &#46356;&#49828;&#52964;&#48260;&#47532; &#8212; 11&#48264;&#44032; &#45236;&#48512;</div>
@@ -902,9 +920,9 @@ html{scroll-behavior:smooth}
 
 <div class="section-connector"><svg width="2" height="32" viewBox="0 0 2 32"><line x1="1" y1="0" x2="1" y2="32" stroke="var(--bd)" stroke-width="2" stroke-dasharray="4 4"/></svg></div>
 <div class="sec rv" id="s-gap">
-  <div class="eyebrow">Gap Analysis</div>
-  <div class="sec-title">6&#45824; &#52629; Gap &#48516;&#49437; &#8212; &#51088;&#49324; vs &#50808;&#48512;</div>
-  <div class="sec-desc">&#44033; &#52629;&#47560;&#45796; &#51088;&#49324;&#50752; &#50808;&#48512;&#47484; &#48708;&#44368;&#54616;&#50668; <strong>Gap &#53356;&#44592;</strong>&#47484; &#49328;&#52636;&#54633;&#45768;&#45796;. &#54665;&#51012; &#53364;&#47533;&#54616;&#47732; &#49345;&#49464; &#52264;&#53944;&#47484; &#54869;&#51064;&#54624; &#49688; &#51080;&#49845;&#45768;&#45796;.</div>
+  <div class="eyebrow">Gap Diagnosis</div>
+  <div class="sec-title">6&#45824; &#52629; Gap &#51652;&#45800; &#8212; &#50612;&#46356;&#44032; &#50620;&#47560;&#45208; &#48268;&#50612;&#51256; &#51080;&#45716;&#44032;</div>
+  <div class="sec-desc">&#52629;&#47560;&#45796; &#51088;&#49324;&#50752; &#50808;&#48512;&#47484; &#48708;&#44368;&#54616;&#50668; &#44201;&#52264; &#53356;&#44592;&#47484; &#49328;&#52636;&#54633;&#45768;&#45796;. &#54665;&#51012; &#53364;&#47533;&#54616;&#47732; &#49345;&#49464; &#52264;&#53944;&#47484; &#54869;&#51064;&#54624; &#49688; &#51080;&#49845;&#45768;&#45796;.</div>
   <div class="gap-wrap rv">
     <table class="gap-tbl" id="gapTable">
       <thead><tr><th>&#51652;&#45800; &#52629;</th><th>&#44032;&#51473;&#52824;</th><th>&#51088;&#49324; &#45936;&#51060;&#53552;</th><th>&#50808;&#48512; &#45936;&#51060;&#53552;</th><th>Gap &#49328;&#52636;</th><th>&#44201;&#52264; &#53356;&#44592;</th><th>&#49888;&#54840;</th></tr></thead>
@@ -927,9 +945,9 @@ html{scroll-behavior:smooth}
 </div>
 
 <div class="sec rv" id="s-scoring">
-  <div class="eyebrow">Scoring Decision Tree</div>
-  <div class="sec-title">4&#45800;&#44228; &#49828;&#53076;&#50612;&#47553; &#48516;&#44592; &#8212; &#49345;&#54408; &#54032;&#51221; &#54532;&#47196;&#49464;&#49828;</div>
-  <div class="sec-desc">&#47784;&#46304; &#49345;&#54408;&#51008; &#50500;&#47000; 4&#45800;&#44228;&#47484; &#49692;&#49436;&#45824;&#47196; &#53685;&#44284;&#54633;&#45768;&#45796;. &#44033; &#45800;&#44228;&#47484; &#53364;&#47533;&#54616;&#47732; &#49345;&#49464; &#47196;&#51649;&#51012; &#54869;&#51064;&#54624; &#49688; &#51080;&#49845;&#45768;&#45796;.<br>S&#46321;&#44553; = <strong>&#8220;MD&#44032; 24&#49884;&#44036; &#45236; &#50504; &#54616;&#47732; &#49892;&#47588;&#52636;&#51060; &#48736;&#51648;&#45716; &#49345;&#54889;&#8221;</strong>&#50640;&#47564; &#48512;&#50668;.</div>
+  <div class="eyebrow">Scoring &amp; Tier</div>
+  <div class="sec-title">4&#45800;&#44228; &#49828;&#53076;&#50612;&#47553; &#8212; &#49345;&#54408; &#54620; &#44060;&#44032; &#46321;&#44553;&#51012; &#48155;&#44592;&#44620;&#51648;</div>
+  <div class="sec-desc">&#47784;&#46304; &#49345;&#54408;&#51008; &#50500;&#47000; 4&#45800;&#44228;&#47484; &#49692;&#49436;&#45824;&#47196; &#53685;&#44284;&#54633;&#45768;&#45796;. &#44033; &#45800;&#44228;&#47484; &#53364;&#47533;&#54616;&#47732; &#49345;&#49464; &#47196;&#51649;&#51012; &#54869;&#51064;&#54624; &#49688; &#51080;&#49845;&#45768;&#45796;.<br>S&#46321;&#44553; = <strong>&ldquo;MD&#44032; 24&#49884;&#44036; &#45236; &#50504; &#54616;&#47732; &#49892;&#47588;&#52636;&#51060; &#48736;&#51648;&#45716; &#49345;&#54889;&rdquo;</strong>&#50640;&#47564; &#48512;&#50668;&#54633;&#45768;&#45796;.</div>
 
   <div class="dtree stg rv">
     <div class="card dnode ripple" style="border-left:3px solid var(--red)" onclick="this.classList.toggle('open')">
@@ -982,8 +1000,8 @@ html{scroll-behavior:smooth}
 
 <div class="sec rv" id="s-signal">
   <div class="eyebrow">Signal Card</div>
-  <div class="sec-title">&#51652;&#45800; &#52852;&#46300; &#8212; 6&#52629; Gap&#51012; &#54620;&#45576;&#50640;</div>
-  <div class="sec-desc">&#44033; &#52629;&#51032; &#44148;&#44053;&#46020;&#47484; &#49888;&#54840;&#46321;&#44284; &#48148; &#52264;&#53944;&#47196; &#49884;&#44033;&#54868;. &#52629;&#51012; &#53364;&#47533;&#54616;&#47732; &#49345;&#49464; &#47784;&#45804;&#51060; &#50676;&#47549;&#45768;&#45796;.</div>
+  <div class="sec-title">&#51652;&#45800; &#52852;&#46300; &#8212; 6&#52629; &#44148;&#44053;&#46020;&#47484; &#54620;&#45576;&#50640; &#54869;&#51064;</div>
+  <div class="sec-desc">&#49888;&#54840;&#46321;&#183;&#48148; &#52264;&#53944;&#183;&#51216;&#49688;&#44032; &#52629;&#48324; &#49345;&#53468;&#47484; &#50836;&#50557;&#54633;&#45768;&#45796;. &#52629;&#51012; &#53364;&#47533;&#54616;&#47732; &#49345;&#49464; &#51648;&#54364;&#44032; &#50676;&#47549;&#45768;&#45796;.</div>
   <div class="card sig rv">
     <div class="sig-head"><span class="sig-product">[LG] &#49828;&#53472;&#48148;&#51060;&#48120; 2&#49464;&#45824; 27&#51064;&#52824;</span><span class="sig-tier" style="background:var(--red)">S Tier</span><span class="countdown" id="countdown"><span class="countdown-digit" id="cd-h">23</span>:<span class="countdown-digit" id="cd-m">59</span>:<span class="countdown-digit" id="cd-s">59</span> &#45224;&#51008;</span><span class="sig-cat">&#44032;&#51204;&#183;&#46356;&#51648;&#53560;</span></div>
     <div class="sig-legend">
@@ -1008,11 +1026,74 @@ html{scroll-behavior:smooth}
       <div class="sig-act ripple"><div class="sig-act-n">&#54200;&#49457;&#183;&#44305;&#44256;</div><div class="sig-act-b">&#49444;&#51221; &#50676;&#44592;</div></div>
     </div>
   </div>
+  <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--txm);margin:24px 0 12px">&#49888;&#54840;&#46321; &#50696;&#49884; &#8212; &#46321;&#44553;&#48324; 6&#52629; &#44148;&#44053;&#46020; &#54364;&#49884;</div>
+  <div class="sig-examples stg rv">
+    <div class="sig-ex">
+      <div class="sig-ex-tier" style="background:var(--red)">S Tier</div>
+      <div class="sig-ex-product">[LG] &#49828;&#53472;&#48148;&#51060;&#48120; 27&#51064;&#52824;</div>
+      <div class="sig-ex-cat">&#44032;&#51204;&#183;&#46356;&#51648;&#53560;</div>
+      <div class="sig-ex-lights">
+        <div class="sig-ex-dot r" title="&#44032;&#44201;"></div>
+        <div class="sig-ex-dot a" title="&#46364;&#49892;&#51201;"></div>
+        <div class="sig-ex-dot g" title="&#47784;&#47704;&#53568;"></div>
+        <div class="sig-ex-dot a" title="&#51648;&#54364;"></div>
+        <div class="sig-ex-dot g" title="&#47532;&#48624;"></div>
+        <div class="sig-ex-dot g" title="&#48176;&#49569;"></div>
+      </div>
+      <div class="sig-ex-score" style="color:var(--red)">92</div>
+      <div class="sig-ex-label">&#51593;&#49884;&#49892;&#54665; &#183; SLA 24h</div>
+    </div>
+    <div class="sig-ex">
+      <div class="sig-ex-tier" style="background:var(--orange)">A Tier</div>
+      <div class="sig-ex-product">[&#49340;&#49457;] &#44040;&#47085;&#49884; S25 &#52992;&#51060;&#49828;</div>
+      <div class="sig-ex-cat">&#47784;&#48148;&#51068; &#50529;&#49464;&#49436;&#47532;</div>
+      <div class="sig-ex-lights">
+        <div class="sig-ex-dot a" title="&#44032;&#44201;"></div>
+        <div class="sig-ex-dot g" title="&#46364;&#49892;&#51201;"></div>
+        <div class="sig-ex-dot g" title="&#47784;&#47704;&#53568;"></div>
+        <div class="sig-ex-dot a" title="&#51648;&#54364;"></div>
+        <div class="sig-ex-dot g" title="&#47532;&#48624;"></div>
+        <div class="sig-ex-dot g" title="&#48176;&#49569;"></div>
+      </div>
+      <div class="sig-ex-score" style="color:var(--orange)">74</div>
+      <div class="sig-ex-label">&#51452;&#44036;&#44284;&#51228; &#183; SLA 7d</div>
+    </div>
+    <div class="sig-ex">
+      <div class="sig-ex-tier" style="background:var(--blue)">B Tier</div>
+      <div class="sig-ex-product">[&#45208;&#51060;&#53412;] &#50640;&#50612;&#47589;&#49828; 97</div>
+      <div class="sig-ex-cat">&#49828;&#54252;&#52768;&#183;&#47112;&#51200;</div>
+      <div class="sig-ex-lights">
+        <div class="sig-ex-dot g" title="&#44032;&#44201;"></div>
+        <div class="sig-ex-dot a" title="&#46364;&#49892;&#51201;"></div>
+        <div class="sig-ex-dot off" title="&#47784;&#47704;&#53568;"></div>
+        <div class="sig-ex-dot a" title="&#51648;&#54364;"></div>
+        <div class="sig-ex-dot g" title="&#47532;&#48624;"></div>
+        <div class="sig-ex-dot g" title="&#48176;&#49569;"></div>
+      </div>
+      <div class="sig-ex-score" style="color:var(--blue)">52</div>
+      <div class="sig-ex-label">&#44160;&#49353;&#48512;&#49828;&#54021; &#183; SLA 14d</div>
+    </div>
+    <div class="sig-ex">
+      <div class="sig-ex-tier" style="background:var(--txm)">C Tier</div>
+      <div class="sig-ex-product">[&#47196;&#51648;&#53581;] &#47560;&#50864;&#49828; M750</div>
+      <div class="sig-ex-cat">PC &#51452;&#48320;&#44592;&#44592;</div>
+      <div class="sig-ex-lights">
+        <div class="sig-ex-dot g" title="&#44032;&#44201;"></div>
+        <div class="sig-ex-dot off" title="&#46364;&#49892;&#51201;"></div>
+        <div class="sig-ex-dot off" title="&#47784;&#47704;&#53568;"></div>
+        <div class="sig-ex-dot off" title="&#51648;&#54364;"></div>
+        <div class="sig-ex-dot g" title="&#47532;&#48624;"></div>
+        <div class="sig-ex-dot g" title="&#48176;&#49569;"></div>
+      </div>
+      <div class="sig-ex-score" style="color:var(--txm)">31</div>
+      <div class="sig-ex-label">&#47784;&#45768;&#53552;&#47553; &#183; SLA 30d</div>
+    </div>
+  </div>
 </div>
 
 <div class="sec rv" id="s-sim">
   <div class="eyebrow">GPS Simulator</div>
-  <div class="sec-title">&#49892;&#49884;&#44036; GPS &#49828;&#53076;&#50612; &#49884;&#48044;&#47112;&#51060;&#53552;</div>
+  <div class="sec-title">GPS &#49828;&#53076;&#50612; &#49884;&#48044;&#47112;&#51060;&#53552; &#8212; &#49836;&#46972;&#51060;&#45908;&#47196; &#51649;&#51217; &#52404;&#54744;</div>
   <div class="sim rv">
     <div class="sim-title"><span class="live-dot"></span>&#49892;&#49884;&#44036; &#49884;&#48044;&#47112;&#51060;&#49496;<span class="data-pulse">LIVE DATA</span></div>
     <div class="sim-presets">
@@ -1045,9 +1126,9 @@ html{scroll-behavior:smooth}
 </div>
 
 <div class="sec rv" id="s-cat">
-  <div class="eyebrow">Category Strategy</div>
-  <div class="sec-title">&#52852;&#53580;&#44256;&#47532;&#48324; MD &#51204;&#47029; &#54540;&#47196;&#50864; &#8212; 6 Phase</div>
-  <div class="sec-desc">&#44033; Phase&#47484; &#53364;&#47533;&#54616;&#50668; &#49345;&#49464; &#45236;&#50857;&#51012; &#54869;&#51064;&#54616;&#49464;&#50836;. &#51088;&#46041;&#51004;&#47196; &#49692;&#54872;&#54633;&#45768;&#45796;.</div>
+  <div class="eyebrow">Category Flow</div>
+  <div class="sec-title">&#52852;&#53580;&#44256;&#47532;&#48324; &#49892;&#54665; &#54540;&#47196;&#50864; &#8212; MD&#44032; 6&#45800;&#44228;&#47196; &#50880;&#51649;&#51077;&#45768;&#45796;</div>
+  <div class="sec-desc">&#44033; Phase&#47484; &#53364;&#47533;&#54616;&#47732; &#49345;&#49464; &#49892;&#54665; &#45236;&#50857;&#51060; &#54204;&#52432;&#51665;&#45768;&#45796;.</div>
   <div class="cat-stepper" id="catStepper">
     <button class="cat-stepper-btn active" onclick="showPhase(0)"><span>P1 &#49688;&#51665;</span></button>
     <button class="cat-stepper-btn" onclick="showPhase(1)"><span>P2 &#50808;&#48512;</span></button>
@@ -1068,9 +1149,9 @@ html{scroll-behavior:smooth}
 </div>
 
 <div class="sec rv" id="s-engine">
-  <div class="eyebrow">Engine</div>
+  <div class="eyebrow">Flywheel</div>
   <div class="sec-title">&#49440;&#49692;&#54872; &#50644;&#51652; &#8212; &#50668;&#49455; &#45800;&#44228;&#44032; &#49828;&#49828;&#47196; &#44032;&#49549;&#54633;&#45768;&#45796;</div>
-  <div class="sec-desc">&#44033; &#45800;&#44228;&#47484; &#53364;&#47533;&#54616;&#47732; &#49345;&#49464; &#49444;&#47749;&#51060; &#54869;&#51109;&#46121;&#45768;&#45796;. Essential SKU &#48156;&#44404;&#47196; &#51216;&#54868;&#54616;&#50668; &#49472;&#47084; &#50689;&#51077;, &#54812;&#53469;, &#44032;&#44201; &#51221;&#54633;, &#45432;&#52636;, &#44144;&#47000;&#183;&#46321;&#44553; &#54032;&#51221;&#51012; &#49692;&#54872;&#54633;&#45768;&#45796;.</div>
+  <div class="sec-desc">Essential SKU &#48156;&#44404;&#50640;&#49436; &#51216;&#54868;&#54616;&#50668; &#49472;&#47084; &#50689;&#51077; &#8594; &#54812;&#53469; &#8594; &#44032;&#44201; &#8594; &#45432;&#52636; &#8594; &#44144;&#47000;&#183;&#46321;&#44553; &#54032;&#51221;&#51012; &#49692;&#54872;&#54633;&#45768;&#45796;. &#44033; &#45800;&#44228;&#47484; &#53364;&#47533;&#54616;&#47732; &#49345;&#49464; &#49444;&#47749;&#51060; &#54204;&#52432;&#51665;&#45768;&#45796;.</div>
   <div class="eng-ring stg rv">
     <div class="card eng-item" onclick="this.classList.toggle('expanded')"><div class="eng-num">STEP 1</div><div class="eng-title">&#48156;&#44404;</div><div class="eng-desc"><strong>10&#44060;+ &#50808;&#48512; &#49324;&#51060;&#53944; &#54945;&#45800; &#51221;&#52272;</strong> &#8594; 11&#48264;&#44032;&#50640; &#48152;&#46300;&#49884; &#51080;&#50612;&#50556; &#54624; &#49345;&#54408; &#46020;&#52636;</div><div class="eng-item-detail">Albatross Crawling&#44032; &#44221;&#51137;&#49324; TOP &#54032;&#47588; &#49345;&#54408;&#51012; &#51088;&#46041; &#49688;&#51665;. &#52852;&#53580;&#44256;&#47532;&#48324; &#54596;&#49688; SKU &#47532;&#49828;&#53944;&#47484; &#49373;&#49457;&#54633;&#45768;&#45796;.</div></div>
     <div class="card eng-item" onclick="this.classList.toggle('expanded')"><div class="eng-num">STEP 2</div><div class="eng-title">&#50689;&#51077;</div><div class="eng-desc"><strong>S&#46321;&#44553;&#51008; MD &#51649;&#51217; &#49444;&#46301;</strong>, A&#46321;&#44553; &#51060;&#54616;&#45716; &#49472;&#47553;&#53812; &#51088;&#46041; &#54869;&#48372;</div><div class="eng-item-detail">&#49472;&#47084; &#51077;&#51216; &#51228;&#50504;&#49436;&#47484; &#51088;&#46041; &#49373;&#49457;&#54616;&#44256;, MD&#44032; &#51649;&#51217; &#50672;&#46973;&#54616;&#50668; &#50689;&#51077;&#51012; &#51652;&#54665;&#54633;&#45768;&#45796;.</div></div>
@@ -1087,7 +1168,7 @@ html{scroll-behavior:smooth}
 
 <div class="sec rv" id="s-expo">
   <div class="eyebrow">Exposure Matrix</div>
-  <div class="sec-title">&#45432;&#52636; &#47588;&#53944;&#47533;&#49828; &#8212; &#46321;&#44553;&#48324; &#45432;&#52636; &#48276;&#50948;</div>
+  <div class="sec-title">&#45432;&#52636; &#47588;&#53944;&#47533;&#49828; &#8212; &#46321;&#44553;&#51060; &#44263; &#45432;&#52636; &#48276;&#50948;&#47484; &#44208;&#51221;&#54633;&#45768;&#45796;</div>
   <div class="expo-filter" id="expoFilter">
     <button class="expo-filter-btn active" onclick="filterExpo('all',this)">&#51204;&#52404;</button>
     <button class="expo-filter-btn" onclick="filterExpo('sa',this)">S/A &#46321;&#44553;</button>
@@ -1105,8 +1186,8 @@ html{scroll-behavior:smooth}
 </div>
 
 <div class="sec rv" id="s-boost">
-  <div class="eyebrow">Revenue Boosting</div>
-  <div class="sec-title">Gap &#48516;&#49437; &#8594; &#47588;&#52636; &#44204;&#51064; KPI</div>
+  <div class="eyebrow">Revenue Impact</div>
+  <div class="sec-title">&#47588;&#52636; &#44204;&#51064; KPI &#8212; Gap&#51060; &#51460;&#47732; &#47588;&#52636;&#51060; &#45720;&#50612;&#45225;&#45768;&#45796;</div>
   <div class="boost-kpis stg rv">
     <div class="card bkpi ripple"><div class="bkpi-val vr" data-counter="42" data-prefix="&#8361;" data-suffix="&#50613;">&#8361;0&#50613;</div><div class="bkpi-label">&#50900;&#44036; &#44592;&#54924;&#49552;&#49892; GMV</div><div class="bkpi-sub">&#51204;&#52404; Gap &#54633;&#49328; &#52628;&#51221;</div><div class="bkpi-bar"><div class="bkpi-fill" data-w="100" style="background:var(--red)"></div></div></div>
     <div class="card bkpi ripple"><div class="bkpi-val vg" data-counter="18" data-prefix="&#8361;" data-suffix="&#50613;">&#8361;0&#50613;</div><div class="bkpi-label">&#54924;&#49688; &#44032;&#45733; GMV</div><div class="bkpi-sub">S+A &#46321;&#44553; &#49892;&#54665; &#49884;</div><div class="bkpi-bar"><div class="bkpi-fill" data-w="43" style="background:var(--green)"></div></div></div>
@@ -1117,8 +1198,8 @@ html{scroll-behavior:smooth}
 </div>
 
 <div class="sec rv" id="s-roles">
-  <div class="eyebrow">TO-BE Roles</div>
-  <div class="sec-title">&#50529;&#53552;&#48324; &#50669;&#54624; &#51204;&#54872;</div>
+  <div class="eyebrow">Role Transition</div>
+  <div class="sec-title">&#50529;&#53552;&#48324; &#50669;&#54624; &#51204;&#54872; &#8212; &#45572;&#44032; &#47924;&#50631;&#51012; &#54616;&#45716;&#44032;</div>
   <div class="roles stg rv">
     <div class="card role ripple"><div class="role-bar" style="background:linear-gradient(90deg,var(--blue),var(--teal))"></div><div class="role-in"><div class="role-name"><span class="role-dot" style="background:var(--blue)"></span>&#49884;&#49828;&#53596;</div><div class="role-row"><span class="role-tag rt-old">AS-IS</span><span class="role-text">&#45800;&#49692; &#45936;&#51060;&#53552; &#51312;&#54924;, MD&#44032; &#51649;&#51217; &#44160;&#49353;&#183;&#48516;&#49437;</span></div><div class="role-arr">&#8595;</div><div class="role-row"><span class="role-tag rt-new">TO-BE</span><span class="role-text"><b>&#51088;&#49324; vs &#50808;&#48512; Gap &#48516;&#49437;</b> + <b>S/A/B/C &#51088;&#46041; &#49828;&#53076;&#50612;&#47553;</b></span></div></div></div>
     <div class="card role ripple"><div class="role-bar" style="background:linear-gradient(90deg,var(--green),#63e6be)"></div><div class="role-in"><div class="role-name"><span class="role-dot" style="background:var(--green)"></span>&#51312;&#51649;&#51109;</div><div class="role-row"><span class="role-tag rt-old">AS-IS</span><span class="role-text">MD&#48324; &#50629;&#47924; &#44060;&#48324; &#51648;&#49884;, &#49892;&#51201; &#49688;&#44592; &#52712;&#54633;</span></div><div class="role-arr">&#8595;</div><div class="role-row"><span class="role-tag rt-new">TO-BE</span><span class="role-text"><b>&#52852;&#53580;&#44256;&#47532; &#48169;&#54693;&#49457;</b> &#49444;&#51221; &#8594; <b>&#44032;&#51473;&#52824; &#48152;&#50689;</b> &#51088;&#46041; &#48176;&#48516;</span></div></div></div>
@@ -1126,25 +1207,10 @@ html{scroll-behavior:smooth}
   </div>
 </div>
 
-<div class="sec rv" id="s-harness">
-  <div class="eyebrow">Harness</div>
-  <div class="sec-title">TO-BE &#54616;&#45348;&#49828; &#44396;&#49457; &#8212; 4 Zone</div>
-  <div class="sec-desc">&#50808;&#48512; &#45936;&#51060;&#53552; &#49688;&#51665;&#48512;&#53552; MD &#49892;&#54665;&#44620;&#51648;, &#45348; &#44060;&#51032; Zone&#51060; &#54028;&#51060;&#54532;&#46972;&#51064;&#51004;&#47196; &#50672;&#44208;&#46121;&#45768;&#45796;.</div>
-  <div class="zones stg rv">
-    <div class="card zone ripple"><div class="zone-bar" style="background:linear-gradient(90deg,var(--purple),#ff6bcb)"></div><div class="zone-in"><div class="zone-head"><span class="zone-num" style="background:var(--purple)">1</span><span class="zone-title">&#50808;&#48512; &#45936;&#51060;&#53552; &#49548;&#49828;</span><span class="zone-actor" style="background:var(--blue)">&#49884;&#49828;&#53596;</span></div><div class="zone-nodes"><div class="zn"><div class="zn-t">&#53944;&#47116;&#46300; / &#49884;&#51600;</div><div class="zn-d">&#49884;&#51109; &#53944;&#47116;&#46300;, &#49884;&#51600;&#49457;, &#51060;&#49800;&#49345;&#54408;</div></div><div class="zn"><div class="zn-t">&#53440;&#49324; &#47532;&#48624; / SKU</div><div class="zn-d">&#44221;&#51137;&#49324; &#47532;&#48624;, SKU &#51613;&#44048; &#47784;&#45768;&#53552;&#47553;</div></div><div class="zn"><div class="zn-t">&#44221;&#51137;&#49324; &#44032;&#44201;</div><div class="zn-d">11&#44060; &#49324;&#51060;&#53944; &#52572;&#51200;&#44032; &#49892;&#49884;&#44036; &#49688;&#51665;</div></div></div></div></div>
-    <div class="zconn"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v8m0 0L4.5 7.5M7 10l2.5-2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="proto">ETL</span><span class="proto">&#48176;&#52824;</span></div>
-    <div class="card zone ripple"><div class="zone-bar" style="background:linear-gradient(90deg,var(--blue),var(--teal))"></div><div class="zone-in"><div class="zone-head"><span class="zone-num" style="background:var(--blue)">2</span><span class="zone-title">Gap &#48516;&#49437; &#50644;&#51652;</span><span class="zone-actor" style="background:var(--blue)">&#49884;&#49828;&#53596;</span></div><div class="zone-nodes"><div class="zn"><div class="zn-t">&#45936;&#51060;&#53552; &#51221;&#54633;</div><div class="zn-d">&#51221;&#44508;&#54868;, &#48708;&#44368; &#44032;&#45733; &#44396;&#51312; &#47588;&#54609;</div></div><div class="zn"><div class="zn-t">&#45236;&#48512; &#49828;&#53664;&#50612;</div><div class="zn-d">&#44144;&#47000; &#49892;&#51201;, Reject &#45572;&#51201;, &#54665;&#49324; &#51068;&#51221;</div></div><div class="zn"><div class="zn-t">GPS Scoring</div><div class="zn-d">4&#45800;&#44228; &#46356;&#49884;&#51204; &#53944;&#47532; &#8594; S/A/B/C</div></div></div></div></div>
-    <div class="zconn"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v8m0 0L4.5 7.5M7 10l2.5-2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="proto">API</span><span class="proto">MCP</span></div>
-    <div class="card zone ripple"><div class="zone-bar" style="background:linear-gradient(90deg,var(--green),#63e6be)"></div><div class="zone-in"><div class="zone-head"><span class="zone-num" style="background:var(--green)">3</span><span class="zone-title">&#49436;&#48708;&#49828; &#47112;&#51060;&#50612;</span><span class="zone-actor" style="background:var(--green)">&#51312;&#51649;&#51109;</span></div><div class="zone-nodes"><div class="zn"><div class="zn-t">&#45824;&#49884;&#48372;&#46300;</div><div class="zn-d">Gap &#49884;&#44033;&#54868;, &#51652;&#52377; &#51064;&#49324;&#51060;&#53944;</div></div><div class="zn"><div class="zn-t">&#46020;&#47700;&#51064;&#51648;&#49885; API</div><div class="zn-d">&#52852;&#53580;&#44256;&#47532; &#51204;&#47928; &#51648;&#49885; &#49436;&#48729;</div></div><div class="zn"><div class="zn-t">Task &#48176;&#48516; &#50644;&#51652;</div><div class="zn-d">&#51312;&#51649;&#51109; &#44032;&#51473;&#52824;, MD &#47588;&#52845;</div></div></div></div></div>
-    <div class="zconn"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v8m0 0L4.5 7.5M7 10l2.5-2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="proto">REST</span><span class="proto">WebSocket</span></div>
-    <div class="card zone ripple"><div class="zone-bar" style="background:linear-gradient(90deg,var(--orange),#ffcc00)"></div><div class="zone-in"><div class="zone-head"><span class="zone-num" style="background:var(--orange)">4</span><span class="zone-title">MD &#49892;&#54665; &#51064;&#53552;&#54168;&#51060;&#49828;</span><span class="zone-actor" style="background:var(--orange)">MD</span></div><div class="zone-nodes"><div class="zn"><div class="zn-t">&#51312;&#51649;&#51109; &#54868;&#47732;</div><div class="zn-d">&#52852;&#53580;&#44256;&#47532; &#48169;&#54693;, Gap &#51652;&#52377;&#46020;</div></div><div class="zn"><div class="zn-t">MD Task &#54868;&#47732;</div><div class="zn-d">Accept/Reject, &#49688;&#54665; &#50629;&#45936;&#51060;&#53944;</div></div><div class="zn"><div class="zn-t">&#49892;&#54665; &#46020;&#44396;</div><div class="zn-d">RM&#53812;, PMO, Navi &#50672;&#46041;</div></div></div></div></div>
-  </div>
-</div>
-
 <div class="sec rv" id="s-progress">
-  <div class="eyebrow">Status</div>
-  <div class="sec-title">&#54788;&#51116; &#51652;&#54665; &#54788;&#54889;</div>
-  <div class="sec-desc">&#50508;&#48148;&#53944;&#47196;&#49828; &#49884;&#49828;&#53596; &#45236; Essential GPS &#44396;&#52629; &#51652;&#54665; &#49345;&#53468;&#51077;&#45768;&#45796;.</div>
+  <div class="eyebrow">Current Status</div>
+  <div class="sec-title">&#54788;&#51116; &#51652;&#54665; &#54788;&#54889; &#8212; &#51648;&#44552; &#50612;&#46356;&#44620;&#51648; &#50772;&#45716;&#44032;</div>
+  <div class="sec-desc">&#49828;&#54169; &#49444;&#44228; &#50756;&#47308; &#54980; MVP &#44060;&#48156;&#50640; &#51652;&#51077;&#54620; &#49345;&#53468;&#51077;&#45768;&#45796;.</div>
   <div class="progress-grid stg rv">
     <div class="card prog-card prog-done">
       <div class="prog-status-bar" style="background:var(--green)"></div>
@@ -1194,8 +1260,8 @@ html{scroll-behavior:smooth}
 
 <div class="sec rv" id="s-mvp">
   <div class="eyebrow">MVP &amp; Roadmap</div>
-  <div class="sec-title">7&#50900; MVP &#50756;&#47308; &#50696;&#51221; &amp; &#51060;&#54980; &#44228;&#54925;</div>
-  <div class="sec-desc">&#44032;&#44201;&#52629;&#183;&#47532;&#48624;&#52629;&#51012; &#50864;&#49440; &#48176;&#54252;&#54616;&#44256;, &#45208;&#47672;&#51648; 4&#52629;&#51012; &#49692;&#52264; &#54869;&#51109;&#54633;&#45768;&#45796;.</div>
+  <div class="sec-title">7&#50900; MVP &#48176;&#54252; &#8594; 11&#50900; &#51204;&#52629; &#50868;&#50689;</div>
+  <div class="sec-desc">&#44032;&#44201;&#52629;&#183;&#47532;&#48624;&#52629;&#51012; &#47676;&#51200; &#48176;&#54252;&#54616;&#44256;, &#45208;&#47672;&#51648; 4&#52629;&#51012; 8&#50900;~11&#50900;&#50640; &#49692;&#52264; &#54869;&#51109;&#54633;&#45768;&#45796;.</div>
 
   <div class="mvp-timeline stg rv">
     <div class="mvp-phase mvp-current">
