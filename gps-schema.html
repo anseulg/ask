@@ -95,6 +95,28 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 .fl-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
 .fl-item strong{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
 
+/* ── GPS Framework ── */
+.gps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:640px){.gps-grid{grid-template-columns:1fr}}
+.gps-card{padding:32px 24px;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.gps-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover)}
+.gps-icon{width:52px;height:52px;border-radius:var(--rs);display:flex;align-items:center;justify-content:center;
+  font-size:24px;font-weight:800;margin-bottom:18px;letter-spacing:-.02em}
+.gps-card.g .gps-icon{background:color-mix(in srgb,var(--red) 14%,transparent);color:var(--red)}
+.gps-card.p .gps-icon{background:color-mix(in srgb,var(--blue) 14%,transparent);color:var(--blue)}
+.gps-card.s .gps-icon{background:color-mix(in srgb,var(--green) 14%,transparent);color:var(--green)}
+.gps-card h3{font-size:19px;font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
+.gps-card .gps-sub{font-size:14px;font-weight:500;color:var(--ink2);margin-bottom:12px}
+.gps-card .gps-detail{font-size:13px;color:var(--ink3);line-height:1.6}
+.gps-flow-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;
+  margin-top:36px;padding:20px;background:var(--sf-card);border-radius:var(--r);box-shadow:var(--shadow-card)}
+.gps-flow-chip{padding:8px 16px;border-radius:40px;font-size:12px;font-weight:600;white-space:nowrap}
+.gps-flow-chip.c-int{background:color-mix(in srgb,var(--blue) 12%,transparent);color:var(--blue)}
+.gps-flow-chip.c-ext{background:color-mix(in srgb,var(--indigo) 12%,transparent);color:var(--indigo)}
+.gps-flow-chip.c-gap{background:var(--sf-alt);color:var(--blue)}
+.gps-flow-chip.c-score{background:color-mix(in srgb,var(--green) 12%,transparent);color:var(--green)}
+.gps-flow-arr{color:var(--ink3);font-size:14px;font-weight:500}
+
 /* ── Concept flow ── */
 .concept-flow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
   margin-bottom:48px;padding:20px;background:var(--sf-alt);border-radius:var(--rs)}
@@ -335,7 +357,8 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 
 <nav>
   <span class="logo">11st AX TF · Albatross</span>
-  <a href="#ranking" class="active">통합 랭킹</a>
+  <a href="#framework" class="active">Framework</a>
+  <a href="#ranking">통합 랭킹</a>
   <a href="#schema">데이터 플로우</a>
   <a href="#output">결과물</a>
   <a href="#roadmap">실행계획</a>
@@ -354,6 +377,46 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
     <span><span class="pdot" style="background:var(--teal)"></span>Phase 3 · 장기 구축</span>
   </div>
 </header>
+
+<!-- ═══ Section 0: GPS Framework ═══ -->
+<section id="framework">
+<div class="container">
+  <div class="sec-label">Framework</div>
+  <div class="sec-title">GPS — Gap · Priority · Score</div>
+  <div class="sec-desc">자사 디스커버리 데이터에서 현재 상태를 파악하고, 외부 경쟁 데이터와 비교하여 Gap을 산출합니다. Gap 크기와 기회손실을 기준으로 Priority를 정렬하고, 하나의 Score로 압축하여 S/A/B/C 등급을 부여합니다.</div>
+
+  <div class="gps-grid fade-in">
+    <div class="card gps-card g">
+      <div class="gps-icon">G</div>
+      <h3>Gap 진단</h3>
+      <div class="gps-sub">자사 vs 외부 6대 축 비교</div>
+      <div class="gps-detail">가격 · 딜실적 · 모멘텀 · 지표 · 리뷰 · 배송</div>
+    </div>
+    <div class="card gps-card p">
+      <div class="gps-icon">P</div>
+      <h3>Priority 정렬</h3>
+      <div class="gps-sub">기회손실 GMV 추정</div>
+      <div class="gps-detail">파급력 순 정렬 + 조직장 가중치</div>
+    </div>
+    <div class="card gps-card s">
+      <div class="gps-icon">S</div>
+      <h3>Score 등급</h3>
+      <div class="gps-sub">0~100 단일 점수 압축</div>
+      <div class="gps-detail">S/A/B/C 티어 → MD 즉각 실행</div>
+    </div>
+  </div>
+
+  <div class="gps-flow-bar fade-in">
+    <span class="gps-flow-chip c-int">자사 디스커버리</span>
+    <span class="gps-flow-arr">＋</span>
+    <span class="gps-flow-chip c-ext">외부 경쟁 데이터</span>
+    <span class="gps-flow-arr">→</span>
+    <span class="gps-flow-chip c-gap">Gap 산출</span>
+    <span class="gps-flow-arr">→</span>
+    <span class="gps-flow-chip c-score">S / A / B / C</span>
+  </div>
+</div>
+</section>
 
 <!-- ═══ Section 1: 통합 랭킹 ═══ -->
 <section id="ranking">
