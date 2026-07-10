@@ -1,0 +1,1062 @@
+<title>Essential GPS &#8212; Feedback Loop &#183; Workload Balancing &#183; Lifecycle</title>
+<style>
+:root{
+  --bg:#fbfbfd;--sf:#fff;--sf2:#f5f5f7;--sf3:#e8e8ed;
+  --tx:#1d1d1f;--tx2:#424245;--tx3:#6e6e73;--txm:#86868b;
+  --bd:#d2d2d7;
+  --blue:#0071e3;--purple:#bf5af2;--green:#34c759;
+  --red:#ff3b30;--orange:#ff9500;--teal:#5ac8fa;--indigo:#5856d6;
+  --r:20px;--rs:12px;
+  --f:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Pretendard',system-ui,sans-serif;
+  --fm:'SF Mono','Fira Code',ui-monospace,monospace;
+  --sh:0 1px 3px rgba(0,0,0,.04);--shm:0 4px 16px rgba(0,0,0,.06);--shl:0 8px 32px rgba(0,0,0,.08);
+  --fs-xs:10px;--fs-s:11px;--fs-m:13px;--fs-b:15px;--fs-t:17px;--fs-h3:20px;--fs-h2:24px;--fs-h1:28px;--fs-d:34px;--fs-hero:38px;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#000;--sf:#1c1c1e;--sf2:#2c2c2e;--sf3:#3a3a3c;
+  --tx:#f5f5f7;--tx2:#d1d1d6;--tx3:#98989d;--txm:#636366;
+  --bd:#38383a;--blue:#0a84ff;--purple:#bf5af2;--green:#30d158;
+  --red:#ff453a;--orange:#ff9f0a;--teal:#64d2ff;--indigo:#5e5ce6;
+  --sh:0 1px 3px rgba(0,0,0,.3);--shm:0 4px 16px rgba(0,0,0,.3);--shl:0 8px 32px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"]{--bg:#000;--sf:#1c1c1e;--sf2:#2c2c2e;--sf3:#3a3a3c;--tx:#f5f5f7;--tx2:#d1d1d6;--tx3:#98989d;--txm:#636366;--bd:#38383a;--blue:#0a84ff;--purple:#bf5af2;--green:#30d158;--red:#ff453a;--orange:#ff9f0a;--teal:#64d2ff;--indigo:#5e5ce6;--sh:0 1px 3px rgba(0,0,0,.3);--shm:0 4px 16px rgba(0,0,0,.3);--shl:0 8px 32px rgba(0,0,0,.35)}
+:root[data-theme="light"]{--bg:#fbfbfd;--sf:#fff;--sf2:#f5f5f7;--sf3:#e8e8ed;--tx:#1d1d1f;--tx2:#424245;--tx3:#6e6e73;--txm:#86868b;--bd:#d2d2d7;--blue:#0071e3;--purple:#bf5af2;--green:#34c759;--red:#ff3b30;--orange:#ff9500;--teal:#5ac8fa;--indigo:#5856d6;--sh:0 1px 3px rgba(0,0,0,.04);--shm:0 4px 16px rgba(0,0,0,.06);--shl:0 8px 32px rgba(0,0,0,.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased}
+.page{max-width:1060px;margin:0 auto;padding:32px 24px 120px}
+.hero{text-align:center;padding:40px 0 32px}
+.hero-ey{font-size:var(--fs-m);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:6px}
+.hero h1{font-size:var(--fs-d);font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.hero p{font-size:var(--fs-b);color:var(--tx2);max-width:640px;margin:0 auto}
+
+.part{margin-top:64px;padding-top:32px;border-top:2px solid var(--bd)}
+.part-num{font-size:var(--fs-s);font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--purple);margin-bottom:4px}
+.part-t{font-size:var(--fs-h1);font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.part-d{font-size:var(--fs-b);color:var(--tx3);margin-bottom:24px}
+
+.sec{margin-top:36px}
+.sec-t{font-size:var(--fs-h3);font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.sec-d{font-size:var(--fs-b);color:var(--tx3);margin-bottom:16px}
+
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:24px;box-shadow:var(--shm);margin-bottom:16px}
+.card-t{font-size:var(--fs-t);font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+
+.tw{overflow-x:auto;border-radius:var(--r);border:1px solid var(--bd);background:var(--sf);box-shadow:var(--shm);margin-bottom:20px}
+table.t{width:100%;border-collapse:separate;border-spacing:0;font-size:var(--fs-m);min-width:700px}
+.t th{padding:10px 14px;text-align:left;font-size:var(--fs-s);font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3);background:var(--sf2);border-bottom:2px solid var(--bd);white-space:nowrap;position:sticky;top:0}
+.t td{padding:10px 14px;border-bottom:1px solid var(--sf2);vertical-align:top;line-height:1.55}
+.t tr:last-child td{border-bottom:none}
+.t tr:hover td{background:var(--sf2)}
+
+.chip{font-size:var(--fs-xs);font-weight:800;padding:3px 8px;border-radius:100px;display:inline-block;margin:1px 2px;white-space:nowrap}
+.chip-r{background:rgba(255,59,48,.1);color:var(--red)}
+.chip-o{background:rgba(255,149,0,.1);color:var(--orange)}
+.chip-b{background:rgba(0,113,227,.1);color:var(--blue)}
+.chip-g{background:rgba(52,199,89,.08);color:var(--green)}
+.chip-p{background:rgba(191,90,242,.1);color:var(--purple)}
+.chip-t{background:rgba(90,200,250,.1);color:var(--teal)}
+.chip-i{background:rgba(88,86,214,.1);color:var(--indigo)}
+.chip-m{background:var(--sf2);color:var(--txm)}
+
+.code{background:var(--sf2);border-radius:var(--rs);padding:20px;font-family:var(--fm);font-size:var(--fs-m);line-height:1.9;color:var(--tx2);overflow-x:auto;white-space:pre;tab-size:2}
+.code .kw{color:var(--purple);font-weight:700}
+.code .fn{color:var(--blue);font-weight:700}
+.code .cm{color:var(--txm);font-style:italic}
+.code .st{color:var(--green)}
+.code .nu{color:var(--orange)}
+.code .hl{color:var(--red);font-weight:700}
+
+/* Flow diagram */
+.flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;margin-bottom:20px}
+.flow-node{flex:1;min-width:140px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:14px;text-align:center;position:relative}
+.flow-node-t{font-size:var(--fs-m);font-weight:700;margin-bottom:4px}
+.flow-node-d{font-size:var(--fs-s);color:var(--tx3);line-height:1.4}
+.flow-arr{display:flex;align-items:center;justify-content:center;width:32px;flex-shrink:0;color:var(--txm);font-size:var(--fs-h3)}
+
+/* Metric card */
+.mcard{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:16px;text-align:center}
+.mcard-val{font-size:var(--fs-h1);font-weight:800;letter-spacing:-.02em}
+.mcard-label{font-size:var(--fs-s);color:var(--tx3);font-weight:600;margin-top:2px}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+
+/* Timeline */
+.timeline{position:relative;padding-left:28px;margin-bottom:20px}
+.timeline::before{content:'';position:absolute;left:8px;top:4px;bottom:4px;width:2px;background:var(--bd)}
+.tl-item{position:relative;margin-bottom:16px}
+.tl-item::before{content:'';position:absolute;left:-24px;top:6px;width:12px;height:12px;border-radius:50%;border:2px solid var(--blue);background:var(--sf)}
+.tl-item.done::before{background:var(--green);border-color:var(--green)}
+.tl-item.warn::before{background:var(--orange);border-color:var(--orange)}
+.tl-item.danger::before{background:var(--red);border-color:var(--red)}
+.tl-t{font-size:var(--fs-m);font-weight:700}
+.tl-d{font-size:var(--fs-s);color:var(--tx3);line-height:1.5}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:2px solid var(--bd);padding-bottom:0}
+.tab{padding:8px 16px;font-size:var(--fs-m);font-weight:700;border:none;background:none;color:var(--tx3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;font-family:var(--f)}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.tab:hover{color:var(--tx)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* Gauge */
+.gauge-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.gauge-label{font-size:var(--fs-m);font-weight:600;width:120px;flex-shrink:0}
+.gauge-bar{flex:1;height:20px;background:var(--sf2);border-radius:10px;overflow:hidden;position:relative}
+.gauge-fill{height:100%;border-radius:10px;transition:width .4s ease}
+.gauge-val{font-size:var(--fs-s);font-weight:800;width:48px;text-align:right;flex-shrink:0}
+
+/* Lifecycle phases */
+.lc-track{display:flex;gap:0;border-radius:var(--r);overflow:hidden;border:1px solid var(--bd);margin-bottom:16px;background:var(--sf)}
+.lc-phase{flex:1;padding:14px 10px;text-align:center;border-right:1px solid var(--bd);position:relative;cursor:pointer;transition:all .2s}
+.lc-phase:last-child{border-right:none}
+.lc-phase:hover{background:var(--sf2)}
+.lc-phase.sel{background:var(--sf2)}
+.lc-phase-t{font-size:var(--fs-s);font-weight:800;letter-spacing:.04em}
+.lc-phase-d{font-size:var(--fs-xs);color:var(--tx3);margin-top:2px}
+.lc-detail{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:20px;margin-bottom:20px;min-height:200px}
+
+/* Balance sim */
+.bsim{background:var(--sf);border:2px solid var(--bd);border-radius:var(--r);padding:24px;margin-top:24px}
+.bsim-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:20px}
+.bsim-md{background:var(--sf2);border-radius:var(--rs);padding:14px;position:relative}
+.bsim-md-name{font-size:var(--fs-m);font-weight:700;margin-bottom:6px}
+.bsim-md-bar{height:8px;background:var(--sf3);border-radius:4px;overflow:hidden;margin-bottom:4px}
+.bsim-md-fill{height:100%;border-radius:4px;transition:width .4s ease}
+.bsim-md-meta{display:flex;justify-content:space-between;font-size:var(--fs-xs);color:var(--tx3)}
+.bsim-md-overflow{animation:pulse-red 1.5s ease infinite}
+@keyframes pulse-red{0%,100%{box-shadow:0 0 0 0 rgba(255,59,48,0)}50%{box-shadow:0 0 0 4px rgba(255,59,48,.15)}}
+
+.note{background:var(--sf2);border-left:3px solid var(--blue);border-radius:0 var(--rs) var(--rs) 0;padding:12px 16px;font-size:var(--fs-m);color:var(--tx2);margin-bottom:16px;line-height:1.6}
+.note-warn{border-left-color:var(--orange)}
+.note-danger{border-left-color:var(--red)}
+</style>
+
+<div class="page">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-ey">Essential GPS Framework &#183; Spec Document 5</div>
+  <h1>&#54588;&#46300;&#48177; &#183; &#50892;&#53356;&#47196;&#46300; &#183; &#46972;&#51060;&#54532;&#49324;&#51060;&#53364;</h1>
+  <p>GPS &#49884;&#49828;&#53596;&#51032; &#54617;&#49845; &#47336;&#54532;, MD &#50629;&#47924;&#47049; &#52572;&#51201;&#54868;, &#49345;&#54408; &#49688;&#47749;&#51452;&#44592;&#48324; &#44032;&#51473;&#52824; &#48372;&#51221; &#49444;&#44228;</p>
+</div>
+
+<!-- ============================================ -->
+<!-- PART 1: FEEDBACK LOOP / EFFECTIVENESS -->
+<!-- ============================================ -->
+<div class="part">
+  <div class="part-num">Part 1</div>
+  <div class="part-t">&#54588;&#46300;&#48177; &#47336;&#54532; &#38; &#54952;&#44284; &#52769;&#51221;</div>
+  <div class="part-d">MD &#50529;&#49496; &#44208;&#44284;&#47484; GPS &#49828;&#53076;&#50612;&#50640; &#48152;&#50689;&#54616;&#44256;, &#50529;&#49496; &#54952;&#44284;&#47484; &#52769;&#51221;&#54616;&#45716; &#54617;&#49845;&#54805; &#54588;&#46300;&#48177; &#49884;&#49828;&#53596;</div>
+
+  <!-- Feedback Loop Diagram -->
+  <div class="sec">
+    <div class="sec-t">&#54588;&#46300;&#48177; &#47336;&#54532; &#44396;&#51312;</div>
+    <div class="sec-d">GPS &#8594; &#50529;&#49496; &#8594; &#44208;&#44284; &#52769;&#51221; &#8594; &#49828;&#53076;&#50612; &#48372;&#51221; &#49324;&#51060;&#53364;</div>
+  </div>
+
+  <div class="flow">
+    <div class="flow-node" style="border-color:var(--blue)">
+      <div class="flow-node-t" style="color:var(--blue)">&#9312; GPS &#49828;&#53076;&#50612;&#47553;</div>
+      <div class="flow-node-d">&#51068;&#51068; 08:00 &#48176;&#52824;<br>6&#45824;&#52629; Gap &#49328;&#52636;</div>
+    </div>
+    <div class="flow-arr">&#8594;</div>
+    <div class="flow-node" style="border-color:var(--purple)">
+      <div class="flow-node-t" style="color:var(--purple)">&#9313; &#50529;&#49496; &#48176;&#51221;</div>
+      <div class="flow-node-d">&#53580;&#49828;&#53356; &#51088;&#46041;&#47588;&#52845;<br>MD &#50508;&#47548; 09:00</div>
+    </div>
+    <div class="flow-arr">&#8594;</div>
+    <div class="flow-node" style="border-color:var(--orange)">
+      <div class="flow-node-t" style="color:var(--orange)">&#9314; MD &#49892;&#54665;</div>
+      <div class="flow-node-d">&#50529;&#49496; &#52376;&#47532;<br>SLA &#45236; &#50756;&#47308;</div>
+    </div>
+    <div class="flow-arr">&#8594;</div>
+    <div class="flow-node" style="border-color:var(--green)">
+      <div class="flow-node-t" style="color:var(--green)">&#9315; &#54952;&#44284; &#52769;&#51221;</div>
+      <div class="flow-node-d">T+24h ~ T+72h<br>&#48320;&#54868;&#47049; &#52769;&#51221;</div>
+    </div>
+    <div class="flow-arr">&#8594;</div>
+    <div class="flow-node" style="border-color:var(--teal)">
+      <div class="flow-node-t" style="color:var(--teal)">&#9316; &#49828;&#53076;&#50612; &#48372;&#51221;</div>
+      <div class="flow-node-d">&#54952;&#44284; &#48152;&#50689;<br>&#45796;&#51020; &#49324;&#51060;&#53364; GPS</div>
+    </div>
+  </div>
+
+  <!-- Effectiveness Metrics -->
+  <div class="sec">
+    <div class="sec-t">&#54952;&#44284; &#52769;&#51221; KPI</div>
+    <div class="sec-d">&#50529;&#49496;&#48324; &#49457;&#44284;&#47484; &#52769;&#51221;&#54616;&#45716; &#51648;&#54364; &#52404;&#44228;</div>
+  </div>
+
+  <div class="tw">
+    <table class="t">
+      <thead>
+        <tr>
+          <th>&#52769;&#51221; &#49884;&#51216;</th>
+          <th>KPI</th>
+          <th>&#44228;&#49328; &#48169;&#49885;</th>
+          <th>&#47785;&#54364;</th>
+          <th>&#48708;&#44256;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="chip chip-r">T+24h</span></td>
+          <td style="font-weight:700">&#51593;&#49884; &#48152;&#51025;&#47456;</td>
+          <td>&#44032;&#44201; &#48320;&#44221; &#48152;&#50689;&#47456;, &#51077;&#51216; &#50756;&#47308;&#47456;</td>
+          <td>&#8805;70%</td>
+          <td>S&#46321;&#44553; &#44032;&#44201;/&#51077;&#51216; &#50529;&#49496; &#44592;&#51456;</td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-o">T+72h</span></td>
+          <td style="font-weight:700">Gap &#44060;&#49440;&#47456;</td>
+          <td>(&#50529;&#49496;&#51204; Gap - &#50529;&#49496;&#54980; Gap) / &#50529;&#49496;&#51204; Gap</td>
+          <td>&#8805;30%</td>
+          <td>&#54644;&#45817; &#52629;&#51032; Gap&#51060; &#51460;&#50612;&#46308;&#45716;&#51648;</td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-b">T+7d</span></td>
+          <td style="font-weight:700">&#51204;&#54872;&#47456; &#48320;&#54868;</td>
+          <td>(&#50529;&#49496;&#54980; CVR - &#50529;&#49496;&#51204; CVR) / &#50529;&#49496;&#51204; CVR</td>
+          <td>&#8805;+5%</td>
+          <td>CVR/&#51648;&#54364; &#52629; &#50529;&#49496; &#44592;&#51456;</td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-g">T+14d</span></td>
+          <td style="font-weight:700">GPS &#49828;&#53076;&#50612; &#48320;&#54868;</td>
+          <td>&#50529;&#49496;&#54980; GPS - &#50529;&#49496;&#51204; GPS</td>
+          <td>&#8805;+10pt</td>
+          <td>&#51333;&#54633; &#49828;&#53076;&#50612; &#44060;&#49440; &#54869;&#51064;</td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-p">T+30d</span></td>
+          <td style="font-weight:700">GMV &#44592;&#50668;&#47049;</td>
+          <td>&#50529;&#49496; &#54980; &#48156;&#49373; GMV - &#50696;&#49345; GMV(&#48708;&#50529;&#49496; &#49884;)</td>
+          <td>&#8805;+15%</td>
+          <td>&#45824;&#51312;&#44400; &#45824;&#48708; &#52628;&#51221;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Score Feedback Mechanism -->
+  <div class="sec">
+    <div class="sec-t">&#49828;&#53076;&#50612; &#54588;&#46300;&#48177; &#50508;&#44256;&#47532;&#51608;</div>
+    <div class="sec-d">&#50529;&#49496; &#44208;&#44284;&#44032; &#45796;&#51020; GPS &#49828;&#53076;&#50612;&#50640; &#48152;&#50689;&#46104;&#45716; &#47700;&#52964;&#45768;&#51608;</div>
+  </div>
+
+  <div class="code"><span class="kw">function</span> <span class="fn">applyFeedback</span>(product, actionResult) {
+  <span class="kw">const</span> effect = <span class="fn">measureEffect</span>(product, actionResult)
+
+  <span class="cm">// 1. Gap &#48320;&#54868;&#47049; &#52769;&#51221;</span>
+  <span class="kw">const</span> gapDelta = effect.prevGap - effect.currentGap
+  <span class="kw">const</span> improvementRate = gapDelta / effect.prevGap
+
+  <span class="cm">// 2. &#50529;&#49496; &#54952;&#44284; &#44228;&#49688; &#49328;&#52636; (0.0 ~ 1.5)</span>
+  <span class="kw">let</span> effectCoeff = <span class="nu">1.0</span>
+  <span class="kw">if</span> (improvementRate >= <span class="nu">0.5</span>)  effectCoeff = <span class="nu">1.3</span>  <span class="cm">// &#45824;&#54253; &#44060;&#49440;</span>
+  <span class="kw">if</span> (improvementRate >= <span class="nu">0.3</span>)  effectCoeff = <span class="nu">1.1</span>  <span class="cm">// &#51201;&#51221; &#44060;&#49440;</span>
+  <span class="kw">if</span> (improvementRate < <span class="nu">0.1</span>)   effectCoeff = <span class="nu">0.8</span>  <span class="cm">// &#48120;&#48120;&#51089; &#8594; &#50864;&#49440;&#46020; &#54616;&#46973;</span>
+  <span class="kw">if</span> (improvementRate < <span class="nu">0</span>)     effectCoeff = <span class="nu">0.6</span>  <span class="cm">// &#50501;&#54868; &#8594; &#50864;&#49440;&#46020; &#44553;&#46973;</span>
+
+  <span class="cm">// 3. &#54644;&#45817; &#52629; Priority &#44032;&#51473;&#52824; &#48372;&#51221;</span>
+  <span class="kw">const</span> axis = actionResult.targetAxis
+  product.axisWeight[axis] *= effectCoeff
+  <span class="fn">normalizeWeights</span>(product)  <span class="cm">// &#52509;&#54633; 100% &#50976;&#51648;</span>
+
+  <span class="cm">// 4. &#49345;&#54408; &#49888;&#47280;&#46020; &#49828;&#53076;&#50612; &#44049;&#49888;</span>
+  <span class="kw">if</span> (actionResult.slaBreached) {
+    product.reliabilityScore -= <span class="nu">5</span>  <span class="cm">// SLA &#50948;&#48152; &#54056;&#45328;&#54000;</span>
+  }
+  <span class="kw">if</span> (actionResult.repeatedFail >= <span class="nu">3</span>) {
+    product.escalationFlag = <span class="hl">true</span>  <span class="cm">// 3&#54924; &#50672;&#49549; &#48120;&#44060;&#49440; &#8594; &#50640;&#49828;&#52972;&#47112;&#51060;&#49496;</span>
+  }
+
+  <span class="kw">return</span> <span class="fn">recalcGPS</span>(product)
+}</div>
+
+  <!-- Feedback Rules -->
+  <div class="sec">
+    <div class="sec-t">&#54588;&#46300;&#48177; &#44508;&#52825; &#49345;&#49464;</div>
+  </div>
+
+  <div class="tw">
+    <table class="t">
+      <thead>
+        <tr>
+          <th>&#44508;&#52825;</th>
+          <th>&#51312;&#44148;</th>
+          <th>GPS &#48152;&#50689;</th>
+          <th>&#48708;&#44256;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:700">&#49457;&#44277; &#48372;&#49345;</td>
+          <td>Gap &#44060;&#49440;&#47456; &#8805;50%</td>
+          <td>&#54644;&#45817;&#52629; &#44032;&#51473;&#52824; &#215;1.3, &#49828;&#53076;&#50612; +5pt &#48372;&#45320;&#49828;</td>
+          <td>&#50976;&#54952; &#50529;&#49496; &#54056;&#53556; &#44053;&#54868;</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700">&#51201;&#51221; &#44060;&#49440;</td>
+          <td>Gap &#44060;&#49440;&#47456; 10~49%</td>
+          <td>&#54644;&#45817;&#52629; &#44032;&#51473;&#52824; &#215;1.1</td>
+          <td>&#44592;&#48376; &#50577;&#49457; &#54588;&#46300;&#48177;</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700">&#48120;&#44060;&#49440;</td>
+          <td>Gap &#44060;&#49440;&#47456; &lt;10%</td>
+          <td>&#54644;&#45817;&#52629; &#50864;&#49440;&#46020; &#215;0.8, &#45796;&#47480;&#52629;&#51004;&#47196; &#51116;&#48176;&#48516;</td>
+          <td>&#48708;&#54952;&#50984; &#52629;&#51008; &#51088;&#46041; &#50864;&#49440;&#49692;&#50948; &#54616;&#46973;</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700">&#50501;&#54868;</td>
+          <td>Gap &#51613;&#44032; (&#44060;&#49440;&#47456; &lt;0)</td>
+          <td>&#50864;&#49440;&#46020; &#215;0.6 + <span class="chip chip-r">&#50508;&#47548;</span> &#48156;&#49569;</td>
+          <td>&#44540;&#48376;&#50896;&#51064; &#48516;&#49437; &#54596;&#50836;</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700">SLA &#50948;&#48152;</td>
+          <td>&#48120;&#52376;&#47532; &#49884;&#44036; &#52488;&#44284;</td>
+          <td>&#49888;&#47280;&#46020; -5pt, &#54644;&#45817;&#49345;&#54408; gap +10</td>
+          <td>&#50640;&#49828;&#52972;&#47112;&#51060;&#49496; &#54532;&#47196;&#49464;&#49828; &#50672;&#46041;</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700">&#48152;&#48373; &#49892;&#54056;</td>
+          <td>&#46041;&#51068;&#52629; 3&#54924; &#50672;&#49549; &#48120;&#44060;&#49440;</td>
+          <td><span class="chip chip-r">ESCALATION</span> &#53944;&#47532;&#44144; + &#50529;&#49496;&#51204;&#47029; &#51116;&#44160;&#53664;</td>
+          <td>&#54644;&#45817; &#52629;&#51032; &#44540;&#48376; &#44396;&#51312;&#51201; &#47928;&#51228; &#54869;&#51064;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Effect Decay -->
+  <div class="sec">
+    <div class="sec-t">&#54952;&#44284; &#44048;&#49604; &#47784;&#45944;</div>
+    <div class="sec-d">&#50529;&#49496; &#54952;&#44284;&#45716; &#49884;&#44036;&#51060; &#51648;&#45208;&#47732; &#44048;&#49604;. &#51648;&#49549;&#51201; &#50976;&#51648;&#47484; &#52769;&#51221;&#54616;&#45716; &#47784;&#45944;</div>
+  </div>
+
+  <div class="card">
+    <div class="card-t">&#49884;&#44036;&#48324; &#54952;&#44284; &#44048;&#49604; &#44228;&#49688;</div>
+    <div class="gauge-row">
+      <div class="gauge-label">T+24h</div>
+      <div class="gauge-bar"><div class="gauge-fill" style="width:100%;background:var(--green)"></div></div>
+      <div class="gauge-val" style="color:var(--green)">100%</div>
+    </div>
+    <div class="gauge-row">
+      <div class="gauge-label">T+72h</div>
+      <div class="gauge-bar"><div class="gauge-fill" style="width:85%;background:var(--green)"></div></div>
+      <div class="gauge-val" style="color:var(--green)">85%</div>
+    </div>
+    <div class="gauge-row">
+      <div class="gauge-label">T+7d</div>
+      <div class="gauge-bar"><div class="gauge-fill" style="width:60%;background:var(--blue)"></div></div>
+      <div class="gauge-val" style="color:var(--blue)">60%</div>
+    </div>
+    <div class="gauge-row">
+      <div class="gauge-label">T+14d</div>
+      <div class="gauge-bar"><div class="gauge-fill" style="width:35%;background:var(--orange)"></div></div>
+      <div class="gauge-val" style="color:var(--orange)">35%</div>
+    </div>
+    <div class="gauge-row">
+      <div class="gauge-label">T+30d</div>
+      <div class="gauge-bar"><div class="gauge-fill" style="width:15%;background:var(--red)"></div></div>
+      <div class="gauge-val" style="color:var(--red)">15%</div>
+    </div>
+    <div class="note" style="margin-top:16px">
+      <strong>&#44048;&#49604; &#51032;&#48120;:</strong> &#44032;&#44201; &#50529;&#49496;&#51032; &#54952;&#44284;&#44032; T+7d&#50640; 60%&#47196; &#44048;&#49548;&#54616;&#47732;, &#50529;&#49496; &#54952;&#44284; &#48372;&#45320;&#49828; +5pt&#44032; +3pt&#47196; &#51460;&#50612;&#46304;&#45796;&#45716; &#51032;&#48120;. &#51648;&#49549;&#51201; &#44060;&#49440;&#51060; &#50630;&#51004;&#47732; &#48372;&#45320;&#49828;&#45716; &#51088;&#50672; &#49548;&#47736;.
+    </div>
+  </div>
+
+  <!-- Feedback Dashboard Metrics -->
+  <div class="sec">
+    <div class="sec-t">&#54588;&#46300;&#48177; &#45824;&#49884;&#48372;&#46300; &#51648;&#54364;</div>
+  </div>
+  <div class="mgrid">
+    <div class="mcard">
+      <div class="mcard-val" style="color:var(--green)">73%</div>
+      <div class="mcard-label">&#50529;&#49496; &#49457;&#44277;&#47456;</div>
+    </div>
+    <div class="mcard">
+      <div class="mcard-val" style="color:var(--blue)">+12pt</div>
+      <div class="mcard-label">&#54217;&#44512; GPS &#44060;&#49440;</div>
+    </div>
+    <div class="mcard">
+      <div class="mcard-val" style="color:var(--orange)">4.2h</div>
+      <div class="mcard-label">&#54217;&#44512; &#52376;&#47532; &#49884;&#44036;</div>
+    </div>
+    <div class="mcard">
+      <div class="mcard-val" style="color:var(--purple)">91%</div>
+      <div class="mcard-label">SLA &#51456;&#49688;&#47456;</div>
+    </div>
+    <div class="mcard">
+      <div class="mcard-val" style="color:var(--red)">2.1&#50613;</div>
+      <div class="mcard-label">&#50900;&#44036; &#44592;&#50668;&#49552;&#49892; &#48169;&#51648;</div>
+    </div>
+    <div class="mcard">
+      <div class="mcard-val" style="color:var(--teal)">0.82</div>
+      <div class="mcard-label">&#50529;&#49496; ROI &#44228;&#49688;</div>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>&#50529;&#49496; ROI &#44228;&#49688;:</strong> (&#50529;&#49496;&#54980; GMV &#51613;&#44032;&#48516; - &#50529;&#49496;&#48708;&#50857;) / &#50529;&#49496;&#48708;&#50857;. &#50529;&#49496;&#48708;&#50857; = MD &#49884;&#44553; &#215; &#49884;&#44036;&#45817;&#48708;&#50857; + &#53236;&#54256;/&#54532;&#47196;&#47784;&#49496; &#48708;&#50857;. &#47785;&#54364;: &#8805;0.5
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- PART 2: MD WORKLOAD BALANCING -->
+<!-- ============================================ -->
+<div class="part">
+  <div class="part-num">Part 2</div>
+  <div class="part-t">MD &#50892;&#53356;&#47196;&#46300; &#48184;&#47088;&#49905;</div>
+  <div class="part-d">MD&#48324; &#52376;&#47532; &#50669;&#47049;/&#49345;&#54408;&#49688;/&#45212;&#51060;&#46020;&#47484; &#44256;&#47140;&#54620; &#44512;&#46321; &#48176;&#48516; &#49444;&#44228;</div>
+
+  <!-- Capacity Model -->
+  <div class="sec">
+    <div class="sec-t">MD &#52376;&#47532; &#50669;&#47049; &#47784;&#45944;</div>
+    <div class="sec-d">&#44033; MD&#51032; &#51068;&#51068; &#52376;&#47532; &#44032;&#45733;&#47049;&#51012; &#49328;&#52636;&#54616;&#45716; &#44592;&#51456;</div>
+  </div>
+
+  <div class="tw">
+    <table class="t">
+      <thead>
+        <tr>
+          <th>&#54028;&#46972;&#48120;&#53552;</th>
+          <th>&#49444;&#47749;</th>
+          <th>&#44592;&#48376;&#44050;</th>
+          <th>&#44228;&#49328;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:700">&#44592;&#48376; &#52376;&#47532;&#47049;</td>
+          <td>&#54616;&#47336; &#52376;&#47532; &#44032;&#45733; &#49345;&#54408;&#49688;</td>
+          <td>S:15 / A:20 / B:25</td>
+          <td>&#53580;&#49828;&#53356; &#45212;&#51060;&#46020;&#48324; &#44032;&#51473;&#52824; &#51201;&#50857;</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700">&#45212;&#51060;&#46020; &#44228;&#49688;</td>
+          <td>&#53580;&#49828;&#53356;&#48324; &#49548;&#50836; &#49884;&#44036; &#44228;&#49688;</td>
+          <td>S:1.0 / A:0.6 / B:0.3 / C:0.1</td>
+          <td>S&#46321;&#44553; 1&#44148; = A 1.67&#44148; = B 3.3&#44148; &#46321;&#44032;</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700">&#44221;&#47141; &#48372;&#51221;</td>
+          <td>MD &#44221;&#47141;&#50640; &#46384;&#47480; &#52376;&#47532; &#54952;&#50984;</td>
+          <td>&#49888;&#51077; &#215;0.7 / &#51473;&#44553; &#215;1.0 / &#49884;&#45768;&#50612; &#215;1.3</td>
+          <td>&#49884;&#45768;&#50612; MD&#45716; 30% &#45908; &#52376;&#47532; &#44032;&#45733;</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700">&#52852;&#53580;&#44256;&#47532; &#51204;&#47928;&#49457;</td>
+          <td>&#45812;&#45817; &#52852;&#53580;&#44256;&#47532; &#49345;&#54408;&#51008; &#54952;&#50984; &#48372;&#45320;&#49828;</td>
+          <td>&#51204;&#47928; &#215;1.2 / &#48708;&#51204;&#47928; &#215;0.8</td>
+          <td>&#53440; &#52852;&#53580;&#44256;&#47532; &#49345;&#54408; &#48176;&#51221; &#49884; &#54056;&#45328;&#54000;</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700">&#51068;&#44284; &#48512;&#54616;</td>
+          <td>&#54788;&#51116; &#51652;&#54665;&#51473; &#53580;&#49828;&#53356; &#50577;</td>
+          <td>0~100% (&#49892;&#49884;&#44036; &#44049;&#49888;)</td>
+          <td>80% &#51060;&#49345; &#49884; &#49888;&#44508; &#48176;&#51221; &#52264;&#45800;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Capacity Formula -->
+  <div class="code"><span class="kw">function</span> <span class="fn">calcMDCapacity</span>(md) {
+  <span class="kw">const</span> BASE_SLOTS = <span class="nu">15</span>
+  <span class="kw">const</span> expMult = { junior: <span class="nu">0.7</span>, mid: <span class="nu">1.0</span>, senior: <span class="nu">1.3</span> }
+  <span class="kw">const</span> specMult = md.isSpecialist ? <span class="nu">1.2</span> : <span class="nu">0.8</span>
+  <span class="kw">const</span> rawCapacity = BASE_SLOTS * expMult[md.level] * specMult
+
+  <span class="cm">// &#54788;&#51116; &#48512;&#54616; &#52264;&#44048;</span>
+  <span class="kw">const</span> currentLoad = md.activeTasks.reduce((sum, t) =&gt;
+    sum + DIFFICULTY[t.tier], <span class="nu">0</span>)
+  <span class="kw">const</span> available = rawCapacity - currentLoad
+
+  <span class="kw">return</span> {
+    totalCapacity: rawCapacity,
+    currentLoad,
+    available: Math.max(<span class="nu">0</span>, available),
+    loadPercent: (currentLoad / rawCapacity * <span class="nu">100</span>).toFixed(<span class="nu">1</span>),
+    <span class="hl">isOverloaded</span>: currentLoad &gt; rawCapacity * <span class="nu">0.8</span>
+  }
+}</div>
+
+  <!-- Balancing Algorithm -->
+  <div class="sec">
+    <div class="sec-t">&#48176;&#48516; &#50508;&#44256;&#47532;&#51608;</div>
+    <div class="sec-d">&#49345;&#54408; &#48176;&#51221; &#49884; MD &#50892;&#53356;&#47196;&#46300;&#47484; &#44512;&#46321;&#54616;&#44172; &#48516;&#49328;&#54616;&#45716; &#47196;&#51649;</div>
+  </div>
+
+  <div class="card">
+    <div class="card-t">&#48176;&#48516; &#50864;&#49440;&#49692;&#50948;</div>
+    <div class="timeline">
+      <div class="tl-item done">
+        <div class="tl-t">1. &#52852;&#53580;&#44256;&#47532; &#51204;&#47928; MD &#50864;&#49440;</div>
+        <div class="tl-d">&#54644;&#45817; &#49345;&#54408;&#51032; &#52852;&#53580;&#44256;&#47532;&#47484; &#45812;&#45817;&#54616;&#45716; MD&#50640;&#44172; &#50864;&#49440; &#48176;&#51221;. &#51204;&#47928;&#49457; &#48372;&#45320;&#49828; &#215;1.2 &#51201;&#50857;</div>
+      </div>
+      <div class="tl-item done">
+        <div class="tl-t">2. &#50668;&#50976; &#50669;&#47049; &#52404;&#53356;</div>
+        <div class="tl-d">MD loadPercent &lt; 80% &#51064;&#51648; &#54869;&#51064;. &#52488;&#44284; &#49884; &#45796;&#51020; MD&#47196; &#45336;&#44608;</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-t">3. &#45212;&#51060;&#46020; &#44512;&#54805; &#52404;&#53356;</div>
+        <div class="tl-d">S&#46321;&#44553; &#53580;&#49828;&#53356;&#44032; &#53945;&#51221; MD&#50640;&#44172; &#51665;&#51473;&#46104;&#51648; &#50506;&#46020;&#47197; &#48516;&#49328;. MD&#45817; S&#46321;&#44553; &#52572;&#45824; 5&#44148;</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-t">4. &#44368;&#52264; &#48176;&#51221;</div>
+        <div class="tl-d">&#53440; &#52852;&#53580;&#44256;&#47532; MD&#50640;&#44172; &#48176;&#51221; &#49884; &#48708;&#51204;&#47928; &#54056;&#45328;&#54000;(&#215;0.8) &#51201;&#50857;. &#44592;&#50668;&#49552;&#49892; &#45236;&#47548;&#52264;&#49692;&#51004;&#47196; &#50864;&#49440;</div>
+      </div>
+      <div class="tl-item warn">
+        <div class="tl-t">5. &#44596;&#44553; &#50724;&#48260;&#54540;&#47196;&#50864; &#52376;&#47532;</div>
+        <div class="tl-d">&#47784;&#46304; MD&#44032; 80% &#51060;&#49345;&#51068; &#46412;: &#44032;&#51109; &#45230;&#51008; &#48512;&#54616; MD&#50640;&#44172; &#44053;&#51228; &#48176;&#51221; + &#54016;&#47532;&#46300; &#50508;&#47548;</div>
+      </div>
+      <div class="tl-item danger">
+        <div class="tl-t">6. &#51204;&#52404; &#44284;&#48512;&#54616; &#50640;&#49828;&#52972;&#47112;&#51060;&#49496;</div>
+        <div class="tl-d">&#54016; &#54217;&#44512; &#48512;&#54616; &#8805;90%: B/C&#46321;&#44553; SLA &#50672;&#51109; + &#48376;&#48512;&#51109; &#47532;&#54252;&#53944; &#51088;&#46041;&#49373;&#49457;</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rebalance Rules -->
+  <div class="sec">
+    <div class="sec-t">&#47532;&#48184;&#47088;&#49828; &#53944;&#47532;&#44144;</div>
+  </div>
+
+  <div class="tw">
+    <table class="t">
+      <thead>
+        <tr>
+          <th>&#53944;&#47532;&#44144;</th>
+          <th>&#51312;&#44148;</th>
+          <th>&#50529;&#49496;</th>
+          <th>&#49884;&#51216;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:700"><span class="chip chip-r">OVERLOAD</span></td>
+          <td>MD &#48512;&#54616; &#8805;100%</td>
+          <td>B/C &#53580;&#49828;&#53356; &#51473; &#44592;&#50668;&#49552;&#49892; &#52572;&#49548; &#49345;&#54408; &#51088;&#46041; &#51116;&#48176;&#48516;</td>
+          <td>&#49892;&#49884;&#44036; &#44048;&#51648;</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700"><span class="chip chip-o">IMBALANCE</span></td>
+          <td>MD&#44036; &#48512;&#54616; &#54200;&#52264; &gt;30%p</td>
+          <td>&#44256;&#48512;&#54616; MD&#51032; A&#46321;&#44553; &#51068;&#48512;&#47484; &#51200;&#48512;&#54616; MD&#47196; &#51060;&#46041;</td>
+          <td>&#51068;&#51068; &#48176;&#52824; (09:00)</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700"><span class="chip chip-b">SPECIALTY</span></td>
+          <td>&#48708;&#51204;&#47928; &#52852;&#53580;&#44256;&#47532; &#48176;&#51221; &gt;30%</td>
+          <td>&#51204;&#47928; MD&#50640;&#44172; &#51116;&#48176;&#48516; &#50864;&#49440; &#52628;&#52380;</td>
+          <td>&#51068;&#51068; &#48176;&#52824; (09:00)</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700"><span class="chip chip-g">IDLE</span></td>
+          <td>MD &#48512;&#54616; &lt;30%</td>
+          <td>&#50668;&#50976; &#50669;&#47049;&#51004;&#47196; &#53440; &#52852;&#53580;&#44256;&#47532; &#51648;&#50896; &#44032;&#45733; &#54364;&#49884;</td>
+          <td>&#51068;&#51068; &#48176;&#52824; (09:00)</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700"><span class="chip chip-p">VACATION</span></td>
+          <td>MD &#55092;&#44032;/&#48512;&#51116;</td>
+          <td>&#51204;&#52404; &#53580;&#49828;&#53356; &#46041;&#51068;&#54016; MD&#50640;&#44172; &#51088;&#46041; &#51116;&#48176;&#48516;</td>
+          <td>&#55092;&#44032; &#44060;&#49884;&#51068; &#51204;&#51068;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Interactive Balancer Simulator -->
+  <div class="sec">
+    <div class="sec-t">&#50892;&#53356;&#47196;&#46300; &#49884;&#48044;&#47112;&#51060;&#53552;</div>
+    <div class="sec-d">MD &#54016; &#44396;&#49457;&#48324; &#48512;&#54616; &#48516;&#48176; &#49884;&#48044;&#47112;&#51060;&#49496;</div>
+  </div>
+
+  <div class="bsim" id="balanceSim">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+      <div style="font-size:var(--fs-t);font-weight:800">&#54016; &#50892;&#53356;&#47196;&#46300; &#49884;&#48044;&#47112;&#51060;&#53552;</div>
+      <button onclick="randomizeLoad()" style="padding:8px 16px;border:1px solid var(--bd);border-radius:8px;background:var(--sf);color:var(--tx);font-family:var(--f);font-size:var(--fs-m);font-weight:700;cursor:pointer">&#49352;&#47196;&#44256;&#52840;</button>
+    </div>
+    <div class="bsim-grid" id="mdGrid"></div>
+    <div id="balanceAlert" style="display:none" class="note note-danger">
+      <strong>&#8251; &#44284;&#48512;&#54616; &#44048;&#51648;:</strong> <span id="alertText"></span>
+    </div>
+    <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap">
+      <div style="font-size:var(--fs-s);color:var(--tx3)">
+        <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--green);margin-right:4px"></span> &lt;60% &#50668;&#50976;
+      </div>
+      <div style="font-size:var(--fs-s);color:var(--tx3)">
+        <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--blue);margin-right:4px"></span> 60~79% &#51201;&#51221;
+      </div>
+      <div style="font-size:var(--fs-s);color:var(--tx3)">
+        <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--orange);margin-right:4px"></span> 80~99% &#44256;&#48512;&#54616;
+      </div>
+      <div style="font-size:var(--fs-s);color:var(--tx3)">
+        <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--red);margin-right:4px"></span> &#8805;100% &#52488;&#44284;
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- PART 3: PRODUCT LIFECYCLE -->
+<!-- ============================================ -->
+<div class="part">
+  <div class="part-num">Part 3</div>
+  <div class="part-t">&#49345;&#54408; &#46972;&#51060;&#54532;&#49324;&#51060;&#53364; &#48372;&#51221;</div>
+  <div class="part-d">&#49345;&#54408;&#51032; &#49688;&#47749;&#51452;&#44592;&#50640; &#46384;&#46972; GPS &#44032;&#51473;&#52824;&#50752; &#50529;&#49496;&#51012; &#48372;&#51221;&#54616;&#45716; &#49444;&#44228;</div>
+
+  <!-- Lifecycle Phases -->
+  <div class="sec">
+    <div class="sec-t">&#49345;&#54408; &#49688;&#47749;&#51452;&#44592; &#45800;&#44228;</div>
+    <div class="sec-d">&#44033; &#45800;&#44228;&#47484; &#53364;&#47533;&#54616;&#47732; &#49345;&#49464; &#48372;&#51221; &#47196;&#51649; &#54869;&#51064;</div>
+  </div>
+
+  <div class="lc-track" id="lcTrack">
+    <div class="lc-phase sel" data-phase="0" onclick="selectPhase(0)">
+      <div class="lc-phase-t" style="color:var(--purple)">&#49888;&#44508; &#46020;&#51077;</div>
+      <div class="lc-phase-d">0~30&#51068;</div>
+    </div>
+    <div class="lc-phase" data-phase="1" onclick="selectPhase(1)">
+      <div class="lc-phase-t" style="color:var(--blue)">&#49457;&#51109;&#44592;</div>
+      <div class="lc-phase-d">1~3&#44060;&#50900;</div>
+    </div>
+    <div class="lc-phase" data-phase="2" onclick="selectPhase(2)">
+      <div class="lc-phase-t" style="color:var(--green)">&#49457;&#49689;&#44592;</div>
+      <div class="lc-phase-d">3~12&#44060;&#50900;</div>
+    </div>
+    <div class="lc-phase" data-phase="3" onclick="selectPhase(3)">
+      <div class="lc-phase-t" style="color:var(--orange)">&#49604;&#53748;&#44592;</div>
+      <div class="lc-phase-d">12&#44060;&#50900;+</div>
+    </div>
+    <div class="lc-phase" data-phase="4" onclick="selectPhase(4)">
+      <div class="lc-phase-t" style="color:var(--red)">&#53552;&#52636;/&#51333;&#47308;</div>
+      <div class="lc-phase-d">&#44208;&#51221; &#49884;&#51216;</div>
+    </div>
+  </div>
+
+  <div class="lc-detail" id="lcDetail"></div>
+
+  <!-- Phase Weight Adjustments Table -->
+  <div class="sec">
+    <div class="sec-t">&#45800;&#44228;&#48324; &#44032;&#51473;&#52824; &#48372;&#51221; &#47588;&#53944;&#47533;&#49828;</div>
+    <div class="sec-d">&#49688;&#47749;&#51452;&#44592;&#50640; &#46384;&#46972; 6&#45824;&#52629; &#44032;&#51473;&#52824;&#44032; &#48320;&#46041;&#46104;&#45716; &#44508;&#52825;</div>
+  </div>
+
+  <div class="tw">
+    <table class="t">
+      <thead>
+        <tr>
+          <th>&#45800;&#44228;</th>
+          <th>&#44032;&#44201;</th>
+          <th>&#46364;&#49892;&#51201;</th>
+          <th>&#47784;&#47704;&#53568;</th>
+          <th>&#51648;&#54364;/CVR</th>
+          <th>&#47532;&#48624;</th>
+          <th>&#48176;&#49569;</th>
+          <th>&#48372;&#51221; &#44540;&#44144;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="chip chip-p">&#49888;&#44508;</span></td>
+          <td style="font-weight:700">+5</td>
+          <td>&#8212;</td>
+          <td>+5</td>
+          <td>&#8212;</td>
+          <td>-5</td>
+          <td>-5</td>
+          <td>&#44032;&#44201;/&#47784;&#47704;&#53568; &#51473;&#49900; &#8594; &#50976;&#51077; &#50864;&#49440;</td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-b">&#49457;&#51109;</span></td>
+          <td>&#8212;</td>
+          <td>+3</td>
+          <td>+3</td>
+          <td>&#8212;</td>
+          <td>-3</td>
+          <td>-3</td>
+          <td>&#46364;/&#47784;&#47704;&#53568;&#51004;&#47196; &#49457;&#51109; &#44032;&#49549;</td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-g">&#49457;&#49689;</span></td>
+          <td>&#8212;</td>
+          <td>&#8212;</td>
+          <td>&#8212;</td>
+          <td>&#8212;</td>
+          <td>&#8212;</td>
+          <td>&#8212;</td>
+          <td>&#44592;&#48376; &#44032;&#51473;&#52824; &#44536;&#45824;&#47196; (&#44592;&#51456;)</td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-o">&#49604;&#53748;</span></td>
+          <td>-3</td>
+          <td>-3</td>
+          <td>-5</td>
+          <td>+5</td>
+          <td>+5</td>
+          <td>+1</td>
+          <td>CVR/&#47532;&#48624; &#50976;&#51648;&#47196; &#48169;&#50612;</td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-r">&#53552;&#52636;</span></td>
+          <td>-5</td>
+          <td>-5</td>
+          <td>-10</td>
+          <td>+10</td>
+          <td>+8</td>
+          <td>+2</td>
+          <td>&#51648;&#54364; &#51473;&#49900; &#8594; &#51316;&#49549;/&#51333;&#47308; &#54032;&#45800;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Lifecycle Detection -->
+  <div class="sec">
+    <div class="sec-t">&#49688;&#47749;&#51452;&#44592; &#51088;&#46041; &#54032;&#51221;</div>
+    <div class="sec-d">&#49345;&#54408; &#45936;&#51060;&#53552;&#47196; &#49688;&#47749;&#51452;&#44592;&#47484; &#51088;&#46041; &#48516;&#47448;&#54616;&#45716; &#47196;&#51649;</div>
+  </div>
+
+  <div class="code"><span class="kw">function</span> <span class="fn">detectLifecycle</span>(product) {
+  <span class="kw">const</span> daysSinceLaunch = <span class="fn">daysBetween</span>(product.launchDate, today)
+  <span class="kw">const</span> mom = product.gmvMoM  <span class="cm">// &#50900;&#44036; GMV &#49457;&#51109;&#47456;</span>
+  <span class="kw">const</span> trend = product.gmvTrend3M  <span class="cm">// 3&#44060;&#50900; &#52628;&#49464;</span>
+
+  <span class="cm">// &#49888;&#44508; &#46020;&#51077;&#44592;: &#52636;&#49884; 30&#51068; &#48120;&#47564;</span>
+  <span class="kw">if</span> (daysSinceLaunch &lt; <span class="nu">30</span>) <span class="kw">return</span> <span class="st">'NEW'</span>
+
+  <span class="cm">// &#49457;&#51109;&#44592;: MoM &#8805; 10% &amp;&amp; 3&#44060;&#50900; &#50864;&#49345;&#54693; &#52628;&#49464;</span>
+  <span class="kw">if</span> (mom &gt;= <span class="nu">10</span> &amp;&amp; trend === <span class="st">'UP'</span>) <span class="kw">return</span> <span class="st">'GROWTH'</span>
+
+  <span class="cm">// &#49457;&#49689;&#44592;: MoM -5% ~ +10% &amp;&amp; &#50504;&#51221; &#52628;&#49464;</span>
+  <span class="kw">if</span> (mom &gt;= <span class="nu">-5</span> &amp;&amp; mom &lt; <span class="nu">10</span> &amp;&amp; trend === <span class="st">'STABLE'</span>) <span class="kw">return</span> <span class="st">'MATURE'</span>
+
+  <span class="cm">// &#49604;&#53748;&#44592;: MoM &lt; -5% &#46608;&#45716; 3&#44060;&#50900; &#54616;&#46973; &#52628;&#49464;</span>
+  <span class="kw">if</span> (mom &lt; <span class="nu">-5</span> || trend === <span class="st">'DOWN'</span>) {
+    <span class="cm">// &#53552;&#52636; &#54032;&#45800;: 3&#44060;&#50900; &#50672;&#49549; &#54616;&#46973; + MoM &lt; -15%</span>
+    <span class="kw">if</span> (product.consecutiveDecline &gt;= <span class="nu">3</span> &amp;&amp; mom &lt; <span class="nu">-15</span>) {
+      <span class="kw">return</span> <span class="st">'EXIT'</span>
+    }
+    <span class="kw">return</span> <span class="st">'DECLINE'</span>
+  }
+
+  <span class="kw">return</span> <span class="st">'MATURE'</span>  <span class="cm">// &#44592;&#48376;&#44050;</span>
+}</div>
+
+  <!-- Lifecycle-Specific Actions -->
+  <div class="sec">
+    <div class="sec-t">&#45800;&#44228;&#48324; &#53945;&#49688; &#50529;&#49496;</div>
+  </div>
+
+  <div class="tw">
+    <table class="t">
+      <thead>
+        <tr>
+          <th>&#45800;&#44228;</th>
+          <th>&#52628;&#44032; &#50529;&#49496;</th>
+          <th>&#51228;&#50808; &#50529;&#49496;</th>
+          <th>GPS &#48372;&#51221;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="chip chip-p">&#49888;&#44508;</span></td>
+          <td>&#52488;&#44592; &#54532;&#47196;&#47784;&#49496; &#44060;&#51077; &#54869;&#51064;, &#44160;&#49353; &#45432;&#52636; &#52572;&#51201;&#54868;, &#52488;&#44592; &#47532;&#48624; &#54869;&#48372; &#52880;&#54168;&#51064;</td>
+          <td>&#47532;&#48624; &#44592;&#48152; &#50529;&#49496; (&#45936;&#51060;&#53552; &#48512;&#51313;), &#45824;&#44508;&#47784; &#46364; &#51204;&#47029;</td>
+          <td>&#47532;&#48624;/&#48176;&#49569; &#44032;&#51473;&#52824; &#8595;, &#44032;&#44201;/&#47784;&#47704;&#53568; &#8593;</td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-b">&#49457;&#51109;</span></td>
+          <td>&#44277;&#44201;&#51201; &#44032;&#44201; &#45824;&#51025;, &#46364;&#47049; &#54869;&#45824; &#54532;&#47196;&#47784;&#49496;, &#53356;&#47196;&#49828;&#49472; &#48264;&#46308;</td>
+          <td>&#48372;&#49688;&#51201; &#47784;&#45768;&#53552;&#47553;, &#49604;&#53748;&#44592; &#50529;&#49496;</td>
+          <td>&#46364;/&#47784;&#47704;&#53568; &#44032;&#51473;&#52824; &#8593;</td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-g">&#49457;&#49689;</span></td>
+          <td>&#47560;&#51652; &#50976;&#51648;, &#47532;&#48624; &#44288;&#47532;, &#48176;&#49569; &#52572;&#51201;&#54868;</td>
+          <td>&#49888;&#44508;/&#49457;&#51109;&#44592; &#50529;&#49496; (&#44284;&#46020; &#53804;&#51088;)</td>
+          <td>&#44592;&#48376; &#44032;&#51473;&#52824; &#50976;&#51648;</td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-o">&#49604;&#53748;</span></td>
+          <td>&#44032;&#44201; &#48169;&#50612; &#44053;&#54868;, &#47532;&#48624; &#49552;&#49892; &#48169;&#51648;, CVR &#44060;&#49440; &#51665;&#51473;</td>
+          <td>&#49888;&#44508; &#53804;&#51088;&#49457; &#50529;&#49496;, &#44277;&#44201;&#51201; &#46364; &#54869;&#45824;</td>
+          <td>&#51648;&#54364;/&#47532;&#48624; &#44032;&#51473;&#52824; &#8593;</td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-r">&#53552;&#52636;</span></td>
+          <td>&#51116;&#44256; &#52376;&#48516; &#51204;&#47029;, &#45824;&#52404;&#49345;&#54408; &#47588;&#52845;, &#52572;&#51333; &#54624;&#51064; &#49548;&#51652;</td>
+          <td>&#47784;&#46304; &#49457;&#51109;&#49457; &#50529;&#49496; (&#48708;&#50857; &#45209;&#48708;)</td>
+          <td>&#51648;&#54364; &#52629; &#44537;&#45824;&#54868; &#8594; &#51316;&#49549;/&#51333;&#47308; &#54032;&#45800;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Seasonal Overlay -->
+  <div class="sec">
+    <div class="sec-t">&#49884;&#51600;&#45328; &#48372;&#51221; &#50724;&#48260;&#47112;&#51060;</div>
+    <div class="sec-d">&#49688;&#47749;&#51452;&#44592; &#54032;&#51221; &#49884; &#49884;&#51600;&#45328; &#50836;&#51064;&#51012; &#48516;&#47532;&#54616;&#50668; &#50724;&#54032;&#51012; &#48169;&#51648;</div>
+  </div>
+
+  <div class="card">
+    <div class="card-t">&#49884;&#51600;&#45328; &#54596;&#53552; &#47196;&#51649;</div>
+    <div class="code" style="margin-bottom:0"><span class="kw">function</span> <span class="fn">seasonalAdjust</span>(product, rawLifecycle) {
+  <span class="kw">const</span> seasonal = <span class="fn">getSeasonalIndex</span>(product.category, currentMonth)
+  <span class="cm">// seasonal: 0.7(&#48708;&#49884;&#51596;) ~ 1.0(&#48372;&#53685;) ~ 1.5(&#54588;&#53356;)</span>
+
+  <span class="cm">// &#48708;&#49884;&#51596; &#54616;&#46973;&#51012; &#49604;&#53748;&#47196; &#50724;&#54032;&#54616;&#51648; &#50506;&#51020;</span>
+  <span class="kw">if</span> (seasonal &lt; <span class="nu">0.85</span> &amp;&amp; rawLifecycle === <span class="st">'DECLINE'</span>) {
+    <span class="kw">const</span> yoyGrowth = product.gmvYoY  <span class="cm">// &#51204;&#45380; &#46041;&#44592; &#45824;&#48708;</span>
+    <span class="kw">if</span> (yoyGrowth &gt;= <span class="nu">-5</span>) {
+      <span class="kw">return</span> <span class="st">'MATURE'</span>  <span class="cm">// &#49884;&#51600;&#45328; &#48708;&#49884;&#51596;&#51068; &#48256; &#8594; &#49457;&#49689;&#44592;&#47196; &#50976;&#51648;</span>
+    }
+  }
+
+  <span class="cm">// &#54588;&#53356; &#49884;&#51600; &#49457;&#51109;&#51012; &#49457;&#51109;&#44592;&#47196; &#50724;&#54032;&#54616;&#51648; &#50506;&#51020;</span>
+  <span class="kw">if</span> (seasonal &gt; <span class="nu">1.2</span> &amp;&amp; rawLifecycle === <span class="st">'GROWTH'</span>) {
+    <span class="kw">const</span> yoyGrowth = product.gmvYoY
+    <span class="kw">if</span> (yoyGrowth &lt; <span class="nu">5</span>) {
+      <span class="kw">return</span> <span class="st">'MATURE'</span>  <span class="cm">// &#49884;&#51600;&#45328; &#48537; &#46412;&#47928; &#8594; &#49457;&#49689;&#44592;&#47196; &#50976;&#51648;</span>
+    }
+  }
+
+  <span class="kw">return</span> rawLifecycle
+}</div>
+  </div>
+
+  <div class="note note-warn">
+    <strong>&#49884;&#51600;&#45328; &#51064;&#45937;&#49828; &#44592;&#51456;:</strong> &#52852;&#53580;&#44256;&#47532;&#48324; &#50900;&#48324; &#49884;&#51600;&#45328; &#44228;&#49688;&#45716; &#51204;&#45380; &#46041;&#50900; GMV &#45824;&#48708; &#48708;&#50984;&#47196; &#49328;&#52636;. &#50696;: &#54056;&#49496; 3&#50900; &#44228;&#49688;=1.3 (&#48388;&#49884;&#51596; &#54588;&#53356;), &#47560;&#53944; 1&#50900; &#44228;&#49688;=1.4 (&#49444;&#45216; &#49688;&#50836;). &#52572;&#49548; 2&#45380; &#45936;&#51060;&#53552; &#54596;&#50836;.
+  </div>
+
+  <!-- Exit Decision Framework -->
+  <div class="sec">
+    <div class="sec-t">&#53552;&#52636;/&#51333;&#47308; &#54032;&#45800; &#54532;&#47112;&#51076;&#50892;&#53356;</div>
+    <div class="sec-d">&#49604;&#53748;&#44592; &#49345;&#54408;&#51060; &#51333;&#47308; &#45824;&#49345;&#51064;&#51648; &#54032;&#45800;&#54616;&#45716; &#44592;&#51456;</div>
+  </div>
+
+  <div class="tw">
+    <table class="t">
+      <thead>
+        <tr>
+          <th>&#54032;&#45800; &#44592;&#51456;</th>
+          <th>&#51312;&#44148;</th>
+          <th>&#48176;&#51216;</th>
+          <th>&#44208;&#44284;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:700">&#51088;&#46041; &#51333;&#47308;</td>
+          <td>3&#44060;&#50900; &#50672;&#49549; GMV &#54616;&#46973; + MoM &lt;-15% + GPS &lt;25</td>
+          <td>&#8212;</td>
+          <td><span class="chip chip-r">&#51088;&#46041; &#51333;&#47308; &#52628;&#52380;</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:700">&#44160;&#53664; &#45824;&#49345;</td>
+          <td>GPS &lt;40 + &#49604;&#53748;&#44592; &#54032;&#51221; + &#47532;&#48624; &#54217;&#51216; &lt;3.5</td>
+          <td>25</td>
+          <td><span class="chip chip-o">MD &#54032;&#45800; &#54596;&#50836;</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:700">&#50976;&#51648; &#44288;&#52272;</td>
+          <td>&#49604;&#53748;&#44592;&#51060;&#51648;&#47564; &#47532;&#48624; &#8805;4.0 &#46608;&#45716; &#52852;&#53580;&#44256;&#47532; &#49345;&#50948; 20%</td>
+          <td>35</td>
+          <td><span class="chip chip-b">&#47784;&#45768;&#53552;&#47553; &#51648;&#49549;</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:700">&#48512;&#54876; &#49884;&#46020;</td>
+          <td>&#49604;&#53748;&#44592; + &#47532;&#48624; &#8805;4.5 + &#53945;&#51221;&#52629; &#44053;&#51216;</td>
+          <td>45</td>
+          <td><span class="chip chip-g">&#47532;&#48372;&#51648;&#49492;&#45789; &#53580;&#49828;&#53356; &#48156;&#54665;</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- Summary -->
+<div class="part" style="border-top-color:var(--blue)">
+  <div class="part-num" style="color:var(--blue)">Summary</div>
+  <div class="part-t">&#51204;&#52404; &#49828;&#54169; &#47928;&#49436; &#47609;&#49464;</div>
+</div>
+
+<div class="tw">
+  <table class="t" style="min-width:800px">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>&#47928;&#49436;</th>
+        <th>&#45236;&#50857;</th>
+        <th>&#49345;&#53468;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td style="font-weight:700">essential-gps.html</td>
+        <td>&#47700;&#51064; &#54532;&#47112;&#51232;&#53580;&#51060;&#49496; (35+ &#51064;&#53552;&#47001;&#54000;&#48652; &#44592;&#45733;)</td>
+        <td><span class="chip chip-g">&#50756;&#47308;</span></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td style="font-weight:700">gps-logic-spec.html</td>
+        <td>&#53580;&#50612;&#48324; &#44032;&#51473;&#52824;, &#50724;&#48260;&#46972;&#51060;&#46300;, SLA, 15&#49836;&#47215; &#48176;&#48516;</td>
+        <td><span class="chip chip-g">&#50756;&#47308;</span></td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td style="font-weight:700">gps-action-matrix.html</td>
+        <td>37&#44060; &#50529;&#49496; &#53580;&#49828;&#53356; &#51032;&#49324;&#44208;&#51221; &#47588;&#53944;&#47533;&#49828;</td>
+        <td><span class="chip chip-g">&#50756;&#47308;</span></td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td style="font-weight:700">gps-backend-spec.html</td>
+        <td>&#48177;&#50644;&#46300; &#44032;&#51473;&#52824; &#50644;&#51652;, &#44221;&#51137;&#49324; &#47588;&#54609;, null &#52376;&#47532;</td>
+        <td><span class="chip chip-g">&#50756;&#47308;</span></td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td style="font-weight:700">gps-pipeline-decision.html</td>
+        <td>&#45936;&#51060;&#53552; &#54028;&#51060;&#54532;&#46972;&#51064;, &#51088;&#46041;&#47588;&#52845; &#50644;&#51652;, &#49884;&#48044;&#47112;&#51060;&#53552;</td>
+        <td><span class="chip chip-g">&#50756;&#47308;</span></td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td style="font-weight:700">gps-feedback-balance-lifecycle.html</td>
+        <td>&#54588;&#46300;&#48177; &#47336;&#54532;, &#50892;&#53356;&#47196;&#46300; &#48184;&#47088;&#49905;, &#46972;&#51060;&#54532;&#49324;&#51060;&#53364;</td>
+        <td><span class="chip chip-p">&#54788;&#51116;</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+
+<script>
+// MD Balance Simulator
+const MDS = [
+  { name: 'MD &#44608;&#54788;&#51652;', cat: '&#47560;&#53944;', level: 'senior' },
+  { name: 'MD &#48149;&#49688;&#50672;', cat: '&#54056;&#49496;', level: 'mid' },
+  { name: 'MD &#51060;&#51116;&#50865;', cat: '&#48624;&#54000;', level: 'mid' },
+  { name: 'MD &#52572;&#50689;&#51456;', cat: '&#47532;&#48729;', level: 'junior' },
+  { name: 'MD &#51221;&#45796;&#51008;', cat: 'C&#52964;&#47672;&#49828;', level: 'senior' },
+  { name: 'MD &#54889;&#51648;&#50896;', cat: '&#47560;&#53944;', level: 'mid' },
+];
+const LEVELS = { junior: 0.7, mid: 1.0, senior: 1.3 };
+const BASE = 15;
+
+function randomizeLoad() {
+  const grid = document.getElementById('mdGrid');
+  const alert = document.getElementById('balanceAlert');
+  const alertText = document.getElementById('alertText');
+  grid.innerHTML = '';
+  let overloaded = [];
+  let loads = [];
+
+  MDS.forEach((md, i) => {
+    const cap = Math.round(BASE * LEVELS[md.level]);
+    const load = Math.round(Math.random() * cap * 1.3);
+    const pct = Math.round(load / cap * 100);
+    loads.push({ name: md.name, pct });
+
+    let color = 'var(--green)';
+    let extra = '';
+    if (pct >= 100) { color = 'var(--red)'; overloaded.push(md.name); extra = ' bsim-md-overflow'; }
+    else if (pct >= 80) color = 'var(--orange)';
+    else if (pct >= 60) color = 'var(--blue)';
+
+    const s = pct > 100 ? 100 : pct;
+    const tierS = Math.floor(Math.random() * Math.min(5, load));
+    const tierA = Math.floor(Math.random() * Math.max(0, load - tierS));
+    const tierB = Math.max(0, load - tierS - tierA);
+    const lvl = md.level === 'senior' ? '&#49884;&#45768;&#50612;' : md.level === 'mid' ? '&#51473;&#44553;' : '&#49888;&#51077;';
+
+    grid.innerHTML += '<div class="bsim-md' + extra + '">' +
+      '<div class="bsim-md-name">' + md.name + ' <span style="font-size:10px;color:var(--tx3);font-weight:400">' + md.cat + ' &#183; ' + lvl + '</span></div>' +
+      '<div class="bsim-md-bar"><div class="bsim-md-fill" style="width:' + s + '%;background:' + color + '"></div></div>' +
+      '<div class="bsim-md-meta"><span>S:' + tierS + ' / A:' + tierA + ' / B:' + tierB + '</span><span style="font-weight:800;color:' + color + '">' + pct + '%</span></div>' +
+      '</div>';
+  });
+
+  if (overloaded.length > 0) {
+    alert.style.display = 'block';
+    alertText.textContent = overloaded.join(', ') + ' &#8212; B/C &#46321;&#44553; &#53580;&#49828;&#53356; &#51088;&#46041; &#51116;&#48176;&#48516; &#54596;&#50836;';
+  } else {
+    const maxPct = Math.max(...loads.map(l => l.pct));
+    const minPct = Math.min(...loads.map(l => l.pct));
+    if (maxPct - minPct > 30) {
+      alert.style.display = 'block';
+      alert.className = 'note note-warn';
+      alertText.textContent = '&#48512;&#54616; &#54200;&#52264; ' + (maxPct - minPct) + '%p &#8212; IMBALANCE &#53944;&#47532;&#44144; &#48156;&#46041; &#44428;&#51109;';
+    } else {
+      alert.style.display = 'none';
+    }
+  }
+}
+randomizeLoad();
+
+// Lifecycle Phase Selector
+const LC_DATA = [
+  {
+    title: '&#49888;&#44508; &#46020;&#51077;&#44592; (0~30&#51068;)',
+    weights: '&#44032;&#44201; 30% &#183; &#46364;&#49892;&#51201; 20% &#183; &#47784;&#47704;&#53568; 20% &#183; &#51648;&#54364; 15% &#183; &#47532;&#48624; 10% &#183; &#48176;&#49569; 5%',
+    desc: '&#49345;&#54408; &#46321;&#47197; &#51649;&#54980;. &#44032;&#44201; &#44221;&#51137;&#47141;&#44284; &#52488;&#44592; &#47784;&#47704;&#53568; &#54869;&#48372;&#44032; &#52572;&#50864;&#49440;. &#47532;&#48624;&#50752; &#48176;&#49569; &#45936;&#51060;&#53552;&#45716; &#48512;&#51313;&#54616;&#48064;&#47196; &#44032;&#51473;&#52824; &#54616;&#54693;.',
+    actions: ['&#52488;&#44592; &#44032;&#44201; &#49444;&#51221; &#52572;&#51201;&#54868;', '&#44160;&#49353; &#45432;&#52636; &#53412;&#50892;&#46300; &#46321;&#47197;', '&#52488;&#44592; &#54532;&#47784; &#44060;&#51077;&#50668;&#48512; &#54869;&#51064;', '&#52488;&#44592; &#47532;&#48624; &#54869;&#48372; &#52880;&#54168;&#51064; &#44160;&#53664;'],
+    risk: '&#47532;&#48624; &#48512;&#51313;&#51004;&#47196; &#51064;&#54620; &#51200;&#54217;&#44032; CVR &#8594; &#47532;&#48624; &#52629; gap&#51012; &#47924;&#49884;&#54616;&#44256; &#45796;&#47480; &#52629;&#50640; &#51665;&#51473;'
+  },
+  {
+    title: '&#49457;&#51109;&#44592; (1~3&#44060;&#50900;)',
+    weights: '&#44032;&#44201; 25% &#183; &#46364;&#49892;&#51201; 23% &#183; &#47784;&#47704;&#53568; 18% &#183; &#51648;&#54364; 15% &#183; &#47532;&#48624; 12% &#183; &#48176;&#49569; 7%',
+    desc: '&#54032;&#47588;&#47049;&#51060; &#51613;&#44032;&#54616;&#45716; &#49884;&#44592;. &#46364;&#47049; &#54869;&#45824;&#50752; &#47784;&#47704;&#53568; &#50976;&#51648;&#44032; &#54645;&#49900;. &#47532;&#48624;&#44032; &#49939;&#51060;&#44592; &#49884;&#51089;&#54616;&#47728;&#47196; &#44032;&#51473;&#52824; &#51216;&#52264; &#49345;&#49849;.',
+    actions: ['&#44221;&#51137;&#49324; &#44032;&#44201; &#45824;&#51025; &#44053;&#54868;', '&#46364; &#48380;&#47464; &#54869;&#45824; &#54532;&#47196;&#47784;&#49496; &#44592;&#54925;', '&#53356;&#47196;&#49828;&#49472;/&#48264;&#46308; &#49345;&#54408; &#47588;&#52845;', '&#47532;&#48624; &#48512;&#51221; &#45824;&#51025; &#49884;&#51089;'],
+    risk: '&#49884;&#51600;&#45328; &#49457;&#51109;&#51012; &#44396;&#51312;&#51201; &#49457;&#51109;&#51004;&#47196; &#50724;&#54032; &#8594; YoY &#48708;&#44368; &#54596;&#49688;'
+  },
+  {
+    title: '&#49457;&#49689;&#44592; (3~12&#44060;&#50900;)',
+    weights: '&#44032;&#44201; 25% &#183; &#46364;&#49892;&#51201; 20% &#183; &#47784;&#47704;&#53568; 15% &#183; &#51648;&#54364; 15% &#183; &#47532;&#48624; 15% &#183; &#48176;&#49569; 10%',
+    desc: '&#50504;&#51221;&#51201; &#54032;&#47588;. &#44592;&#48376; &#44032;&#51473;&#52824; &#44536;&#45824;&#47196; &#50976;&#51648;. &#47784;&#46304; &#52629;&#51060; &#44512;&#54805;&#51201;&#51004;&#47196; &#51473;&#50836;. &#48169;&#50612;&#51201; &#50868;&#50689;&#51060; &#54645;&#49900;.',
+    actions: ['&#44032;&#44201; &#44221;&#51137;&#47141; &#50976;&#51648;', '&#47532;&#48624; &#54217;&#51216; &#44288;&#47532;', '&#48176;&#49569; &#54408;&#51656; &#52572;&#51201;&#54868;', '&#45824;&#52404;&#49345;&#54408; &#46321;&#51109; &#47784;&#45768;&#53552;&#47553;'],
+    risk: '&#50504;&#51060;&#54620; &#49457;&#49689;&#50640; &#51088;&#50896; &#48176;&#48516; &#44284;&#45796; &#8594; B/C &#46321;&#44553;&#51004;&#47196; &#50864;&#49440;&#49692;&#50948; &#51201;&#51208;'
+  },
+  {
+    title: '&#49604;&#53748;&#44592; (12&#44060;&#50900;+)',
+    weights: '&#44032;&#44201; 22% &#183; &#46364;&#49892;&#51201; 17% &#183; &#47784;&#47704;&#53568; 10% &#183; &#51648;&#54364; 20% &#183; &#47532;&#48624; 20% &#183; &#48176;&#49569; 11%',
+    desc: 'GMV &#44048;&#49548; &#52628;&#49464;. &#47784;&#47704;&#53568;&#48372;&#45796; CVR/&#47532;&#48624; &#50976;&#51648;&#50640; &#51665;&#51473;. &#54952;&#50984;&#51201; &#50868;&#50689;&#51004;&#47196; &#51204;&#54872;.',
+    actions: ['&#44032;&#44201; &#48169;&#50612; &#51204;&#47029; &#44053;&#54868;', '&#47532;&#48624; &#49552;&#49892; &#48169;&#51648; (&#48512;&#51221; &#47532;&#48624; &#51593;&#49884; &#45824;&#51025;)', 'CVR &#44060;&#49440; &#51665;&#51473; (&#49345;&#49464;&#54168;&#51060;&#51648;, &#51060;&#48120;&#51648;)', '&#53552;&#52636; &#50668;&#48512; &#54032;&#45800; &#51456;&#48708;'],
+    risk: '&#44284;&#46020;&#54620; &#48169;&#50612;&#47196; &#48512;&#54876; &#44592;&#54924; &#45459;&#52840; &#8594; &#53552;&#52636; &#51088;&#46041;&#54868; &#51204; MD &#54032;&#45800; &#54596;&#49688;'
+  },
+  {
+    title: '&#53552;&#52636;/&#51333;&#47308; &#54032;&#45800;',
+    weights: '&#44032;&#44201; 20% &#183; &#46364;&#49892;&#51201; 15% &#183; &#47784;&#47704;&#53568; 5% &#183; &#51648;&#54364; 25% &#183; &#47532;&#48624; 23% &#183; &#48176;&#49569; 12%',
+    desc: '&#49345;&#54408; &#51333;&#47308; &#46608;&#45716; &#47532;&#54252;&#51648;&#49492;&#45789;&#51012; &#44208;&#51221;&#54616;&#45716; &#45800;&#44228;. &#51648;&#54364;&#50752; &#47532;&#48624;&#44032; &#51316;&#49549; &#50668;&#48512;&#51032; &#44592;&#51456;.',
+    actions: ['&#51116;&#44256; &#52376;&#48516; &#50689;&#54869;&#46020; &#48516;&#49437;', '&#45824;&#52404;&#49345;&#54408; &#47588;&#52845; &#51228;&#50504;', '&#52572;&#51333; &#54624;&#51064;/&#53216;&#54256; &#49548;&#51652; &#44160;&#53664;', '&#51333;&#47308; &#49884; &#44256;&#44061; &#50689;&#54693;&#46020; &#54217;&#44032;'],
+    risk: '&#45320;&#47924; &#48736;&#47480; &#51333;&#47308;&#47196; &#44256;&#44061; &#51060;&#53448; &#8594; &#52852;&#53580;&#44256;&#47532; &#51204;&#52404; &#50689;&#54693;&#46020; &#54217;&#44032; &#54980; &#51652;&#54665;'
+  }
+];
+
+function selectPhase(idx) {
+  document.querySelectorAll('.lc-phase').forEach((el, i) => {
+    el.classList.toggle('sel', i === idx);
+  });
+  const d = LC_DATA[idx];
+  const detail = document.getElementById('lcDetail');
+  detail.innerHTML =
+    '<div style="font-size:var(--fs-t);font-weight:800;margin-bottom:8px">' + d.title + '</div>' +
+    '<div style="font-size:var(--fs-m);color:var(--tx2);margin-bottom:12px">' + d.desc + '</div>' +
+    '<div style="margin-bottom:12px"><div style="font-size:var(--fs-s);font-weight:800;color:var(--tx3);margin-bottom:6px;letter-spacing:.04em">&#44032;&#51473;&#52824; &#48176;&#48516;</div>' +
+    '<div style="font-size:var(--fs-m);font-family:var(--fm);color:var(--blue);background:var(--sf2);padding:8px 12px;border-radius:8px">' + d.weights + '</div></div>' +
+    '<div style="margin-bottom:12px"><div style="font-size:var(--fs-s);font-weight:800;color:var(--tx3);margin-bottom:6px;letter-spacing:.04em">&#52628;&#52380; &#50529;&#49496;</div>' +
+    '<ul style="font-size:var(--fs-m);color:var(--tx2);padding-left:20px;line-height:1.8">' + d.actions.map(function(a){ return '<li>' + a + '</li>'; }).join('') + '</ul></div>' +
+    '<div style="background:rgba(255,149,0,.06);border-left:3px solid var(--orange);border-radius:0 8px 8px 0;padding:10px 14px;font-size:var(--fs-m);color:var(--tx2)">' +
+    '<strong style="color:var(--orange)">&#50724;&#54032; &#47532;&#49828;&#53356;:</strong> ' + d.risk + '</div>';
+}
+selectPhase(0);
+</script>
