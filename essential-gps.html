@@ -470,6 +470,53 @@ html{scroll-behavior:smooth}
 /* parallax depth layers */
 .parallax-layer{transition:transform .1s linear;will-change:transform}
 
+/* glitch text effect on hover */
+.glitch{position:relative;display:inline-block}
+.glitch:hover{animation:glitchText .3s ease-in-out}
+@keyframes glitchText{0%{transform:translate(0)}20%{transform:translate(-2px,1px)}40%{transform:translate(2px,-1px)}60%{transform:translate(-1px,2px)}80%{transform:translate(1px,-2px)}100%{transform:translate(0)}}
+
+/* live data pulse indicator */
+.data-pulse{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--green);margin-left:12px}
+.data-pulse::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:dataPulse 2s ease-in-out infinite}
+@keyframes dataPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(52,199,89,.4)}50%{opacity:.6;box-shadow:0 0 0 8px rgba(52,199,89,0)}}
+
+/* animated score meter arc */
+.score-arc{position:relative;display:inline-block}
+.score-arc canvas{display:block}
+.score-arc-label{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-family:var(--fm);font-size:20px;font-weight:800;font-variant-numeric:tabular-nums}
+
+/* interactive heatmap grid */
+.heatmap{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;margin:20px 0}
+.heat-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;cursor:pointer;transition:transform .2s,box-shadow .3s;position:relative}
+.heat-cell:hover{transform:scale(1.3);box-shadow:0 4px 20px rgba(0,0,0,.25);z-index:2}
+.heat-cell::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);font-size:10px;padding:4px 10px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
+.heat-cell:hover::after{opacity:1}
+
+/* animated connecting lines between sections */
+.section-connector{text-align:center;padding:8px 0;opacity:.3}
+.section-connector svg{animation:connectorPulse 2s ease-in-out infinite}
+@keyframes connectorPulse{0%,100%{opacity:.3;transform:scaleY(1)}50%{opacity:.7;transform:scaleY(1.1)}}
+
+/* sparkline mini chart */
+.sparkline{display:inline-block;vertical-align:middle}
+
+/* floating info badge */
+.info-badge{position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:var(--blue);color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .3s;box-shadow:0 2px 8px rgba(0,113,227,.4);z-index:3}
+.info-badge:hover{transform:scale(1.3)}
+
+/* progress steps indicator */
+.progress-steps{display:flex;align-items:center;gap:0;margin:16px 0}
+.pstep{flex:1;height:4px;border-radius:2px;background:var(--sf3);position:relative;overflow:hidden}
+.pstep-fill{height:100%;border-radius:2px;width:0;transition:width 1.5s cubic-bezier(.16,1,.3,1)}
+.pstep-dot{position:absolute;right:-4px;top:-4px;width:12px;height:12px;border-radius:50%;background:var(--sf);border:2px solid var(--bd);z-index:1;transition:border-color .3s,background .3s}
+.pstep.done .pstep-dot{border-color:var(--green);background:var(--green)}
+.pstep.done .pstep-fill{width:100%}
+
+/* typewriter effect */
+.typewriter{overflow:hidden;white-space:nowrap;border-right:2px solid var(--blue);animation:typewrite 3s steps(40) 1s forwards,typeBlink .7s step-end infinite;width:0;display:inline-block}
+@keyframes typewrite{to{width:100%}}
+@keyframes typeBlink{50%{border-color:transparent}}
+
 /* click explosion particles */
 .click-particle{position:fixed;pointer-events:none;z-index:9998;border-radius:50%;animation:clickBurst .6s ease-out forwards}
 @keyframes clickBurst{0%{transform:translate(0,0) scale(1);opacity:1}100%{opacity:0}}
@@ -601,6 +648,7 @@ html{scroll-behavior:smooth}
   </div>
 </div>
 
+<div class="section-connector"><svg width="2" height="32" viewBox="0 0 2 32"><line x1="1" y1="0" x2="1" y2="32" stroke="var(--bd)" stroke-width="2" stroke-dasharray="4 4"/></svg></div>
 <div class="sec rv" id="s-data">
   <div class="eyebrow">Data Sources</div>
   <div class="sec-title">&#45936;&#51060;&#53552; &#49548;&#49828; &#8212; &#51088;&#49324; &#46356;&#49828;&#52964;&#48260;&#47532; vs &#50808;&#48512; &#44221;&#51137;</div>
@@ -621,6 +669,7 @@ html{scroll-behavior:smooth}
   </div>
 </div>
 
+<div class="section-connector"><svg width="2" height="32" viewBox="0 0 2 32"><line x1="1" y1="0" x2="1" y2="32" stroke="var(--bd)" stroke-width="2" stroke-dasharray="4 4"/></svg></div>
 <div class="sec rv" id="s-gap">
   <div class="eyebrow">Gap Analysis</div>
   <div class="sec-title">6&#45824; &#52629; Gap &#48516;&#49437; &#8212; &#51088;&#49324; vs &#50808;&#48512;</div>
@@ -714,6 +763,7 @@ html{scroll-behavior:smooth}
       <div class="sig-ax" onclick="openAxisModal(4)"><div class="sig-tip">&#47532;&#48624; &#44148;&#44053; &#50577;&#54840;</div><div class="sig-ax-n">&#47532;&#48624;</div><div class="sig-ax-src"><span class="src-t src-i">&#51088;&#49324;</span><span class="src-t src-e">&#50808;&#48512;</span></div><div class="sig-light g">&#9675;</div><div class="sig-ax-v">4.7 / 842&#44148;</div><div class="sig-bar-w"><div class="sig-bar" data-w="20" style="background:var(--green)"></div></div></div>
       <div class="sig-ax" onclick="openAxisModal(5)"><div class="sig-tip">&#51061;&#51068;&#48176;&#49569; &#54869;&#48372;</div><div class="sig-ax-n">&#48176;&#49569;</div><div class="sig-ax-src"><span class="src-t src-i">&#51088;&#49324;</span><span class="src-t src-e">&#50808;&#48512;</span></div><div class="sig-light g">&#9675;</div><div class="sig-ax-v">&#51061;&#51068; &#48176;&#49569;</div><div class="sig-bar-w"><div class="sig-bar" data-w="15" style="background:var(--green)"></div></div></div>
     </div>
+    <div style="margin-bottom:16px"><div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--txm);margin-bottom:8px">6&#52629; &#44148;&#44053;&#46020; &#55176;&#53944;&#47605;</div><div class="heatmap" id="heatmapGrid"></div></div>
     <div class="sig-diag"><div class="sig-diag-label">Gap &#51652;&#45800;</div><div class="sig-diag-text">&#44032;&#44201; &#52629; &#50676;&#50948; (PCI &#8722;8.3%) &#8212; &#53216;&#54049; &#52572;&#51200;&#44032; &#45824;&#48708; &#8361;52,000 &#45458;&#51020;. &#50808;&#48512; &#44221;&#51137; &#45824;&#48708; &#44032;&#44201; Gap&#51060; &#48337;&#47785;. &#46364; &#49892;&#51201;&#51008; &#51088;&#49324; &#44396;&#51340; &#54217;&#44512; &#54616;&#54924;.</div></div>
     <div class="sig-actions">
       <div class="sig-act ripple"><div class="sig-act-n">&#44032;&#44201; MCP</div><div class="sig-act-b">&#48148;&#47196; &#51201;&#50857;</div></div>
@@ -727,7 +777,7 @@ html{scroll-behavior:smooth}
   <div class="eyebrow">GPS Simulator</div>
   <div class="sec-title">&#49892;&#49884;&#44036; GPS &#49828;&#53076;&#50612; &#49884;&#48044;&#47112;&#51060;&#53552;</div>
   <div class="sim rv">
-    <div class="sim-title"><span class="live-dot"></span>&#49892;&#49884;&#44036; &#49884;&#48044;&#47112;&#51060;&#49496;</div>
+    <div class="sim-title"><span class="live-dot"></span>&#49892;&#49884;&#44036; &#49884;&#48044;&#47112;&#51060;&#49496;<span class="data-pulse">LIVE DATA</span></div>
     <div class="sim-presets">
       <button class="sim-preset" onclick="loadPreset('price')">&#44032;&#44201; &#44596;&#44553;</button>
       <button class="sim-preset" onclick="loadPreset('deal')">&#46364; &#48512;&#51652;</button>
@@ -1414,6 +1464,89 @@ document.querySelectorAll('.gap-bar').forEach(function(bar){
       setTimeout(function(){l.parentElement.classList.remove('shake')},500);
     });
   },5000);
+})();
+
+// heatmap grid builder
+(function(){
+  var grid=document.getElementById('heatmapGrid');if(!grid)return;
+  var axes=['\u{AC00}\u{ACA9}','\u{B51C}','\u{BAA8}\u{BA58}','\u{C9C0}\u{D45C}','\u{B9AC}\u{BDF0}','\u{BC30}\u{C1A1}'];
+  var competitors=['11ST','\u{CF54}\u{D321}','\u{B124}\u{C774}\u{BC84}','G\u{B9C8}\u{CF13}','\u{C625}\u{C158}','SSG'];
+  var data=[[35,72,80,65,55,40],[70,45,60,75,80,65],[80,68,50,42,72,88],[55,90,75,60,48,70],[75,60,85,70,92,80],[90,55,45,80,68,75]];
+  var colors=function(v){
+    if(v>=80)return'rgba(255,59,48,.85)';
+    if(v>=60)return'rgba(255,149,0,.75)';
+    if(v>=40)return'rgba(0,113,227,.6)';
+    return'rgba(52,199,89,.5)';
+  };
+  for(var r=0;r<6;r++){
+    for(var c=0;c<6;c++){
+      var cell=document.createElement('div');
+      cell.className='heat-cell';
+      cell.style.background=colors(data[r][c]);
+      cell.textContent=data[r][c];
+      cell.setAttribute('data-tip',competitors[r]+' \u{00D7} '+axes[c]);
+      grid.appendChild(cell);
+    }
+  }
+})();
+
+// animated score arc for simulator
+(function(){
+  var simResult=document.querySelector('.sim-result');
+  if(!simResult)return;
+  var arcWrap=document.createElement('div');
+  arcWrap.className='score-arc';
+  var arcCanvas=document.createElement('canvas');
+  arcCanvas.id='arcCanvas';arcCanvas.width=100;arcCanvas.height=60;
+  arcWrap.appendChild(arcCanvas);
+  simResult.insertBefore(arcWrap,simResult.querySelector('.sim-ring'));
+
+  var origCalc=window.calcGPS;
+  var newCalc=function(){
+    origCalc();
+    var score=parseFloat(document.getElementById('sim-score').textContent);
+    var ctx=arcCanvas.getContext('2d');
+    ctx.clearRect(0,0,100,60);
+    var cx=50,cy=55,rad=40;
+    var cs=getComputedStyle(document.documentElement);
+    ctx.beginPath();ctx.arc(cx,cy,rad,Math.PI,0);
+    ctx.strokeStyle=cs.getPropertyValue('--sf3').trim()||'#eee';ctx.lineWidth=6;ctx.lineCap='round';ctx.stroke();
+    var col;
+    if(score>=85)col=cs.getPropertyValue('--green').trim();
+    else if(score>=65)col=cs.getPropertyValue('--orange').trim();
+    else if(score>=40)col=cs.getPropertyValue('--blue').trim();
+    else col=cs.getPropertyValue('--txm').trim();
+    ctx.beginPath();ctx.arc(cx,cy,rad,Math.PI,Math.PI+(score/100)*Math.PI);
+    ctx.strokeStyle=col;ctx.lineWidth=6;ctx.lineCap='round';ctx.stroke();
+  };
+  window.calcGPS=newCalc;
+  newCalc();
+})();
+
+// sparklines on KPI cards
+(function(){
+  document.querySelectorAll('.bkpi').forEach(function(card,idx){
+    var cv=document.createElement('canvas');
+    cv.width=120;cv.height=30;cv.style.cssText='width:100%;height:30px;margin-top:8px;display:block';
+    card.appendChild(cv);
+    var ctx=cv.getContext('2d');
+    var data=[];for(var i=0;i<20;i++)data.push(Math.random()*20+10+idx*5);
+    var max=Math.max.apply(null,data),min=Math.min.apply(null,data);
+    var cs=getComputedStyle(document.documentElement);
+    var colors=[cs.getPropertyValue('--red').trim(),cs.getPropertyValue('--green').trim(),cs.getPropertyValue('--blue').trim(),cs.getPropertyValue('--orange').trim()];
+    var col=colors[idx%4]||'#0071e3';
+    ctx.beginPath();
+    for(var i=0;i<data.length;i++){
+      var x=i/(data.length-1)*120;
+      var y=30-(data[i]-min)/(max-min)*25;
+      if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+    }
+    ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.stroke();
+    ctx.lineTo(120,30);ctx.lineTo(0,30);ctx.closePath();
+    ctx.fillStyle=col.replace(')',',0.08)').replace('rgb','rgba');ctx.fill();
+    var lastX=120,lastY=30-(data[data.length-1]-min)/(max-min)*25;
+    ctx.beginPath();ctx.arc(lastX,lastY,3,0,Math.PI*2);ctx.fillStyle=col;ctx.fill();
+  });
 })();
 
 // scroll reveal + animated bars
