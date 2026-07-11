@@ -1037,12 +1037,12 @@ table.t{width:100%;border-collapse:separate;border-spacing:0;font-size:var(--fs-
 <script>
 // MD Balance Simulator
 const MDS = [
-  { name: 'MD &#50504;&#49836;&#44592;', cat: '&#47560;&#53944;', level: 'senior' },
-  { name: 'MD &#50976;&#44305;&#50685;', cat: '&#54056;&#49496;', level: 'mid' },
-  { name: 'MD &#50504;&#49464;&#54785;', cat: '&#48624;&#54000;', level: 'mid' },
-  { name: 'MD &#45432;&#49688;&#50689;', cat: '&#47532;&#48729;', level: 'junior' },
-  { name: 'MD &#48149;&#45208;&#50672;', cat: 'C&#52964;&#47672;&#49828;', level: 'senior' },
-  { name: 'MD &#50504;&#49569;&#51060;', cat: '&#47560;&#53944;', level: 'mid' },
+  { name: 'MD-A', cat: '&#54056;&#49496;', level: 'senior' },
+  { name: 'MD-B', cat: '&#48624;&#54000;', level: 'mid' },
+  { name: 'MD-C', cat: '&#47560;&#53944;', level: 'mid' },
+  { name: 'MD-D', cat: '&#47532;&#48729;', level: 'junior' },
+  { name: 'MD-E', cat: 'C&#52964;&#47672;&#49828;', level: 'senior' },
+  { name: 'MD-F', cat: '&#47560;&#53944;', level: 'mid' },
 ];
 const LEVELS = { junior: 0.7, mid: 1.0, senior: 1.3 };
 const BASE = 15;
@@ -1080,9 +1080,18 @@ function randomizeLoad() {
       '</div>';
   });
 
+  const underloaded = loads.filter(l => l.pct < 60).map(l => l.name);
+
   if (overloaded.length > 0) {
     alert.style.display = 'block';
-    alertText.textContent = overloaded.join(', ') + ' &#8212; B/C &#46321;&#44553; &#53468;&#49828;&#53356; &#51088;&#46041; &#51116;&#48176;&#48516; &#54596;&#50836;';
+    alert.className = 'note note-danger';
+    let msg = overloaded.join(', ') + ' &#44284;&#48512;&#54616;(100%+)';
+    if (underloaded.length > 0) {
+      msg += ' &#8594; B/C &#46321;&#44553; &#53468;&#49828;&#53356; ' + underloaded.join(', ') + '&#50640; &#51088;&#46041; &#51116;&#48176;&#48516;';
+    } else {
+      msg += ' &#8594; B/C &#46321;&#44553; &#53468;&#49828;&#53356; SLA &#50672;&#51109; &#54980; &#45796;&#51020; &#48176;&#52824;&#50640;&#49436; &#51116;&#48176;&#48516;';
+    }
+    alertText.innerHTML = msg;
   } else {
     const maxPct = Math.max(...loads.map(l => l.pct));
     const minPct = Math.min(...loads.map(l => l.pct));
