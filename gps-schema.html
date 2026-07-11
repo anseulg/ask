@@ -266,6 +266,32 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 .cf-arrow{color:var(--ink3);font-size:16px}
 .cf-result{padding:8px 18px;background:var(--blue);color:#fff;border-radius:6px;font-size:13px;font-weight:600}
 
+/* ── Axis grid ── */
+.axis-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:640px){.axis-grid{grid-template-columns:1fr}}
+.axis-item{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:var(--rs);
+  background:color-mix(in srgb,var(--ink) 3%,transparent);border:1px solid var(--bdr-subtle);
+  transition:border-color .3s var(--ease),box-shadow .3s var(--ease)}
+.axis-item:hover{border-color:var(--bdr);box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.axis-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
+.axis-body{flex:1;min-width:0}
+.axis-body strong{display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.axis-body span{display:block;font-size:10px;color:var(--ink3);line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.axis-weight{font-size:14px;font-weight:800;color:var(--ink2);flex-shrink:0;font-variant-numeric:tabular-nums}
+
+/* ── Tier output ── */
+.tier-output-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:640px){.tier-output-grid{grid-template-columns:repeat(2,1fr)}}
+.tier-output-item{display:flex;align-items:center;gap:12px;padding:16px;border-radius:var(--rs);
+  background:color-mix(in srgb,var(--ink) 3%,transparent);border:1px solid var(--bdr-subtle)}
+.tier-output-badge{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:800;color:#fff;flex-shrink:0}
+.tier-output-body{flex:1;min-width:0}
+.tier-output-body strong{display:block;font-size:14px;font-weight:800;color:var(--ink);margin-bottom:2px;
+  font-variant-numeric:tabular-nums}
+.tier-output-body span{display:block;font-size:11px;color:var(--ink3);line-height:1.4}
+
 /* ── Insight ── */
 .insight{padding:20px 24px;border-radius:var(--rs);background:color-mix(in srgb,var(--blue) 5%,var(--sf));
   border:1px solid color-mix(in srgb,var(--blue) 12%,transparent);margin-bottom:36px}
@@ -584,21 +610,34 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 <!-- ═══ Section 2: 통합 랭킹 ═══ -->
 <section id="ranking">
 <div class="container">
-  <div class="sec-label">Unified Ranking</div>
+  <div class="sec-label">Scoring Engine</div>
   <div class="sec-title">통합 랭킹 체계</div>
-  <div class="sec-desc">네이버 판매순 + 다채널 가중치 + 리뷰 + 정책을 하나의 기준값으로 합산하여 전체 수집 상품을 정렬합니다.</div>
+  <div class="sec-desc">6대 축 Gap 진단 결과를 스코어링 엔진에 투입하여 상품별 단일 점수(0~100)를 산출하고 S/A/B/C 등급으로 실행 우선순위를 결정합니다.</div>
 
   <div class="concept-flow fade-in">
-    <span class="cf-box">1 Product</span><span class="cf-arrow">×</span>
-    <span class="cf-box">N Channels</span><span class="cf-arrow">→</span>
-    <span class="cf-box">Dedup</span><span class="cf-arrow">→</span>
-    <span class="cf-result">1 Rank Score</span>
+    <span class="cf-box">6축 Gap</span><span class="cf-arrow">→</span>
+    <span class="cf-box">축별 점수</span><span class="cf-arrow">→</span>
+    <span class="cf-box">가중 결합</span><span class="cf-arrow">→</span>
+    <span class="cf-result">S / A / B / C</span>
+  </div>
+
+  <!-- 6 Axis Grid -->
+  <div class="card fade-in" style="margin-bottom:24px">
+    <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px">6대 진단 축</div>
+    <div style="font-size:12px;color:var(--ink3);margin-bottom:16px">각 축은 자사 ↔ 경쟁사 격차를 0~100으로 정규화 → 가중 합산하여 통합 점수 산출</div>
+    <div class="axis-grid">
+      <div class="axis-item"><div class="axis-icon" style="background:var(--red)">₩</div><div class="axis-body"><strong>가격 경쟁력</strong><span>PCI — 외부 최저가 대비 자사가 격차율</span></div><div class="axis-weight">20%</div></div>
+      <div class="axis-item"><div class="axis-icon" style="background:var(--blue)">▦</div><div class="axis-body"><strong>구색 커버리지</strong><span>ACR — 카테고리 내 경쟁사 대비 보유 SKU 비율</span></div><div class="axis-weight">20%</div></div>
+      <div class="axis-item"><div class="axis-icon" style="background:var(--amber)">◎</div><div class="axis-body"><strong>딜 구좌 실적</strong><span>매출구좌 실적 대비 목표 달성률</span></div><div class="axis-weight">15%</div></div>
+      <div class="axis-item"><div class="axis-icon" style="background:var(--purple)">⇅</div><div class="axis-body"><strong>전환율 (CVR)</strong><span>노출 대비 구매 전환 — 카테고리 평균 대비 격차</span></div><div class="axis-weight">15%</div></div>
+      <div class="axis-item"><div class="axis-icon" style="background:var(--sgreen)">★</div><div class="axis-body"><strong>리뷰 · 평점</strong><span>리뷰 수 × 평점 — 경쟁사 동일상품 대비 비교</span></div><div class="axis-weight">15%</div></div>
+      <div class="axis-item"><div class="axis-icon" style="background:var(--teal)">⚡</div><div class="axis-body"><strong>배송 경쟁력</strong><span>C2D 배송 · 무료배송 여부 — 경쟁사 조건 대비</span></div><div class="axis-weight">15%</div></div>
+    </div>
   </div>
 
   <div class="insight fade-in">
-    <div class="insight-title">핵심 원칙</div>
-    <p>네이버 기준으로 유니크 상품을 잡되, 동일 상품의 다채널 소스(쿠팡·SSG·무신사 등)를 모두 수집하여 가중 합산합니다.
-       11번가 상품이 특정된 것과 안 된 것은 <strong>분리 정책</strong>으로 랭킹합니다.</p>
+    <div class="insight-title">스코어링 원칙</div>
+    <p>6축 각각의 Gap을 0~100으로 정규화한 뒤, 축별 가중치를 곱해 합산합니다. 11번가 매칭 상품은 <strong>6축 전체</strong>를 진단하고, 미매칭 상품은 직접 비교가 불가한 축을 <strong>카테고리 기회 점수</strong>로 대체합니다.</p>
   </div>
 
   <div class="toggle-group fade-in">
@@ -610,25 +649,26 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
   <div id="track-matched" class="track active">
     <div class="card fade-in" style="margin-bottom:24px">
       <div style="font-size:12px;color:var(--ink3);margin-bottom:14px">
-        <strong style="color:var(--matched)">11번가 매칭 상품</strong> — 외부 데이터 + 내부 Gap 분석 결과를 모두 반영
+        <strong style="color:var(--matched)">11번가 매칭 상품</strong> — 6축 Gap 전체 진단 가능 → 정밀 스코어링
       </div>
       <div class="stacked-bar" data-animate>
-        <div class="stacked-seg" style="flex:30;background:var(--matched)"><span>Naver 30%</span></div>
-        <div class="stacked-seg" style="flex:20;background:#7B7AEC"><span>채널 20%</span></div>
-        <div class="stacked-seg" style="flex:15;background:#A09FEE"><span>리뷰 15%</span></div>
-        <div class="stacked-seg" style="flex:25;background:var(--red)"><span>Gap 25%</span></div>
-        <div class="stacked-seg" style="flex:10;background:var(--ink3)"><span>10%</span></div>
+        <div class="stacked-seg" style="flex:20;background:var(--red)"><span>가격 20%</span></div>
+        <div class="stacked-seg" style="flex:20;background:var(--blue)"><span>구색 20%</span></div>
+        <div class="stacked-seg" style="flex:15;background:var(--amber)"><span>딜 15%</span></div>
+        <div class="stacked-seg" style="flex:15;background:var(--purple)"><span>CVR 15%</span></div>
+        <div class="stacked-seg" style="flex:15;background:var(--sgreen)"><span>리뷰 15%</span></div>
+        <div class="stacked-seg" style="flex:15;background:var(--teal)"><span>배송 15%</span></div>
       </div>
       <div class="formula-legend">
-        <div class="fl-item"><span class="fl-dot" style="background:var(--matched)"></span>Naver 판매순 <strong>30%</strong></div>
-        <div class="fl-item"><span class="fl-dot" style="background:#7B7AEC"></span>채널 가중 랭킹 <strong>20%</strong></div>
-        <div class="fl-item"><span class="fl-dot" style="background:#A09FEE"></span>리뷰 종합 <strong>15%</strong></div>
-        <div class="fl-item"><span class="fl-dot" style="background:var(--red)"></span>Gap 심각도 <strong>25%</strong></div>
-        <div class="fl-item"><span class="fl-dot" style="background:var(--ink3)"></span>정책 조정 <strong>10%</strong></div>
+        <div class="fl-item"><span class="fl-dot" style="background:var(--red)"></span>가격 경쟁력 <strong>20%</strong></div>
+        <div class="fl-item"><span class="fl-dot" style="background:var(--blue)"></span>구색 커버리지 <strong>20%</strong></div>
+        <div class="fl-item"><span class="fl-dot" style="background:var(--amber)"></span>딜 구좌 실적 <strong>15%</strong></div>
+        <div class="fl-item"><span class="fl-dot" style="background:var(--purple)"></span>전환율 CVR <strong>15%</strong></div>
+        <div class="fl-item"><span class="fl-dot" style="background:var(--sgreen)"></span>리뷰 · 평점 <strong>15%</strong></div>
+        <div class="fl-item"><span class="fl-dot" style="background:var(--teal)"></span>배송 경쟁력 <strong>15%</strong></div>
       </div>
       <div style="padding-top:14px;border-top:1px solid var(--bdr-subtle);font-size:12px;color:var(--ink3);line-height:1.6">
-        <strong>정책 조정값:</strong> 전사행사(월간/그랜드십일절) 가중 +, 시즌성 반영 ±, MD Reject 이력 2개월 감점 −<br>
-        <strong>Naver 기준:</strong> 판매순 + 대분류 or 중분류 기준, 0~100 정규화
+        <strong>조정 가중치:</strong> 조직장 운영방향(성장/효율) 반영 ±, 전사행사 기간 가중 +, MD Reject 이력 2개월 감점 −
       </div>
     </div>
   </div>
@@ -637,60 +677,36 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
   <div id="track-unmatched" class="track">
     <div class="card fade-in" style="margin-bottom:24px">
       <div style="font-size:12px;color:var(--ink3);margin-bottom:14px">
-        <strong style="color:var(--unmatched)">미매칭 상품</strong> — Gap 분석 불가, 카테고리 기회 점수로 대체
+        <strong style="color:var(--unmatched)">미매칭 상품</strong> — 자사 상품 미특정, 직접 Gap 비교 불가 → 카테고리 기회 점수로 대체
       </div>
       <div class="stacked-bar" data-animate>
-        <div class="stacked-seg" style="flex:35;background:var(--unmatched)"><span>Naver 35%</span></div>
-        <div class="stacked-seg" style="flex:25;background:#FFB94D"><span>채널 25%</span></div>
+        <div class="stacked-seg" style="flex:35;background:var(--unmatched)"><span>인기도 35%</span></div>
+        <div class="stacked-seg" style="flex:25;background:#FFB94D"><span>다채널 25%</span></div>
         <div class="stacked-seg" style="flex:15;background:#FFD080"><span>리뷰 15%</span></div>
         <div class="stacked-seg" style="flex:25;background:var(--purple)"><span>기회 25%</span></div>
       </div>
       <div class="formula-legend">
-        <div class="fl-item"><span class="fl-dot" style="background:var(--unmatched)"></span>Naver 판매순 <strong>35%</strong></div>
-        <div class="fl-item"><span class="fl-dot" style="background:#FFB94D"></span>채널 가중 랭킹 <strong>25%</strong></div>
+        <div class="fl-item"><span class="fl-dot" style="background:var(--unmatched)"></span>외부 인기도 <strong>35%</strong></div>
+        <div class="fl-item"><span class="fl-dot" style="background:#FFB94D"></span>다채널 노출 빈도 <strong>25%</strong></div>
         <div class="fl-item"><span class="fl-dot" style="background:#FFD080"></span>리뷰 종합 <strong>15%</strong></div>
         <div class="fl-item"><span class="fl-dot" style="background:var(--purple)"></span>카테고리 기회 <strong>25%</strong></div>
       </div>
       <div style="padding-top:14px;border-top:1px solid var(--bdr-subtle);font-size:12px;color:var(--ink3);line-height:1.6">
-        <strong>카테고리 기회:</strong> 해당 카테고리 내 11번가 점유율이 낮을수록 → 신규 입점 기회 점수 상승
+        <strong>카테고리 기회:</strong> 해당 카테고리 내 11번가 점유율이 낮을수록 → 신규 입점 기회 점수 상승. 미입점 셀러·상품 발굴 우선순위.
       </div>
     </div>
   </div>
 
-  <!-- Channel Weights -->
+  <!-- Scoring Output -->
   <div class="card fade-in" style="margin-top:8px">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-      <span style="font-size:17px;font-weight:700;letter-spacing:-.02em">판매채널별 가중치</span>
-      <span class="ph ph-2">Phase 2</span>
+      <span style="font-size:17px;font-weight:700;letter-spacing:-.02em">등급 산출 기준</span>
     </div>
-    <div style="font-size:12px;color:var(--ink3);margin-bottom:8px">네이버 = 1.00 기준, 카테고리 특화 채널은 해당 카테고리에서 추가 가중</div>
-    <div class="ch-grid">
-      <div class="tbl-overflow" style="border:none;margin:0">
-        <table class="ch-table">
-          <thead><tr><th>채널</th><th>가중치</th><th>비고</th></tr></thead>
-          <tbody>
-            <tr><td class="site">네이버</td><td class="weight">1.00</td><td class="note">기준 채널</td></tr>
-            <tr><td class="site">쿠팡</td><td class="weight">0.85</td><td class="note">거래량 기반</td></tr>
-            <tr><td class="site">SSG</td><td class="weight">0.70</td><td class="note">프리미엄</td></tr>
-            <tr><td class="site">무신사</td><td class="weight">0.80</td><td class="note">패션 특화 ↑</td></tr>
-            <tr><td class="site">올리브영</td><td class="weight">0.75</td><td class="note">H&B 특화 ↑</td></tr>
-            <tr><td class="site">마켓컬리</td><td class="weight">0.75</td><td class="note">식품 특화 ↑</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="tbl-overflow" style="border:none;margin:0">
-        <table class="ch-table">
-          <thead><tr><th>채널</th><th>가중치</th><th>비고</th></tr></thead>
-          <tbody>
-            <tr><td class="site">오늘의집</td><td class="weight">0.70</td><td class="note">리빙 특화 ↑</td></tr>
-            <tr><td class="site">롯데온</td><td class="weight">0.65</td><td class="note"></td></tr>
-            <tr><td class="site">G마켓</td><td class="weight">0.60</td><td class="note">오픈마켓</td></tr>
-            <tr><td class="site">옥션</td><td class="weight">0.60</td><td class="note">오픈마켓</td></tr>
-            <tr><td class="site">카카오</td><td class="weight">0.55</td><td class="note">선물하기 중심</td></tr>
-            <tr><td class="site">GS SHOP</td><td class="weight">0.55</td><td class="note">홈쇼핑</td></tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="tier-output-grid">
+      <div class="tier-output-item tier-output-s"><div class="tier-output-badge" style="background:var(--sgreen)">S</div><div class="tier-output-body"><strong>90~100</strong><span>성장 가속 — 검색 부스트 · 전시 우선 · SO 자동 연동</span></div></div>
+      <div class="tier-output-item tier-output-a"><div class="tier-output-badge" style="background:var(--blue)">A</div><div class="tier-output-body"><strong>70~89</strong><span>유지 · 개선 — 약점 축 집중 개선 Task 생성</span></div></div>
+      <div class="tier-output-item tier-output-b"><div class="tier-output-badge" style="background:var(--amber)">B</div><div class="tier-output-body"><strong>40~69</strong><span>관찰 필요 — 주간 리뷰 대상, MD 수동 판단</span></div></div>
+      <div class="tier-output-item tier-output-c"><div class="tier-output-badge" style="background:var(--red)">C</div><div class="tier-output-body"><strong>0~39</strong><span>재검토 — 가격·구색 근본 격차, 전략 재수립 필요</span></div></div>
     </div>
   </div>
 </div>
