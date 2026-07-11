@@ -189,11 +189,11 @@ var DATA = {
       ]
     },
     {
-      id:'S-04', name:'가격역전 + 딸실적 동반 하락',
-      cond:'PRICE-X + 딸 Gap ≥ 60',
+      id:'S-04', name:'가격역전 + 딜실적 동반 하락',
+      cond:'PRICE-X + 딜 Gap ≥ 60',
       axes:['crit','crit','any','any','any','any'],
       tasks:[
-        {pri:'P1',name:'가격 조정 + 프로모션 번들',desc:'가격 조정과 동시에 타임딜/특가 프로모션 세팅',metric:['완료: PCI < 110 + 딸 구좌 ≥ 85','목표: 24h']},
+        {pri:'P1',name:'가격 조정 + 프로모션 번들',desc:'가격 조정과 동시에 타임딜/특가 프로모션 세팅',metric:['완료: PCI < 110 + 딜 구좌 ≥ 85','목표: 24h']},
         {pri:'P2',name:'셀링포인트 긴급 재작성',desc:'가격 메리트 + 프로모션 강조 상세페이지',metric:['완료: CTR 개선 확인']}
       ]
     },
@@ -253,7 +253,7 @@ var DATA = {
     },
     {
       id:'S-11', name:'미입점 + 경쟁사 대량판매',
-      cond:'AUTO-S + 외부 딸실적 ≥ 500건/월',
+      cond:'AUTO-S + 외부 딜실적 ≥ 500건/월',
       axes:['any','crit','any','any','any','any'],
       tasks:[
         {pri:'P1',name:'신속 입점 + 프로모션 패키지',desc:'경쟁사 대량판매 상품은 입점 즉시 프로모션 지원',metric:['완료: 입점 + 프로모션 라이브','목표: 48h']},
@@ -283,7 +283,7 @@ var DATA = {
     },
     {
       id:'A-02', name:'ZOMBIE 상품 보정',
-      cond:'딸실적 구좌 40~60 + 조회 대비 전환 저조',
+      cond:'딜실적 구좌 40~60 + 조회 대비 전환 저조',
       axes:['any','warn','any','warn','any','any'],
       tasks:[
         {pri:'P1',name:'셀링포인트 전면 재작성',desc:'제목/썸네일/상세페이지 A/B 테스트',metric:['완료: CTR +15% 개선','목표: 5d']},
@@ -336,16 +336,16 @@ var DATA = {
       ]
     },
     {
-      id:'A-08', name:'딸실적 + 리뷰 복합 Gap',
-      cond:'딸 Gap ≥ 40 + 리뷰 Gap ≥ 40',
+      id:'A-08', name:'딜실적 + 리뷰 복합 Gap',
+      cond:'딜 Gap ≥ 40 + 리뷰 Gap ≥ 40',
       axes:['any','warn','any','any','warn','any'],
       tasks:[
         {pri:'P1',name:'리뷰 부스팅 + 상세페이지 개선',desc:'리뷰 이벤트로 신뢰 확보 → 셀링포인트 개선으로 전환 유도',metric:['완료: 리뷰 +20건 + CTR +10%','목표: 7d']}
       ]
     },
     {
-      id:'A-09', name:'모멘텀 + 딸실적 복합 하락',
-      cond:'모멘텀 MoM ≤ -20% + 딸 Gap ≥ 40',
+      id:'A-09', name:'모멘텀 + 딜실적 복합 하락',
+      cond:'모멘텀 MoM ≤ -20% + 딜 Gap ≥ 40',
       axes:['any','warn','warn','any','any','any'],
       tasks:[
         {pri:'P1',name:'프로모션 + 셀링포인트 동시 개선',desc:'하락세 반전을 위해 프로모션과 상세페이지 동시 개선',metric:['완료: MoM 반등 + 구좌 개선','목표: 7d']}
@@ -398,8 +398,8 @@ var DATA = {
       ]
     },
     {
-      id:'B-04', name:'딸실적 소폭 Gap',
-      cond:'딸 Gap 20~39',
+      id:'B-04', name:'딜실적 소폭 Gap',
+      cond:'딜 Gap 20~39',
       axes:['any','warn','any','any','any','any'],
       tasks:[
         {pri:'P2',name:'셀링포인트 미세 조정',desc:'썸네일 개선, 상세페이지 소폭 수정',metric:['완료: CTR +5% 개선','목표: 14d']},

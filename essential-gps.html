@@ -1284,7 +1284,7 @@ html{scroll-behavior:smooth}
           <div class="mvp-del">&#10003; &#44592;&#48376; &#50529;&#49496; &#53468;&#49828;&#53356; &#48176;&#51221;</div>
         </div>
       </div>
-      <div class="mvp-kpi">KPI: &#44032;&#44201; Gap &#52649;&#51313;&#47456; + &#47532;&#48624; &#51025;&#45813;&#50984; &#44060;&#49440;</div>
+      <div class="mvp-kpi">KPI: &#44032;&#44201; Gap &#52649;&#51313;&#47456; + &#47532;&#48624; &#51025;&#45813;&#47456; &#44060;&#49440;</div>
     </div>
 
     <div class="mvp-connector">
@@ -1553,9 +1553,9 @@ function buildMiniChart(axis){
 
 // axis detail modal
 var axisModalData=[
-  {name:'\u{AC00}\u{ACA9}',color:'var(--red)',pct:85,detail:'\u{C678}\u{BD80} \u{B300}\u{BE44} 8.3% \u{BE44}\u{C2FC}. \u{CF54}\u{D321} \u{CD5C}\u{C800}\u{AC00} \u{B300}\u{BE44} \u{20A9}52,000 \u{B192}\u{C74C}. PCI \u{C5ED}\u{C804} \u{C2EC}\u{AC01} \u{AD6C}\u{AC04}\u{C73C}\u{B85C} \u{AE34}\u{AE09} \u{AC00}\u{ACA9} \u{C870}\u{C815}\u{C774} \u{D544}\u{C694}\u{D569}\u{B2C8}\u{B2E4}.'},
+  {name:'\u{AC00}\u{ACA9}',color:'var(--red)',pct:85,detail:'\u{C678}\u{BD80} \u{B300}\u{BE44} 8.3% \u{BE44}\u{C300}. \u{CFE0}\u{D321} \u{CD5C}\u{C800}\u{AC00} \u{B300}\u{BE44} \u{20A9}52,000 \u{B192}\u{C74C}. PCI \u{C5ED}\u{C804} \u{C2EC}\u{AC01} \u{AD6C}\u{AC04}\u{C73C}\u{B85C} \u{AE34}\u{AE09} \u{AC00}\u{ACA9} \u{C870}\u{C815}\u{C774} \u{D544}\u{C694}\u{D569}\u{B2C8}\u{B2E4}.'},
   {name:'\u{B51C} \u{C2E4}\u{C801}',color:'var(--orange)',pct:55,detail:'\u{CE74}\u{D14C}\u{ACE0}\u{B9AC} \u{D3C9}\u{ADE0} \u{B300}\u{BE44} \u{AD6C}\u{C88C} \u{C9C0}\u{C218} 82. \u{D504}\u{B85C}\u{BAA8}\u{C158} \u{D655}\u{B300}\u{C640} \u{AE30}\u{D68D}\u{C804} \u{D3B8}\u{C131}\u{C73C}\u{B85C} \u{AC1C}\u{C120} \u{AC00}\u{B2A5}\u{D569}\u{B2C8}\u{B2E4}.'},
-  {name:'\u{BAA8}\u{BA58}\u{D140}',color:'var(--green)',pct:30,detail:'\u{C804}\u{C6D4} \u{B300}\u{BE44} +12% MoM \u{C131}\u{C7A5} \u{CD94}\u{C138}. \u{AD81}\u{C815}\u{C801} \u{C2E0}\u{D638}\u{C774}\u{BA70} \u{D604}\u{C7AC} \u{D750}\u{B984}\u{C744} \u{C720}\u{C9C0}\u{D558}\u{B294} \u{AC83}\u{C774} \u{C911}\u{C694}\u{D569}\u{B2C8}\u{B2E4}.'},
+  {name:'\u{BAA8}\u{BA58}\u{D140}',color:'var(--green)',pct:30,detail:'\u{C804}\u{C6D4} \u{B300}\u{BE44} +12% MoM \u{C131}\u{C7A5} \u{CD94}\u{C138}. \u{AE0D}\u{C815}\u{C801} \u{C2E0}\u{D638}\u{C774}\u{BA70} \u{D604}\u{C7AC} \u{D750}\u{B984}\u{C744} \u{C720}\u{C9C0}\u{D558}\u{B294} \u{AC83}\u{C774} \u{C911}\u{C694}\u{D569}\u{B2C8}\u{B2E4}.'},
   {name:'\u{C9C0}\u{D45C}/CVR',color:'var(--blue)',pct:50,detail:'CVR 2.1%\u{B85C} \u{CE74}\u{D14C}\u{ACE0}\u{B9AC} \u{D3C9}\u{ADE0} \u{B300}\u{BE44} \u{B0AE}\u{C74C}. \u{C0C1}\u{D488} \u{C0C1}\u{C138} \u{D398}\u{C774}\u{C9C0} \u{AC1C}\u{C120}\u{ACFC} \u{B9AC}\u{BDF0} \u{AC15}\u{D654}\u{AC00} \u{D544}\u{C694}\u{D569}\u{B2C8}\u{B2E4}.'},
   {name:'\u{B9AC}\u{BDF0}',color:'var(--green)',pct:20,detail:'\u{D3C9}\u{C810} 4.7, \u{B9AC}\u{BDF0}\u{C218} 842\u{AC74}\u{C73C}\u{B85C} \u{ACBD}\u{C7C1}\u{C0AC} \u{B300}\u{BE44} \u{C6B0}\u{C218}\u{D55C} \u{C218}\u{C900}. \u{AC74}\u{AC15}\u{D55C} \u{C2E0}\u{B8B0}\u{C790}\u{C0B0}\u{C785}\u{B2C8}\u{B2E4}.'},
   {name:'\u{BC30}\u{C1A1}',color:'var(--green)',pct:15,detail:'\u{C775}\u{C77C}\u{BC30}\u{C1A1} \u{D655}\u{BCF4}. \u{ACBD}\u{C7C1}\u{C0AC} \u{B300}\u{BE44} \u{C6B0}\u{C218}\u{D55C} \u{BC30}\u{C1A1} \u{ACBD}\u{D5D8}\u{C744} \u{C81C}\u{ACF5}\u{D558}\u{ACE0} \u{C788}\u{C2B5}\u{B2C8}\u{B2E4}.'}
@@ -2018,8 +2018,8 @@ document.querySelectorAll('.sig-act').forEach(function(el,i){
 // heatmap grid builder
 (function(){
   var grid=document.getElementById('heatmapGrid');if(!grid)return;
-  var axes=['\u{AC00}\u{ACA9}','\u{B51C}','\u{BAA8}\u{BA58}','\u{C9C0}\u{D45C}','\u{B9AC}\u{BDF0}','\u{BC30}\u{C1A1}'];
-  var competitors=['11ST','\u{CF54}\u{D321}','\u{B124}\u{C774}\u{BC84}','G\u{B9C8}\u{CF13}','\u{C625}\u{C158}','SSG'];
+  var axes=['\u{AC00}\u{ACA9}','\u{B51C}','\u{BAA8}\u{BA58}\u{D140}','\u{C9C0}\u{D45C}','\u{B9AC}\u{BDF0}','\u{BC30}\u{C1A1}'];
+  var competitors=['11ST','\u{CFE0}\u{D321}','\u{B124}\u{C774}\u{BC84}','G\u{B9C8}\u{CF13}','\u{C625}\u{C158}','SSG'];
   var data=[[35,72,80,65,55,40],[70,45,60,75,80,65],[80,68,50,42,72,88],[55,90,75,60,48,70],[75,60,85,70,92,80],[90,55,45,80,68,75]];
   var colors=function(v){
     if(v>=80)return'rgba(255,59,48,.85)';
