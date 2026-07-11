@@ -781,6 +781,72 @@ html{scroll-behavior:smooth}
 .alb-feedback-label{font-size:10px;font-weight:700;color:var(--txm);letter-spacing:.02em;white-space:nowrap}
 @media(max-width:700px){.alb-row{grid-template-columns:1fr;gap:8px}.alb-conn{transform:rotate(90deg);padding:4px 0}.alb-exec-grid{grid-template-columns:repeat(2,1fr)}.alb-exec-card{border-bottom:1px solid var(--bd)}}
 
+/* expert architecture */
+.arch-layers{display:flex;flex-direction:column;gap:0;padding:0}
+.arch-layer{border:1px solid var(--bd);background:var(--sf);position:relative;padding:20px}
+.arch-layer:first-child{border-radius:var(--r) var(--r) 0 0}
+.arch-layer:last-child{border-radius:0 0 var(--r) var(--r)}
+.arch-layer+.arch-layer{border-top:none}
+.arch-lhd{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.arch-lbadge{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:100px;white-space:nowrap}
+.arch-ltitle{font-size:14px;font-weight:800;letter-spacing:-.01em}
+.arch-lsub{font-size:11px;color:var(--txm);margin-left:auto;font-family:var(--fm)}
+.arch-domain-ext .arch-lbadge{background:rgba(191,90,242,.1);color:var(--purple);border:1px solid rgba(191,90,242,.2)}
+.arch-domain-int .arch-lbadge{background:rgba(0,113,227,.1);color:var(--blue);border:1px solid rgba(0,113,227,.2)}
+.arch-domain-gap .arch-lbadge{background:rgba(255,59,48,.1);color:var(--red);border:1px solid rgba(255,59,48,.2)}
+.arch-domain-score .arch-lbadge{background:rgba(255,149,0,.1);color:var(--orange);border:1px solid rgba(255,149,0,.2)}
+.arch-domain-exec .arch-lbadge{background:rgba(52,199,89,.1);color:var(--green);border:1px solid rgba(52,199,89,.2)}
+.arch-tbls{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.arch-tbl{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rs);overflow:hidden;transition:box-shadow .2s,transform .2s}
+.arch-tbl:hover{box-shadow:var(--shm);transform:translateY(-2px)}
+.arch-tbl-hd{display:flex;align-items:center;gap:6px;padding:8px 12px;border-bottom:1px solid var(--bd);background:var(--sf)}
+.arch-tbl-icon{font-size:14px}
+.arch-tbl-name{font-family:var(--fm);font-size:11px;font-weight:700;color:var(--tx);letter-spacing:-.02em}
+.arch-tbl-tag{font-size:8px;font-weight:800;padding:2px 6px;border-radius:4px;margin-left:auto;letter-spacing:.04em}
+.arch-tbl-tag-hub{background:rgba(191,90,242,.1);color:var(--purple)}
+.arch-tbl-tag-ts{background:rgba(0,113,227,.1);color:var(--blue)}
+.arch-tbl-tag-core{background:rgba(255,59,48,.1);color:var(--red)}
+.arch-tbl-tag-log{background:var(--sf3);color:var(--txm)}
+.arch-tbl-tag-rank{background:rgba(255,149,0,.1);color:var(--orange)}
+.arch-tbl-body{padding:8px 12px}
+.arch-col{font-size:10px;color:var(--tx3);line-height:1.8;font-family:var(--fm);display:flex;align-items:center;gap:4px}
+.arch-col-pk{color:var(--orange);font-weight:700}
+.arch-col-nk{color:var(--blue);font-weight:700}
+.arch-col-fk{color:var(--purple);font-weight:600}
+.arch-col-gap{color:var(--red);font-weight:600}
+.arch-key-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.arch-flow-row{display:flex;align-items:center;justify-content:center;gap:8px;padding:6px 0;background:var(--sf)}
+.arch-flow-row svg{flex-shrink:0}
+.arch-flow-label{font-size:10px;font-weight:700;color:var(--txm);letter-spacing:.02em}
+.arch-join-info{display:flex;align-items:center;gap:6px;padding:4px 12px;background:var(--sf2);border-radius:6px;font-family:var(--fm);font-size:10px;color:var(--tx3);border:1px dashed var(--bd)}
+.arch-join-info code{font-weight:700;color:var(--blue);font-size:10px}
+.arch-gap-core{border:2px solid var(--red);background:rgba(255,59,48,.02)}
+.arch-gap-core .arch-tbl-hd{background:rgba(255,59,48,.04)}
+.arch-sites-row{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.arch-site-chip{font-size:9px;font-weight:600;padding:3px 8px;border-radius:100px;background:var(--sf);border:1px solid var(--bd);color:var(--tx3);display:flex;align-items:center;gap:3px}
+.arch-site-chip.disabled{opacity:.4;text-decoration:line-through}
+.arch-site-dot{width:5px;height:5px;border-radius:50%;background:var(--green)}
+.arch-site-chip.disabled .arch-site-dot{background:var(--red)}
+.arch-api-box{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 16px}
+.arch-api-ep{font-family:var(--fm);font-size:11px;font-weight:600;color:var(--blue);margin-bottom:4px}
+.arch-api-fields{font-size:10px;color:var(--tx3);line-height:1.7}
+.arch-gps-output{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.arch-gps-cell{text-align:center;padding:16px 12px;border-right:1px solid var(--bd);position:relative}
+.arch-gps-cell:last-child{border-right:none}
+.arch-gps-cell::after{content:'\2192';position:absolute;right:-8px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--txm);z-index:1}
+.arch-gps-cell:last-child::after{display:none}
+.arch-gps-num{font-family:var(--fm);font-size:22px;font-weight:800;margin-bottom:4px}
+.arch-gps-label{font-size:11px;font-weight:700;margin-bottom:2px}
+.arch-gps-desc{font-size:10px;color:var(--tx3)}
+.arch-stats-bar{display:flex;gap:0;border:1px solid var(--bd);border-radius:var(--rs);overflow:hidden;margin-top:14px;background:var(--sf)}
+.arch-stat{flex:1;text-align:center;padding:10px 8px;border-right:1px solid var(--bd)}
+.arch-stat:last-child{border-right:none}
+.arch-stat-val{font-family:var(--fm);font-size:18px;font-weight:800}
+.arch-stat-label{font-size:9px;font-weight:700;color:var(--txm);letter-spacing:.04em;text-transform:uppercase;margin-top:2px}
+.arch-col-group{margin-top:4px;padding-top:4px;border-top:1px dashed var(--bd)}
+.arch-col-group-label{font-size:8px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--txm);margin-bottom:2px;font-family:var(--f)}
+@media(max-width:700px){.arch-tbls{grid-template-columns:1fr}.arch-gps-output{grid-template-columns:repeat(2,1fr)}.arch-gps-cell{border-bottom:1px solid var(--bd)}.arch-gps-cell:nth-child(2)::after{display:none}}
+
 /* progress grid */
 .progress-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .prog-card{padding:24px;position:relative;overflow:hidden}
@@ -911,71 +977,270 @@ html{scroll-behavior:smooth}
 
 <div class="sec" id="s-arch">
   <div class="eyebrow rv">System Architecture</div>
-  <div class="sec-title rv">&#51204;&#52404; &#49884;&#49828;&#53596; &#50500;&#53412;&#53581;&#52376; &#8212; &#49688;&#51665;&#50640;&#49436; &#49892;&#54665;&#44620;&#51648;</div>
-  <div class="sec-desc rv">&#50808;&#48512; &#53356;&#47204;&#47553;&#183;&#45236;&#48512; &#45936;&#51060;&#53552;&#47484; &#49688;&#51665;&#54616;&#44256;, GPS &#50644;&#51652;&#51060; &#54032;&#51221;&#54616;&#44256;, MD&#44032; &#49892;&#54665;&#54633;&#45768;&#45796;. &#54588;&#46300;&#48177;&#51060; &#46028;&#50500;&#50752; &#45796;&#51020; &#54032;&#51221;&#51012; &#48372;&#51221;&#54633;&#45768;&#45796;.</div>
+  <div class="sec-title rv">ALBATROSS &#49884;&#49828;&#53596; &#50500;&#53412;&#53581;&#52376; &#8212; 3&#46020;&#47700;&#51064; 10&#53580;&#51060;&#48660; ERD</div>
+  <div class="sec-desc rv">ax &#49828;&#53412;&#47560; &#44592;&#48152;. &#50868;&#50689;&#51221;&#48372;&#183;&#49688;&#51665;&#183;&#47588;&#54609;&#44049;&#48516;&#49437; 3&#44060; &#46020;&#47700;&#51064;&#51004;&#47196; &#50808;&#48512; &#53356;&#47204;&#47553;&#48512;&#53552; GPS &#49892;&#54665;&#44620;&#51648; &#45800;&#51068; &#54028;&#51060;&#54532;&#46972;&#51064;&#51004;&#47196; &#50672;&#44208;&#46121;&#45768;&#45796;.</div>
+
   <div class="alb-wrap stg rv">
     <div class="alb-inner">
       <div class="alb-hd">
         <span class="alb-hd-badge">AX TF</span>
-        <span class="alb-hd-title">&#129413; ALBATROSS &#52404;&#44228;<span>&#49688;&#51665;&#50640;&#49436; &#49892;&#54665;&#44620;&#51648;</span></span>
+        <span class="alb-hd-title">&#129413; ALBATROSS<span>Schema: ax &middot; v2.0</span></span>
+        <span class="alb-hd-sub">3 Domains &middot; 10 Tables &middot; 12 Sites</span>
       </div>
-      <div class="alb-pipeline">
-        <div class="alb-row">
-          <div class="alb-stage">
-            <div class="alb-part alb-part-claw">CLAW<span class="alb-part-kr">&#48156;&#53681;</span></div>
-            <div class="card" style="text-align:center;padding:16px 12px">
-              <div style="font-size:28px;margin-bottom:6px">&#129406;</div>
-              <div style="font-weight:700;font-size:14px;margin-bottom:4px">&#50808;&#48512; &#49688;&#51665;</div>
-              <div style="font-size:12px;color:var(--tx3);line-height:1.5">11&#44060; &#44221;&#51137;&#49324;&#51060;&#53944; &#53356;&#47204;&#47553;<br>&#44032;&#44201;&#183;&#47532;&#48624;&#183;SKU&#183;&#53944;&#47116;&#46300;&#183;&#49884;&#51596;&#49457;</div>
-            </div>
+
+      <div class="arch-layers">
+        <!-- Layer 1: &#50868;&#50689;&#51221;&#48372; -->
+        <div class="arch-layer arch-domain-ext">
+          <div class="arch-lhd">
+            <span class="arch-lbadge">CLAW &#48156;&#53681;</span>
+            <span class="arch-ltitle">&#50868;&#50689;&#51221;&#48372; &#46020;&#47700;&#51064;</span>
+            <span class="arch-lsub">abt_crawl_*</span>
           </div>
-          <div class="alb-conn">&rarr;</div>
-          <div class="alb-stage">
-            <div class="alb-part alb-part-heart">HEART<span class="alb-part-kr">&#49900;&#51109;</span></div>
-            <div class="card" style="text-align:center;padding:16px 12px">
-              <div style="font-size:28px;margin-bottom:6px">&#10084;&#65039;</div>
-              <div style="font-weight:700;font-size:14px;margin-bottom:4px">&#51088;&#49324; &#50672;&#46041;</div>
-              <div style="font-size:12px;color:var(--tx3);line-height:1.5">&#45236;&#48512; &#51221;&#48372;&#44228; API<br>BIDB Mart &#183; &#44144;&#47000;&#183;&#49472;&#47084;&#183;&#47532;&#48624;&#183;&#48176;&#49569;</div>
+          <div class="arch-tbls">
+            <div class="arch-tbl">
+              <div class="arch-tbl-hd">
+                <span class="arch-tbl-icon">&#128279;</span>
+                <span class="arch-tbl-name">abt_crawl_site</span>
+                <span class="arch-tbl-tag arch-tbl-tag-hub">HUB</span>
+              </div>
+              <div class="arch-tbl-body">
+                <div class="arch-col"><span class="arch-key-dot" style="background:var(--orange)"></span><span class="arch-col-pk">SITE_KEY</span> VARCHAR PK</div>
+                <div class="arch-col">COLLECT_METHOD <span style="color:var(--txm)">api|curl_cffi|ssr_scrape|playwright</span></div>
+                <div class="arch-col">TIER <span style="color:var(--txm)">1/2/3</span> &middot; ENABLED <span style="color:var(--txm)">0/1</span></div>
+                <div class="arch-col">RATE_LIMIT_MS <span style="color:var(--txm)">100~2000</span></div>
+                <div class="arch-sites-row">
+                  <span class="arch-site-chip"><span class="arch-site-dot"></span>naver</span>
+                  <span class="arch-site-chip"><span class="arch-site-dot"></span>kakao</span>
+                  <span class="arch-site-chip"><span class="arch-site-dot"></span>kurly</span>
+                  <span class="arch-site-chip"><span class="arch-site-dot"></span>lotteon</span>
+                  <span class="arch-site-chip"><span class="arch-site-dot"></span>musinsa</span>
+                  <span class="arch-site-chip"><span class="arch-site-dot"></span>ohouse</span>
+                  <span class="arch-site-chip"><span class="arch-site-dot"></span>ssg</span>
+                  <span class="arch-site-chip"><span class="arch-site-dot"></span>gsshop</span>
+                  <span class="arch-site-chip"><span class="arch-site-dot"></span>oliveyoung</span>
+                  <span class="arch-site-chip"><span class="arch-site-dot"></span>auction</span>
+                  <span class="arch-site-chip"><span class="arch-site-dot"></span>gmarket</span>
+                  <span class="arch-site-chip disabled"><span class="arch-site-dot"></span>coupang</span>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="alb-conn">&rarr;</div>
-          <div class="alb-stage">
-            <div class="alb-part alb-part-wing">WING<span class="alb-part-kr">&#45216;&#44060;</span></div>
-            <div class="card" style="text-align:center;padding:16px 12px">
-              <div style="font-size:28px;margin-bottom:6px">&#129717;</div>
-              <div style="font-weight:700;font-size:14px;margin-bottom:4px">&#50808;&#45236;&#48512; &#47588;&#52845;</div>
-              <div style="font-size:12px;color:var(--tx3);line-height:1.5">&#50808;&#48512; &#49345;&#54408; &#8596; &#51088;&#49324; &#49345;&#54408;<br>Match Key &#44592;&#48152; &#51088;&#46041; &#47588;&#52845;</div>
+            <div class="arch-tbl">
+              <div class="arch-tbl-hd">
+                <span class="arch-tbl-icon">&#9881;&#65039;</span>
+                <span class="arch-tbl-name">abt_crawl_job</span>
+                <span class="arch-tbl-tag arch-tbl-tag-log">LOG &#9733;</span>
+              </div>
+              <div class="arch-tbl-body">
+                <div class="arch-col"><span class="arch-key-dot" style="background:var(--purple)"></span><span class="arch-col-fk">SITE_KEY</span> FK</div>
+                <div class="arch-col">JOB_TYPE &middot; STATUS</div>
+                <div class="arch-col">ITEMS_COUNT &middot; ERROR_COUNT</div>
+                <div class="arch-col" style="color:var(--txm);font-style:italic">&#9733; &#47932;&#47532;&#47749; &#52628;&#51221;</div>
+              </div>
+            </div>
+            <div class="arch-tbl">
+              <div class="arch-tbl-hd">
+                <span class="arch-tbl-icon">&#128154;</span>
+                <span class="arch-tbl-name">abt_crawl_site_health</span>
+                <span class="arch-tbl-tag arch-tbl-tag-log">HEALTH &#9733;</span>
+              </div>
+              <div class="arch-tbl-body">
+                <div class="arch-col"><span class="arch-key-dot" style="background:var(--purple)"></span><span class="arch-col-fk">SITE_KEY</span> FK</div>
+                <div class="arch-col">IS_HEALTHY &middot; RESPONSE_MS</div>
+                <div class="arch-col">CONSECUTIVE_FAILURES</div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="alb-flow-down">
-          <svg width="40" height="32" viewBox="0 0 40 32"><path d="M20,0 L20,24 M12,18 L20,26 L28,18" fill="none" stroke="var(--blue)" stroke-width="2" opacity=".5"/></svg>
+
+        <!-- Flow arrow -->
+        <div class="arch-flow-row">
+          <svg width="20" height="20" viewBox="0 0 20 20"><path d="M10,2 L10,14 M5,10 L10,16 L15,10" fill="none" stroke="var(--purple)" stroke-width="2" opacity=".5"/></svg>
+          <span class="arch-flow-label">SITE_KEY &#44592;&#48152; &#49688;&#51665; &#49892;&#54665;</span>
+          <svg width="20" height="20" viewBox="0 0 20 20"><path d="M10,2 L10,14 M5,10 L10,16 L15,10" fill="none" stroke="var(--purple)" stroke-width="2" opacity=".5"/></svg>
         </div>
-        <div class="alb-row">
-          <div class="alb-stage">
-            <div class="alb-part alb-part-wing">WING<span class="alb-part-kr">&#45216;&#44060;</span></div>
-            <div class="card" style="text-align:center;padding:16px 12px">
-              <div style="font-size:28px;margin-bottom:6px">&#128202;</div>
-              <div style="font-weight:700;font-size:14px;margin-bottom:4px">Gap &#48516;&#49437;</div>
-              <div style="font-size:12px;color:var(--tx3);line-height:1.5">6&#45824;&#52629; &#44201;&#52264; &#49328;&#52636;<br>&#44032;&#44201;&#183;&#46364;&#49892;&#51201;&#183;&#47784;&#47704;&#53568;&#183;CVR&#183;&#47532;&#48624;&#183;&#48176;&#49569;</div>
+
+        <!-- Layer 2: &#49688;&#51665; &#46020;&#47700;&#51064; -->
+        <div class="arch-layer arch-domain-int">
+          <div class="arch-lhd">
+            <span class="arch-lbadge">CLAW + HEART</span>
+            <span class="arch-ltitle">&#49688;&#51665; &#183; &#49345;&#54408; &#183; &#47021;&#53433; &#46020;&#47700;&#51064;</span>
+            <span class="arch-lsub">&#49884;&#44228;&#50676; &#49828;&#45253;&#49399;</span>
+          </div>
+          <div class="arch-tbls">
+            <div class="arch-tbl">
+              <div class="arch-tbl-hd">
+                <span class="arch-tbl-icon">&#128230;</span>
+                <span class="arch-tbl-name">abt_crawl_product</span>
+                <span class="arch-tbl-tag arch-tbl-tag-hub">MASTER</span>
+              </div>
+              <div class="arch-tbl-body">
+                <div class="arch-col"><span class="arch-key-dot" style="background:var(--blue)"></span><span class="arch-col-nk">SITE_KEY, PRODUCT_ID</span> NK</div>
+                <div class="arch-col">TITLE &middot; BRAND <span style="color:var(--txm)">~80%</span></div>
+                <div class="arch-col">CATEGORY_L1/L2/L3</div>
+                <div class="arch-col">AVAILABILITY <span style="color:var(--txm)">available|soldout</span></div>
+                <div class="arch-col">EXTRA <span style="color:var(--txm)">JSON &#49324;&#51060;&#53944;&#48324;</span></div>
+              </div>
+            </div>
+            <div class="arch-tbl">
+              <div class="arch-tbl-hd">
+                <span class="arch-tbl-icon">&#128200;</span>
+                <span class="arch-tbl-name">abt_crawl_product_metric</span>
+                <span class="arch-tbl-tag arch-tbl-tag-ts">TIME-SERIES</span>
+              </div>
+              <div class="arch-tbl-body">
+                <div class="arch-col"><span class="arch-key-dot" style="background:var(--blue)"></span><span class="arch-col-nk">SITE_KEY, PRODUCT_ID</span> NK</div>
+                <div class="arch-col"><strong style="color:var(--red)">PRICE</strong> &middot; ORIGINAL_PRICE &middot; DISCOUNT_RATE</div>
+                <div class="arch-col"><strong style="color:var(--green)">REVIEW_COUNT</strong> <span style="color:var(--txm)">~4%</span> &middot; <strong style="color:var(--green)">RATING</strong> <span style="color:var(--txm)">~8%</span></div>
+                <div class="arch-col">COLLECTED_DATETIME <span style="color:var(--txm)">&#49884;&#44228;&#50676;&#52629;</span></div>
+              </div>
+            </div>
+            <div class="arch-tbl">
+              <div class="arch-tbl-hd">
+                <span class="arch-tbl-icon">&#127942;</span>
+                <span class="arch-tbl-name">abt_crawl_product_rank</span>
+                <span class="arch-tbl-tag arch-tbl-tag-rank">RANK</span>
+              </div>
+              <div class="arch-tbl-body">
+                <div class="arch-col"><span class="arch-key-dot" style="background:var(--blue)"></span><span class="arch-col-nk">SITE_KEY, PRODUCT_ID</span></div>
+                <div class="arch-col">RANK_NO &middot; CATEGORY_NAME</div>
+                <div class="arch-col">SORT_TYPE <span style="color:var(--txm)">BUY|CLICK</span></div>
+                <div class="arch-col">GENDER &middot; AGE_BAND &middot; PERIOD_TYPE</div>
+              </div>
+            </div>
+            <div class="arch-tbl">
+              <div class="arch-tbl-hd">
+                <span class="arch-tbl-icon">&#127991;&#65039;</span>
+                <span class="arch-tbl-name">abt_crawl_brand_rank</span>
+                <span class="arch-tbl-tag arch-tbl-tag-rank">RANK</span>
+              </div>
+              <div class="arch-tbl-body">
+                <div class="arch-col"><span class="arch-key-dot" style="background:var(--blue)"></span><span class="arch-col-nk">SITE_KEY, BRAND_ID</span></div>
+                <div class="arch-col">BRAND_NAME &middot; RANK_NO</div>
+                <div class="arch-col">&#49464;&#44536;&#47676;&#53944; &#52629; &#44277;&#53685;</div>
+              </div>
+            </div>
+            <div class="arch-tbl">
+              <div class="arch-tbl-hd">
+                <span class="arch-tbl-icon">&#128269;</span>
+                <span class="arch-tbl-name">abt_crawl_keyword_rank</span>
+                <span class="arch-tbl-tag arch-tbl-tag-rank">RANK</span>
+              </div>
+              <div class="arch-tbl-body">
+                <div class="arch-col"><span class="arch-key-dot" style="background:var(--blue)"></span><span class="arch-col-nk">SITE_KEY, KEYWORD</span></div>
+                <div class="arch-col">APPEARANCE_COUNT &middot; RANK_NO</div>
+                <div class="arch-col">&#49464;&#44536;&#47676;&#53944; &#52629; &#44277;&#53685;</div>
+              </div>
+            </div>
+            <div class="arch-api-box">
+              <div class="arch-api-ep">&#10148; &#51088;&#49324; API: GET /api/v1/products</div>
+              <div class="arch-api-fields">pay_amt &middot; deal_amt &middot; uv &middot; pv &middot; cpc &middot; &#44208;&#51228;&#44148;&#49688; &middot; &#44396;&#47588;&#54924;&#50896;&#49688; &middot; &#49692;&#47588;&#52636;&#50529;<br><span style="color:var(--txm)">&#44592;&#44036;: &#45817;&#51068;/D-1~7/D-1~30 &middot; &#45236;&#48512;&#47581; 172.19.114.92:8080</span></div>
             </div>
           </div>
-          <div class="alb-conn">&rarr;</div>
-          <div class="alb-stage">
-            <div class="alb-part alb-part-eye">EYE<span class="alb-part-kr">&#45576;</span></div>
-            <div class="card" style="text-align:center;padding:16px 12px">
-              <div style="font-size:28px;margin-bottom:6px">&#128065;&#65039;</div>
-              <div style="font-weight:700;font-size:14px;margin-bottom:4px">&#49828;&#53076;&#50612;&#47553;</div>
-              <div style="font-size:12px;color:var(--tx3);line-height:1.5">&#44032;&#51473;&#52824; &#48152;&#50689; &#45800;&#51068; Score<br>S / A / B / C &#46321;&#44553; &#54032;&#51221;</div>
+        </div>
+
+        <!-- Flow arrow with join key -->
+        <div class="arch-flow-row">
+          <svg width="20" height="20" viewBox="0 0 20 20"><path d="M10,2 L10,14 M5,10 L10,16 L15,10" fill="none" stroke="var(--red)" stroke-width="2" opacity=".5"/></svg>
+          <div class="arch-join-info">&#51312;&#51064;&#53412;: &#50808;&#48512; <code>(SITE_KEY, PRODUCT_ID)</code> &harr; &#51088;&#49324; <code>ELEVEN_PRODUCT_NO</code></div>
+          <svg width="20" height="20" viewBox="0 0 20 20"><path d="M10,2 L10,14 M5,10 L10,16 L15,10" fill="none" stroke="var(--red)" stroke-width="2" opacity=".5"/></svg>
+        </div>
+
+        <!-- Layer 3: &#47588;&#54609;&#44049;&#48516;&#49437; -->
+        <div class="arch-layer arch-domain-gap">
+          <div class="arch-lhd">
+            <span class="arch-lbadge">WING &#47588;&#52845; + Gap</span>
+            <span class="arch-ltitle">&#47588;&#54609; &#183; &#44049;&#48516;&#49437; &#46020;&#47700;&#51064;</span>
+            <span class="arch-lsub">GPS &#44208;&#44284;&#44228; &#54645;&#49900;</span>
+          </div>
+          <div class="arch-tbls">
+            <div class="arch-tbl arch-gap-core" style="grid-column:1/-1">
+              <div class="arch-tbl-hd">
+                <span class="arch-tbl-icon">&#127919;</span>
+                <span class="arch-tbl-name">abt_gap_product</span>
+                <span class="arch-tbl-tag arch-tbl-tag-core">CORE &#8212; GPS &#44208;&#44284;&#44228; &#54645;&#49900;</span>
+              </div>
+              <div class="arch-tbl-body" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+                <div>
+                  <div class="arch-col-group-label" style="color:var(--purple)">&#50808;&#48512; SOURCE</div>
+                  <div class="arch-col"><span class="arch-col-fk">SOURCE_SITE_KEY</span></div>
+                  <div class="arch-col"><span class="arch-col-fk">SOURCE_PRODUCT_ID</span></div>
+                  <div class="arch-col">SOURCE_TITLE &middot; BRAND</div>
+                  <div class="arch-col"><strong>SOURCE_PRICE</strong> &middot; SOURCE_RANK_NO</div>
+                  <div class="arch-col">SOURCE_CATEGORY_L1/L2/L3</div>
+                </div>
+                <div>
+                  <div class="arch-col-group-label" style="color:var(--blue)">&#51088;&#49324; 11ST</div>
+                  <div class="arch-col"><span class="arch-col-nk">ELEVEN_PRODUCT_NO</span></div>
+                  <div class="arch-col">ELEVEN_TITLE</div>
+                  <div class="arch-col"><strong>ELEVEN_PRICE</strong> &middot; PRICE_DATETIME</div>
+                  <div class="arch-col"><strong>ELEVEN_REVIEW_COUNT</strong> &middot; <strong>RATING</strong></div>
+                  <div class="arch-col"><strong>ELEVEN_SEARCH_RANK_NO</strong></div>
+                </div>
+                <div>
+                  <div class="arch-col-group-label" style="color:var(--orange)">&#47588;&#52845; MATCH</div>
+                  <div class="arch-col">IS_MATCHED <span style="color:var(--txm)">0/1</span></div>
+                  <div class="arch-col">MATCH_TIER &middot; MATCH_SOURCE</div>
+                  <div class="arch-col">MATCH_SCORE <span style="color:var(--txm)">DECIMAL</span></div>
+                </div>
+                <div>
+                  <div class="arch-col-group-label" style="color:var(--red)">GAP &#44208;&#44284;</div>
+                  <div class="arch-col"><span class="arch-col-gap">PRICE_GAP_RATE</span> %</div>
+                  <div class="arch-col"><span class="arch-col-gap">PRICE_GAP_DIRECTION</span></div>
+                  <div class="arch-col"><span class="arch-col-gap">SELECTION_GAP_TYPE</span></div>
+                  <div class="arch-col"><span class="arch-col-gap">STATUS_TAG</span> &#49888;&#54840;&#46321;</div>
+                  <div class="arch-col"><strong style="color:var(--orange)">IMPACT_SCORE</strong> Priority</div>
+                </div>
+              </div>
+            </div>
+            <div class="arch-tbl">
+              <div class="arch-tbl-hd">
+                <span class="arch-tbl-icon">&#9881;&#65039;</span>
+                <span class="arch-tbl-name">abt_gap_job</span>
+                <span class="arch-tbl-tag arch-tbl-tag-log">BATCH</span>
+              </div>
+              <div class="arch-tbl-body">
+                <div class="arch-col">JOB_TYPE &middot; SCOPE(JSON)</div>
+                <div class="arch-col">TOTAL_COUNT &middot; MATCHED_COUNT &middot; MISSING_COUNT</div>
+                <div class="arch-col">WATERMARK_DATE <span style="color:var(--txm)">&#51613;&#48516; &#44592;&#51456;&#51068;</span></div>
+              </div>
             </div>
           </div>
-          <div class="alb-conn">&rarr;</div>
-          <div class="alb-stage">
-            <div class="alb-part alb-part-engine">ENGINE<span class="alb-part-kr">&#50644;&#51652;</span></div>
-            <div class="card" style="text-align:center;padding:16px 12px">
-              <div style="font-size:28px;margin-bottom:6px">&#9889;</div>
-              <div style="font-weight:700;font-size:14px;margin-bottom:4px">&#50529;&#49496; &#49892;&#54665;</div>
-              <div style="font-size:12px;color:var(--tx3);line-height:1.5">&#46321;&#44553;&#48324; &#53468;&#49828;&#53356; &#51088;&#46041; &#48176;&#51221;<br>&#50892;&#53356;&#47196;&#46300; &#48184;&#47088;&#49905;</div>
+        </div>
+
+        <!-- Flow arrow -->
+        <div class="arch-flow-row">
+          <svg width="20" height="20" viewBox="0 0 20 20"><path d="M10,2 L10,14 M5,10 L10,16 L15,10" fill="none" stroke="var(--orange)" stroke-width="2" opacity=".5"/></svg>
+          <span class="arch-flow-label">EYE &#49828;&#53076;&#50612;&#47553; &rarr; 6&#45824;&#52629; &#44032;&#51473;&#52824; &#48152;&#50689; &#45800;&#51068; Score</span>
+          <svg width="20" height="20" viewBox="0 0 20 20"><path d="M10,2 L10,14 M5,10 L10,16 L15,10" fill="none" stroke="var(--orange)" stroke-width="2" opacity=".5"/></svg>
+        </div>
+
+        <!-- Layer 4: GPS &#49828;&#53076;&#50612;&#47553; + &#49892;&#54665; -->
+        <div class="arch-layer arch-domain-exec">
+          <div class="arch-lhd">
+            <span class="arch-lbadge">EYE + ENGINE</span>
+            <span class="arch-ltitle">GPS &#49828;&#53076;&#50612;&#47553; &rarr; &#49892;&#54665; &#44228;&#52789;</span>
+            <span class="arch-lsub">Score &rarr; Grade &rarr; Task &rarr; MD</span>
+          </div>
+          <div class="arch-gps-output">
+            <div class="arch-gps-cell">
+              <div class="arch-gps-num" style="color:var(--orange)">6</div>
+              <div class="arch-gps-label">Gap &#52629; &#51652;&#45800;</div>
+              <div class="arch-gps-desc">&#44032;&#44201;25 &#46364;20 &#47784;15<br>&#51648;&#54364;15 &#47532;&#48624;15 &#48176;&#49569;10</div>
+            </div>
+            <div class="arch-gps-cell">
+              <div class="arch-gps-num" style="color:var(--red)">S/A/B/C</div>
+              <div class="arch-gps-label">4&#45800;&#44228; &#46321;&#44553;</div>
+              <div class="arch-gps-desc">&#8805;85 S(24h) &#8805;65 A(7d)<br>&#8805;40 B(14d) &lt;40 C(30d)</div>
+            </div>
+            <div class="arch-gps-cell">
+              <div class="arch-gps-num" style="color:var(--blue)">37</div>
+              <div class="arch-gps-label">&#50529;&#49496; &#53468;&#49828;&#53356;</div>
+              <div class="arch-gps-desc">&#46321;&#44553;&#48324; &#51088;&#46041; &#49373;&#49457;<br>MD Accept/Reject</div>
+            </div>
+            <div class="arch-gps-cell">
+              <div class="arch-gps-num" style="color:var(--green)">&#8635;</div>
+              <div class="arch-gps-label">&#54588;&#46300;&#48177; &#47336;&#54532;</div>
+              <div class="arch-gps-desc">&#54952;&#44284;&#52769;&#51221; &rarr; Gap &#51116;&#49328;&#52636;<br>&rarr; &#46321;&#44553; &#51116;&#54032;&#51221;</div>
             </div>
           </div>
         </div>
@@ -983,41 +1248,22 @@ html{scroll-behavior:smooth}
     </div>
   </div>
 
-  <div class="alb-exec stg rv" style="margin-top:24px">
-    <div style="font-weight:700;font-size:15px;margin-bottom:14px;display:flex;align-items:center;gap:8px">
-      <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;font-size:13px;font-weight:800">G</span>
-      Essential GPS Engine &#8212; &#49892;&#54665; &#44228;&#52789;
-    </div>
-    <div class="alb-exec-grid">
-      <div class="card alb-exec-card">
-        <div style="font-size:22px;margin-bottom:6px">&#9997;&#65039;</div>
-        <div style="font-weight:700;font-size:13px;margin-bottom:4px">&#53468;&#49828;&#53356; &#49688;&#54665;</div>
-        <div style="font-size:11px;color:var(--tx3);line-height:1.5">&#46321;&#44553;&#48324; &#53468;&#49828;&#53356; &#51088;&#46041; &#49373;&#49457;<br>Accept / Reject &#51652;&#54665;</div>
-      </div>
-      <div class="card alb-exec-card">
-        <div style="font-size:22px;margin-bottom:6px">&#128200;</div>
-        <div style="font-weight:700;font-size:13px;margin-bottom:4px">&#51652;&#52377;&#46020;</div>
-        <div style="font-size:11px;color:var(--tx3);line-height:1.5">Gap &#44060;&#49440; &#52628;&#51201;<br>KPI &#54952;&#44284; &#52769;&#51221;</div>
-      </div>
-      <div class="card alb-exec-card">
-        <div style="font-size:22px;margin-bottom:6px">&#128101;</div>
-        <div style="font-weight:700;font-size:13px;margin-bottom:4px">&#54016; &#50892;&#53356;&#47196;&#46300;</div>
-        <div style="font-size:11px;color:var(--tx3);line-height:1.5">MD&#48324; &#50629;&#47924;&#47049; &#48516;&#49437;<br>&#54016; &#48184;&#47088;&#49905; &#52572;&#51201;&#54868;</div>
-      </div>
-      <div class="card alb-exec-card">
-        <div style="font-size:22px;margin-bottom:6px">&#128260;</div>
-        <div style="font-weight:700;font-size:13px;margin-bottom:4px">&#54588;&#46300;&#48177; &#47784;&#45944;</div>
-        <div style="font-size:11px;color:var(--tx3);line-height:1.5">&#54952;&#44284; &#44048;&#49632; &#47784;&#45944;<br>&#46972;&#51060;&#54532;&#49324;&#51060;&#53364; 5&#45800;&#44228; &#48372;&#51221;</div>
-      </div>
-    </div>
+  <!-- Stats bar -->
+  <div class="arch-stats-bar stg rv" style="margin-top:16px">
+    <div class="arch-stat"><div class="arch-stat-val" style="color:var(--purple)">12</div><div class="arch-stat-label">&#45824;&#49345; &#49324;&#51060;&#53944;</div></div>
+    <div class="arch-stat"><div class="arch-stat-val" style="color:var(--blue)">10</div><div class="arch-stat-label">&#53580;&#51060;&#48660;</div></div>
+    <div class="arch-stat"><div class="arch-stat-val" style="color:var(--red)">3</div><div class="arch-stat-label">&#46020;&#47700;&#51064;</div></div>
+    <div class="arch-stat"><div class="arch-stat-val" style="color:var(--orange)">6</div><div class="arch-stat-label">&#51652;&#45800; &#52629;</div></div>
+    <div class="arch-stat"><div class="arch-stat-val" style="color:var(--green)">4</div><div class="arch-stat-label">&#46321;&#44553; &#54000;&#50612;</div></div>
   </div>
 
-  <div class="alb-feedback stg rv" style="margin-top:16px">
+  <!-- Feedback loop -->
+  <div class="alb-feedback stg rv" style="margin-top:12px">
     <svg viewBox="0 0 600 36" width="100%" height="36" preserveAspectRatio="none">
       <defs><marker id="arrAlb" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="var(--blue)" opacity=".5"/></marker></defs>
       <path d="M560,30 C580,30 590,16 590,4 L590,4 L10,4 C10,4 0,16 20,30" fill="none" stroke="var(--blue)" stroke-width="1.5" stroke-dasharray="6 4" opacity=".4" marker-end="url(#arrAlb)"/>
     </svg>
-    <span class="sys-feedback-label">&#54588;&#46300;&#48177; &#47336;&#54532; &#8212; &#54952;&#44284; &#52769;&#51221; &rarr; Gap &#51116;&#49328;&#52636; &rarr; &#46321;&#44553; &#51116;&#54032;&#51221;</span>
+    <span class="sys-feedback-label">&#54588;&#46300;&#48177; &#47336;&#54532; &#8212; &#54952;&#44284; &#52769;&#51221; &rarr; WATERMARK_DATE &#44592;&#48152; &#51613;&#48516; &#51116;&#52376;&#47532; &rarr; Gap &#51116;&#49328;&#52636; &rarr; STATUS_TAG &#51116;&#54032;&#51221;</span>
   </div>
 </div>
 
