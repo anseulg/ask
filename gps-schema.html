@@ -85,12 +85,13 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 
 /* ── Stacked bar formula ── */
 .track{display:none}.track.active{display:block}
-.stacked-bar{display:flex;height:40px;border-radius:var(--rx);overflow:hidden;margin-bottom:20px;gap:2px}
+.stacked-bar{display:flex;height:32px;border-radius:var(--rx);overflow:hidden;margin-bottom:16px;gap:2px}
 .stacked-seg{display:flex;align-items:center;justify-content:center;cursor:default;position:relative;
   transition:flex .5s var(--spring),filter .2s;min-width:0}
-.stacked-seg span{font-size:11px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 8px}
+.stacked-seg span{font-size:10px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 4px}
 .stacked-seg:hover{filter:brightness(1.15)}
-.formula-legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin-bottom:20px}
+.formula-legend{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 16px;margin-bottom:20px}
+@media(max-width:640px){.formula-legend{grid-template-columns:repeat(2,1fr)}}
 .fl-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2)}
 .fl-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
 .fl-item strong{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
@@ -277,7 +278,7 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
   font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
 .axis-body{flex:1;min-width:0}
 .axis-body strong{display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px}
-.axis-body span{display:block;font-size:10px;color:var(--ink3);line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.axis-body span{display:block;font-size:10px;color:var(--ink3);line-height:1.4}
 .axis-weight{font-size:14px;font-weight:800;color:var(--ink2);flex-shrink:0;font-variant-numeric:tabular-nums}
 
 /* ── Tier output ── */
