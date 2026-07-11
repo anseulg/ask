@@ -584,6 +584,13 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.7;-
 .sim-axis.no-data input[type=range]{opacity:.25;pointer-events:none}
 .sim-axis.no-data .sim-axis-name{opacity:.4}
 .sim-axis.no-data .val{opacity:.4}
+.sim-axis-name{position:relative}
+.sim-axis-name:hover .ax-tip{display:block}
+.ax-tip{display:none;position:absolute;left:0;top:100%;z-index:10;background:var(--sf);border:1px solid var(--bd);border-radius:8px;padding:8px 10px;box-shadow:var(--shm);white-space:nowrap;font-size:10px;font-weight:400;color:var(--tx3);line-height:1.6;min-width:180px;margin-top:4px}
+.ax-tip strong{color:var(--tx2);font-weight:700}
+.ax-tip .tip-int{color:var(--blue)}
+.ax-tip .tip-ext{color:var(--purple)}
+.ax-tip .tip-none{color:var(--red);font-style:italic}
 .sim-grid-hd{display:grid;grid-template-columns:110px 48px 48px 1fr 32px;gap:6px;align-items:center;padding:0 0 6px;border-bottom:1px solid var(--bd);margin-bottom:2px}
 .sim-grid-hd span{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);text-align:center}
 .sim-presets{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
@@ -1481,43 +1488,43 @@ html{scroll-behavior:smooth}
       <div class="sim-grid" id="simGrid">
         <div class="sim-grid-hd"><span>&#52629;</span><span>&#51088;&#49324;</span><span>&#50808;&#48512;</span><span>Gap Score</span><span></span></div>
         <div class="sim-axis" id="ax-0">
-          <div class="sim-axis-name"><span class="ax-dot" style="background:var(--red)"></span>&#44032;&#44201;<span class="ax-wt" id="wt-0">25%</span></div>
+          <div class="sim-axis-name"><span class="ax-dot" style="background:var(--red)"></span>&#44032;&#44201;<span class="ax-wt" id="wt-0">25%</span><div class="ax-tip"><span class="tip-int">&#51088;&#49324;</span> ELEVEN_PRICE<br><span class="tip-ext">&#50808;&#48512;</span> SOURCE_PRICE (11&#47792;)</div></div>
           <label class="ax-chk"><input type="checkbox" id="chk-0-int" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
           <label class="ax-chk"><input type="checkbox" id="chk-0-ext" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
           <div class="sim-axis-row"><input type="range" min="0" max="100" value="75" id="sl-0" oninput="calcGPS()"></div>
           <span class="val" id="v-0">75</span>
         </div>
         <div class="sim-axis" id="ax-1">
-          <div class="sim-axis-name"><span class="ax-dot" style="background:var(--orange)"></span>&#46364;&#49892;&#51201;<span class="ax-wt" id="wt-1">20%</span></div>
+          <div class="sim-axis-name"><span class="ax-dot" style="background:var(--orange)"></span>&#46364;&#49892;&#51201;<span class="ax-wt" id="wt-1">20%</span><div class="ax-tip"><span class="tip-int">&#51088;&#49324;</span> API pay_amt, deal_amt<br><span class="tip-none">&#50808;&#48512; &#50630;&#51020;</span></div></div>
           <label class="ax-chk"><input type="checkbox" id="chk-1-int" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
-          <label class="ax-chk"><input type="checkbox" id="chk-1-ext" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
+          <label class="ax-chk"><input type="checkbox" id="chk-1-ext" onchange="calcGPS()"><span class="ax-chk-box"></span></label>
           <div class="sim-axis-row"><input type="range" min="0" max="100" value="60" id="sl-1" oninput="calcGPS()"></div>
           <span class="val" id="v-1">60</span>
         </div>
         <div class="sim-axis" id="ax-2">
-          <div class="sim-axis-name"><span class="ax-dot" style="background:var(--orange)"></span>&#47784;&#47704;&#53568;<span class="ax-wt" id="wt-2">15%</span></div>
+          <div class="sim-axis-name"><span class="ax-dot" style="background:var(--orange)"></span>&#47784;&#47704;&#53568;<span class="ax-wt" id="wt-2">15%</span><div class="ax-tip"><span class="tip-int">&#51088;&#49324;</span> API D-1~30 &#52628;&#51060;<br><span class="tip-ext">&#50808;&#48512;</span> &#9651; &#47021;&#53433; &#49884;&#44228;&#50676;(&#44036;&#51217;)</div></div>
           <label class="ax-chk"><input type="checkbox" id="chk-2-int" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
-          <label class="ax-chk"><input type="checkbox" id="chk-2-ext" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
+          <label class="ax-chk"><input type="checkbox" id="chk-2-ext" onchange="calcGPS()"><span class="ax-chk-box"></span></label>
           <div class="sim-axis-row"><input type="range" min="0" max="100" value="50" id="sl-2" oninput="calcGPS()"></div>
           <span class="val" id="v-2">50</span>
         </div>
         <div class="sim-axis" id="ax-3">
-          <div class="sim-axis-name"><span class="ax-dot" style="background:var(--blue)"></span>&#51648;&#54364;/CVR<span class="ax-wt" id="wt-3">15%</span></div>
+          <div class="sim-axis-name"><span class="ax-dot" style="background:var(--blue)"></span>&#51648;&#54364;/CVR<span class="ax-wt" id="wt-3">15%</span><div class="ax-tip"><span class="tip-int">&#51088;&#49324;</span> SEARCH_RANK_NO, PV/CPC<br><span class="tip-ext">&#50808;&#48512;</span> RANK_NO, keyword_rank</div></div>
           <label class="ax-chk"><input type="checkbox" id="chk-3-int" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
           <label class="ax-chk"><input type="checkbox" id="chk-3-ext" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
           <div class="sim-axis-row"><input type="range" min="0" max="100" value="65" id="sl-3" oninput="calcGPS()"></div>
           <span class="val" id="v-3">65</span>
         </div>
         <div class="sim-axis" id="ax-4">
-          <div class="sim-axis-name"><span class="ax-dot" style="background:var(--green)"></span>&#47532;&#48624;<span class="ax-wt" id="wt-4">15%</span></div>
+          <div class="sim-axis-name"><span class="ax-dot" style="background:var(--green)"></span>&#47532;&#48624;<span class="ax-wt" id="wt-4">15%</span><div class="ax-tip"><span class="tip-int">&#51088;&#49324;</span> REVIEW_COUNT, RATING<br><span class="tip-ext">&#50808;&#48512;</span> REVIEW_COUNT(4%), RATING(8%)</div></div>
           <label class="ax-chk"><input type="checkbox" id="chk-4-int" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
           <label class="ax-chk"><input type="checkbox" id="chk-4-ext" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
           <div class="sim-axis-row"><input type="range" min="0" max="100" value="80" id="sl-4" oninput="calcGPS()"></div>
           <span class="val" id="v-4">80</span>
         </div>
         <div class="sim-axis" id="ax-5">
-          <div class="sim-axis-name"><span class="ax-dot" style="background:var(--green)"></span>&#48176;&#49569;<span class="ax-wt" id="wt-5">10%</span></div>
-          <label class="ax-chk"><input type="checkbox" id="chk-5-int" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
+          <div class="sim-axis-name"><span class="ax-dot" style="background:var(--green)"></span>&#48176;&#49569;<span class="ax-wt" id="wt-5">10%</span><div class="ax-tip"><span class="tip-none">&#51088;&#49324; &#50630;&#51020;</span><br><span class="tip-ext">&#50808;&#48512;</span> EXTRA delivery(&#51068;&#48512; &#49324;&#51060;&#53944;)</div></div>
+          <label class="ax-chk"><input type="checkbox" id="chk-5-int" onchange="calcGPS()"><span class="ax-chk-box"></span></label>
           <label class="ax-chk"><input type="checkbox" id="chk-5-ext" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
           <div class="sim-axis-row"><input type="range" min="0" max="100" value="90" id="sl-5" oninput="calcGPS()"></div>
           <span class="val" id="v-5">90</span>
@@ -2020,12 +2027,12 @@ var axColors=['#ff3b30','#ff9500','#ff9500','#0071e3','#34c759','#34c759'];
 var prevGrade='';
 
 var axisDataSrc=[
-  {int:'\u{C815}\u{C0C1}\u{AC00},\u{D604}\u{C7AC}\u{AC00}',ext:'\u{ACBD}\u{C7C1}\u{C0AC} \u{CD5C}\u{C800}\u{AC00}(10\u{AC1C}\u{BAB0})'},
-  {int:'\u{AC70}\u{B798}\u{AC74}\u{C218},\u{AC70}\u{B798}\u{C561}',ext:'\u{AD6C}\u{C88C}\u{D3C9}\u{ADE0} \u{B300}\u{BE44} \u{B9E4}\u{CD9C}'},
-  {int:'\u{D310}\u{B9E4} \u{CD94}\u{C774}',ext:'\u{D0C0}\u{C0AC} \u{C21C}\u{C704},\u{C778}\u{AE30}\u{B3C4}'},
-  {int:'CVR,PV',ext:'\u{C9C1}\u{C804}\u{B51C} \u{B300}\u{BE44} \u{B9E4}\u{CD9C}'},
-  {int:'\u{B9AC}\u{BDF0}\u{C218}',ext:'\u{ACBD}\u{C7C1}\u{C0AC} \u{B9AC}\u{BDF0}\u{D3C9}\u{C810}'},
-  {int:'\u{BC30}\u{C1A1}\u{D0C0}\u{C785},\u{BC30}\u{C1A1}\u{BE44}',ext:'\u{D0C0}\u{C0AC} \u{BC30}\u{C1A1}\u{C18D}\u{B3C4}'}
+  {int:'ELEVEN_PRICE',ext:'SOURCE_PRICE, PRICE, DISCOUNT_RATE (11\u{BAB0})'},
+  {int:'API pay_amt, deal_amt',ext:'\u{2014} \u{C678}\u{BD80}\u{C5C6}\u{C74C}'},
+  {int:'API D-1~30 \u{CD94}\u{C774}',ext:'\u{25B3} \u{B7AD}\u{D0B9}\u{C2DC}\u{ACC4}\u{C5F4}(\u{AC04}\u{C811})'},
+  {int:'ELEVEN_SEARCH_RANK_NO, PV/CPC',ext:'RANK_NO, keyword_rank'},
+  {int:'ELEVEN_REVIEW_COUNT, RATING',ext:'REVIEW_COUNT(\u{ACB0}\u{CE21}4%), RATING(8%)'},
+  {int:'\u{2014} \u{C790}\u{C0AC}\u{C5C6}\u{C74C}',ext:'EXTRA delivery(\u{C77C}\u{BD80}\u{C0AC}\u{C774}\u{D2B8})'}
 ];
 
 function calcGPS(){
