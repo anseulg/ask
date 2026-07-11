@@ -683,6 +683,56 @@ html{scroll-behavior:smooth}
 .sys-feedback-arrow{text-align:center;margin-top:8px;position:relative}
 .sys-feedback-label{font-size:11px;color:var(--txm);font-weight:600;display:block;margin-top:4px}
 
+/* albatross architecture */
+.alb-wrap{position:relative;border-radius:var(--r);overflow:hidden;background:var(--sf);border:1px solid var(--bd);box-shadow:var(--shl)}
+.alb-wrap::before{content:'';position:absolute;inset:-2px;border-radius:calc(var(--r)+2px);background:conic-gradient(var(--blue),var(--purple),var(--red),var(--orange),var(--green),var(--blue));z-index:0;animation:borderSpin 8s linear infinite}
+.alb-wrap::after{content:'';position:absolute;inset:2px;border-radius:calc(var(--r)-2px);background:var(--sf);z-index:0}
+.alb-inner{position:relative;z-index:1}
+.alb-hd{display:flex;align-items:center;gap:14px;padding:20px 28px;background:linear-gradient(135deg,#0a0a1a,#1a1a2e);border-bottom:1px solid rgba(255,255,255,.06)}
+.alb-hd-badge{font-size:10px;font-weight:800;letter-spacing:.1em;padding:5px 14px;border-radius:100px;background:rgba(10,132,255,.15);color:#0a84ff;border:1px solid rgba(10,132,255,.25)}
+.alb-hd-title{font-size:22px;font-weight:800;letter-spacing:.06em;color:#fff;flex:1}
+.alb-hd-title span{opacity:.4;font-weight:400;font-size:14px;margin-left:8px;letter-spacing:0}
+.alb-hd-sub{font-size:12px;color:rgba(255,255,255,.35);letter-spacing:.02em}
+.alb-pipeline{padding:28px 24px 20px;display:flex;flex-direction:column;gap:0}
+.alb-row{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:0;align-items:stretch}
+.alb-stage{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rs);padding:20px 16px;text-align:center;position:relative;transition:transform .3s,box-shadow .3s}
+.alb-stage:hover{transform:translateY(-3px);box-shadow:var(--shl)}
+.alb-part{font-size:9px;font-weight:800;letter-spacing:.12em;padding:3px 10px;border-radius:100px;display:inline-block;margin-bottom:8px}
+.alb-part-claw{background:rgba(191,90,242,.12);color:var(--purple)}
+.alb-part-heart{background:rgba(255,59,48,.12);color:var(--red)}
+.alb-part-wing{background:rgba(0,113,227,.12);color:var(--blue)}
+.alb-part-eye{background:rgba(255,149,0,.12);color:var(--orange)}
+.alb-part-engine{background:rgba(52,199,89,.12);color:var(--green)}
+.alb-num{font-family:var(--fm);font-size:10px;font-weight:700;color:var(--txm);margin-bottom:6px}
+.alb-ico{font-size:28px;margin-bottom:8px;display:block}
+.alb-stitle{font-size:15px;font-weight:800;margin-bottom:4px;letter-spacing:-.01em}
+.alb-sdesc{font-size:12px;color:var(--tx3);line-height:1.6;margin-bottom:8px}
+.alb-tags{display:flex;flex-wrap:wrap;gap:4px;justify-content:center}
+.alb-tags span{font-size:9px;font-weight:700;padding:2px 8px;border-radius:100px;background:var(--sf);border:1px solid var(--bd);color:var(--txm)}
+.alb-conn{display:flex;align-items:center;justify-content:center;padding:0 6px;color:var(--txm);font-size:18px;font-weight:300}
+.alb-conn svg{width:24px;height:24px}
+.alb-flow-down{text-align:center;padding:6px 0;color:var(--txm)}
+.alb-flow-down svg{width:24px;height:32px;animation:flowDown 1.5s ease-in-out infinite}
+.alb-stage-core{border-color:var(--orange);background:rgba(255,149,0,.04)}
+.alb-stage-exec{border-color:var(--green);background:rgba(52,199,89,.04)}
+
+.alb-exec{margin-top:16px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);box-shadow:var(--shm);overflow:hidden}
+.alb-exec-hd{display:flex;align-items:center;gap:12px;padding:16px 24px;background:var(--sf2);border-bottom:1px solid var(--bd)}
+.alb-exec-badge{font-size:14px;font-weight:800;color:var(--tx);display:flex;align-items:center;gap:8px}
+.alb-exec-badge::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 1.5s ease-in-out infinite}
+.alb-exec-sub{font-size:12px;color:var(--txm);margin-left:auto}
+.alb-exec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.alb-exec-card{padding:20px 16px;text-align:center;border-right:1px solid var(--bd);transition:background .3s}
+.alb-exec-card:last-child{border-right:none}
+.alb-exec-card:hover{background:var(--sf2)}
+.alb-exec-ico{font-size:24px;margin-bottom:8px}
+.alb-exec-title{font-size:14px;font-weight:800;margin-bottom:4px}
+.alb-exec-desc{font-size:11px;color:var(--tx3);line-height:1.6}
+.alb-feedback{display:flex;align-items:center;gap:10px;padding:12px 24px;border-top:1px solid var(--bd);background:var(--sf2)}
+.alb-feedback-line{flex:1;height:1px;background:linear-gradient(90deg,var(--green),var(--blue),var(--purple),var(--red))}
+.alb-feedback-label{font-size:10px;font-weight:700;color:var(--txm);letter-spacing:.02em;white-space:nowrap}
+@media(max-width:700px){.alb-row{grid-template-columns:1fr;gap:8px}.alb-conn{transform:rotate(90deg);padding:4px 0}.alb-exec-grid{grid-template-columns:repeat(2,1fr)}.alb-exec-card{border-bottom:1px solid var(--bd)}}
+
 /* progress grid */
 .progress-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .prog-card{padding:24px;position:relative;overflow:hidden}
@@ -815,85 +865,111 @@ html{scroll-behavior:smooth}
   <div class="eyebrow rv">System Architecture</div>
   <div class="sec-title rv">&#51204;&#52404; &#49884;&#49828;&#53596; &#50500;&#53412;&#53581;&#52376; &#8212; &#49688;&#51665;&#50640;&#49436; &#49892;&#54665;&#44620;&#51648;</div>
   <div class="sec-desc rv">&#50808;&#48512; &#53356;&#47204;&#47553;&#183;&#45236;&#48512; &#45936;&#51060;&#53552;&#47484; &#49688;&#51665;&#54616;&#44256;, GPS &#50644;&#51652;&#51060; &#54032;&#51221;&#54616;&#44256;, MD&#44032; &#49892;&#54665;&#54633;&#45768;&#45796;. &#54588;&#46300;&#48177;&#51060; &#46028;&#50500;&#50752; &#45796;&#51020; &#54032;&#51221;&#51012; &#48372;&#51221;&#54633;&#45768;&#45796;.</div>
-  <div class="sys-schema stg rv">
-    <div class="sys-layer">
-      <div class="sys-layer-label">&#45936;&#51060;&#53552; &#49688;&#51665; &#44228;&#52789;</div>
-      <div class="sys-nodes">
-        <div class="card sys-node sys-ext">
-          <div class="sys-icon">&#127760;</div>
-          <div class="sys-node-title">Albatross Crawling</div>
-          <div class="sys-node-desc">&#50808;&#48512; &#44221;&#51137;&#49324; 11&#44060; &#49324;&#51060;&#53944;<br>&#44032;&#44201;&#183;&#47532;&#48624;&#183;SKU&#183;&#53944;&#47116;&#46300;&#183;&#49884;&#51596;&#49457;</div>
-          <div class="sys-badge sys-badge-ext">&#50808;&#48512; &#45936;&#51060;&#53552;</div>
-        </div>
-        <div class="card sys-node sys-int">
-          <div class="sys-icon">&#128451;</div>
-          <div class="sys-node-title">BIDB Mart</div>
-          <div class="sys-node-desc">&#51088;&#49324; &#46356;&#49828;&#52964;&#48260;&#47532; &#45936;&#51060;&#53552;<br>&#44144;&#47000;&#183;&#49472;&#47084;&#183;&#49345;&#54408;&#183;&#47532;&#48624;&#183;&#48176;&#49569;</div>
-          <div class="sys-badge sys-badge-int">&#45236;&#48512; &#45936;&#51060;&#53552;</div>
-        </div>
-        <div class="card sys-node sys-int">
-          <div class="sys-icon">&#128202;</div>
-          <div class="sys-node-title">&#49892;&#49884;&#44036; &#53944;&#47532;&#44144;</div>
-          <div class="sys-node-desc">PRICE_WATCH<br>SURGE_WATCH<br>HEALTH_CHECK</div>
-          <div class="sys-badge sys-badge-int">&#51060;&#48292;&#53944;</div>
-        </div>
+  <div class="alb-wrap stg rv">
+    <div class="alb-inner">
+      <div class="alb-hd">
+        <span style="font-size:18px;margin-right:8px">&#129413;</span>
+        <span>AX TF &mdash; ALBATROSS &#52404;&#44228;</span>
       </div>
-    </div>
-    <div class="sys-arrow-row"><div class="sys-arrow-line"></div><div class="sys-arrow-label">ETL &#48176;&#52824; 06:00~09:00 + &#49892;&#49884;&#44036; &#49828;&#53944;&#47548;</div></div>
-    <div class="sys-layer">
-      <div class="sys-layer-label">&#48516;&#49437;&#183;&#54032;&#51221; &#44228;&#52789;</div>
-      <div class="sys-nodes">
-        <div class="card sys-node sys-core">
-          <div class="sys-icon">&#128161;</div>
-          <div class="sys-node-title">Essential GPS Engine</div>
-          <div class="sys-node-desc">6&#45824;&#52629; Gap &#49328;&#52636; &rarr; Priority &#51221;&#47148; &rarr; Score &#54032;&#51221;</div>
-          <div class="sys-badge sys-badge-core">&#9733; &#54645;&#49900; &#50644;&#51652;</div>
-          <div class="sys-sub-nodes">
-            <span class="sys-chip">Gap &#48516;&#49437;</span>
-            <span class="sys-chip">&#44032;&#51473;&#52824; &#50644;&#51652;</span>
-            <span class="sys-chip">S/A/B/C &#54032;&#51221;</span>
-            <span class="sys-chip">&#50724;&#48260;&#46972;&#51060;&#46300;</span>
+      <div class="alb-pipeline">
+        <div class="alb-row">
+          <div class="alb-stage">
+            <div class="alb-part alb-claw">CLAW<span class="alb-part-kr">&#48156;&#53681;</span></div>
+            <div class="card" style="text-align:center;padding:16px 12px">
+              <div style="font-size:28px;margin-bottom:6px">&#129406;</div>
+              <div style="font-weight:700;font-size:14px;margin-bottom:4px">&#50808;&#48512; &#49688;&#51665;</div>
+              <div style="font-size:12px;color:var(--tx3);line-height:1.5">11&#44060; &#44221;&#51137;&#49324;&#51060;&#53944; &#53356;&#47204;&#47553;<br>&#44032;&#44201;&#183;&#47532;&#48624;&#183;SKU&#183;&#53944;&#47116;&#46300;&#183;&#49884;&#51596;&#49457;</div>
+            </div>
+          </div>
+          <div class="alb-conn">&rarr;</div>
+          <div class="alb-stage">
+            <div class="alb-part alb-heart">HEART<span class="alb-part-kr">&#49900;&#51109;</span></div>
+            <div class="card" style="text-align:center;padding:16px 12px">
+              <div style="font-size:28px;margin-bottom:6px">&#10084;&#65039;</div>
+              <div style="font-weight:700;font-size:14px;margin-bottom:4px">&#51088;&#49324; &#50672;&#46041;</div>
+              <div style="font-size:12px;color:var(--tx3);line-height:1.5">&#45236;&#48512; &#51221;&#48372;&#44228; API<br>BIDB Mart &#183; &#44144;&#47000;&#183;&#49472;&#47084;&#183;&#47532;&#48624;&#183;&#48176;&#49569;</div>
+            </div>
+          </div>
+          <div class="alb-conn">&rarr;</div>
+          <div class="alb-stage">
+            <div class="alb-part alb-wing">WING<span class="alb-part-kr">&#45216;&#44060;</span></div>
+            <div class="card" style="text-align:center;padding:16px 12px">
+              <div style="font-size:28px;margin-bottom:6px">&#129717;</div>
+              <div style="font-weight:700;font-size:14px;margin-bottom:4px">&#50808;&#45236;&#48512; &#47588;&#52845;</div>
+              <div style="font-size:12px;color:var(--tx3);line-height:1.5">&#50808;&#48512; &#49345;&#54408; &#8596; &#51088;&#49324; &#49345;&#54408;<br>Match Key &#44592;&#48152; &#51088;&#46041; &#47588;&#52845;</div>
+            </div>
           </div>
         </div>
-        <div class="card sys-node sys-core2">
-          <div class="sys-icon">&#127919;</div>
-          <div class="sys-node-title">&#50529;&#49496; &#47588;&#52845; &#50644;&#51652;</div>
-          <div class="sys-node-desc">&#46321;&#44553;&#48324; &#53468;&#49828;&#53356; &#51088;&#46041; &#48176;&#51221;<br>&#50892;&#53356;&#47196;&#46300; &#48184;&#47088;&#49905;</div>
-          <div class="sys-badge sys-badge-core">&#51088;&#46041;&#54868;</div>
+        <div class="alb-flow-down">
+          <svg width="40" height="32" viewBox="0 0 40 32"><path d="M20,0 L20,24 M12,18 L20,26 L28,18" fill="none" stroke="var(--blue)" stroke-width="2" opacity=".5"/></svg>
+        </div>
+        <div class="alb-row">
+          <div class="alb-stage">
+            <div class="alb-part alb-wing">WING<span class="alb-part-kr">&#45216;&#44060;</span></div>
+            <div class="card" style="text-align:center;padding:16px 12px">
+              <div style="font-size:28px;margin-bottom:6px">&#128202;</div>
+              <div style="font-weight:700;font-size:14px;margin-bottom:4px">Gap &#48516;&#49437;</div>
+              <div style="font-size:12px;color:var(--tx3);line-height:1.5">6&#45824;&#52629; &#44201;&#52264; &#49328;&#52636;<br>&#44032;&#44201;&#183;&#46364;&#49892;&#51201;&#183;&#47784;&#47704;&#53568;&#183;CVR&#183;&#47532;&#48624;&#183;&#48176;&#49569;</div>
+            </div>
+          </div>
+          <div class="alb-conn">&rarr;</div>
+          <div class="alb-stage">
+            <div class="alb-part alb-eye">EYE<span class="alb-part-kr">&#45576;</span></div>
+            <div class="card" style="text-align:center;padding:16px 12px">
+              <div style="font-size:28px;margin-bottom:6px">&#128065;&#65039;</div>
+              <div style="font-weight:700;font-size:14px;margin-bottom:4px">&#49828;&#53076;&#50612;&#47553;</div>
+              <div style="font-size:12px;color:var(--tx3);line-height:1.5">&#44032;&#51473;&#52824; &#48152;&#50689; &#45800;&#51068; Score<br>S / A / B / C &#46321;&#44553; &#54032;&#51221;</div>
+            </div>
+          </div>
+          <div class="alb-conn">&rarr;</div>
+          <div class="alb-stage">
+            <div class="alb-part alb-engine">ENGINE<span class="alb-part-kr">&#50644;&#51652;</span></div>
+            <div class="card" style="text-align:center;padding:16px 12px">
+              <div style="font-size:28px;margin-bottom:6px">&#9889;</div>
+              <div style="font-weight:700;font-size:14px;margin-bottom:4px">&#50529;&#49496; &#49892;&#54665;</div>
+              <div style="font-size:12px;color:var(--tx3);line-height:1.5">&#46321;&#44553;&#48324; &#53468;&#49828;&#53356; &#51088;&#46041; &#48176;&#51221;<br>&#50892;&#53356;&#47196;&#46300; &#48184;&#47088;&#49905;</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="sys-arrow-row"><div class="sys-arrow-line"></div><div class="sys-arrow-label">API + MCP + WebSocket</div></div>
-    <div class="sys-layer">
-      <div class="sys-layer-label">&#49892;&#54665;&#183;&#54588;&#46300;&#48177; &#44228;&#52789;</div>
-      <div class="sys-nodes">
-        <div class="card sys-node sys-exec">
-          <div class="sys-icon">&#128100;</div>
-          <div class="sys-node-title">&#51312;&#51649;&#51109; &#45824;&#49884;&#48372;&#46300;</div>
-          <div class="sys-node-desc">&#52852;&#53580;&#44256;&#47532; &#48169;&#54693;&#49457;&#183;Gap &#51652;&#52377;&#46020;<br>&#54016; &#50892;&#53356;&#47196;&#46300; &#47784;&#45768;&#53552;&#47553;</div>
-          <div class="sys-badge sys-badge-exec">&#51312;&#51649;&#51109;</div>
-        </div>
-        <div class="card sys-node sys-exec">
-          <div class="sys-icon">&#128736;</div>
-          <div class="sys-node-title">MD &#49892;&#54665; &#51064;&#53552;&#54168;&#51060;&#49828;</div>
-          <div class="sys-node-desc">&#53468;&#49828;&#53356; &#49688;&#54665;&#183;Accept/Reject<br>RM&#53812;&#183;PMO&#183;Navi &#50672;&#46041;</div>
-          <div class="sys-badge sys-badge-exec">MD</div>
-        </div>
-        <div class="card sys-node sys-feedback">
-          <div class="sys-icon">&#128260;</div>
-          <div class="sys-node-title">&#54952;&#44284; &#52769;&#51221;&#183;&#54588;&#46300;&#48177;</div>
-          <div class="sys-node-desc">KPI &#52628;&#51201;&#183;&#54952;&#44284; &#44048;&#49632; &#47784;&#45944;<br>&#46972;&#51060;&#54532;&#49324;&#51060;&#53364; 5&#45800;&#44228; &#48372;&#51221;</div>
-          <div class="sys-badge sys-badge-feed">&#49692;&#54872;</div>
-        </div>
+  </div>
+
+  <div class="alb-exec stg rv" style="margin-top:24px">
+    <div style="font-weight:700;font-size:15px;margin-bottom:14px;display:flex;align-items:center;gap:8px">
+      <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;font-size:13px;font-weight:800">G</span>
+      Essential GPS Engine &#8212; &#49892;&#54665; &#44228;&#52789;
+    </div>
+    <div class="alb-exec-grid">
+      <div class="card alb-exec-card">
+        <div style="font-size:22px;margin-bottom:6px">&#9997;&#65039;</div>
+        <div style="font-weight:700;font-size:13px;margin-bottom:4px">&#53468;&#49828;&#53356; &#49688;&#54665;</div>
+        <div style="font-size:11px;color:var(--tx3);line-height:1.5">&#46321;&#44553;&#48324; &#53468;&#49828;&#53356; &#51088;&#46041; &#49373;&#49457;<br>Accept / Reject &#51652;&#54665;</div>
+      </div>
+      <div class="card alb-exec-card">
+        <div style="font-size:22px;margin-bottom:6px">&#128200;</div>
+        <div style="font-weight:700;font-size:13px;margin-bottom:4px">&#51652;&#52377;&#46020;</div>
+        <div style="font-size:11px;color:var(--tx3);line-height:1.5">Gap &#44060;&#49440; &#52628;&#51201;<br>KPI &#54952;&#44284; &#52769;&#51221;</div>
+      </div>
+      <div class="card alb-exec-card">
+        <div style="font-size:22px;margin-bottom:6px">&#128101;</div>
+        <div style="font-weight:700;font-size:13px;margin-bottom:4px">&#54016; &#50892;&#53356;&#47196;&#46300;</div>
+        <div style="font-size:11px;color:var(--tx3);line-height:1.5">MD&#48324; &#50629;&#47924;&#47049; &#48516;&#49437;<br>&#54016; &#48184;&#47088;&#49905; &#52572;&#51201;&#54868;</div>
+      </div>
+      <div class="card alb-exec-card">
+        <div style="font-size:22px;margin-bottom:6px">&#128260;</div>
+        <div style="font-weight:700;font-size:13px;margin-bottom:4px">&#54588;&#46300;&#48177; &#47784;&#45944;</div>
+        <div style="font-size:11px;color:var(--tx3);line-height:1.5">&#54952;&#44284; &#44048;&#49632; &#47784;&#45944;<br>&#46972;&#51060;&#54532;&#49324;&#51060;&#53364; 5&#45800;&#44228; &#48372;&#51221;</div>
       </div>
     </div>
-    <div class="sys-feedback-arrow">
-      <svg viewBox="0 0 600 40" width="100%" height="40" preserveAspectRatio="none">
-        <defs><marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="var(--blue)" opacity=".5"/></marker></defs>
-        <path d="M560,35 C580,35 590,20 590,5 L590,5 L10,5 C10,5 0,20 20,35" fill="none" stroke="var(--blue)" stroke-width="1.5" stroke-dasharray="6 4" opacity=".4" marker-end="url(#arr)"/>
-      </svg>
-      <span class="sys-feedback-label">&#54588;&#46300;&#48177; &#47336;&#54532; &#8212; &#54952;&#44284; &#52769;&#51221; &rarr; Gap &#51116;&#49328;&#52636; &rarr; &#46321;&#44553; &#51116;&#54032;&#51221;</span>
-    </div>
+  </div>
+
+  <div class="alb-feedback stg rv" style="margin-top:16px">
+    <svg viewBox="0 0 600 36" width="100%" height="36" preserveAspectRatio="none">
+      <defs><marker id="arrAlb" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="var(--blue)" opacity=".5"/></marker></defs>
+      <path d="M560,30 C580,30 590,16 590,4 L590,4 L10,4 C10,4 0,16 20,30" fill="none" stroke="var(--blue)" stroke-width="1.5" stroke-dasharray="6 4" opacity=".4" marker-end="url(#arrAlb)"/>
+    </svg>
+    <span class="sys-feedback-label">&#54588;&#46300;&#48177; &#47336;&#54532; &#8212; &#54952;&#44284; &#52769;&#51221; &rarr; Gap &#51116;&#49328;&#52636; &rarr; &#46321;&#44553; &#51116;&#54032;&#51221;</span>
   </div>
 </div>
 
