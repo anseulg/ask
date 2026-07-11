@@ -186,11 +186,11 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.7;-
 .gap-mini-bar{flex:1;border-radius:4px 4px 0 0;transition:height .8s cubic-bezier(.16,1,.3,1);min-width:16px}
 
 /* decision tree - clickable */
-.dtree{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
-.dnode{overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .3s}
+.dtree{display:flex;flex-direction:column;gap:0;margin-bottom:28px;position:relative}
+.dnode{overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .3s;position:relative}
 .dnode:hover{transform:translateX(4px);box-shadow:var(--shm)}
 .dnode-head{display:flex;align-items:center;gap:14px;padding:20px 24px}
-.dnode-num{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;flex-shrink:0;transition:transform .3s,box-shadow .3s}
+.dnode-num{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;flex-shrink:0;transition:transform .3s,box-shadow .3s;position:relative;z-index:2}
 .dnode.open .dnode-num{transform:scale(1.15);box-shadow:0 0 16px rgba(0,0,0,.15)}
 .dnode-body{flex:1;min-width:0}
 .dnode-title{font-size:15px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:8px}
@@ -202,6 +202,20 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.7;-
 .dnode-detail-inner{padding:0 24px 20px 74px;font-size:13px;color:var(--tx3);line-height:1.8}
 .dnode-detail-inner strong{color:var(--tx);font-weight:700}
 .dnode-result{font-size:13px;font-weight:700;padding:5px 16px;border-radius:100px;white-space:nowrap;flex-shrink:0}
+.dnode-check{font-size:11px;font-weight:700;letter-spacing:.04em;padding:3px 10px;border-radius:100px;margin-left:auto;flex-shrink:0}
+.dnode-check-yes{background:rgba(255,59,48,.1);color:var(--red)}
+.dnode-check-no{background:rgba(52,199,89,.08);color:var(--green)}
+.score-flow{display:flex;align-items:stretch;gap:0;margin-bottom:32px;position:relative;overflow-x:auto}
+.score-flow-step{flex:1;min-width:180px;text-align:center;padding:24px 16px;position:relative;border:1px solid var(--bd);background:var(--sf)}
+.score-flow-step:first-child{border-radius:var(--r) 0 0 var(--r)}
+.score-flow-step:last-child{border-radius:0 var(--r) var(--r) 0}
+.score-flow-step+.score-flow-step{border-left:none}
+.score-flow-num{width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;margin-bottom:10px}
+.score-flow-label{font-size:14px;font-weight:700;margin-bottom:4px}
+.score-flow-desc{font-size:11px;color:var(--tx3);line-height:1.5}
+.score-flow-out{font-size:10px;font-weight:700;margin-top:8px;padding:3px 10px;border-radius:100px;display:inline-block}
+.score-flow-arrow{position:absolute;right:-10px;top:50%;transform:translateY(-50%);z-index:2;width:20px;height:20px;background:var(--sf);border:1px solid var(--bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--txm)}
+.score-flow-step:last-child .score-flow-arrow{display:none}
 .dr-s{background:rgba(255,59,48,.1);color:var(--red)}
 .dr-a{background:rgba(255,149,0,.1);color:var(--orange)}
 .dr-score{background:rgba(52,199,89,.1);color:var(--green)}
@@ -210,13 +224,15 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.7;-
 @keyframes flowDown{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(3px);opacity:1}}
 
 /* tiers - interactive with flip */
-.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
-.tier{padding:24px 16px;text-align:center;transition:transform .3s,box-shadow .3s;cursor:pointer;position:relative;overflow:hidden;perspective:600px}
-.tier:hover{transform:scale(1.08);box-shadow:var(--shl)}
-.tier-badge{width:52px;height:52px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:#fff;margin-bottom:10px;transition:box-shadow .3s,transform .6s cubic-bezier(.68,-.55,.27,1.55)}
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.tier{padding:28px 16px 24px;text-align:center;transition:transform .3s,box-shadow .3s;cursor:pointer;position:relative;overflow:hidden;perspective:600px}
+.tier:hover{transform:scale(1.04);box-shadow:var(--shl)}
+.tier-badge{width:56px;height:56px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:#fff;margin-bottom:12px;transition:box-shadow .3s,transform .6s cubic-bezier(.68,-.55,.27,1.55)}
 .tier:hover .tier-badge{box-shadow:0 0 24px rgba(0,0,0,.2);transform:scale(1.15) rotateY(360deg)}
-.tier-name{font-size:17px;font-weight:700;margin-bottom:4px}
-.tier-desc{font-size:15px;color:var(--txm);line-height:1.6}
+.tier-score-range{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:2px}
+.tier-name{font-size:15px;font-weight:700;margin-bottom:6px}
+.tier-sla{font-size:11px;font-weight:700;letter-spacing:.04em;padding:3px 12px;border-radius:100px;display:inline-block;margin-bottom:8px}
+.tier-desc{font-size:13px;color:var(--txm);line-height:1.6}
 .tier::after{content:'';position:absolute;inset:-50%;border-radius:50%;opacity:0;transition:opacity .4s}
 .tier:nth-child(1)::after{background:radial-gradient(circle,rgba(88,86,214,.06),transparent 70%)}
 .tier:nth-child(2)::after{background:radial-gradient(circle,rgba(52,199,89,.06),transparent 70%)}
@@ -1024,53 +1040,81 @@ html{scroll-behavior:smooth}
   <div class="sec-title">4&#45800;&#44228; &#49828;&#53076;&#50612;&#47553; &#8212; &#49345;&#54408; &#54620; &#44060;&#44032; &#46321;&#44553;&#51012; &#48155;&#44592;&#44620;&#51648;</div>
   <div class="sec-desc">&#47784;&#46304; &#49345;&#54408;&#51008; &#50500;&#47000; 4&#45800;&#44228;&#47484; &#49692;&#49436;&#45824;&#47196; &#53685;&#44284;&#54633;&#45768;&#45796;. &#44033; &#45800;&#44228;&#47484; &#53364;&#47533;&#54616;&#47732; &#49345;&#49464; &#47196;&#51649;&#51012; &#54869;&#51064;&#54624; &#49688; &#51080;&#49845;&#45768;&#45796;.<br>S&#46321;&#44553; = <strong>&ldquo;MD&#44032; 24&#49884;&#44036; &#45236; &#50504; &#54616;&#47732; &#49892;&#47588;&#52636;&#51060; &#48736;&#51648;&#45716; &#49345;&#54889;&rdquo;</strong>&#50640;&#47564; &#48512;&#50668;&#54633;&#45768;&#45796;.</div>
 
+  <div class="score-flow stg rv">
+    <div class="score-flow-step" style="border-top:3px solid var(--red)">
+      <div class="score-flow-num" style="background:var(--red)">1</div>
+      <div class="score-flow-label">&#48120;&#51077;&#51216; &#54032;&#51221;</div>
+      <div class="score-flow-desc">&#44221;&#51137;&#49324; TOP &#49345;&#54408;&#51060;<br>11ST&#50640; &#50630;&#45716;&#44032;?</div>
+      <div class="score-flow-out" style="background:rgba(255,59,48,.1);color:var(--red)">YES &rarr; AUTO-S</div>
+      <div class="score-flow-arrow">&rarr;</div>
+    </div>
+    <div class="score-flow-step" style="border-top:3px solid var(--red)">
+      <div class="score-flow-num" style="background:var(--red)">2</div>
+      <div class="score-flow-label">&#44596;&#44553; &#50724;&#48260;&#46972;&#51060;&#46300;</div>
+      <div class="score-flow-desc">PCI &#8805; 130 &#44032;&#44201;&#50669;&#51204;<br>MoM &#8805; 300% &#48148;&#51060;&#47092;&#49436;&#51648;</div>
+      <div class="score-flow-out" style="background:rgba(255,59,48,.1);color:var(--red)">YES &rarr; &#44053;&#51228; S</div>
+      <div class="score-flow-arrow">&rarr;</div>
+    </div>
+    <div class="score-flow-step" style="border-top:3px solid var(--orange)">
+      <div class="score-flow-num" style="background:var(--orange)">3</div>
+      <div class="score-flow-label">&#48372;&#51221; &#54057;&#53552;</div>
+      <div class="score-flow-desc">ZOMBIE &#183; DORMANT<br>CAT-VOID &#183; DATA-X</div>
+      <div class="score-flow-out" style="background:rgba(255,149,0,.1);color:var(--orange)">YES &rarr; &#48372;&#51221; A</div>
+      <div class="score-flow-arrow">&rarr;</div>
+    </div>
+    <div class="score-flow-step" style="border-top:3px solid var(--green)">
+      <div class="score-flow-num" style="background:var(--green)">4</div>
+      <div class="score-flow-label">6&#52629; &#44032;&#51473; &#49828;&#53076;&#50612;&#47553;</div>
+      <div class="score-flow-desc">&#44032;&#44201;25 &#183; &#46364;20 &#183; &#47784;&#47704;&#53568;15<br>&#51648;&#54364;15 &#183; &#47532;&#48624;15 &#183; &#48176;&#49569;10</div>
+      <div class="score-flow-out" style="background:rgba(52,199,89,.1);color:var(--green)">&#8594; S / A / B / C</div>
+    </div>
+  </div>
+
   <div class="dtree stg rv">
     <div class="card dnode ripple" style="border-left:3px solid var(--red)" onclick="this.classList.toggle('open')">
       <div class="dnode-head">
         <div class="dnode-num" style="background:var(--red)">1</div>
-        <div class="dnode-body"><div class="dnode-title">&#48120;&#51077;&#51216; &#54032;&#51221; &#8212; AUTO-S</div><div class="dnode-summary">&#44221;&#51137;&#49324; TOP &#54032;&#47588; &#49345;&#54408;&#51060; 11ST&#50640; &#50630;&#45716; &#44221;&#50864;</div></div>
-        <span class="dnode-result dr-s">AUTO-S &#8594; 24h</span>
+        <div class="dnode-body"><div class="dnode-title">AUTO-S &#8212; &#48120;&#51077;&#51216; &#54032;&#51221;</div><div class="dnode-summary">&#44221;&#51137;&#49324; TOP &#54032;&#47588; &#49345;&#54408;&#51060; 11ST&#50640; &#50630;&#51020; &rarr; &#45236;&#48512; &#45936;&#51060;&#53552; &#50630;&#51060; &#51088;&#46041; S&#46321;&#44553;, 24h &#45236; &#49472;&#47084; &#51077;&#51216; &#51228;&#50504;</div></div>
+        <span class="dnode-result dr-s">AUTO-S &rarr; 24h</span>
       </div>
-      <div class="dnode-detail"><div class="dnode-detail-inner"><strong>PRODUCT_ID &#47588;&#52845; &#49892;&#54056;</strong> &#8594; &#45236;&#48512; &#45936;&#51060;&#53552;&#44032; &#50630;&#50612; &#49828;&#53076;&#50612; &#49328;&#52636; &#48520;&#44032;. &#51088;&#46041; S&#46321;&#44553; &#48512;&#50668;, 24&#49884;&#44036; &#45236; &#49472;&#47084; &#51077;&#51216; &#51228;&#50504;&#49436;&#47484; &#49373;&#49457;&#54633;&#45768;&#45796;. &#44221;&#51137;&#49324;&#50640;&#45716; &#51080;&#44256; &#50864;&#47532;&#50640;&#44172; &#50630;&#45716; &#49345;&#54408;&#51008; &#44263;&#48148;&#47196; &#47588;&#52636; &#49552;&#49892;&#51077;&#45768;&#45796;.</div></div>
+      <div class="dnode-detail"><div class="dnode-detail-inner">PRODUCT_ID &#47588;&#52845; &#49892;&#54056; &#49884; &#48156;&#46041;. &#44221;&#51137;&#49324;&#50640;&#45716; &#51080;&#44256; &#50864;&#47532;&#50640;&#44172; &#50630;&#45716; &#49345;&#54408;&#51008; &#44263;&#48148;&#47196; &#47588;&#52636; &#49552;&#49892;&#51077;&#45768;&#45796;.</div></div>
     </div>
-    <div class="darr"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v8m0 0l-2.5-2.5M8 11l2.5-2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg> ELSE</div>
+    <div class="darr"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v8m0 0l-2.5-2.5M8 11l2.5-2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg> NO &#8594; &#45796;&#51020; &#45800;&#44228;</div>
     <div class="card dnode ripple" style="border-left:3px solid var(--red)" onclick="this.classList.toggle('open')">
       <div class="dnode-head">
         <div class="dnode-num" style="background:var(--red)">2</div>
-        <div class="dnode-body"><div class="dnode-title">&#44596;&#44553; &#50724;&#48260;&#46972;&#51060;&#46300; &#8212; PRICE-X / SURGE</div><div class="dnode-summary">&#44032;&#44201; &#50669;&#51204; &#46608;&#45716; &#48148;&#51060;&#47092; &#44553;&#46321;&#51004;&#47196; &#51593;&#49884; &#45824;&#51025; &#54596;&#50836;</div></div>
-        <span class="dnode-result dr-s">&#50724;&#48260;&#46972;&#51060;&#46300; S &#8594; 24h</span>
+        <div class="dnode-body"><div class="dnode-title">PRICE-X / SURGE &#8212; &#44596;&#44553; &#50724;&#48260;&#46972;&#51060;&#46300;</div><div class="dnode-summary">PCI &#8805; 130 &#44032;&#44201;&#50669;&#51204; &#46608;&#45716; MoM &#8805; 300% &#48148;&#51060;&#47092; &#44553;&#46321; &rarr; 6&#52629; &#54633;&#49328; &#44148;&#45320;&#46832;&#44256; &#44053;&#51228; S&#46321;&#44553;</div></div>
+        <span class="dnode-result dr-s">&#44053;&#51228; S &rarr; 24h</span>
       </div>
-      <div class="dnode-detail"><div class="dnode-detail-inner"><strong>PCI &#8805; 130</strong> &#8212; &#50808;&#48512; &#45824;&#48708; 30% &#51060;&#49345; &#44032;&#44201; &#50669;&#51204;. &#44256;&#44061;&#51060; &#51648;&#44552; &#51060;&#53448; &#51473;&#51060;&#47728;, &#48169;&#52824;&#54616;&#47732; &#47588;&#52636;&#51060; &#48736;&#51665;&#45768;&#45796;.<br><strong>&#48148;&#51060;&#47092; &#49436;&#51648;</strong> &#8212; 7&#51068; &#45236; +300% &#44553;&#46321;. &#44592;&#54924; &#50952;&#46020;&#50864;&#44032; &#45803;&#55176;&#44592; &#51204;&#50640; &#51116;&#44256;&#50752; &#45432;&#52636;&#51012; &#54869;&#48372;&#54644;&#50556; &#54633;&#45768;&#45796;.<br>&#46160; &#44221;&#50864; &#47784;&#46160; 6&#52629; &#54633;&#49328;&#51012; &#44148;&#45320;&#46832;&#44256; &#54644;&#45817; &#52629; &#45800;&#46021;&#51004;&#47196; S&#46321;&#44553;&#51012; &#48512;&#50668;&#54633;&#45768;&#45796;.</div></div>
+      <div class="dnode-detail"><div class="dnode-detail-inner"><strong>PCI &#8805; 130</strong> &#8212; &#50808;&#48512; &#45824;&#48708; 30%+ &#44032;&#44201; &#50669;&#51204;. &#44256;&#44061; &#51060;&#53448; &#51473;, &#48169;&#52824; &#49884; &#47588;&#52636; &#44553;&#46973;.<br><strong>MoM &#8805; 300%</strong> &#8212; 7&#51068; &#45236; &#44553;&#46321;. &#44592;&#54924; &#50952;&#46020;&#50864; &#45803;&#55176;&#44592; &#51204; &#51116;&#44256;&#183;&#45432;&#52636; &#54869;&#48372;.</div></div>
     </div>
-    <div class="darr"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v8m0 0l-2.5-2.5M8 11l2.5-2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg> ELSE</div>
+    <div class="darr"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v8m0 0l-2.5-2.5M8 11l2.5-2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg> NO &#8594; &#45796;&#51020; &#45800;&#44228;</div>
     <div class="card dnode ripple" style="border-left:3px solid var(--orange)" onclick="this.classList.toggle('open')">
       <div class="dnode-head">
         <div class="dnode-num" style="background:var(--orange)">3</div>
-        <div class="dnode-body"><div class="dnode-title">&#48372;&#51221; &#54057;&#53552; &#8212; ZOMBIE / DORMANT / CAT-VOID / DATA-X</div><div class="dnode-summary">&#47564;&#49457;&#51201; &#47928;&#51228; &#46608;&#45716; &#45936;&#51060;&#53552; &#51060;&#49345; &#48372;&#51221;</div></div>
-        <span class="dnode-result dr-a">&#48372;&#51221; A &#8594; 7d</span>
+        <div class="dnode-body"><div class="dnode-title">&#48372;&#51221; &#54057;&#53552; &#8212; ZOMBIE / DORMANT / CAT-VOID / DATA-X</div><div class="dnode-summary">&#47564;&#49457;&#51201; &#47928;&#51228;(30&#51068; &#54032;&#47588;0, &#49472;&#47084;&#55092;&#47732;, &#52852;&#53580;&#44256;&#47532;&#44277;&#48177;, &#45936;&#51060;&#53552;&#51060;&#49345;) &#44048;&#51648; &#49884; &#49828;&#53076;&#50612; &#48372;&#51221; &#54980; A&#46321;&#44553;</div></div>
+        <span class="dnode-result dr-a">&#48372;&#51221; A &rarr; 7d</span>
       </div>
-      <div class="dnode-detail"><div class="dnode-detail-inner"><strong>&#51328;&#48708;</strong> &#8212; 30&#51068; &#54032;&#47588; 0&#44148; + &#44221;&#51137;&#49324;&#50640;&#49436;&#45716; &#54876;&#49457; &#54032;&#47588; &#51473;. &#49828;&#53076;&#50612; &#215;1.3~1.5 &#44032;&#49328;&#51004;&#47196; A&#46321;&#44553; &#49345;&#54693;.<br><strong>&#49472;&#47084; &#55092;&#47732;</strong> &#8212; 30&#51068;+ &#48120;&#52636;&#44256;. &#49472;&#47084; &#49345;&#53468; &#54869;&#51064; &#54980; &#45824;&#52404; &#49472;&#47084; &#53456;&#49353; &#46608;&#45716; &#51649;&#51217; &#50672;&#46973;.<br><strong>&#52852;&#53580;&#44256;&#47532; &#44277;&#48177;</strong> &#8212; &#50808;&#48512;&#50640; &#49884;&#51109;&#51060; &#51080;&#51004;&#45208; &#51088;&#49324;&#50640; &#54644;&#45817; &#52852;&#53580;&#44256;&#47532; &#51088;&#52404;&#44032; &#50630;&#51020;. &#51204;&#47029; &#54540;&#47000;&#44536; + &#51312;&#51649;&#51109; &#48372;&#44256;.<br><strong>&#45936;&#51060;&#53552; &#51060;&#49345;</strong> &#8212; &#44032;&#44201;&#51060; 0&#50896;, &#47532;&#48624;&#44032; &#51060;&#49345;&#52824; &#46321;. &#49828;&#53076;&#50612;&#47484; &#48372;&#47448;&#54616;&#44256; &#45936;&#51060;&#53552; &#51221;&#51221; &#54980; &#51116;&#54032;&#51221;.</div></div>
+      <div class="dnode-detail"><div class="dnode-detail-inner"><strong>ZOMBIE</strong> &#8212; 30&#51068; &#54032;&#47588; 0&#44148; + &#44221;&#51137;&#49324; &#54876;&#49457; &#54032;&#47588; &#51473;. &#49828;&#53076;&#50612; &#215;1.3~1.5 &#44032;&#49328;.<br><strong>DORMANT</strong> &#8212; 30&#51068;+ &#48120;&#52636;&#44256;. &#49472;&#47084; &#49345;&#53468; &#54869;&#51064; &#54980; &#45824;&#52404;&#49472;&#47084; &#53456;&#49353;.<br><strong>CAT-VOID</strong> &#8212; &#50808;&#48512; &#49884;&#51109; &#51316;&#51116; but &#51088;&#49324; &#52852;&#53580;&#44256;&#47532; &#48512;&#51116;. &#51204;&#47029; &#54540;&#47000;&#44536;.<br><strong>DATA-X</strong> &#8212; &#44032;&#44201;=0&#50896; &#46321; &#45936;&#51060;&#53552; &#51060;&#49345;. &#48372;&#47448; &#54980; &#51116;&#54032;&#51221;.</div></div>
     </div>
-    <div class="darr"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v8m0 0l-2.5-2.5M8 11l2.5-2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg> ELSE</div>
+    <div class="darr"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v8m0 0l-2.5-2.5M8 11l2.5-2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg> NO &#8594; &#51221;&#49345; &#49828;&#53076;&#50612;&#47553;</div>
     <div class="card dnode ripple" style="border-left:3px solid var(--green)" onclick="this.classList.toggle('open')">
       <div class="dnode-head">
         <div class="dnode-num" style="background:var(--green)">4</div>
-        <div class="dnode-body"><div class="dnode-title">6&#52629; &#44032;&#51473; &#49828;&#53076;&#50612;&#47553; &#8594; S / A / B / C &#54869;&#51221;</div><div class="dnode-summary">&#51221;&#49345; &#45936;&#51060;&#53552; &#49345;&#54408;&#51032; &#52572;&#51333; &#46321;&#44553; &#54032;&#51221;</div></div>
+        <div class="dnode-body"><div class="dnode-title">6&#52629; &#44032;&#51473; &#49828;&#53076;&#50612;&#47553; &rarr; S / A / B / C</div><div class="dnode-summary">&#44032;&#44201;25% + &#46364;&#49892;&#51201;20% + &#47784;&#47704;&#53568;15% + &#51648;&#54364;15% + &#47532;&#48624;15% + &#48176;&#49569;10% = 0~100&#51216; &rarr; &#46321;&#44553; &#54032;&#51221;</div></div>
         <span class="dnode-result dr-score">S/A/B/C</span>
       </div>
-      <div class="dnode-detail"><div class="dnode-detail-inner">&#44032;&#44201; <strong>25%</strong> &#183; &#46364;&#49892;&#51201; <strong>20%</strong> &#183; &#47784;&#47704;&#53568; <strong>15%</strong> &#183; &#51648;&#54364; <strong>15%</strong> &#183; &#47532;&#48624; <strong>15%</strong> &#183; &#48176;&#49569; <strong>10%</strong> &#8594; 0~100&#51216; &#49328;&#52636;.<br>&#51312;&#51649;&#51109;&#51032; &#52852;&#53580;&#44256;&#47532; &#48169;&#54693;&#49457;(&#49457;&#51109;/&#54952;&#50984;)&#50640; &#46384;&#46972; &#44032;&#51473;&#52824;&#44032; &#51312;&#51221;&#46121;&#45768;&#45796;.<br><strong>S &#8805; 85</strong> &#183; A 65&#8211;84 &#183; B 40&#8211;64 &#183; C &lt; 40</div></div>
+      <div class="dnode-detail"><div class="dnode-detail-inner"><strong>S &#8805; 85</strong> &#51593;&#49884;&#49892;&#54665; 24h &#183; <strong>A 65~84</strong> &#51452;&#44036;&#44284;&#51228; 7d &#183; <strong>B 40~64</strong> &#44160;&#49353;&#48512;&#49828;&#54021; 14d &#183; <strong>C &lt; 40</strong> &#47784;&#45768;&#53552;&#47553; 30d<br>&#51312;&#51649;&#51109; &#52852;&#53580;&#44256;&#47532; &#48169;&#54693;&#49457;(&#49457;&#51109;/&#54952;&#50984;)&#50640; &#46384;&#46972; &#52629;&#48324; &#44032;&#51473;&#52824; &#51088;&#46041; &#51312;&#51221;</div></div>
     </div>
   </div>
 
-  <div class="formula rv"><span class="fr">STEP 1</span> &#48120;&#51077;&#51216;? &#8594; AUTO-S<br><span class="fr">STEP 2</span> PCI&#8805;130 / &#48148;&#51060;&#47092;? &#8594; &#50724;&#48260;&#46972;&#51060;&#46300; S<br><span class="fp">STEP 3</span> &#51328;&#48708;/&#55092;&#47732;/&#44277;&#48177;/&#45936;&#51060;&#53552;&#51060;&#49345;? &#8594; &#48372;&#51221; A<br><span class="fs">STEP 4</span> &#51221;&#49345; &#8594; 6&#52629; &#44032;&#51473;&#54633; (S&#8805;85 / A 65-84 / B 40-64 / C&lt;40)</div>
-
   <div class="tiers stg rv">
-    <div class="tier-flip" onclick="this.classList.toggle('flipped')"><div class="tier-flip-inner"><div class="card tier ripple tier-flip-front"><div class="tier-badge" style="background:var(--red)">S</div><div class="tier-name">&#51593;&#49884; &#49892;&#54665;</div><div class="tier-desc">Gap &#44596;&#44553; &#183; 24h SLA<br>MD &#51649;&#51217; &#50868;&#50689;</div></div><div class="tier-flip-back"><strong>S &#46321;&#44553; &#49345;&#49464;</strong>&#48120;&#51077;&#51216;(AUTO-S), &#44032;&#44201;&#50669;&#51204;(PCI&#8805;130), &#48148;&#51060;&#47092; &#44553;&#46321;.<br>24&#49884;&#44036; &#45236; &#48152;&#46300;&#49884; &#49892;&#54665;!</div></div></div>
-    <div class="tier-flip" onclick="this.classList.toggle('flipped')"><div class="tier-flip-inner"><div class="card tier ripple tier-flip-front"><div class="tier-badge" style="background:var(--orange)">A</div><div class="tier-name">&#51452;&#44036; &#44284;&#51228;</div><div class="tier-desc">Gap &#51316;&#51116; &#183; 7d SLA<br>&#49472;&#47553;&#53812; + &#54856; &#45432;&#52636;</div></div><div class="tier-flip-back"><strong>A &#46321;&#44553; &#49345;&#49464;</strong>ZOMBIE &#48372;&#51221;(&#215;1.3~1.5), DORMANT &#48372;&#51221;.<br>&#49472;&#47553;&#53812;/&#54856; &#45432;&#52636; + &#54532;&#47196;&#47784;&#49496;</div></div></div>
-    <div class="tier-flip" onclick="this.classList.toggle('flipped')"><div class="tier-flip-inner"><div class="card tier ripple tier-flip-front"><div class="tier-badge" style="background:var(--blue)">B</div><div class="tier-name">&#44160;&#49353; &#48512;&#49828;&#54021;</div><div class="tier-desc">Gap &#49548;&#54253; &#183; 14d SLA<br>&#44160;&#49353; &#51221;&#47148;&#44620;&#51648;&#47564;</div></div><div class="tier-flip-back"><strong>B &#46321;&#44553; &#49345;&#49464;</strong>&#44160;&#49353; &#49692;&#50948; &#48512;&#49828;&#54021; &#51473;&#49900;.<br>SEO &#53412;&#50892;&#46300; + &#44305;&#44256; &#54252;&#51064;&#53944;</div></div></div>
-    <div class="tier-flip" onclick="this.classList.toggle('flipped')"><div class="tier-flip-inner"><div class="card tier ripple tier-flip-front"><div class="tier-badge" style="background:var(--txm)">C</div><div class="tier-name">&#47784;&#45768;&#53552;&#47553;</div><div class="tier-desc">Gap &#48120;&#48120; &#183; 30d SLA<br>&#52628;&#51060; &#44288;&#52272; &#183; &#49849;&#44201; &#54980;&#48372;</div></div><div class="tier-flip-back"><strong>C &#46321;&#44553; &#49345;&#49464;</strong>Gap&#51060; &#48120;&#48120;&#54620; &#49345;&#54408;.<br>&#53944;&#47116;&#46300; &#47532;&#54252;&#53944; &#47784;&#45768;&#53552;&#47553;&#47564;</div></div></div>
+    <div class="tier-flip" onclick="this.classList.toggle('flipped')"><div class="tier-flip-inner"><div class="card tier ripple tier-flip-front" style="border-top:3px solid var(--red)"><div class="tier-badge" style="background:var(--red)">S</div><div class="tier-score-range" style="color:var(--red)">&#8805; 85</div><div class="tier-name">&#51593;&#49884; &#49892;&#54665;</div><div class="tier-sla" style="background:rgba(255,59,48,.1);color:var(--red)">SLA 24h</div><div class="tier-desc">&#48120;&#51077;&#51216; &#183; &#44032;&#44201;&#50669;&#51204; &#183; &#48148;&#51060;&#47092;<br>MD &#51649;&#51217; &#50868;&#50689;</div></div><div class="tier-flip-back"><strong>S &#46321;&#44553; &#49345;&#49464;</strong><br>AUTO-S, PRICE-X(PCI&#8805;130), SURGE(MoM&#8805;300%)<br>24&#49884;&#44036; &#45236; &#48152;&#46300;&#49884; &#49892;&#54665;!</div></div></div>
+    <div class="tier-flip" onclick="this.classList.toggle('flipped')"><div class="tier-flip-inner"><div class="card tier ripple tier-flip-front" style="border-top:3px solid var(--orange)"><div class="tier-badge" style="background:var(--orange)">A</div><div class="tier-score-range" style="color:var(--orange)">65 ~ 84</div><div class="tier-name">&#51452;&#44036; &#44284;&#51228;</div><div class="tier-sla" style="background:rgba(255,149,0,.1);color:var(--orange)">SLA 7d</div><div class="tier-desc">Gap &#51316;&#51116; &#183; ZOMBIE/DORMANT &#48372;&#51221;<br>&#49472;&#47553;&#53812; + &#54856; &#45432;&#52636;</div></div><div class="tier-flip-back"><strong>A &#46321;&#44553; &#49345;&#49464;</strong><br>ZOMBIE &#48372;&#51221;(&#215;1.3~1.5), DORMANT &#48372;&#51221;<br>&#49472;&#47553;&#53812;/&#54856; &#45432;&#52636; + &#54532;&#47196;&#47784;&#49496;</div></div></div>
+    <div class="tier-flip" onclick="this.classList.toggle('flipped')"><div class="tier-flip-inner"><div class="card tier ripple tier-flip-front" style="border-top:3px solid var(--blue)"><div class="tier-badge" style="background:var(--blue)">B</div><div class="tier-score-range" style="color:var(--blue)">40 ~ 64</div><div class="tier-name">&#44160;&#49353; &#48512;&#49828;&#54021;</div><div class="tier-sla" style="background:rgba(0,113,227,.1);color:var(--blue)">SLA 14d</div><div class="tier-desc">Gap &#49548;&#54253; &#183; &#44160;&#49353;&#49692;&#50948;&#47564;<br>SEO &#53412;&#50892;&#46300; + &#44305;&#44256; &#54252;&#51064;&#53944;</div></div><div class="tier-flip-back"><strong>B &#46321;&#44553; &#49345;&#49464;</strong><br>&#44160;&#49353; &#49692;&#50948; &#48512;&#49828;&#54021; &#51473;&#49900;<br>SEO + &#44305;&#44256; &#54252;&#51064;&#53944; &#51201;&#50857;</div></div></div>
+    <div class="tier-flip" onclick="this.classList.toggle('flipped')"><div class="tier-flip-inner"><div class="card tier ripple tier-flip-front" style="border-top:3px solid var(--txm)"><div class="tier-badge" style="background:var(--txm)">C</div><div class="tier-score-range" style="color:var(--txm)">&lt; 40</div><div class="tier-name">&#47784;&#45768;&#53552;&#47553;</div><div class="tier-sla" style="background:var(--sf2);color:var(--txm)">SLA 30d</div><div class="tier-desc">Gap &#48120;&#48120; &#183; &#52628;&#51060;&#44288;&#52272;<br>&#53944;&#47116;&#46300; &#47532;&#54252;&#53944; &#47784;&#45768;&#53552;&#47553;</div></div><div class="tier-flip-back"><strong>C &#46321;&#44553; &#49345;&#49464;</strong><br>Gap&#51060; &#48120;&#48120;&#54620; &#49345;&#54408;<br>&#53944;&#47116;&#46300; &#47532;&#54252;&#53944;&#47564; &#48156;&#54665;</div></div></div>
   </div>
-  <div class="tier-rule rv"><strong>&#46321;&#44553; &#54032;&#51221; &#50896;&#52825;:</strong> Gap&#51060; &#53364;&#49688;&#47197;(&#50808;&#48512; &#45824;&#48708; &#44221;&#51137;&#47141;&#51060; &#45230;&#51012;&#49688;&#47197;) &#49345;&#50948; &#46321;&#44553; &#8594; &#45908; &#44553;&#54620; &#49892;&#54665; &#44284;&#51228;. &#51312;&#51649;&#51109;&#51032; &#52852;&#53580;&#44256;&#47532; &#48169;&#54693;&#49457;(&#49457;&#51109;/&#54952;&#50984;)&#50640; &#46384;&#46972; &#44032;&#51473;&#52824; &#51312;&#51221;.</div>
+  <div class="tier-rule rv"><strong>&#54032;&#51221; &#50896;&#52825;:</strong> &#49345;&#54408;&#51008; STEP 1 &rarr; 2 &rarr; 3 &rarr; 4 &#49692;&#49436;&#47196; &#53685;&#44284;&#54616;&#47728;, &#47676;&#51200; &#44152;&#47532;&#45716; &#45800;&#44228;&#50640;&#49436; &#46321;&#44553;&#51060; &#54869;&#51221;&#46121;&#45768;&#45796;. Gap&#51060; &#53364;&#49688;&#47197; &#49345;&#50948; &#46321;&#44553; &rarr; &#45908; &#44553;&#54620; &#49892;&#54665;.</div>
 </div>
 
 <div class="sec rv" id="s-signal">
