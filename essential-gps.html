@@ -332,25 +332,32 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.7;-
 .sim-ring{flex-shrink:0}
 
 /* preset buttons for simulator */
-.sim-data-toggles{display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap}
-.sim-data-chk{display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 16px;border-radius:var(--rs);border:1px solid var(--bd);background:var(--sf);transition:border-color .3s,background .3s}
-.sim-data-chk:has(input:checked){border-color:var(--blue);background:rgba(0,113,227,.04)}
-.sim-data-chk input{display:none}
-.sim-chk-box{width:20px;height:20px;border-radius:6px;border:2px solid var(--bd);display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
-.sim-data-chk:has(input:checked) .sim-chk-box{background:var(--blue);border-color:var(--blue)}
-.sim-chk-box::after{content:'\2713';color:#fff;font-size:12px;font-weight:800;opacity:0;transition:opacity .2s}
-.sim-data-chk:has(input:checked) .sim-chk-box::after{opacity:1}
-.sim-chk-label{font-size:13px;font-weight:600;line-height:1.4}
-.sim-chk-sub{display:block;font-size:11px;font-weight:400;color:var(--tx3)}
 .sim-data-status{font-size:12px;font-weight:600;padding:8px 14px;border-radius:var(--rs);margin-bottom:12px;line-height:1.5;display:none}
 .sim-data-status.active{display:block}
 .sim-data-status.status-auto{background:rgba(255,59,48,.08);color:var(--red);border:1px solid rgba(255,59,48,.15)}
 .sim-data-status.status-partial{background:rgba(255,149,0,.08);color:var(--orange);border:1px solid rgba(255,149,0,.15)}
 .sim-data-status.status-none{background:var(--sf2);color:var(--txm);border:1px solid var(--bd)}
-.ax-src{font-size:10px;font-weight:400;color:var(--tx3);margin-left:4px}
-.sim-axis.disabled{opacity:.35;pointer-events:none}
-.sim-axis.ext-only .ax-name{color:var(--purple)}
-.sim-axis.int-only .ax-name{color:var(--blue)}
+.sim-grid{display:flex;flex-direction:column;gap:6px}
+.sim-axis{display:grid;grid-template-columns:110px 48px 48px 1fr 32px;gap:6px;align-items:center;padding:6px 0;border-bottom:1px solid var(--bd2,rgba(0,0,0,.04))}
+.sim-axis:last-child{border-bottom:none}
+.sim-axis-name{font-size:13px;font-weight:600;color:var(--tx2);display:flex;align-items:center;gap:5px}
+.sim-axis-name .ax-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.sim-axis-name .ax-wt{font-size:10px;font-weight:400;color:var(--tx3)}
+.ax-chk{display:flex;align-items:center;justify-content:center;cursor:pointer;gap:0}
+.ax-chk input{display:none}
+.ax-chk-box{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--bd);display:flex;align-items:center;justify-content:center;transition:all .2s;margin-right:3px}
+.ax-chk:has(input:checked) .ax-chk-box{border-color:var(--blue);background:var(--blue)}
+.ax-chk-box::after{content:'\2713';color:#fff;font-size:9px;font-weight:800;opacity:0;transition:opacity .15s}
+.ax-chk:has(input:checked) .ax-chk-box::after{opacity:1}
+.ax-chk-lbl{font-size:9px;font-weight:600;color:var(--tx3);letter-spacing:.02em}
+.ax-chk-lbl.lbl-int{color:var(--blue)}
+.ax-chk-lbl.lbl-ext{color:var(--purple)}
+.sim-axis-row{display:flex;align-items:center;gap:8px}
+.sim-axis.no-data input[type=range]{opacity:.25;pointer-events:none}
+.sim-axis.no-data .sim-axis-name{opacity:.4}
+.sim-axis.no-data .val{opacity:.4}
+.sim-grid-hd{display:grid;grid-template-columns:110px 48px 48px 1fr 32px;gap:6px;align-items:center;padding:0 0 6px;border-bottom:1px solid var(--bd);margin-bottom:2px}
+.sim-grid-hd span{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);text-align:center}
 .sim-presets{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
 .sim-preset{font-size:11px;font-weight:700;padding:6px 14px;border-radius:100px;border:1px solid var(--bd);background:var(--sf2);color:var(--tx3);cursor:pointer;font-family:var(--f);transition:all .3s}
 .sim-preset:hover{border-color:var(--blue);color:var(--blue);transform:scale(1.05)}
@@ -1234,10 +1241,6 @@ html{scroll-behavior:smooth}
   <div class="sec-title">GPS &#49828;&#53076;&#50612; &#49884;&#48044;&#47112;&#51060;&#53552; &#8212; &#49836;&#46972;&#51060;&#45908;&#47196; &#51649;&#51217; &#52404;&#54744;</div>
   <div class="sim rv">
     <div class="sim-title"><span class="live-dot"></span>&#49892;&#49884;&#44036; &#49884;&#48044;&#47112;&#51060;&#49496;<span class="data-pulse">LIVE DATA</span></div>
-    <div class="sim-data-toggles">
-      <label class="sim-data-chk"><input type="checkbox" id="chk-internal" checked onchange="calcGPS()"><span class="sim-chk-box"></span><span class="sim-chk-label">&#51088;&#49324; &#45936;&#51060;&#53552;<span class="sim-chk-sub">BIDB &#183; &#44144;&#47000;&#183;&#49472;&#47084;&#183;&#47532;&#48624;&#183;&#48176;&#49569;</span></span></label>
-      <label class="sim-data-chk"><input type="checkbox" id="chk-external" checked onchange="calcGPS()"><span class="sim-chk-box"></span><span class="sim-chk-label">&#50808;&#48512; &#45936;&#51060;&#53552;<span class="sim-chk-sub">Albatross &#183; &#44221;&#51137;&#49324; &#44032;&#44201;&#183;&#47532;&#48624;&#183;SKU</span></span></label>
-    </div>
     <div class="sim-data-status" id="simDataStatus"></div>
     <div class="sim-presets">
       <button class="sim-preset" onclick="loadPreset('price')">&#44032;&#44201; &#44596;&#44553;</button>
@@ -1248,12 +1251,49 @@ html{scroll-behavior:smooth}
     </div>
     <div class="sim-body">
       <div class="sim-grid" id="simGrid">
-        <div class="sim-axis" id="ax-0"><label><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--red)"></span> <span class="ax-name">&#44032;&#44201;Gap</span><span class="ax-src"></span></label><div class="sim-axis-row"><input type="range" min="0" max="100" value="75" id="sl-0" oninput="calcGPS()"><span class="val" id="v-0">75</span></div></div>
-        <div class="sim-axis" id="ax-1"><label><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--orange)"></span> <span class="ax-name">&#46364;&#49892;&#51201;</span><span class="ax-src"></span></label><div class="sim-axis-row"><input type="range" min="0" max="100" value="60" id="sl-1" oninput="calcGPS()"><span class="val" id="v-1">60</span></div></div>
-        <div class="sim-axis" id="ax-2"><label><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--orange)"></span> <span class="ax-name">&#47784;&#47704;&#53568;</span><span class="ax-src"></span></label><div class="sim-axis-row"><input type="range" min="0" max="100" value="50" id="sl-2" oninput="calcGPS()"><span class="val" id="v-2">50</span></div></div>
-        <div class="sim-axis" id="ax-3"><label><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--blue)"></span> <span class="ax-name">&#51648;&#54364;</span><span class="ax-src"></span></label><div class="sim-axis-row"><input type="range" min="0" max="100" value="65" id="sl-3" oninput="calcGPS()"><span class="val" id="v-3">65</span></div></div>
-        <div class="sim-axis" id="ax-4"><label><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green)"></span> <span class="ax-name">&#47532;&#48624;</span><span class="ax-src"></span></label><div class="sim-axis-row"><input type="range" min="0" max="100" value="80" id="sl-4" oninput="calcGPS()"><span class="val" id="v-4">80</span></div></div>
-        <div class="sim-axis" id="ax-5"><label><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green)"></span> <span class="ax-name">&#48176;&#49569;</span><span class="ax-src"></span></label><div class="sim-axis-row"><input type="range" min="0" max="100" value="90" id="sl-5" oninput="calcGPS()"><span class="val" id="v-5">90</span></div></div>
+        <div class="sim-grid-hd"><span>&#52629;</span><span>&#51088;&#49324;</span><span>&#50808;&#48512;</span><span>Gap Score</span><span></span></div>
+        <div class="sim-axis" id="ax-0">
+          <div class="sim-axis-name"><span class="ax-dot" style="background:var(--red)"></span>&#44032;&#44201;<span class="ax-wt" id="wt-0">25%</span></div>
+          <label class="ax-chk"><input type="checkbox" id="chk-0-int" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
+          <label class="ax-chk"><input type="checkbox" id="chk-0-ext" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
+          <div class="sim-axis-row"><input type="range" min="0" max="100" value="75" id="sl-0" oninput="calcGPS()"></div>
+          <span class="val" id="v-0">75</span>
+        </div>
+        <div class="sim-axis" id="ax-1">
+          <div class="sim-axis-name"><span class="ax-dot" style="background:var(--orange)"></span>&#46364;&#49892;&#51201;<span class="ax-wt" id="wt-1">20%</span></div>
+          <label class="ax-chk"><input type="checkbox" id="chk-1-int" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
+          <label class="ax-chk"><input type="checkbox" id="chk-1-ext" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
+          <div class="sim-axis-row"><input type="range" min="0" max="100" value="60" id="sl-1" oninput="calcGPS()"></div>
+          <span class="val" id="v-1">60</span>
+        </div>
+        <div class="sim-axis" id="ax-2">
+          <div class="sim-axis-name"><span class="ax-dot" style="background:var(--orange)"></span>&#47784;&#47704;&#53568;<span class="ax-wt" id="wt-2">15%</span></div>
+          <label class="ax-chk"><input type="checkbox" id="chk-2-int" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
+          <label class="ax-chk"><input type="checkbox" id="chk-2-ext" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
+          <div class="sim-axis-row"><input type="range" min="0" max="100" value="50" id="sl-2" oninput="calcGPS()"></div>
+          <span class="val" id="v-2">50</span>
+        </div>
+        <div class="sim-axis" id="ax-3">
+          <div class="sim-axis-name"><span class="ax-dot" style="background:var(--blue)"></span>&#51648;&#54364;/CVR<span class="ax-wt" id="wt-3">15%</span></div>
+          <label class="ax-chk"><input type="checkbox" id="chk-3-int" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
+          <label class="ax-chk"><input type="checkbox" id="chk-3-ext" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
+          <div class="sim-axis-row"><input type="range" min="0" max="100" value="65" id="sl-3" oninput="calcGPS()"></div>
+          <span class="val" id="v-3">65</span>
+        </div>
+        <div class="sim-axis" id="ax-4">
+          <div class="sim-axis-name"><span class="ax-dot" style="background:var(--green)"></span>&#47532;&#48624;<span class="ax-wt" id="wt-4">15%</span></div>
+          <label class="ax-chk"><input type="checkbox" id="chk-4-int" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
+          <label class="ax-chk"><input type="checkbox" id="chk-4-ext" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
+          <div class="sim-axis-row"><input type="range" min="0" max="100" value="80" id="sl-4" oninput="calcGPS()"></div>
+          <span class="val" id="v-4">80</span>
+        </div>
+        <div class="sim-axis" id="ax-5">
+          <div class="sim-axis-name"><span class="ax-dot" style="background:var(--green)"></span>&#48176;&#49569;<span class="ax-wt" id="wt-5">10%</span></div>
+          <label class="ax-chk"><input type="checkbox" id="chk-5-int" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
+          <label class="ax-chk"><input type="checkbox" id="chk-5-ext" checked onchange="calcGPS()"><span class="ax-chk-box"></span></label>
+          <div class="sim-axis-row"><input type="range" min="0" max="100" value="90" id="sl-5" oninput="calcGPS()"></div>
+          <span class="val" id="v-5">90</span>
+        </div>
       </div>
       <div class="sim-radar radar-overlay"><canvas id="radarCanvas" width="200" height="200"></canvas><div class="radar-legend"><span class="radar-legend-item" onclick="toggleRadarComp(this,0)"><span class="radar-legend-dot" style="background:#0a84ff"></span>11ST</span><span class="radar-legend-item" onclick="toggleRadarComp(this,1)"><span class="radar-legend-dot" style="background:#bf5af2"></span>&#53216;&#54049;</span><span class="radar-legend-item" onclick="toggleRadarComp(this,2)"><span class="radar-legend-dot" style="background:#ff9500"></span>&#45348;&#51060;&#48260;</span></div></div>
     </div>
@@ -1751,69 +1791,76 @@ var axLabels=['\u{AC00}\u{ACA9}','\u{B51C}\u{C2E4}\u{C801}','\u{BAA8}\u{BA58}\u{
 var axColors=['#ff3b30','#ff9500','#ff9500','#0071e3','#34c759','#34c759'];
 var prevGrade='';
 
-var axisLabels={
-  both:['\u{AC00}\u{ACA9}Gap','\u{B51C}\u{C2E4}\u{C801}','\u{BAA8}\u{BA58}\u{D140}','\u{C9C0}\u{D45C}/CVR','\u{B9AC}\u{BDF0}','\u{BC30}\u{C1A1}'],
-  extOnly:['10\u{AC1C}\u{BAB0} \u{AC00}\u{ACA9}\u{ACBD}\u{C7C1}\u{B825}','\u{AD6C}\u{C88C}\u{D3C9}\u{ADE0} \u{B300}\u{BE44} \u{B9E4}\u{CD9C}','\u{D0C0}\u{C0AC} \u{C21C}\u{C704}\u{B7C9}\u{C778}\u{AE30}\u{B3C4}','\u{C9C1}\u{C804}\u{B51C} \u{B300}\u{BE44} \u{B9E4}\u{CD9C}','\u{B9AC}\u{BDF0}\u{D3C9}\u{C810}','\u{D0C0}\u{C0AC} \u{BC30}\u{C1A1}\u{C18D}\u{B3C4}'],
-  intOnly:['\u{C815}\u{C0C1}\u{AC00} \u{B300}\u{BE44} \u{D604}\u{C7AC}\u{AC00}','\u{AC70}\u{B798}\u{AC74}\u{C218}\u{B7C9}\u{AC70}\u{B798}\u{C561}','\u{D310}\u{B9E4} \u{CD94}\u{C774}','\u{B0B4}\u{BD80} CVR/PV','\u{C790}\u{C0AC} \u{B9AC}\u{BDF0}\u{C218}','\u{BC30}\u{C1A1}\u{D0C0}\u{C785}']
-};
-var axisSrc={
-  both:['(\u{C790}\u{C0AC}+\u{C678}\u{BD80})','(\u{C790}\u{C0AC}+\u{C678}\u{BD80})','(\u{C678}\u{BD80})','(\u{C790}\u{C0AC})','(\u{C790}\u{C0AC}+\u{C678}\u{BD80})','(\u{C790}\u{C0AC}+\u{C678}\u{BD80})'],
-  extOnly:['(\u{C678}\u{BD80} 10\u{AC1C}\u{BAB0})','(\u{C678}\u{BD80} \u{AD6C}\u{C88C})','(\u{C678}\u{BD80} \u{C21C}\u{C704})','(\u{C678}\u{BD80} \u{B51C})','(\u{C678}\u{BD80} \u{B9AC}\u{BDF0})','(\u{C678}\u{BD80} \u{BC30}\u{C1A1})'],
-  intOnly:['(\u{C790}\u{C0AC})','(\u{C790}\u{C0AC})','(\u{C790}\u{C0AC})','(\u{C790}\u{C0AC})','(\u{C790}\u{C0AC})','(\u{C790}\u{C0AC})']
-};
-
-function updateAxisLabels(mode){
-  var labels=axisLabels[mode],srcs=axisSrc[mode];
-  for(var i=0;i<6;i++){
-    var ax=document.getElementById('ax-'+i);
-    ax.querySelector('.ax-name').textContent=labels[i];
-    ax.querySelector('.ax-src').textContent=' '+srcs[i];
-    ax.className='sim-axis'+(mode==='extOnly'?' ext-only':mode==='intOnly'?' int-only':'');
-  }
-}
+var axisDataSrc=[
+  {int:'\u{C815}\u{C0C1}\u{AC00},\u{D604}\u{C7AC}\u{AC00}',ext:'\u{ACBD}\u{C7C1}\u{C0AC} \u{CD5C}\u{C800}\u{AC00}(10\u{AC1C}\u{BAB0})'},
+  {int:'\u{AC70}\u{B798}\u{AC74}\u{C218},\u{AC70}\u{B798}\u{C561}',ext:'\u{AD6C}\u{C88C}\u{D3C9}\u{ADE0} \u{B300}\u{BE44} \u{B9E4}\u{CD9C}'},
+  {int:'\u{D310}\u{B9E4} \u{CD94}\u{C774}',ext:'\u{D0C0}\u{C0AC} \u{C21C}\u{C704},\u{C778}\u{AE30}\u{B3C4}'},
+  {int:'CVR,PV',ext:'\u{C9C1}\u{C804}\u{B51C} \u{B300}\u{BE44} \u{B9E4}\u{CD9C}'},
+  {int:'\u{B9AC}\u{BDF0}\u{C218}',ext:'\u{ACBD}\u{C7C1}\u{C0AC} \u{B9AC}\u{BDF0}\u{D3C9}\u{C810}'},
+  {int:'\u{BC30}\u{C1A1}\u{D0C0}\u{C785},\u{BC30}\u{C1A1}\u{BE44}',ext:'\u{D0C0}\u{C0AC} \u{BC30}\u{C1A1}\u{C18D}\u{B3C4}'}
+];
 
 function calcGPS(){
-  var hasInt=document.getElementById('chk-internal').checked;
-  var hasExt=document.getElementById('chk-external').checked;
-  var statusEl=document.getElementById('simDataStatus');
   var ge=document.getElementById('sim-grade'),se=document.getElementById('sim-score'),le=document.getElementById('sim-label');
-  var simGrid=document.getElementById('simGrid');
+  var statusEl=document.getElementById('simDataStatus');
+
+  var axStates=[];
+  var activeCount=0;
+  for(var i=0;i<6;i++){
+    var hi=document.getElementById('chk-'+i+'-int').checked;
+    var he=document.getElementById('chk-'+i+'-ext').checked;
+    var ax=document.getElementById('ax-'+i);
+    var mode=hi&&he?'both':hi?'int':he?'ext':'none';
+    axStates.push({int:hi,ext:he,mode:mode});
+    if(mode==='none'){ax.classList.add('no-data')}else{ax.classList.remove('no-data');activeCount++}
+  }
 
   statusEl.className='sim-data-status';
 
-  if(!hasInt&&!hasExt){
+  if(activeCount===0){
     statusEl.className='sim-data-status active status-none';
-    statusEl.innerHTML='\u{274C} <strong>\u{C2A4}\u{CF54}\u{C5B4}\u{B9C1} \u{BD88}\u{AC00}</strong> \u{2014} \u{C790}\u{C0AC}\u{B3C4} \u{C678}\u{BD80}\u{B3C4} \u{B370}\u{C774}\u{D130}\u{AC00} \u{C5C6}\u{C2B5}\u{B2C8}\u{B2E4}. \u{B370}\u{C774}\u{D130} \u{C218}\u{C9D1}\u{C744} \u{BA3C}\u{C800} \u{C9C4}\u{D589}\u{D558}\u{C138}\u{C694}.';
+    statusEl.innerHTML='\u{274C} <strong>\u{C2A4}\u{CF54}\u{C5B4}\u{B9C1} \u{BD88}\u{AC00}</strong> \u{2014} \u{BAA8}\u{B4E0} \u{CD95}\u{C758} \u{B370}\u{C774}\u{D130}\u{AC00} \u{C5C6}\u{C2B5}\u{B2C8}\u{B2E4}.';
     ge.textContent='-';ge.style.background='var(--sf2)';ge.style.color='var(--txm)';
     se.textContent='N/A';
-    le.textContent='\u{B370}\u{C774}\u{D130} \u{BD80}\u{C7AC} \u{2014} \u{C790}\u{C0AC} + \u{C678}\u{BD80} \u{B370}\u{C774}\u{D130} \u{C218}\u{C9D1} \u{D544}\u{C694}';
-    simGrid.style.opacity='.3';simGrid.style.pointerEvents='none';
-    updateAxisLabels('both');
+    le.textContent='\u{B370}\u{C774}\u{D130} \u{BD80}\u{C7AC} \u{2014} \u{CD95}\u{BCC4} \u{B370}\u{C774}\u{D130} \u{CCB4}\u{D06C}\u{BC15}\u{C2A4}\u{B97C} \u{D65C}\u{C131}\u{D654}\u{D558}\u{C138}\u{C694}';
     var vals=[];for(var i=0;i<6;i++){vals.push(0)}
     drawRing(0);drawRadar(vals);
     prevGrade='';
+    for(var i=0;i<6;i++){document.getElementById('wt-'+i).textContent='0%'}
     return;
   }
 
-  simGrid.style.opacity='1';simGrid.style.pointerEvents='auto';
+  var dataPenalty=[1,.7,.7,0];
+  var modeIdx={both:0,int:1,ext:2,none:3};
+  var rawW=[];
+  for(var i=0;i<6;i++){rawW.push(baseWeights[i]*dataPenalty[modeIdx[axStates[i].mode]])}
+  var sum=0;for(var i=0;i<6;i++)sum+=rawW[i];
+  weights=[];for(var i=0;i<6;i++){weights.push(sum>0?rawW[i]/sum:0);document.getElementById('wt-'+i).textContent=Math.round(weights[i]*100)+'%'}
 
-  if(!hasInt&&hasExt){
-    statusEl.className='sim-data-status active status-auto';
-    statusEl.innerHTML='\u{1F7E3} <strong>\u{C678}\u{BD80} \u{B370}\u{C774}\u{D130}\u{B9CC} \u{D65C}\u{C6A9}</strong> \u{2014} \u{BBF8}\u{C785}\u{C810} \u{C0C1}\u{D488}. 10\u{AC1C}\u{BAB0} \u{AC00}\u{ACA9}\u{ACBD}\u{C7C1}\u{B825}, \u{AD6C}\u{C88C}\u{D3C9}\u{ADE0} \u{B300}\u{BE44} \u{B9E4}\u{CD9C}, \u{D0C0}\u{C0AC} \u{C21C}\u{C704}\u{B7C9}\u{C778}\u{AE30}\u{B3C4}, \u{B9AC}\u{BDF0}\u{D3C9}\u{C810}, \u{C9C1}\u{C804}\u{B51C} \u{B300}\u{BE44} \u{B9E4}\u{CD9C}\u{B85C} \u{C2A4}\u{CF54}\u{C5B4}\u{B9C1}';
-    weights=[.30,.20,.15,.10,.15,.10];
-    updateAxisLabels('extOnly');
-  }else if(hasInt&&!hasExt){
-    statusEl.className='sim-data-status active status-partial';
-    statusEl.innerHTML='\u{26A0}\u{FE0F} <strong>\u{C790}\u{C0AC} \u{B370}\u{C774}\u{D130}\u{B9CC} \u{D65C}\u{C6A9}</strong> \u{2014} \u{C678}\u{BD80} \u{ACBD}\u{C7C1} \u{AE30}\u{C900}\u{C120} \u{C5C6}\u{C774} Gap \u{C0B0}\u{CD9C} \u{C81C}\u{D55C}\u{C801}. \u{B0B4}\u{BD80} \u{AC70}\u{B798}\u{B7C9}CVR\u{B7C9}\u{B9AC}\u{BDF0}\u{B7C9}\u{BC30}\u{C1A1} \u{C9C0}\u{D45C} \u{C911}\u{C2EC} \u{C7AC}\u{BC30}\u{BD84}.';
-    weights=[.10,.25,.05,.25,.20,.15];
-    updateAxisLabels('intOnly');
-  }else{
-    weights=[.25,.20,.15,.15,.15,.10];
-    updateAxisLabels('both');
+  var allInt=true,allExt=true,hasPartial=false;
+  for(var i=0;i<6;i++){
+    if(!axStates[i].int)allInt=false;
+    if(!axStates[i].ext)allExt=false;
+    if(axStates[i].mode==='int'||axStates[i].mode==='ext')hasPartial=true;
+  }
+
+  if(allInt&&allExt){
+    statusEl.className='sim-data-status';
+  }else if(hasPartial||activeCount<6){
+    var msgs=[];
+    for(var i=0;i<6;i++){
+      if(axStates[i].mode==='none')msgs.push(axLabels[i]+':N/A');
+      else if(axStates[i].mode==='int')msgs.push(axLabels[i]+':\u{C790}\u{C0AC}\u{B9CC}');
+      else if(axStates[i].mode==='ext')msgs.push(axLabels[i]+':\u{C678}\u{BD80}\u{B9CC}');
+    }
+    if(msgs.length){
+      statusEl.className='sim-data-status active status-partial';
+      statusEl.innerHTML='\u{26A0}\u{FE0F} <strong>\u{BD80}\u{BD84} \u{B370}\u{C774}\u{D130}</strong> \u{2014} '+msgs.join(', ')+'. \u{AC00}\u{C911}\u{CE58} \u{C7AC}\u{BC30}\u{BD84}\u{B428}.';
+    }
   }
 
   var vals=[],score=0;
-  for(var i=0;i<6;i++){var v=+document.getElementById('sl-'+i).value;document.getElementById('v-'+i).textContent=v;vals.push(v);score+=v*weights[i]}
+  for(var i=0;i<6;i++){var v=axStates[i].mode==='none'?0:+document.getElementById('sl-'+i).value;document.getElementById('v-'+i).textContent=axStates[i].mode==='none'?'-':v;vals.push(v);score+=v*weights[i]}
   var r=score.toFixed(1);
   se.textContent=r;
   var grade;
@@ -1821,8 +1868,7 @@ function calcGPS(){
   else if(score>=65){grade='A';ge.textContent='A';ge.style.background='rgba(255,149,0,.1)';ge.style.color='var(--orange)';le.textContent='\u{C8FC}\u{AC04} \u{ACFC}\u{C81C} \u{2014} \u{D504}\u{B85C}\u{BAA8}\u{C158} \xB7 \u{B9AC}\u{BDF0} \u{BD80}\u{C2A4}\u{D305} (SLA 7\u{C77C})'}
   else if(score>=40){grade='B';ge.textContent='B';ge.style.background='rgba(0,113,227,.1)';ge.style.color='var(--blue)';le.textContent='\u{AC80}\u{C0C9} \u{BD80}\u{C2A4}\u{D305} \u{2014} SEO \xB7 \u{D0A4}\u{C6CC}\u{B4DC} \u{AD11}\u{ACE0} (SLA 14\u{C77C})'}
   else{grade='C';ge.textContent='C';ge.style.background='var(--sf2)';ge.style.color='var(--txm)';le.textContent='\u{BAA8}\u{B2C8}\u{D130}\u{B9C1} \u{2014} \u{CD94}\u{C774} \u{AD00}\u{CC30} \xB7 \u{D2B8}\u{B80C}\u{B4DC} \u{B9AC}\u{D3EC}\u{D2B8} (SLA 30\u{C77C})'}
-  if(!hasInt&&hasExt){le.textContent+=' [\u{C678}\u{BD80}\u{B370}\u{C774}\u{D130} \u{C2A4}\u{CF54}\u{C5B4}\u{B9C1}]'}
-  if(hasInt&&!hasExt){le.textContent+=' [\u{B0B4}\u{BD80}\u{C9C0}\u{D45C} \u{C911}\u{C2EC}]'}
+  if(activeCount<6){le.textContent+=' ['+activeCount+'/6\u{CD95} \u{D65C}\u{C131}]'}
   if(grade==='S'&&prevGrade!=='S')fireConfetti();
   prevGrade=grade;
   ge.style.transform='scale(1.2)';setTimeout(function(){ge.style.transform=''},300);
