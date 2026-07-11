@@ -332,6 +332,21 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.7;-
 .sim-ring{flex-shrink:0}
 
 /* preset buttons for simulator */
+.sim-data-toggles{display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap}
+.sim-data-chk{display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 16px;border-radius:var(--rs);border:1px solid var(--bd);background:var(--sf);transition:border-color .3s,background .3s}
+.sim-data-chk:has(input:checked){border-color:var(--blue);background:rgba(0,113,227,.04)}
+.sim-data-chk input{display:none}
+.sim-chk-box{width:20px;height:20px;border-radius:6px;border:2px solid var(--bd);display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
+.sim-data-chk:has(input:checked) .sim-chk-box{background:var(--blue);border-color:var(--blue)}
+.sim-chk-box::after{content:'\2713';color:#fff;font-size:12px;font-weight:800;opacity:0;transition:opacity .2s}
+.sim-data-chk:has(input:checked) .sim-chk-box::after{opacity:1}
+.sim-chk-label{font-size:13px;font-weight:600;line-height:1.4}
+.sim-chk-sub{display:block;font-size:11px;font-weight:400;color:var(--tx3)}
+.sim-data-status{font-size:12px;font-weight:600;padding:8px 14px;border-radius:var(--rs);margin-bottom:12px;line-height:1.5;display:none}
+.sim-data-status.active{display:block}
+.sim-data-status.status-auto{background:rgba(255,59,48,.08);color:var(--red);border:1px solid rgba(255,59,48,.15)}
+.sim-data-status.status-partial{background:rgba(255,149,0,.08);color:var(--orange);border:1px solid rgba(255,149,0,.15)}
+.sim-data-status.status-none{background:var(--sf2);color:var(--txm);border:1px solid var(--bd)}
 .sim-presets{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
 .sim-preset{font-size:11px;font-weight:700;padding:6px 14px;border-radius:100px;border:1px solid var(--bd);background:var(--sf2);color:var(--tx3);cursor:pointer;font-family:var(--f);transition:all .3s}
 .sim-preset:hover{border-color:var(--blue);color:var(--blue);transform:scale(1.05)}
@@ -1215,6 +1230,11 @@ html{scroll-behavior:smooth}
   <div class="sec-title">GPS &#49828;&#53076;&#50612; &#49884;&#48044;&#47112;&#51060;&#53552; &#8212; &#49836;&#46972;&#51060;&#45908;&#47196; &#51649;&#51217; &#52404;&#54744;</div>
   <div class="sim rv">
     <div class="sim-title"><span class="live-dot"></span>&#49892;&#49884;&#44036; &#49884;&#48044;&#47112;&#51060;&#49496;<span class="data-pulse">LIVE DATA</span></div>
+    <div class="sim-data-toggles">
+      <label class="sim-data-chk"><input type="checkbox" id="chk-internal" checked onchange="calcGPS()"><span class="sim-chk-box"></span><span class="sim-chk-label">&#51088;&#49324; &#45936;&#51060;&#53552;<span class="sim-chk-sub">BIDB &#183; &#44144;&#47000;&#183;&#49472;&#47084;&#183;&#47532;&#48624;&#183;&#48176;&#49569;</span></span></label>
+      <label class="sim-data-chk"><input type="checkbox" id="chk-external" checked onchange="calcGPS()"><span class="sim-chk-box"></span><span class="sim-chk-label">&#50808;&#48512; &#45936;&#51060;&#53552;<span class="sim-chk-sub">Albatross &#183; &#44221;&#51137;&#49324; &#44032;&#44201;&#183;&#47532;&#48624;&#183;SKU</span></span></label>
+    </div>
+    <div class="sim-data-status" id="simDataStatus"></div>
     <div class="sim-presets">
       <button class="sim-preset" onclick="loadPreset('price')">&#44032;&#44201; &#44596;&#44553;</button>
       <button class="sim-preset" onclick="loadPreset('deal')">&#46364; &#48512;&#51652;</button>
@@ -1721,22 +1741,71 @@ function loadPreset(name){
 }
 
 // GPS simulator with radar
+var baseWeights=[.25,.20,.15,.15,.15,.10];
 var weights=[.25,.20,.15,.15,.15,.10];
 var axLabels=['\u{AC00}\u{ACA9}','\u{B51C}\u{C2E4}\u{C801}','\u{BAA8}\u{BA58}\u{D140}','\u{C9C0}\u{D45C}','\u{B9AC}\u{BDF0}','\u{BC30}\u{C1A1}'];
 var axColors=['#ff3b30','#ff9500','#ff9500','#0071e3','#34c759','#34c759'];
 var prevGrade='';
+var intAxes=[1,3,4,5];
+var extAxes=[0,2];
 
 function calcGPS(){
+  var hasInt=document.getElementById('chk-internal').checked;
+  var hasExt=document.getElementById('chk-external').checked;
+  var statusEl=document.getElementById('simDataStatus');
+  var ge=document.getElementById('sim-grade'),se=document.getElementById('sim-score'),le=document.getElementById('sim-label');
+  var simGrid=document.getElementById('simGrid');
+
+  statusEl.className='sim-data-status';
+
+  if(!hasInt&&hasExt){
+    statusEl.className='sim-data-status active status-auto';
+    statusEl.innerHTML='\u{26A0}\u{FE0F} <strong>STEP 1 AUTO-S \u{BC1C}\u{B3D9}</strong> \u{2014} \u{C790}\u{C0AC} \u{B370}\u{C774}\u{D130} \u{C5C6}\u{C74C}(\u{BBF8}\u{C785}\u{C810}). \u{C678}\u{BD80} \u{B370}\u{C774}\u{D130}\u{B9CC}\u{C73C}\u{B85C} \u{ACBD}\u{C7C1}\u{C0AC} \u{D310}\u{B9E4} \u{D655}\u{C778} \u{2192} \u{BB34}\u{C870}\u{AC74} S\u{B4F1}\u{AE09}';
+    ge.textContent='S';ge.style.background='rgba(255,59,48,.1)';ge.style.color='var(--red)';
+    se.textContent='AUTO';
+    le.textContent='\u{BBF8}\u{C785}\u{C810} \u{C790}\u{B3D9} S \u{2014} 24h \u{B0B4} \u{C140}\u{B7EC} \u{C785}\u{C810} \u{C81C}\u{C548} (SLA 24h)';
+    simGrid.style.opacity='.3';simGrid.style.pointerEvents='none';
+    var vals=[];for(var i=0;i<6;i++){vals.push(+document.getElementById('sl-'+i).value)}
+    drawRing(95);drawRadar(vals);
+    prevGrade='S';
+    ge.style.transform='scale(1.2)';setTimeout(function(){ge.style.transform=''},300);
+    return;
+  }
+  if(!hasInt&&!hasExt){
+    statusEl.className='sim-data-status active status-none';
+    statusEl.innerHTML='\u{274C} <strong>\u{C2A4}\u{CF54}\u{C5B4}\u{B9C1} \u{BD88}\u{AC00}</strong> \u{2014} \u{C790}\u{C0AC}\u{B3C4} \u{C678}\u{BD80}\u{B3C4} \u{B370}\u{C774}\u{D130}\u{AC00} \u{C5C6}\u{C2B5}\u{B2C8}\u{B2E4}. \u{B370}\u{C774}\u{D130} \u{C218}\u{C9D1}\u{C744} \u{BA3C}\u{C800} \u{C9C4}\u{D589}\u{D558}\u{C138}\u{C694}.';
+    ge.textContent='-';ge.style.background='var(--sf2)';ge.style.color='var(--txm)';
+    se.textContent='N/A';
+    le.textContent='\u{B370}\u{C774}\u{D130} \u{BD80}\u{C7AC} \u{2014} \u{C790}\u{C0AC} + \u{C678}\u{BD80} \u{B370}\u{C774}\u{D130} \u{C218}\u{C9D1} \u{D544}\u{C694}';
+    simGrid.style.opacity='.3';simGrid.style.pointerEvents='none';
+    var vals=[];for(var i=0;i<6;i++){vals.push(0)}
+    drawRing(0);drawRadar(vals);
+    prevGrade='';
+    return;
+  }
+
+  simGrid.style.opacity='1';simGrid.style.pointerEvents='auto';
+
+  if(hasInt&&!hasExt){
+    statusEl.className='sim-data-status active status-partial';
+    statusEl.innerHTML='\u{26A0}\u{FE0F} <strong>\u{C678}\u{BD80} \u{B370}\u{C774}\u{D130} \u{C5C6}\u{C74C}</strong> \u{2014} Gap \u{C0B0}\u{CD9C} \u{C81C}\u{D55C}\u{C801}. \u{AC00}\u{ACA9}\u{B7C9}(25%)\u{B7C9}\u{BAA8}\u{BA58}\u{D140}(15%) \u{CD95} \u{BE44}\u{D65C}\u{C131}\u{D654}, \u{B0B4}\u{BD80} \u{C9C0}\u{D45C} \u{C911}\u{C2EC}\u{C73C}\u{B85C} \u{C7AC}\u{BC30}\u{BD84}.';
+    weights=[.10,.25,.05,.25,.20,.15];
+  }else{
+    weights=[.25,.20,.15,.15,.15,.10];
+  }
+
   var vals=[],score=0;
   for(var i=0;i<6;i++){var v=+document.getElementById('sl-'+i).value;document.getElementById('v-'+i).textContent=v;vals.push(v);score+=v*weights[i]}
   var r=score.toFixed(1);
-  var ge=document.getElementById('sim-grade'),se=document.getElementById('sim-score'),le=document.getElementById('sim-label');
   se.textContent=r;
   var grade;
   if(score>=85){grade='S';ge.textContent='S';ge.style.background='rgba(255,59,48,.1)';ge.style.color='var(--red)';le.textContent='\u{C989}\u{C2DC} \u{C2E4}\u{D589} \u{2014} \u{AC00}\u{ACA9} \u{C870}\u{C815} \xB7 \u{AE34}\u{AE09} \u{C785}\u{C810} (SLA 24h)'}
   else if(score>=65){grade='A';ge.textContent='A';ge.style.background='rgba(255,149,0,.1)';ge.style.color='var(--orange)';le.textContent='\u{C8FC}\u{AC04} \u{ACFC}\u{C81C} \u{2014} \u{D504}\u{B85C}\u{BAA8}\u{C158} \xB7 \u{B9AC}\u{BDF0} \u{BD80}\u{C2A4}\u{D305} (SLA 7\u{C77C})'}
   else if(score>=40){grade='B';ge.textContent='B';ge.style.background='rgba(0,113,227,.1)';ge.style.color='var(--blue)';le.textContent='\u{AC80}\u{C0C9} \u{BD80}\u{C2A4}\u{D305} \u{2014} SEO \xB7 \u{D0A4}\u{C6CC}\u{B4DC} \u{AD11}\u{ACE0} (SLA 14\u{C77C})'}
   else{grade='C';ge.textContent='C';ge.style.background='var(--sf2)';ge.style.color='var(--txm)';le.textContent='\u{BAA8}\u{B2C8}\u{D130}\u{B9C1} \u{2014} \u{CD94}\u{C774} \u{AD00}\u{CC30} \xB7 \u{D2B8}\u{B80C}\u{B4DC} \u{B9AC}\u{D3EC}\u{D2B8} (SLA 30\u{C77C})'}
+  if(hasInt&&!hasExt){
+    le.textContent+=' [\u{C678}\u{BD80}\u{B370}\u{C774}\u{D130} \u{C5C6}\u{C74C} \u{2014} \u{B0B4}\u{BD80}\u{C9C0}\u{D45C} \u{C911}\u{C2EC} \u{C7AC}\u{BC30}\u{BD84}]';
+  }
   if(grade==='S'&&prevGrade!=='S')fireConfetti();
   prevGrade=grade;
   ge.style.transform='scale(1.2)';setTimeout(function(){ge.style.transform=''},300);
