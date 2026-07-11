@@ -122,41 +122,18 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 .gps-card.p .gps-kpi{color:color-mix(in srgb,var(--blue) 70%,var(--ink2))}
 .gps-card.s .gps-kpi{color:color-mix(in srgb,var(--sgreen) 70%,var(--ink2))}
 
-/* ── GPS Flow pipeline ── */
-.gps-pipe{margin-top:36px;padding:28px;background:var(--sf-card);border-radius:var(--r);box-shadow:var(--shadow-card);position:relative}
-.gps-pipe-label{font-size:12px;font-weight:600;color:var(--ink3);margin-bottom:20px}
-.gps-pipe-track{display:flex;align-items:stretch;gap:0;position:relative}
-.gps-phase{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 8px}
-.gps-phase-tag{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
-  padding:3px 10px;border-radius:20px;transition:all .4s var(--ease);opacity:.5}
-.gps-phase[data-phase="g"] .gps-phase-tag{background:color-mix(in srgb,var(--red) 15%,transparent);color:var(--red)}
-.gps-phase[data-phase="p"] .gps-phase-tag{background:color-mix(in srgb,var(--blue) 15%,transparent);color:var(--blue)}
-.gps-phase[data-phase="s"] .gps-phase-tag{background:color-mix(in srgb,var(--sgreen) 15%,transparent);color:var(--sgreen)}
-.gps-phase.lit .gps-phase-tag{opacity:1;transform:scale(1.05)}
-.gps-phase-nodes{display:flex;align-items:center;gap:8px;width:100%}
-.gps-phase-node{flex:1;text-align:center;padding:14px 8px;border-radius:var(--rs);
-  background:color-mix(in srgb,var(--ink) 4%,transparent);border:1.5px solid var(--bdr-subtle);
-  transition:all .4s var(--ease);min-width:0}
-.gps-phase.lit .gps-phase-node{background:color-mix(in srgb,var(--ink) 8%,transparent)}
-.gps-phase[data-phase="g"].lit .gps-phase-node{border-color:color-mix(in srgb,var(--red) 40%,transparent);
-  box-shadow:0 0 20px color-mix(in srgb,var(--red) 12%,transparent)}
-.gps-phase[data-phase="p"].lit .gps-phase-node{border-color:color-mix(in srgb,var(--blue) 40%,transparent);
-  box-shadow:0 0 20px color-mix(in srgb,var(--blue) 12%,transparent)}
-.gps-phase[data-phase="s"].lit .gps-phase-node{border-color:color-mix(in srgb,var(--sgreen) 40%,transparent);
-  box-shadow:0 0 20px color-mix(in srgb,var(--sgreen) 12%,transparent)}
-.gps-phase-node strong{display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.gps-phase-node span{font-size:10px;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
-.gps-phase-arr{display:flex;align-items:center;justify-content:center;width:24px;flex-shrink:0;
-  font-size:14px;font-weight:700;color:var(--ink3);transition:color .4s var(--ease)}
-.gps-phase.lit .gps-phase-arr{color:var(--ink2)}
-.gps-phase-divider{width:1px;background:var(--bdr);align-self:stretch;margin:0 4px;flex-shrink:0}
-.gps-pulse{position:absolute;bottom:-2px;left:0;height:3px;border-radius:2px;
-  transition:left .5s var(--spring),width .5s var(--spring),background .3s var(--ease)}
-@media(max-width:640px){
-  .gps-pipe-track{flex-direction:column;gap:12px}
-  .gps-phase-divider{width:100%;height:1px;margin:4px 0}
-  .gps-pulse{display:none}
-}
+/* ── GPS Card enhancements ── */
+.gps-card{display:flex;flex-direction:column}
+.gps-card .gps-sub{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.gps-card .gps-sub-item{padding:10px 12px;border-radius:var(--rx);
+  background:color-mix(in srgb,var(--ink) 3%,transparent);border:1px solid var(--bdr-subtle)}
+.gps-card.lit .gps-sub-item{background:color-mix(in srgb,var(--ink) 6%,transparent)}
+.gps-card.g.lit .gps-sub-item{border-color:color-mix(in srgb,var(--red) 25%,transparent)}
+.gps-card.p.lit .gps-sub-item{border-color:color-mix(in srgb,var(--blue) 25%,transparent)}
+.gps-card.s.lit .gps-sub-item{border-color:color-mix(in srgb,var(--sgreen) 25%,transparent)}
+.gps-sub-item strong{display:block;font-size:12px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.gps-sub-item span{font-size:10px;color:var(--ink3);line-height:1.4}
+.gps-card .gps-sub-full{grid-column:1/-1}
 
 /* ── Pipeline ── */
 .pipe-narrative{font-size:16px;font-weight:600;letter-spacing:.08em;line-height:1.4;
@@ -530,53 +507,33 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
       <div class="gps-role">진단</div>
       <div class="gps-big">Gap</div>
       <div class="gps-axes">가격 경쟁력 · 구색 커버리지 · 미입점</div>
-      <div class="gps-detail">매출 기회가 벌어지는 지점 포착</div>
+      <div class="gps-detail">자사와 경쟁사 사이, 매출 기회가 벌어지는 지점을 6대 축으로 포착한다</div>
+      <div class="gps-sub">
+        <div class="gps-sub-item"><strong>자사 데이터</strong><span>Metrics API · BIDB · Discovery</span></div>
+        <div class="gps-sub-item"><strong>외부 데이터</strong><span>경쟁사 11개 크롤 (Albatross)</span></div>
+      </div>
       <div class="gps-kpi">PCI · ACR · CVR</div>
     </div>
     <div class="card gps-card p" data-gps="p">
       <div class="gps-role">정렬</div>
       <div class="gps-big">Priority</div>
       <div class="gps-axes">인기도 신호 · 매출 요소를 가중 결합</div>
-      <div class="gps-detail">기회손실 GMV 크기순 정렬</div>
+      <div class="gps-detail">기회손실 GMV 크기순으로 정렬 — 가장 큰 기회부터 실행한다</div>
+      <div class="gps-sub">
+        <div class="gps-sub-item gps-sub-full"><strong>기회손실 정렬</strong><span>GMV 파급력 × 조직장 가중치</span></div>
+      </div>
       <div class="gps-kpi">Opportunity GMV</div>
     </div>
     <div class="card gps-card s" data-gps="s">
       <div class="gps-role">등급</div>
       <div class="gps-big">Score</div>
-      <div class="gps-axes">S/A/B 티어링 종합 등급 산출</div>
-      <div class="gps-detail">신호등 직관화 → MCP 액션 실행</div>
+      <div class="gps-axes">S/A/B/C 티어링 종합 등급 산출</div>
+      <div class="gps-detail">하나의 점수로 직관화하고, 등급별 액션을 자동 연결한다</div>
+      <div class="gps-sub">
+        <div class="gps-sub-item"><strong>등급 산출</strong><span>0~100 → S/A/B/C</span></div>
+        <div class="gps-sub-item"><strong>실행 연동</strong><span>검색 · 전시 · SO</span></div>
+      </div>
       <div class="gps-kpi">S · A · B · C</div>
-    </div>
-  </div>
-
-  <div class="gps-pipe fade-in" id="gps-pipe">
-    <div class="gps-pipe-label">실행 플로우</div>
-    <div class="gps-pipe-track" id="gps-track">
-      <div class="gps-phase" data-phase="g">
-        <div class="gps-phase-tag">Gap</div>
-        <div class="gps-phase-nodes">
-          <div class="gps-phase-node"><strong>자사 데이터</strong><span>Metrics API · BIDB · Discovery</span></div>
-          <span class="gps-phase-arr">↔</span>
-          <div class="gps-phase-node"><strong>외부 데이터</strong><span>경쟁사 11개 크롤 (Albatross)</span></div>
-        </div>
-      </div>
-      <div class="gps-phase-divider"></div>
-      <div class="gps-phase" data-phase="p">
-        <div class="gps-phase-tag">Priority</div>
-        <div class="gps-phase-nodes">
-          <div class="gps-phase-node"><strong>기회손실 정렬</strong><span>GMV 파급력 × 조직장 가중치</span></div>
-        </div>
-      </div>
-      <div class="gps-phase-divider"></div>
-      <div class="gps-phase" data-phase="s">
-        <div class="gps-phase-tag">Score</div>
-        <div class="gps-phase-nodes">
-          <div class="gps-phase-node"><strong>등급 산출</strong><span>0~100 → S/A/B/C</span></div>
-          <span class="gps-phase-arr">→</span>
-          <div class="gps-phase-node"><strong>실행 연동</strong><span>검색 · 전시 · SO</span></div>
-        </div>
-      </div>
-      <div class="gps-pulse" id="gps-pulse"></div>
     </div>
   </div>
 </div>
@@ -1338,34 +1295,21 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
   if(rmq.matches)c.style.display='none';
 })();
 
-/* ── GPS interactive flow ── */
+/* ── GPS card auto-cycle ── */
 (function(){
-  const cards=document.querySelectorAll('[data-gps]');
-  const phases=document.querySelectorAll('.gps-phase');
-  const pulse=document.getElementById('gps-pulse');
-  const track=document.getElementById('gps-track');
-  if(!cards.length||!phases.length||!pulse||!track) return;
+  var cards=document.querySelectorAll('[data-gps]');
+  if(!cards.length) return;
 
-  const colors={g:'var(--red)',p:'var(--blue)',s:'var(--sgreen)'};
-  let autoTimer=null, current=0, paused=false;
-  const keys=['g','p','s'];
+  var autoTimer=null, current=0, paused=false;
+  var keys=['g','p','s'];
 
   function light(key){
-    cards.forEach(c=>{c.classList.toggle('lit',c.dataset.gps===key)});
-    phases.forEach(p=>{p.classList.toggle('lit',p.dataset.phase===key)});
-    const active=[...phases].find(p=>p.dataset.phase===key);
-    if(active&&track.offsetWidth){
-      const tl=track.getBoundingClientRect().left;
-      const al=active.getBoundingClientRect().left-tl;
-      const aw=active.getBoundingClientRect().width;
-      pulse.style.left=al+'px';pulse.style.width=aw+'px';
-      pulse.style.background=colors[key];
-    }
+    cards.forEach(function(c){c.classList.toggle('lit',c.dataset.gps===key);});
   }
 
   function startAuto(){
     if(autoTimer) return;
-    autoTimer=setInterval(()=>{
+    autoTimer=setInterval(function(){
       if(paused) return;
       light(keys[current]);
       current=(current+1)%keys.length;
@@ -1374,20 +1318,16 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 
   function stopAuto(){clearInterval(autoTimer);autoTimer=null;}
 
-  cards.forEach(c=>{
-    c.addEventListener('mouseenter',()=>{paused=true;light(c.dataset.gps);});
-    c.addEventListener('mouseleave',()=>{paused=false;});
-    c.addEventListener('click',()=>{paused=true;light(c.dataset.gps);setTimeout(()=>paused=false,3000);});
-  });
-  phases.forEach(p=>{
-    p.addEventListener('mouseenter',()=>{paused=true;light(p.dataset.phase);});
-    p.addEventListener('mouseleave',()=>{paused=false;});
+  cards.forEach(function(c){
+    c.addEventListener('mouseenter',function(){paused=true;light(c.dataset.gps);});
+    c.addEventListener('mouseleave',function(){paused=false;});
+    c.addEventListener('click',function(){paused=true;light(c.dataset.gps);setTimeout(function(){paused=false;},3000);});
   });
 
-  const obs=new IntersectionObserver(es=>{
+  var obs=new IntersectionObserver(function(es){
     if(es[0].isIntersecting){light(keys[0]);startAuto();}else{stopAuto();}
   },{threshold:.3});
-  obs.observe(document.getElementById('gps-pipe'));
+  obs.observe(document.getElementById('gps-cards'));
 })();
 
 /* ── Pipeline stages ── */
