@@ -1,320 +1,471 @@
-<title>Essential GPS &#8212; Spec Document Hub</title>
+<title>Essential GPS &#8212; Strategy Spec Hub</title>
 <style>
 :root{
   --bg:#fbfbfd;--sf:#fff;--sf2:#f5f5f7;--sf3:#e8e8ed;
   --tx:#1d1d1f;--tx2:#424245;--tx3:#6e6e73;--txm:#86868b;
   --bd:#d2d2d7;
-  --blue:#0071e3;--purple:#bf5af2;--green:#34c759;
+  --blue:#0071e3;--blue2:#147ce5;--purple:#bf5af2;--green:#34c759;
   --red:#ff3b30;--orange:#ff9500;--teal:#5ac8fa;--indigo:#5856d6;
+  --glass:rgba(255,255,255,.72);--glassBd:rgba(0,0,0,.06);
   --r:20px;--rs:12px;
-  --f:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Pretendard',system-ui,sans-serif;
-  --fm:'SF Mono','Fira Code',ui-monospace,monospace;
   --sh:0 1px 3px rgba(0,0,0,.04);--shm:0 4px 16px rgba(0,0,0,.06);--shl:0 8px 32px rgba(0,0,0,.08);
+  --f:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Pretendard','Malgun Gothic',system-ui,sans-serif;
+  --fm:'SF Mono','Fira Code',ui-monospace,monospace;
 }
 @media(prefers-color-scheme:dark){:root{
   --bg:#000;--sf:#1c1c1e;--sf2:#2c2c2e;--sf3:#3a3a3c;
   --tx:#f5f5f7;--tx2:#d1d1d6;--tx3:#98989d;--txm:#636366;
-  --bd:#38383a;--blue:#0a84ff;--purple:#bf5af2;--green:#30d158;
-  --red:#ff453a;--orange:#ff9f0a;--teal:#64d2ff;--indigo:#5e5ce6;
+  --bd:#38383a;--blue:#0a84ff;--blue2:#409cff;--purple:#bf5af2;
+  --green:#30d158;--red:#ff453a;--orange:#ff9f0a;--teal:#64d2ff;--indigo:#5e5ce6;
+  --glass:rgba(28,28,30,.78);--glassBd:rgba(255,255,255,.08);
   --sh:0 1px 3px rgba(0,0,0,.3);--shm:0 4px 16px rgba(0,0,0,.3);--shl:0 8px 32px rgba(0,0,0,.35);
 }}
-:root[data-theme="dark"]{--bg:#000;--sf:#1c1c1e;--sf2:#2c2c2e;--sf3:#3a3a3c;--tx:#f5f5f7;--tx2:#d1d1d6;--tx3:#98989d;--txm:#636366;--bd:#38383a;--blue:#0a84ff;--purple:#bf5af2;--green:#30d158;--red:#ff453a;--orange:#ff9f0a;--teal:#64d2ff;--indigo:#5e5ce6;--sh:0 1px 3px rgba(0,0,0,.3);--shm:0 4px 16px rgba(0,0,0,.3);--shl:0 8px 32px rgba(0,0,0,.35)}
-:root[data-theme="light"]{--bg:#fbfbfd;--sf:#fff;--sf2:#f5f5f7;--sf3:#e8e8ed;--tx:#1d1d1f;--tx2:#424245;--tx3:#6e6e73;--txm:#86868b;--bd:#d2d2d7;--blue:#0071e3;--purple:#bf5af2;--green:#34c759;--red:#ff3b30;--orange:#ff9500;--teal:#5ac8fa;--indigo:#5856d6;--sh:0 1px 3px rgba(0,0,0,.04);--shm:0 4px 16px rgba(0,0,0,.06);--shl:0 8px 32px rgba(0,0,0,.08)}
+:root[data-theme="dark"]{--bg:#000;--sf:#1c1c1e;--sf2:#2c2c2e;--sf3:#3a3a3c;--tx:#f5f5f7;--tx2:#d1d1d6;--tx3:#98989d;--txm:#636366;--bd:#38383a;--blue:#0a84ff;--blue2:#409cff;--purple:#bf5af2;--green:#30d158;--red:#ff453a;--orange:#ff9f0a;--teal:#64d2ff;--indigo:#5e5ce6;--glass:rgba(28,28,30,.78);--glassBd:rgba(255,255,255,.08);--sh:0 1px 3px rgba(0,0,0,.3);--shm:0 4px 16px rgba(0,0,0,.3);--shl:0 8px 32px rgba(0,0,0,.35)}
+:root[data-theme="light"]{--bg:#fbfbfd;--sf:#fff;--sf2:#f5f5f7;--sf3:#e8e8ed;--tx:#1d1d1f;--tx2:#424245;--tx3:#6e6e73;--txm:#86868b;--bd:#d2d2d7;--blue:#0071e3;--blue2:#147ce5;--purple:#bf5af2;--green:#34c759;--red:#ff3b30;--orange:#ff9500;--teal:#5ac8fa;--indigo:#5856d6;--glass:rgba(255,255,255,.72);--glassBd:rgba(0,0,0,.06);--sh:0 1px 3px rgba(0,0,0,.04);--shm:0 4px 16px rgba(0,0,0,.06);--shl:0 8px 32px rgba(0,0,0,.08)}
+
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased}
-.page{max-width:900px;margin:0 auto;padding:48px 24px 120px}
+body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.65;-webkit-font-smoothing:antialiased}
+.page{max-width:960px;margin:0 auto;padding:48px 24px 100px}
+
+.theme-toggle{position:fixed;top:16px;right:16px;z-index:999;width:36px;height:36px;border-radius:50%;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glassBd);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:transform .2s}
+.theme-toggle:hover{transform:scale(1.1)}
+.icon-sun,.icon-moon{position:absolute}
+.icon-moon{display:none}
+@media(prefers-color-scheme:dark){.icon-sun{display:none}.icon-moon{display:block}}
+:root[data-theme="dark"] .icon-sun{display:none}
+:root[data-theme="dark"] .icon-moon{display:block}
+:root[data-theme="light"] .icon-sun{display:block}
+:root[data-theme="light"] .icon-moon{display:none}
 
 /* Hero */
-.hero{text-align:center;padding:48px 0 40px}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);background:rgba(0,113,227,.06);padding:6px 14px;border-radius:100px;margin-bottom:16px}
-.hero h1{font-size:38px;font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-bottom:8px}
+.hero{text-align:center;padding:40px 0 20px}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);background:rgba(0,113,227,.06);padding:6px 16px;border-radius:100px;margin-bottom:16px}
+.hero h1{font-size:40px;font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-bottom:12px}
 .hero h1 span{background:linear-gradient(135deg,var(--red),var(--orange),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero p{font-size:17px;color:var(--tx2);max-width:560px;margin:0 auto;line-height:1.55}
+.hero-sub{font-size:17px;color:var(--tx2);max-width:640px;margin:0 auto;line-height:1.6}
+.hero-sub strong{color:var(--tx);font-weight:700}
 
-/* Stats row */
-.stats{display:flex;justify-content:center;gap:32px;margin:32px 0 48px;flex-wrap:wrap}
-.stat{text-align:center}
-.stat-val{font-size:28px;font-weight:800;letter-spacing:-.02em}
-.stat-label{font-size:11px;font-weight:700;color:var(--tx3);letter-spacing:.04em;margin-top:2px}
+/* GPS equation */
+.gps-eq{margin:28px auto 0;max-width:600px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:20px 24px;text-align:center}
+.gps-eq-title{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--txm);margin-bottom:10px}
+.gps-eq-row{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.gps-eq-step{display:flex;flex-direction:column;align-items:center;gap:2px}
+.gps-eq-icon{font-size:22px;line-height:1}
+.gps-eq-label{font-size:12px;font-weight:700;color:var(--tx2)}
+.gps-eq-desc{font-size:10px;color:var(--txm)}
+.gps-eq-arrow{font-size:18px;color:var(--txm);font-weight:300}
 
-/* Doc cards */
-.docs{display:flex;flex-direction:column;gap:16px}
-.doc{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;transition:all .25s ease;cursor:pointer;position:relative}
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:32px 0 40px}
+.stat{text-align:center;padding:16px 8px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs)}
+.stat-val{font-size:26px;font-weight:900;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat-label{font-size:10px;font-weight:700;color:var(--txm);letter-spacing:.04em;margin-top:2px}
+@media(max-width:600px){.stats{grid-template-columns:repeat(3,1fr)}}
+
+/* Flow diagram */
+.flow-sec{margin-bottom:40px}
+.flow-title{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--txm);margin-bottom:16px;text-align:center}
+.flow{display:flex;align-items:stretch;gap:0;overflow-x:auto}
+.flow-node{flex:1;min-width:110px;text-align:center;padding:14px 8px;background:var(--sf);border:1px solid var(--bd);position:relative}
+.flow-node:first-child{border-radius:var(--rs) 0 0 var(--rs)}
+.flow-node:last-child{border-radius:0 var(--rs) var(--rs) 0}
+.flow-node+.flow-node{border-left:none}
+.flow-node::after{content:'\2192';position:absolute;right:-7px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--txm);z-index:1;background:var(--bg);padding:0 2px}
+.flow-node:last-child::after{display:none}
+.flow-num{font-size:10px;font-weight:800;color:#fff;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:4px}
+.flow-label{font-size:12px;font-weight:700;color:var(--tx2);line-height:1.3}
+.flow-sub{font-size:10px;color:var(--txm);margin-top:2px}
+
+/* Section divider */
+.sec-divider{display:flex;align-items:center;gap:12px;margin:40px 0 20px}
+.sec-divider-line{flex:1;height:1px;background:var(--bd)}
+.sec-divider-label{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--txm)}
+
+/* Doc cards - redesigned */
+.docs{display:flex;flex-direction:column;gap:20px}
+.doc{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;transition:all .3s ease;position:relative}
 .doc:hover{border-color:var(--blue);box-shadow:var(--shl);transform:translateY(-2px)}
-.doc-inner{display:flex;align-items:stretch}
-.doc-num{width:72px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:#fff;position:relative}
-.doc-num::after{content:'';position:absolute;right:0;top:16px;bottom:16px;width:1px;background:rgba(255,255,255,.2)}
-.doc-body{flex:1;padding:20px 24px}
-.doc-top{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap}
-.doc-title{font-size:20px;font-weight:800;letter-spacing:-.01em}
-.doc-status{font-size:10px;font-weight:800;padding:3px 10px;border-radius:100px}
-.doc-status-done{background:rgba(52,199,89,.1);color:var(--green)}
-.doc-desc{font-size:15px;color:var(--tx2);margin-bottom:10px;line-height:1.5}
-.doc-tags{display:flex;flex-wrap:wrap;gap:6px}
-.doc-tag{font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;background:var(--sf2);color:var(--tx3)}
-.doc-tag-mvp{background:rgba(52,199,89,.08);color:var(--green)}
-.doc-arrow{width:48px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--txm);font-size:20px;transition:transform .2s}
-.doc:hover .doc-arrow{transform:translateX(4px);color:var(--blue)}
-.doc-file{font-size:11px;font-family:var(--fm);color:var(--txm);margin-top:6px}
+.doc-header{display:flex;align-items:center;gap:16px;padding:20px 24px 0}
+.doc-num{width:52px;height:52px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;border-radius:14px;letter-spacing:-.01em}
+.doc-hd-text{flex:1;min-width:0}
+.doc-title{font-size:22px;font-weight:800;letter-spacing:-.02em;line-height:1.2}
+.doc-one-line{font-size:14px;color:var(--tx2);margin-top:2px;line-height:1.4}
+.doc-file{font-size:11px;font-family:var(--fm);color:var(--txm);background:var(--sf2);padding:2px 8px;border-radius:6px;display:inline-block}
 
-/* MVP timeline */
-.timeline-sec{margin-top:56px;text-align:center}
-.timeline-sec h2{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
-.timeline-sec p{font-size:15px;color:var(--tx3);margin-bottom:24px}
-.tl-bar{display:flex;border-radius:var(--rs);overflow:hidden;border:1px solid var(--bd);background:var(--sf);height:52px}
-.tl-seg{display:flex;flex-direction:column;align-items:center;justify-content:center;border-right:1px solid var(--bd);position:relative;transition:all .2s}
-.tl-seg:last-child{border-right:none}
-.tl-seg-t{font-size:11px;font-weight:800;letter-spacing:.03em}
-.tl-seg-d{font-size:10px;color:var(--tx3)}
-.tl-legend{display:flex;justify-content:center;gap:20px;margin-top:12px;flex-wrap:wrap}
-.tl-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx3)}
-.tl-dot{width:8px;height:8px;border-radius:50%}
+/* Key contents grid */
+.doc-contents{padding:16px 24px 20px;display:grid;grid-template-columns:1fr 1fr;gap:10px 20px}
+@media(max-width:600px){.doc-contents{grid-template-columns:1fr}}
+.doc-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--tx2);line-height:1.5}
+.doc-item-icon{flex-shrink:0;width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;margin-top:1px}
+.doc-item-text{flex:1}
+.doc-item-text strong{color:var(--tx);font-weight:700}
+
+/* Key number chips */
+.doc-chips{padding:0 24px 18px;display:flex;flex-wrap:wrap;gap:6px}
+.doc-chip{font-size:10px;font-weight:700;padding:4px 10px;border-radius:100px;display:inline-flex;align-items:center;gap:4px}
+.chip-red{background:rgba(255,59,48,.08);color:var(--red)}
+.chip-orange{background:rgba(255,149,0,.08);color:var(--orange)}
+.chip-blue{background:rgba(0,113,227,.08);color:var(--blue)}
+.chip-green{background:rgba(52,199,89,.08);color:var(--green)}
+.chip-purple{background:rgba(191,90,242,.08);color:var(--purple)}
+.chip-teal{background:rgba(90,200,250,.08);color:var(--teal)}
+.chip-gray{background:var(--sf2);color:var(--tx3)}
+
+/* Connection line between docs */
+.doc-connect{display:flex;align-items:center;justify-content:center;padding:4px 0;color:var(--txm);font-size:11px;font-weight:600;gap:6px}
+.doc-connect::before,.doc-connect::after{content:'';width:40px;height:1px;background:var(--bd)}
+
+/* 6-axis bar */
+.axis-bar{margin:32px 0 0;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:20px 24px}
+.axis-bar-title{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--txm);margin-bottom:14px}
+.axis-row{display:grid;grid-template-columns:80px 44px 1fr 44px 60px;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--sf2);font-size:13px}
+.axis-row:last-child{border-bottom:none}
+.axis-name{font-weight:700;color:var(--tx);display:flex;align-items:center;gap:6px}
+.axis-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.axis-wt{font-weight:800;font-variant-numeric:tabular-nums;text-align:center;color:var(--tx2)}
+.axis-bar-fill{height:6px;border-radius:3px;background:var(--sf3);overflow:hidden}
+.axis-bar-fill-inner{height:100%;border-radius:3px;transition:width .6s ease}
+.axis-src{font-size:10px;font-weight:700;display:flex;gap:3px}
+.axis-src span{padding:1px 5px;border-radius:4px}
+.src-i{background:rgba(0,113,227,.08);color:var(--blue)}
+.src-e{background:rgba(191,90,242,.08);color:var(--purple)}
+.axis-status{font-size:10px;font-weight:800;text-align:center;padding:2px 8px;border-radius:100px}
+.status-live{background:rgba(52,199,89,.1);color:var(--green)}
+.status-plan{background:var(--sf2);color:var(--txm)}
+
+/* Tier summary */
+.tier-sum{margin:28px 0 0;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:600px){.tier-sum{grid-template-columns:repeat(2,1fr)}}
+.tier-card{padding:16px;border-radius:var(--rs);text-align:center;border:1px solid var(--bd);background:var(--sf)}
+.tier-badge{font-size:24px;font-weight:900;margin-bottom:4px}
+.tier-range{font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;margin-bottom:2px}
+.tier-name{font-size:13px;font-weight:700;color:var(--tx2)}
+.tier-sla{font-size:10px;font-weight:800;padding:2px 8px;border-radius:100px;display:inline-block;margin-top:6px}
+.tier-actions{font-size:11px;color:var(--txm);margin-top:6px;line-height:1.4}
 
 /* Footer */
-.footer{margin-top:56px;text-align:center;padding-top:32px;border-top:1px solid var(--bd)}
-.footer p{font-size:13px;color:var(--txm)}
+.footer{margin-top:48px;text-align:center;padding-top:28px;border-top:1px solid var(--bd)}
+.footer p{font-size:12px;color:var(--txm)}
 </style>
+
+<div class="theme-toggle" onclick="var d=document.documentElement,t=d.getAttribute('data-theme');d.setAttribute('data-theme',t==='dark'?'light':'dark')"><span class="icon-sun">&#9728;</span><span class="icon-moon">&#9790;</span></div>
 
 <div class="page">
 
 <div class="hero">
   <div class="hero-badge">11ST E-Commerce &#183; MD Execution Framework</div>
-  <h1>Essential <span>GPS</span><br>Spec Document Hub</h1>
-  <p>Gap &#183; Priority &#183; Score &#54532;&#47112;&#51076;&#50892;&#53356;&#51032; &#51204;&#52404; &#49444;&#44228; &#47928;&#49436;. &#44033; &#52852;&#46300;&#47484; &#53364;&#47533;&#54616;&#47732; &#54644;&#45817; &#49828;&#54169; &#47928;&#49436;&#47196; &#51060;&#46041;&#54633;&#45768;&#45796;.</p>
+  <h1>Essential <span>GPS</span><br>Strategy Spec Hub</h1>
+  <div class="hero-sub">
+    <strong>G</strong>ap(&#44201;&#52264;) &#183; <strong>P</strong>riority(&#50864;&#49440;&#49692;&#50948;) &#183; <strong>S</strong>core(&#51216;&#49688;) &#8212;
+    &#50808;&#48512; &#44221;&#51137; &#45936;&#51060;&#53552;&#50752; &#51088;&#49324; &#45936;&#51060;&#53552;&#47484; &#48708;&#44368;&#54644; <strong>&#44201;&#52264;&#47484; &#49688;&#52824;&#54868;</strong>&#54616;&#44256;,
+    &#44201;&#52264;&#44032; &#53360;&#49692;&#49436; MD&#44032; &#49892;&#54665;&#54616;&#45716; &#54532;&#47112;&#51076;&#50892;&#53356;&#51077;&#45768;&#45796;.
+    &#51060; &#54728;&#48652;&#45716; &#51204;&#52404; 7&#44060; &#49828;&#54169; &#47928;&#49436;&#51032; <strong>&#54645;&#49900; &#45236;&#50857;&#47932;</strong>&#51012; &#50836;&#50557;&#54633;&#45768;&#45796;.
+  </div>
+  <div class="gps-eq">
+    <div class="gps-eq-title">GPS &#54532;&#47196;&#49464;&#49828; &#54620;&#45576;&#50640; &#48372;&#44592;</div>
+    <div class="gps-eq-row">
+      <div class="gps-eq-step"><div class="gps-eq-icon" style="color:var(--purple)">&#128202;</div><div class="gps-eq-label">&#50808;&#48512; &#53356;&#47204;&#47553;</div><div class="gps-eq-desc">12&#44060; &#49324;&#51060;&#53944;</div></div>
+      <div class="gps-eq-arrow">&#8594;</div>
+      <div class="gps-eq-step"><div class="gps-eq-icon" style="color:var(--red)">&#128200;</div><div class="gps-eq-label">Gap &#48516;&#49437;</div><div class="gps-eq-desc">6&#52629; &#44201;&#52264; &#49328;&#52636;</div></div>
+      <div class="gps-eq-arrow">&#8594;</div>
+      <div class="gps-eq-step"><div class="gps-eq-icon" style="color:var(--orange)">&#127919;</div><div class="gps-eq-label">GPS &#49828;&#53076;&#50612;&#47553;</div><div class="gps-eq-desc">0~100&#51216; &#49328;&#52636;</div></div>
+      <div class="gps-eq-arrow">&#8594;</div>
+      <div class="gps-eq-step"><div class="gps-eq-icon" style="color:var(--blue)">&#128736;</div><div class="gps-eq-label">&#53468;&#49828;&#53356; &#48176;&#51221;</div><div class="gps-eq-desc">37&#44060; &#50529;&#49496;</div></div>
+      <div class="gps-eq-arrow">&#8594;</div>
+      <div class="gps-eq-step"><div class="gps-eq-icon" style="color:var(--green)">&#128260;</div><div class="gps-eq-label">&#54588;&#46300;&#48177;</div><div class="gps-eq-desc">&#54952;&#44284; &#52769;&#51221;&#183;&#48372;&#51221;</div></div>
+    </div>
+  </div>
 </div>
 
 <div class="stats">
-  <div class="stat">
-    <div class="stat-val" style="color:var(--blue)">7</div>
-    <div class="stat-label">SPEC DOCS</div>
-  </div>
-  <div class="stat">
-    <div class="stat-val" style="color:var(--green)">7/7</div>
-    <div class="stat-label">COMPLETED</div>
-  </div>
-  <div class="stat">
-    <div class="stat-val" style="color:var(--purple)">138</div>
-    <div class="stat-label">DATA ITEMS</div>
-  </div>
-  <div class="stat">
-    <div class="stat-val" style="color:var(--red)">3</div>
-    <div class="stat-label">MVP AXES</div>
+  <div class="stat"><div class="stat-val" style="color:var(--blue)">7</div><div class="stat-label">SPEC DOCS</div></div>
+  <div class="stat"><div class="stat-val" style="color:var(--red)">6</div><div class="stat-label">&#51652;&#45800; &#52629;</div></div>
+  <div class="stat"><div class="stat-val" style="color:var(--orange)">37</div><div class="stat-label">ACTION TASKS</div></div>
+  <div class="stat"><div class="stat-val" style="color:var(--green)">10</div><div class="stat-label">DB TABLES</div></div>
+  <div class="stat"><div class="stat-val" style="color:var(--purple)">138</div><div class="stat-label">DATA ITEMS</div></div>
+</div>
+
+<!-- Doc flow -->
+<div class="flow-sec">
+  <div class="flow-title">7&#44060; &#47928;&#49436; &#55120;&#47492;</div>
+  <div class="flow">
+    <div class="flow-node"><div class="flow-num" style="background:var(--red)">01</div><div class="flow-label">&#54532;&#47112;&#51232;&#53580;&#51060;&#49496;</div><div class="flow-sub">&#51204;&#52404; &#44060;&#50836;</div></div>
+    <div class="flow-node"><div class="flow-num" style="background:var(--orange)">02</div><div class="flow-label">&#45936;&#51060;&#53552; &#51221;&#51032;</div><div class="flow-sub">&#47924;&#50631;&#51012; &#48380; &#44163;&#51064;&#44032;</div></div>
+    <div class="flow-node"><div class="flow-num" style="background:var(--blue)">03</div><div class="flow-label">&#47196;&#51649; &#49828;&#54169;</div><div class="flow-sub">&#50612;&#46523;&#44172; &#44228;&#49328;&#54616;&#45208;</div></div>
+    <div class="flow-node"><div class="flow-num" style="background:var(--purple)">04</div><div class="flow-label">&#54028;&#51060;&#54532;&#46972;&#51064;</div><div class="flow-sub">&#50616;&#51228; &#49892;&#54665;&#54616;&#45208;</div></div>
+    <div class="flow-node"><div class="flow-num" style="background:var(--teal)">05</div><div class="flow-label">&#50529;&#49496; &#47588;&#53944;&#47533;&#49828;</div><div class="flow-sub">&#47924;&#50631;&#51012; &#54624; &#44163;&#51064;&#44032;</div></div>
+    <div class="flow-node"><div class="flow-num" style="background:var(--green)">06</div><div class="flow-label">&#54588;&#46300;&#48177;&#183;&#48184;&#47088;&#49828;</div><div class="flow-sub">&#54952;&#44284;&#47484; &#50612;&#46523;&#44172;</div></div>
+    <div class="flow-node"><div class="flow-num" style="background:var(--indigo)">07</div><div class="flow-label">&#48177;&#50644;&#46300; &#50644;&#51652;</div><div class="flow-sub">&#49884;&#49828;&#53596; &#44396;&#54788;</div></div>
   </div>
 </div>
+
+<div class="sec-divider"><div class="sec-divider-line"></div><div class="sec-divider-label">&#44033; &#47928;&#49436;&#48324; &#54645;&#49900; &#45236;&#50857;</div><div class="sec-divider-line"></div></div>
 
 <div class="docs">
 
-  <!-- Doc 1 -->
-  <a href="https://claude.ai/code/artifact/27ecdd46-80df-4a0f-a172-89dffbb38841" target="_blank" style="text-decoration:none;color:inherit">
+  <!-- DOC 01 -->
   <div class="doc">
-    <div class="doc-inner">
+    <div class="doc-header">
       <div class="doc-num" style="background:linear-gradient(135deg,var(--red),#ff6b6b)">01</div>
-      <div class="doc-body">
-        <div class="doc-top">
-          <div class="doc-title">&#47700;&#51064; &#54532;&#47112;&#51232;&#53580;&#51060;&#49496;</div>
-          <div class="doc-status doc-status-done">&#50756;&#47308;</div>
-        </div>
-        <div class="doc-desc">35+ &#51064;&#53552;&#47001;&#54000;&#48652; &#44592;&#45733;&#51012; &#54252;&#54632;&#54620; Essential GPS &#54532;&#47112;&#51076;&#50892;&#53356; &#49548;&#44060; &#45937;. GPS &#49884;&#48044;&#47112;&#51060;&#53552;, &#44077; &#48516;&#49437; &#53580;&#51060;&#48660;, 3D &#54540;&#47549;&#52852;&#46300;, &#51032;&#49324;&#44208;&#51221; &#53944;&#47532;, &#52852;&#50868;&#53944;&#45796;&#50868; &#53440;&#51060;&#47672; &#46321;</div>
-        <div class="doc-tags">
-          <span class="doc-tag">GPS &#49884;&#48044;&#47112;&#51060;&#53552;</span>
-          <span class="doc-tag">&#47112;&#51060;&#45908; &#52264;&#53944;</span>
-          <span class="doc-tag">&#44077; &#48516;&#49437; &#53580;&#51060;&#48660;</span>
-          <span class="doc-tag">&#54028;&#54000;&#53364; &#51060;&#54169;&#53944;</span>
-          <span class="doc-tag">&#53412;&#48372;&#46300; &#45236;&#48708;&#44172;&#51060;&#49496;</span>
-        </div>
-        <div class="doc-file">essential-gps.html</div>
+      <div class="doc-hd-text">
+        <div class="doc-title">&#47700;&#51064; &#54532;&#47112;&#51232;&#53580;&#51060;&#49496;</div>
+        <div class="doc-one-line">GPS &#54532;&#47112;&#51076;&#50892;&#53356;&#51032; &#51204;&#52404; &#44060;&#50836;&#47484; 13&#44060; &#49465;&#49496;&#51004;&#47196; &#49548;&#44060;&#54616;&#45716; &#51064;&#53552;&#47001;&#54000;&#48652; &#51109;&#54364;</div>
       </div>
-      <div class="doc-arrow">&#8594;</div>
+      <div class="doc-file">essential-gps.html</div>
+    </div>
+    <div class="doc-contents">
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(255,59,48,.1);color:var(--red)">&#9733;</div><div class="doc-item-text"><strong>GPS &#49884;&#48044;&#47112;&#51060;&#53552;</strong> &#8212; 6&#52629; &#49836;&#46972;&#51060;&#45908; + &#47112;&#51060;&#45908; &#52264;&#53944;&#47196; &#49892;&#49884;&#44036; &#49828;&#53076;&#50612; &#52404;&#54744;</div></div>
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(255,149,0,.1);color:var(--orange)">&#9632;</div><div class="doc-item-text"><strong>4&#45800;&#44228; &#51032;&#49324;&#44208;&#51221; &#53944;&#47532;</strong> &#8212; AUTO-S &#8594; PRICE-X &#8594; &#48372;&#51221;&#54057;&#53552; &#8594; 6&#52629;&#49828;&#53076;&#50612;&#47553;</div></div>
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(0,113,227,.1);color:var(--blue)">&#9650;</div><div class="doc-item-text"><strong>&#49888;&#54840;&#52852;&#46300; + &#49888;&#54840;&#46321; &#50696;&#49884;</strong> &#8212; &#46321;&#44553;&#48324; 6&#52629; &#44148;&#44053;&#46020;, &#55176;&#53944;&#47605;, &#46300;&#47000;&#44536; &#48708;&#44368;</div></div>
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(52,199,89,.1);color:var(--green)">&#9679;</div><div class="doc-item-text"><strong>Albatross &#50500;&#53412;&#53581;&#52376;</strong> &#8212; 3&#46020;&#47700;&#51064; 10&#53580;&#51060;&#48660; ERD + Join Key &#49884;&#44033;&#54868;</div></div>
+    </div>
+    <div class="doc-chips">
+      <span class="doc-chip chip-red">35+ &#51064;&#53552;&#47001;&#49496;</span>
+      <span class="doc-chip chip-orange">13&#44060; &#49465;&#49496;</span>
+      <span class="doc-chip chip-blue">&#52629;&#48324; &#45936;&#51060;&#53552; &#49884;&#48044;&#47112;&#51060;&#53552;</span>
+      <span class="doc-chip chip-green">&#45796;&#53356;/&#46972;&#51060;&#53944; &#53580;&#47560;</span>
     </div>
   </div>
-  </a>
 
-  <!-- Doc 2 -->
-  <a href="https://claude.ai/code/artifact/27ecdd46-80df-4a0f-a172-89dffbb38841" target="_blank" style="text-decoration:none;color:inherit">
+  <div class="doc-connect">&#9660; &#45936;&#51060;&#53552;&#45716; &#47924;&#50631;&#51012; &#48380; &#44163;&#51064;&#44032;?</div>
+
+  <!-- DOC 02 -->
   <div class="doc">
-    <div class="doc-inner">
+    <div class="doc-header">
       <div class="doc-num" style="background:linear-gradient(135deg,var(--orange),#ffb347)">02</div>
-      <div class="doc-body">
-        <div class="doc-top">
-          <div class="doc-title">&#54000;&#50612;&#48324; &#44032;&#51473;&#52824; &#38; SLA</div>
-          <div class="doc-status doc-status-done">&#50756;&#47308;</div>
-        </div>
-        <div class="doc-desc">S/A/B/C &#54000;&#50612;&#48324; 6&#45824;&#52629; &#44032;&#51473;&#52824; &#47196;&#51649;, &#50724;&#48260;&#46972;&#51060;&#46300; &#44508;&#52825;(AUTO-S/PRICE-X/SURGE), 15&#49836;&#47215; &#48176;&#48516; &#50508;&#44256;&#47532;&#51608;, &#50659;&#51648; &#52992;&#51060;&#49828; 6&#51333;, SLA &#50640;&#49828;&#52972;&#47112;&#51060;&#49496; &#53440;&#51076;&#46972;&#51064;</div>
-        <div class="doc-tags">
-          <span class="doc-tag">S/A/B/C &#44032;&#51473;&#52824;</span>
-          <span class="doc-tag">AUTO-S / PRICE-X / SURGE</span>
-          <span class="doc-tag">15&#49836;&#47215; &#48176;&#48516;</span>
-          <span class="doc-tag">SLA 24h/7d/14d/30d</span>
-        </div>
-        <div class="doc-file">gps-logic-spec.html</div>
+      <div class="doc-hd-text">
+        <div class="doc-title">&#50689;&#50629; &#51652;&#45800; &#45936;&#51060;&#53552; &#51221;&#51032;&#49436;</div>
+        <div class="doc-one-line">MD&#44032; &#48380; &#49688; &#51080;&#45716; &#47784;&#46304; &#45936;&#51060;&#53552; &#54637;&#47785;&#51012; 4&#45800;&#44228;(&#52852;&#53580;&#44256;&#47532;/&#49345;&#54408;/&#49472;&#47084;/&#53412;&#50892;&#46300;)&#47196; &#51221;&#51032;</div>
       </div>
-      <div class="doc-arrow">&#8594;</div>
+      <div class="doc-file">gps-data-definition.html</div>
+    </div>
+    <div class="doc-contents">
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(255,149,0,.1);color:var(--orange)">1</div><div class="doc-item-text"><strong>L1 &#52852;&#53580;&#44256;&#47532; 33&#44060;</strong> &#8212; &#44144;&#47000;&#50529;, &#44160;&#49353;&#47049;, &#44032;&#44201;&#50676;&#50948; &#48708;&#51473;, &#44221;&#51137;&#49324; BEST &#49345;&#54408; &#46321;</div></div>
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(255,149,0,.1);color:var(--orange)">2</div><div class="doc-item-text"><strong>L2 &#49345;&#54408; 39&#44060; + &#49472;&#47084; 26&#44060;</strong> &#8212; &#51221;&#49345;&#44032;/&#54624;&#51064;&#50529;, CVR, &#47532;&#48624;&#49688;/&#54217;&#51216;, &#52712;&#49548;&#50984;/&#48152;&#54408;&#50984;</div></div>
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(255,149,0,.1);color:var(--orange)">3</div><div class="doc-item-text"><strong>L3 &#53412;&#50892;&#46300; 18&#44060;</strong> &#8212; &#44160;&#49353;&#47049; &#51613;&#44032;&#50984;, &#53412;&#50892;&#46300; &#49692;&#50948;, &#44160;&#49353;&#44277;&#44553; GAP</div></div>
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(52,199,89,.1);color:var(--green)">&#10003;</div><div class="doc-item-text"><strong>&#49548;&#49828; &#44396;&#48516;</strong> &#8212; &#45236;&#48512;(DB/API) vs &#50808;&#48512;(&#53356;&#47204;&#47553;) vs &#48373;&#54633; &#47588;&#54609;</div></div>
+    </div>
+    <div class="doc-chips">
+      <span class="doc-chip chip-orange">138&#44060; &#45936;&#51060;&#53552; &#54637;&#47785;</span>
+      <span class="doc-chip chip-green">MVP 20&#44060; (&#44032;&#44201;14 + &#47532;&#48624;6)</span>
+      <span class="doc-chip chip-blue">P1/P2/P3 &#50864;&#49440;&#49692;&#50948;</span>
+      <span class="doc-chip chip-purple">NEW 11&#44060; &#54637;&#47785;</span>
     </div>
   </div>
-  </a>
 
-  <!-- Doc 3 -->
-  <a href="https://claude.ai/code/artifact/4451f6c6-f993-4e69-9392-97519ad9d4a5" target="_blank" style="text-decoration:none;color:inherit">
+  <div class="doc-connect">&#9660; &#50612;&#46523;&#44172; &#44228;&#49328;&#54616;&#45208;?</div>
+
+  <!-- DOC 03 -->
   <div class="doc">
-    <div class="doc-inner">
+    <div class="doc-header">
       <div class="doc-num" style="background:linear-gradient(135deg,var(--blue),#4da6ff)">03</div>
-      <div class="doc-body">
-        <div class="doc-top">
-          <div class="doc-title">&#50529;&#49496; &#53468;&#49828;&#53356; &#47588;&#53944;&#47533;&#49828;</div>
-          <div class="doc-status doc-status-done">&#50756;&#47308;</div>
-        </div>
-        <div class="doc-desc">37&#44060; &#50529;&#49496; &#53468;&#49828;&#53356;&#51032; &#51204;&#52404; &#44221;&#50864;&#51032; &#49688;. &#54000;&#50612;&#48324; P1/P2/P3 &#50864;&#49440;&#49692;&#50948; &#48516;&#47448;, &#52629;&#48324; &#49888;&#54840; &#54056;&#53556;(critical/warning/good), &#50756;&#47308; &#44592;&#51456;&#44284; &#52769;&#51221;&#51648;&#54364;</div>
-        <div class="doc-tags">
-          <span class="doc-tag">S:12 A:11 B:9 C:5</span>
-          <span class="doc-tag">&#52629; &#49888;&#54840; &#54056;&#53556;</span>
-          <span class="doc-tag">&#50864;&#49440;&#49692;&#50948; P1/P2/P3</span>
-          <span class="doc-tag">37&#8594;22 &#53685;&#54633;</span>
-        </div>
-        <div class="doc-file">gps-action-matrix.html</div>
+      <div class="doc-hd-text">
+        <div class="doc-title">&#54000;&#50612;&#48324; &#44032;&#51473;&#52824; &amp; &#47196;&#51649; &#49828;&#54169;</div>
+        <div class="doc-one-line">6&#52629; &#44032;&#51473;&#52824;&#47484; &#50612;&#46523;&#44172; &#51312;&#54633;&#54644;&#49436; GPS &#51216;&#49688;&#47484; &#49328;&#52636;&#54616;&#44256;, &#46321;&#44553;&#51012; &#54032;&#51221;&#54616;&#45716;&#51648;&#51032; &#51204;&#52404; &#47196;&#51649;</div>
       </div>
-      <div class="doc-arrow">&#8594;</div>
+      <div class="doc-file">gps-logic-spec.html</div>
+    </div>
+    <div class="doc-contents">
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(0,113,227,.1);color:var(--blue)">W</div><div class="doc-item-text"><strong>&#54000;&#50612;&#48324; &#44032;&#51473;&#52824; &#48176;&#50676;</strong> &#8212; S&#54000;&#50612;: &#44032;&#44201;35%&#183;&#46364;25%, B&#54000;&#50612;: &#51648;&#54364;22%&#183;&#47532;&#48624;21% (&#46321;&#44553;&#47560;&#45796; &#45796;&#47492;)</div></div>
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(255,59,48,.1);color:var(--red)">!</div><div class="doc-item-text"><strong>3&#44032;&#51648; &#44053;&#51228; &#50724;&#48260;&#46972;&#51060;&#46300;</strong> &#8212; AUTO-S(&#48120;&#51077;&#51216;), PRICE-X(PCI&#8805;130), SURGE(MoM&#8805;300%)</div></div>
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(255,149,0,.1);color:var(--orange)">15</div><div class="doc-item-text"><strong>S&#54000;&#50612; 15&#49836;&#47215; &#48176;&#48516;</strong> &#8212; PRICE-X &#52572;&#45824;5, SURGE &#52572;&#45824;2, &#45208;&#47672;&#51648; AUTO-S. &#44592;&#54924;&#49552;&#49892;GMV &#215; &#51204;&#54872;&#54869;&#47456; &#49692;</div></div>
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(0,113,227,.1);color:var(--blue)">E</div><div class="doc-item-text"><strong>&#50659;&#51648;&#52992;&#51060;&#49828; 6&#51333;</strong> &#8212; &#45936;&#51060;&#53552;&#48512;&#51313;, &#49884;&#51596;&#49884;&#54532;&#53944;, &#52852;&#53580;&#44256;&#47532;&#48169;&#54693;, &#45800;&#51068;&#52629;&#53356;&#47532;&#54000;&#52972;, &#48373;&#54633;&#53944;&#47532;&#44144;, &#47680;&#54000;&#52852;&#53580;</div></div>
+    </div>
+    <div class="doc-chips">
+      <span class="doc-chip chip-red">S&#8805;85 &#183; A 65~84 &#183; B 40~64 &#183; C&lt;40</span>
+      <span class="doc-chip chip-blue">SLA 24h / 7d / 14d / 30d</span>
+      <span class="doc-chip chip-orange">&#48652;&#47532;&#52824; &#54168;&#45328;&#54000; Gap+10</span>
     </div>
   </div>
-  </a>
 
-  <!-- Doc 4 -->
-  <a href="https://claude.ai/code/artifact/44909ddd-573e-4305-b4f3-46cb126773d7" target="_blank" style="text-decoration:none;color:inherit">
+  <div class="doc-connect">&#9660; &#50616;&#51228; &#49892;&#54665;&#54616;&#45208;?</div>
+
+  <!-- DOC 04 -->
   <div class="doc">
-    <div class="doc-inner">
+    <div class="doc-header">
       <div class="doc-num" style="background:linear-gradient(135deg,var(--purple),#d484ff)">04</div>
-      <div class="doc-body">
-        <div class="doc-top">
-          <div class="doc-title">&#48177;&#50644;&#46300; &#44032;&#51473;&#52824; &#50644;&#51652;</div>
-          <div class="doc-status doc-status-done">&#50756;&#47308;</div>
-        </div>
-        <div class="doc-desc">6&#52852;&#53580;&#44256;&#47532; &#215; 5&#54000;&#50612; = 30&#44060; &#44032;&#51473;&#52824; &#51312;&#54633;. &#52852;&#53580;&#44256;&#47532;&#48324; &#44221;&#51137;&#49324; &#47588;&#54609;, null &#45936;&#51060;&#53552; &#52376;&#47532;(&#50577;&#51901; null&#8594;gap=0), &#51064;&#53552;&#47001;&#54000;&#48652; &#49884;&#48044;&#47112;&#51060;&#53552;</div>
-        <div class="doc-tags">
-          <span class="doc-tag">30&#44060; &#44032;&#51473;&#52824; &#51312;&#54633;</span>
-          <span class="doc-tag">&#44221;&#51137;&#49324; &#49548;&#49828; &#47588;&#54609;</span>
-          <span class="doc-tag">null &#52376;&#47532; &#47196;&#51649;</span>
-          <span class="doc-tag">&#49884;&#48044;&#47112;&#51060;&#53552;</span>
-        </div>
-        <div class="doc-file">gps-backend-spec.html</div>
+      <div class="doc-hd-text">
+        <div class="doc-title">&#45936;&#51060;&#53552; &#54028;&#51060;&#54532;&#46972;&#51064; &amp; &#51032;&#49324;&#44208;&#51221;</div>
+        <div class="doc-one-line">&#47588;&#51068; 06:00~09:00 &#48176;&#52824; &#54028;&#51060;&#54532;&#46972;&#51064;&#44284; &#49892;&#49884;&#44036; &#53944;&#47532;&#44144;, GPS&#8594;&#50529;&#49496; &#51088;&#46041;&#47588;&#52845; &#51032;&#49324;&#44208;&#51221; &#53944;&#47532;</div>
       </div>
-      <div class="doc-arrow">&#8594;</div>
+      <div class="doc-file">gps-pipeline-decision.html</div>
+    </div>
+    <div class="doc-contents">
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(191,90,242,.1);color:var(--purple)">&#9200;</div><div class="doc-item-text"><strong>5&#45800;&#44228; &#51068;&#51068;&#48176;&#52824;</strong> &#8212; 06:00 &#50808;&#48512;&#49688;&#51665; &#8594; 07:00 &#45236;&#48512;&#49828;&#45253;&#49403; &#8594; 08:00 Gap&#49328;&#52636; &#8594; 08:30 &#50529;&#49496;&#47588;&#52845; &#8594; 09:00 MD&#50508;&#46988;</div></div>
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(255,59,48,.1);color:var(--red)">&#9889;</div><div class="doc-item-text"><strong>&#49892;&#49884;&#44036; &#53944;&#47532;&#44144; 3&#51333;</strong> &#8212; PRICE_WATCH(4h), SURGE_WATCH(&#49892;&#49884;&#44036;), HEALTH_CHECK(1h)</div></div>
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(191,90,242,.1);color:var(--purple)">&#128736;</div><div class="doc-item-text"><strong>&#50529;&#49496; &#51088;&#46041;&#47588;&#52845; &#53944;&#47532;</strong> &#8212; &#54000;&#50612; + top1/top2 Gap &#52629; &#8594; &#51312;&#44148;&#48324; &#53468;&#49828;&#53356; &#51088;&#46041; &#48176;&#51221;</div></div>
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(0,113,227,.1);color:var(--blue)">&#128203;</div><div class="doc-item-text"><strong>&#52629;&#48324; &#45936;&#51060;&#53552; &#49688;&#51665; &#49548;&#49828;</strong> &#8212; &#44032;&#44201;: 4h&#52852;&#50868;, &#46364;: 1d&#48176;&#52824;, &#48176;&#49569;: 7d&#51452;&#44036;&#48176;&#52824;</div></div>
+    </div>
+    <div class="doc-chips">
+      <span class="doc-chip chip-purple">06:00~09:00 &#51068;&#48176;&#52824;</span>
+      <span class="doc-chip chip-red">PCI&#8805;130 &#8594; 4h &#44596;&#44553;&#53944;&#47532;&#44144;</span>
+      <span class="doc-chip chip-blue">&#53356;&#47204;&#47553; &#49892;&#54056; &gt; 20% &#8594; STALE &#54540;&#47000;&#44536;</span>
     </div>
   </div>
-  </a>
 
-  <!-- Doc 5 -->
-  <a href="https://claude.ai/code/artifact/4496657b-ef85-49a6-a285-98777da94a5a" target="_blank" style="text-decoration:none;color:inherit">
+  <div class="doc-connect">&#9660; &#47924;&#50631;&#51012; &#54624; &#44163;&#51064;&#44032;?</div>
+
+  <!-- DOC 05 -->
   <div class="doc">
-    <div class="doc-inner">
+    <div class="doc-header">
       <div class="doc-num" style="background:linear-gradient(135deg,var(--teal),#8dd8f8)">05</div>
-      <div class="doc-body">
-        <div class="doc-top">
-          <div class="doc-title">&#45936;&#51060;&#53552; &#54028;&#51060;&#54532;&#46972;&#51064; &#38; &#51088;&#46041;&#47588;&#52845;</div>
-          <div class="doc-status doc-status-done">&#50756;&#47308;</div>
-        </div>
-        <div class="doc-desc">&#51068;&#51068; &#48176;&#52824; &#54028;&#51060;&#54532;&#46972;&#51064;(06:00~09:00), &#49892;&#49884;&#44036; &#53944;&#47532;&#44144; 3&#51333;(PRICE_WATCH/SURGE_WATCH/HEALTH_CHECK), GPS&#8594;&#50529;&#49496; &#51088;&#46041;&#47588;&#52845; &#51032;&#49324;&#44208;&#51221; &#53944;&#47532;, &#51312;&#44148;&#48324; &#49884;&#48044;&#47112;&#51060;&#53552;</div>
-        <div class="doc-tags">
-          <span class="doc-tag">06:00~09:00 &#48176;&#52824;</span>
-          <span class="doc-tag">&#49892;&#49884;&#44036; &#53944;&#47532;&#44144;</span>
-          <span class="doc-tag">assignAction() &#53944;&#47532;</span>
-          <span class="doc-tag">37&#8594;22 &#53685;&#54633;</span>
-        </div>
-        <div class="doc-file">gps-pipeline-decision.html</div>
+      <div class="doc-hd-text">
+        <div class="doc-title">&#50529;&#49496; &#53468;&#49828;&#53356; &#47588;&#53944;&#47533;&#49828;</div>
+        <div class="doc-one-line">&#46321;&#44553;&#48324; &#215; &#52629;&#48324; &#47784;&#46304; &#44221;&#50864;&#51032; &#49688;. MD&#44032; &#47924;&#50631;&#51012;, &#50612;&#46523;&#44172;, &#50616;&#51228;&#44620;&#51648; &#54644;&#50556; &#54616;&#45716;&#51648;&#51032; 37&#44060; &#53468;&#49828;&#53356;</div>
       </div>
-      <div class="doc-arrow">&#8594;</div>
+      <div class="doc-file">gps-action-matrix.html</div>
+    </div>
+    <div class="doc-contents">
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(255,59,48,.1);color:var(--red)">S</div><div class="doc-item-text"><strong>S&#54000;&#50612; 12&#44060;</strong> &#8212; &#44032;&#44201;MCP(12h), &#44596;&#44553;&#51116;&#44256;(4h), &#48148;&#51060;&#47092;&#45432;&#52636;(6h), &#48120;&#51077;&#51216;&#51228;&#50504;, &#49345;&#54408;&#51316;&#54168;&#44160;&#53664; &#46321;</div></div>
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(255,149,0,.1);color:var(--orange)">A</div><div class="doc-item-text"><strong>A&#54000;&#50612; 11&#44060;</strong> &#8212; ZOMBIE&#48372;&#51221;, DORMANT&#54876;&#49457;, &#47532;&#48624;&#51060;&#48292;&#53944;, CVR&#44060;&#49440;, &#48176;&#49569;&#50629;&#44536;&#47112;&#51060;&#46300; &#46321;</div></div>
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(0,113,227,.1);color:var(--blue)">B</div><div class="doc-item-text"><strong>B&#54000;&#50612; 9&#44060;</strong> &#8212; SEO&#53412;&#50892;&#46300;, &#49472;&#47553;&#54252;&#51064;&#53944;, &#47532;&#48624;&#51221;&#44592;&#51060;&#48292;&#53944;, &#52852;&#53580;&#44256;&#47532;&#51116;&#48516;&#47448; &#46321;</div></div>
+      <div class="doc-item"><div class="doc-item-icon" style="background:var(--sf2);color:var(--txm)">C</div><div class="doc-item-text"><strong>C&#54000;&#50612; 5&#44060;</strong> &#8212; &#53944;&#47116;&#46300;&#47532;&#54252;&#53944;, &#49884;&#51596;&#49324;&#51204;&#51456;&#48708;, &#51333;&#54633;&#44221;&#51137;&#47141;&#48516;&#49437; &#46321;</div></div>
+    </div>
+    <div class="doc-chips">
+      <span class="doc-chip chip-red">S:12 &#183; A:11 &#183; B:9 &#183; C:5 = 37&#44060;</span>
+      <span class="doc-chip chip-blue">&#52629;&#48324; Gap &#51076;&#44228;&#52824; &#51312;&#44148;</span>
+      <span class="doc-chip chip-orange">&#48373;&#54633;&#50529;&#49496; (2&#52629;+ &#46041;&#49884;&#48156;&#46041;)</span>
+      <span class="doc-chip chip-green">&#50756;&#47308;&#44592;&#51456; KPI &#47749;&#49884;</span>
     </div>
   </div>
-  </a>
 
-  <!-- Doc 6 -->
-  <a href="https://claude.ai/code/artifact/d1c2e60d-37ba-41a1-9ab9-263f7c040f91" target="_blank" style="text-decoration:none;color:inherit">
+  <div class="doc-connect">&#9660; &#54952;&#44284;&#47484; &#50612;&#46523;&#44172; &#52769;&#51221;&#54616;&#45208;?</div>
+
+  <!-- DOC 06 -->
   <div class="doc">
-    <div class="doc-inner">
+    <div class="doc-header">
       <div class="doc-num" style="background:linear-gradient(135deg,var(--green),#66d98a)">06</div>
-      <div class="doc-body">
-        <div class="doc-top">
-          <div class="doc-title">&#54588;&#46300;&#48177; &#183; &#50892;&#53356;&#47196;&#46300; &#183; &#46972;&#51060;&#54532;&#49324;&#51060;&#53364;</div>
-          <div class="doc-status doc-status-done">&#50756;&#47308;</div>
-        </div>
-        <div class="doc-desc">&#50529;&#49496; &#54952;&#44284; &#52769;&#51221; KPI(MVP: &#44032;&#44201;/&#47532;&#48624;/&#48288;&#49828;&#53944;&#49692;&#50948;), &#54952;&#44284;&#44048;&#49632; &#47784;&#45944;, MD &#50892;&#53356;&#47196;&#46300; &#48184;&#47088;&#49905; &#49884;&#48044;&#47112;&#51060;&#53552;, &#49345;&#54408; &#49688;&#47749;&#51452;&#44592; 5&#45800;&#44228; &#48372;&#51221;</div>
-        <div class="doc-tags">
-          <span class="doc-tag-mvp doc-tag">MVP: &#44032;&#44201;/&#47532;&#48624;/&#48288;&#49828;&#53944;</span>
-          <span class="doc-tag">&#54952;&#44284; &#44048;&#49632; &#47784;&#45944;</span>
-          <span class="doc-tag">&#50892;&#53356;&#47196;&#46300; &#48184;&#47088;&#49905;</span>
-          <span class="doc-tag">&#46972;&#51060;&#54532;&#49324;&#51060;&#53364; 5&#45800;&#44228;</span>
-        </div>
-        <div class="doc-file">gps-feedback-balance-lifecycle.html</div>
+      <div class="doc-hd-text">
+        <div class="doc-title">&#54588;&#46300;&#48177; &#183; &#50892;&#53356;&#47196;&#46300; &#183; &#46972;&#51060;&#54532;&#49324;&#51060;&#53364;</div>
+        <div class="doc-one-line">&#50529;&#49496; &#49892;&#54665; &#54980; &#54952;&#44284;&#47484; &#52769;&#51221;&#54616;&#44256;, MD &#50629;&#47924;&#47049; &#44512;&#54805;&#51012; &#47582;&#52628;&#44256;, &#49345;&#54408; &#49688;&#47749;&#51452;&#44592;&#48324; &#44032;&#51473;&#52824;&#47484; &#51088;&#46041; &#48372;&#51221;</div>
       </div>
-      <div class="doc-arrow">&#8594;</div>
+      <div class="doc-file">gps-feedback-balance-lifecycle.html</div>
+    </div>
+    <div class="doc-contents">
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(52,199,89,.1);color:var(--green)">&#128200;</div><div class="doc-item-text"><strong>&#54952;&#44284; &#52769;&#51221; KPI</strong> &#8212; &#44032;&#44201;: PCI&#44060;&#49440;&#50984;, &#47532;&#48624;: &#48512;&#51221;&#47532;&#48624;&#45813;&#48320;&#50984;, &#46364;: GMV&#48320;&#54868;&#47049;</div></div>
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(52,199,89,.1);color:var(--green)">&#128257;</div><div class="doc-item-text"><strong>&#54952;&#44284;&#44048;&#49632; &#47784;&#45944;</strong> &#8212; T+24h 100% &#8594; T+7d 60% &#8594; T+30d 15% &#51216;&#51652;&#44048;&#49632;</div></div>
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(0,113,227,.1);color:var(--blue)">&#9878;</div><div class="doc-item-text"><strong>MD &#50892;&#53356;&#47196;&#46300; &#48184;&#47088;&#49905;</strong> &#8212; S:1.0/A:0.6/B:0.3/C:0.1 &#45212;&#51060;&#46020;&#44228;&#49688;. &#44284;&#48512;&#54616; &#44048;&#51648; &#8594; B/C &#51088;&#46041;&#51116;&#48176;&#48516;</div></div>
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(191,90,242,.1);color:var(--purple)">&#128260;</div><div class="doc-item-text"><strong>&#49345;&#54408; &#49688;&#47749;&#51452;&#44592; 5&#45800;&#44228;</strong> &#8212; &#49888;&#44508;&#8594;&#49457;&#51109;&#8594;&#49457;&#49689;&#8594;&#49632;&#53748;&#8594;&#53748;&#52636;. &#45800;&#44228;&#48324; &#52629; &#44032;&#51473;&#52824; &#51088;&#46041;&#48372;&#51221;</div></div>
+    </div>
+    <div class="doc-chips">
+      <span class="doc-chip chip-green">MVP: &#44032;&#44201;/&#47532;&#48624;/&#48288;&#49828;&#53944;&#49692;&#50948;</span>
+      <span class="doc-chip chip-blue">MD &#50857;&#47049; &#8804; 85% &#44512;&#54805;</span>
+      <span class="doc-chip chip-purple">&#49884;&#51596;&#45328; &#44032;&#51473;&#52824; &#49884;&#54532;&#53944;</span>
+      <span class="doc-chip chip-orange">3&#54924;+ &#49892;&#54056; &#8594; &#50640;&#49828;&#52972;&#47112;&#51060;&#49496;</span>
     </div>
   </div>
-  </a>
 
-  <!-- Doc 7 -->
-  <a href="https://claude.ai/code/artifact/2fc5bfa5-b959-4b4c-aa71-2a2e066a3013" target="_blank" style="text-decoration:none;color:inherit">
+  <div class="doc-connect">&#9660; &#49884;&#49828;&#53596;&#51004;&#47196; &#50612;&#46523;&#44172; &#44396;&#54788;&#54616;&#45208;?</div>
+
+  <!-- DOC 07 -->
   <div class="doc">
-    <div class="doc-inner">
+    <div class="doc-header">
       <div class="doc-num" style="background:linear-gradient(135deg,var(--indigo),#7b79e8)">07</div>
-      <div class="doc-body">
-        <div class="doc-top">
-          <div class="doc-title">&#50689;&#50629; &#51652;&#45800; &#45936;&#51060;&#53552; &#51221;&#51032;&#49436;</div>
-          <div class="doc-status doc-status-done">&#50756;&#47308;</div>
-        </div>
-        <div class="doc-desc">138&#44060; &#45936;&#51060;&#53552; &#54637;&#47785; &#215; 4&#45800;&#44228;(&#52852;&#53580;&#44256;&#47532;/&#49345;&#54408;/&#49472;&#47084;/&#53412;&#50892;&#46300;). GPS 6&#52629; &#47588;&#54609;, &#45236;&#48512;/&#50808;&#48512;/&#45236;&#48512;+&#50808;&#48512; &#49548;&#49828; &#44396;&#48516;, MVP &#48176;&#54252; &#44032;&#45733; 20&#44060; &#54637;&#47785;(&#44032;&#44201;14+&#47532;&#48624;6)</div>
-        <div class="doc-tags">
-          <span class="doc-tag">L1:33 L2-&#49345;&#54408;:39 L2-&#49472;&#47084;:26 L3:18</span>
-          <span class="doc-tag-mvp doc-tag">MVP 20&#44060; &#54637;&#47785;</span>
-          <span class="doc-tag">P1/P2/P3 &#50864;&#49440;&#49692;&#50948;</span>
-          <span class="doc-tag">NEW 11&#44060;</span>
-        </div>
-        <div class="doc-file">gps-data-definition.html</div>
+      <div class="doc-hd-text">
+        <div class="doc-title">&#48177;&#50644;&#46300; &#44032;&#51473;&#52824; &#50644;&#51652;</div>
+        <div class="doc-one-line">&#44060;&#48156;&#51088;&#50857; &#44396;&#54788; &#49828;&#54169;. &#52852;&#53580;&#44256;&#47532;&#48324; &#44221;&#51137;&#49324; &#47588;&#54609;, null &#52376;&#47532; &#47196;&#51649;, &#54000;&#50612;/&#52852;&#53580;/&#46972;&#51060;&#54532;&#49324;&#51060;&#53364; &#44032;&#51473;&#52824; &#50644;&#51652;</div>
       </div>
-      <div class="doc-arrow">&#8594;</div>
+      <div class="doc-file">gps-backend-spec.html</div>
+    </div>
+    <div class="doc-contents">
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(88,86,214,.1);color:var(--indigo)">&#128203;</div><div class="doc-item-text"><strong>6&#52629; &#45936;&#51060;&#53552; &#49828;&#53412;&#47560;</strong> &#8212; &#52629;&#48324; internal/external &#49548;&#49828;, &#44221;&#51137;&#49324; &#47588;&#54609;(&#52572;&#51200;&#44032;/&#54217;&#44512;/&#52572;&#44256;&#44050;)</div></div>
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(88,86,214,.1);color:var(--indigo)">&#8709;</div><div class="doc-item-text"><strong>null &#52376;&#47532; &#50644;&#51652;</strong> &#8212; &#50577;&#51901;null&#8594;gap=0, &#54620;&#51901;null&#8594;&#215;0.7&#54056;&#45328;&#54000;, &#52572;&#49548;2&#52629; &#54596;&#49688;</div></div>
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(88,86,214,.1);color:var(--indigo)">&#8710;</div><div class="doc-item-text"><strong>&#54000;&#50612;/&#52852;&#53580;/&#46972;&#51060;&#54532; &#45765;&#53440;</strong> &#8212; base + tierDelta + catDelta + lcDelta &#8594; normalize &#8594; &#52572;&#51333; &#44032;&#51473;&#52824;</div></div>
+      <div class="doc-item"><div class="doc-item-icon" style="background:rgba(88,86,214,.1);color:var(--indigo)">&#127919;</div><div class="doc-item-text"><strong>&#52852;&#53580;&#44256;&#47532;&#48324; &#44221;&#51137;&#49324;</strong> &#8212; &#44032;&#51204;: &#53216;&#54049;/&#45348;&#51060;&#48260;/&#51648;&#47560;&#53011;, &#54056;&#49496;: &#47924;&#49888;&#49324;, C&#52964;&#47672;&#49828;: &#50508;&#47532;/&#53580;&#47924;</div></div>
+    </div>
+    <div class="doc-chips">
+      <span class="doc-chip chip-purple">30&#44060; &#44032;&#51473;&#52824; &#51312;&#54633; (6&#52852;&#53580; &#215; 5&#54000;&#50612;)</span>
+      <span class="doc-chip chip-blue">&#51064;&#53552;&#47001;&#54000;&#48652; &#49884;&#48044;&#47112;&#51060;&#53552;</span>
+      <span class="doc-chip chip-gray">&#52852;&#53580;&#44256;&#47532;&#48324; &#50808;&#48512;&#44050; &#44592;&#51456; &#47749;&#49884;</span>
     </div>
   </div>
-  </a>
 
 </div>
 
-<!-- GPS 6-Axis Timeline -->
-<div class="timeline-sec">
-  <h2>GPS 6&#45824;&#52629; &#48176;&#54252; &#53440;&#51076;&#46972;&#51064;</h2>
-  <p>7&#50900; &#47568; MVP &#53440;&#44191; &#8212; &#44032;&#44201;(25%) + &#47532;&#48624;(15%) &#50864;&#49440; &#48176;&#54252;, &#45208;&#47672;&#51648; 4&#52629; &#49692;&#52264; &#54869;&#51109;</p>
-
-  <div class="tl-bar">
-    <div class="tl-seg" style="flex:2.5;background:rgba(52,199,89,.08)">
-      <div class="tl-seg-t" style="color:var(--green)">&#44032;&#44201; 25%</div>
-      <div class="tl-seg-d">MVP &#10003;</div>
-    </div>
-    <div class="tl-seg" style="flex:2;background:var(--sf2)">
-      <div class="tl-seg-t" style="color:var(--txm)">&#46364;&#49892;&#51201; 20%</div>
-      <div class="tl-seg-d">&#44228;&#54925;&#50504;</div>
-    </div>
-    <div class="tl-seg" style="flex:1.5;background:var(--sf2)">
-      <div class="tl-seg-t" style="color:var(--txm)">&#47784;&#47704;&#53568; 15%</div>
-      <div class="tl-seg-d">&#44228;&#54925;&#50504;</div>
-    </div>
-    <div class="tl-seg" style="flex:1.5;background:var(--sf2)">
-      <div class="tl-seg-t" style="color:var(--txm)">&#51648;&#54364;/CVR 15%</div>
-      <div class="tl-seg-d">&#44228;&#54925;&#50504;</div>
-    </div>
-    <div class="tl-seg" style="flex:1.5;background:rgba(52,199,89,.08)">
-      <div class="tl-seg-t" style="color:var(--green)">&#47532;&#48624; 15%</div>
-      <div class="tl-seg-d">MVP &#10003;</div>
-    </div>
-    <div class="tl-seg" style="flex:1;background:var(--sf2)">
-      <div class="tl-seg-t" style="color:var(--txm)">&#48176;&#49569; 10%</div>
-      <div class="tl-seg-d">&#44228;&#54925;&#50504;</div>
-    </div>
+<!-- 6-Axis summary -->
+<div class="axis-bar">
+  <div class="axis-bar-title">GPS 6&#45824;&#52629; &#50836;&#50557; &#8212; &#44032;&#51473;&#52824; &amp; &#45936;&#51060;&#53552; &#49548;&#49828; &amp; &#48176;&#54252; &#49345;&#53468;</div>
+  <div class="axis-row" style="font-size:10px;font-weight:800;color:var(--txm);letter-spacing:.04em">
+    <div>&#52629;</div><div style="text-align:center">&#44032;&#51473;&#52824;</div><div>Gap &#49328;&#52636; &#49548;&#49828;</div><div style="text-align:center">&#45936;&#51060;&#53552;</div><div style="text-align:center">&#49345;&#53468;</div>
   </div>
+  <div class="axis-row">
+    <div class="axis-name"><div class="axis-dot" style="background:var(--red)"></div>&#44032;&#44201;</div>
+    <div class="axis-wt">25%</div>
+    <div style="font-size:12px;color:var(--tx3)">PCI = (&#51088;&#49324;&#44032; &#8722; &#50808;&#48512;&#44032;) / &#50808;&#48512;&#44032;</div>
+    <div class="axis-src"><span class="src-i">&#51088;&#49324;</span><span class="src-e">&#50808;&#48512;</span></div>
+    <div><span class="axis-status status-live">LIVE</span></div>
+  </div>
+  <div class="axis-row">
+    <div class="axis-name"><div class="axis-dot" style="background:var(--orange)"></div>&#46364;&#49892;&#51201;</div>
+    <div class="axis-wt">20%</div>
+    <div style="font-size:12px;color:var(--tx3)">&#44144;&#47000;&#50529; / &#44396;&#51340;&#54217;&#44512; &times; 100</div>
+    <div class="axis-src"><span class="src-i">&#51088;&#49324;</span></div>
+    <div><span class="axis-status status-plan">&#44228;&#54925;</span></div>
+  </div>
+  <div class="axis-row">
+    <div class="axis-name"><div class="axis-dot" style="background:var(--purple)"></div>&#47784;&#47704;&#53568;</div>
+    <div class="axis-wt">15%</div>
+    <div style="font-size:12px;color:var(--tx3)">(D &#8722; D-1) / D-1 &#183; MoM &#48320;&#54868;&#50984;</div>
+    <div class="axis-src"><span class="src-i">&#51088;&#49324;</span></div>
+    <div><span class="axis-status status-plan">&#44228;&#54925;</span></div>
+  </div>
+  <div class="axis-row">
+    <div class="axis-name"><div class="axis-dot" style="background:var(--blue)"></div>&#51648;&#54364;/CVR</div>
+    <div class="axis-wt">15%</div>
+    <div style="font-size:12px;color:var(--tx3)">&#44208;&#51228;&#44148;&#49688; / PV &#183; &#44160;&#49353;&#49692;&#50948;</div>
+    <div class="axis-src"><span class="src-i">&#51088;&#49324;</span><span class="src-e">&#50808;&#48512;</span></div>
+    <div><span class="axis-status status-plan">&#44228;&#54925;</span></div>
+  </div>
+  <div class="axis-row">
+    <div class="axis-name"><div class="axis-dot" style="background:var(--green)"></div>&#47532;&#48624;</div>
+    <div class="axis-wt">15%</div>
+    <div style="font-size:12px;color:var(--tx3)">(&#51088;&#49324; &#8722; &#50808;&#48512;) + &#44148;&#49688;&#48372;&#51221;</div>
+    <div class="axis-src"><span class="src-i">&#51088;&#49324;</span><span class="src-e">&#50808;&#48512;</span></div>
+    <div><span class="axis-status status-live">LIVE</span></div>
+  </div>
+  <div class="axis-row">
+    <div class="axis-name"><div class="axis-dot" style="background:var(--teal)"></div>&#48176;&#49569;</div>
+    <div class="axis-wt">10%</div>
+    <div style="font-size:12px;color:var(--tx3)">&#48176;&#49569;&#50976;&#54805; + C2D &#49549;&#46020;</div>
+    <div class="axis-src"><span class="src-e">&#50808;&#48512;</span></div>
+    <div><span class="axis-status status-plan">&#44228;&#54925;</span></div>
+  </div>
+</div>
 
-  <div class="tl-legend">
-    <div class="tl-legend-item"><div class="tl-dot" style="background:var(--green)"></div> MVP &#48176;&#54252;&#44032;&#45733; (7&#50900; &#47568;)</div>
-    <div class="tl-legend-item"><div class="tl-dot" style="background:var(--txm)"></div> &#44228;&#54925;&#50504; (&#45936;&#51060;&#53552; &#54028;&#51060;&#54532;&#46972;&#51064; &#50756;&#47308; &#54980;)</div>
+<!-- Tier summary -->
+<div class="tier-sum">
+  <div class="tier-card">
+    <div class="tier-badge" style="color:var(--red)">S</div>
+    <div class="tier-range" style="color:var(--red)">&ge; 85&#51216;</div>
+    <div class="tier-name">&#51593;&#49884; &#49892;&#54665;</div>
+    <div class="tier-sla" style="background:rgba(255,59,48,.08);color:var(--red)">24h SLA</div>
+    <div class="tier-actions">12&#44060; &#53468;&#49828;&#53356;<br>&#44032;&#44201;MCP &#183; &#51116;&#44256;&#54869;&#48372; &#183; &#45432;&#52636;</div>
+  </div>
+  <div class="tier-card">
+    <div class="tier-badge" style="color:var(--orange)">A</div>
+    <div class="tier-range" style="color:var(--orange)">65 ~ 84&#51216;</div>
+    <div class="tier-name">&#51452;&#44036; &#44284;&#51228;</div>
+    <div class="tier-sla" style="background:rgba(255,149,0,.08);color:var(--orange)">7d SLA</div>
+    <div class="tier-actions">11&#44060; &#53468;&#49828;&#53356;<br>ZOMBIE&#48372;&#51221; &#183; &#47532;&#48624; &#183; CVR</div>
+  </div>
+  <div class="tier-card">
+    <div class="tier-badge" style="color:var(--blue)">B</div>
+    <div class="tier-range" style="color:var(--blue)">40 ~ 64&#51216;</div>
+    <div class="tier-name">&#44160;&#49353; &#48512;&#49828;&#54021;</div>
+    <div class="tier-sla" style="background:rgba(0,113,227,.08);color:var(--blue)">14d SLA</div>
+    <div class="tier-actions">9&#44060; &#53468;&#49828;&#53356;<br>SEO &#183; &#44305;&#44256;&#54252;&#51064;&#53944; &#183; &#47532;&#48624;</div>
+  </div>
+  <div class="tier-card">
+    <div class="tier-badge" style="color:var(--txm)">C</div>
+    <div class="tier-range" style="color:var(--txm)">&lt; 40&#51216;</div>
+    <div class="tier-name">&#47784;&#45768;&#53552;&#47553;</div>
+    <div class="tier-sla" style="background:var(--sf2);color:var(--txm)">30d SLA</div>
+    <div class="tier-actions">5&#44060; &#53468;&#49828;&#53356;<br>&#53944;&#47116;&#46300; &#47532;&#54252;&#53944; &#183; &#44288;&#52272;</div>
   </div>
 </div>
 
 <div class="footer">
-  <p>Essential GPS Framework &#183; 11ST E-Commerce &#183; 2026.07</p>
+  <p>Essential GPS Framework &#183; 11ST E-Commerce &#183; 2026.07 &#183; &#47928;&#49436; 7&#44060; &#50756;&#47308;</p>
 </div>
 
 </div>
