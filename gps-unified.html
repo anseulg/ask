@@ -477,36 +477,53 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.7;-
 .sig-tier{font-size:11px;font-weight:700;padding:4px 14px;border-radius:100px;color:#fff;letter-spacing:.03em;animation:tierGlow 2s ease-in-out infinite}
 @keyframes tierGlow{0%,100%{box-shadow:0 0 8px rgba(88,86,214,.3)}50%{box-shadow:0 0 24px rgba(88,86,214,.7)}}
 .sig-cat{font-size:13px;color:var(--txm);font-weight:600;margin-left:auto}
-.sig-axes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
-.sig-ax{text-align:center;padding:16px 10px;border-radius:var(--rs);background:var(--sf2);transition:transform .25s,box-shadow .25s;cursor:pointer;position:relative}
-.sig-ax:hover{transform:scale(1.05) translateY(-3px);box-shadow:var(--shl)}
+.sig-axes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.sig-ax{text-align:left;padding:18px 16px;border-radius:var(--rs);background:var(--sf2);transition:transform .25s,box-shadow .25s;cursor:pointer;position:relative;display:flex;flex-direction:column;gap:6px}
+.sig-ax:hover{transform:scale(1.03) translateY(-3px);box-shadow:var(--shl)}
 .sig-ax .sig-tip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);font-size:11px;font-weight:600;padding:6px 12px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;transform:translateX(-50%) translateY(4px)}
 .sig-ax:hover .sig-tip{opacity:1;transform:translateX(-50%) translateY(0)}
-.sig-ax-n{font-size:14px;font-weight:700;color:var(--tx2);margin-bottom:6px}
-.sig-ax-src{font-size:10px;font-weight:700;margin-bottom:8px}
-.sig-light{width:40px;height:40px;border-radius:50%;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;transition:box-shadow .4s,transform .3s}
-.sig-ax:hover .sig-light{transform:scale(1.2);box-shadow:0 0 32px currentColor}
+.sig-ax-top{display:flex;align-items:center;gap:10px}
+.sig-ax-n{font-size:16px;font-weight:800;color:var(--tx);letter-spacing:-.01em}
+.sig-ax-wt{font-size:11px;font-weight:700;color:var(--txm);margin-left:auto;font-variant-numeric:tabular-nums;background:var(--sf3);padding:2px 8px;border-radius:6px}
+.sig-ax-src{font-size:10px;font-weight:700;margin-top:2px}
+.sig-ax-mid{display:flex;align-items:center;gap:12px;margin:4px 0}
+.sig-light{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;transition:box-shadow .4s,transform .3s;flex-shrink:0}
+.sig-ax:hover .sig-light{transform:scale(1.15);box-shadow:0 0 32px currentColor}
 .sig-light.r{background:var(--red);box-shadow:0 0 16px rgba(255,59,48,.35);animation:pulseR 2s ease-in-out infinite}
 .sig-light.a{background:var(--orange);box-shadow:0 0 16px rgba(255,149,0,.3)}
 .sig-light.g{background:var(--green);box-shadow:0 0 16px rgba(52,199,89,.3)}
 @keyframes pulseR{0%,100%{box-shadow:0 0 16px rgba(255,59,48,.35)}50%{box-shadow:0 0 32px rgba(255,59,48,.65)}}
-.sig-ax-v{font-size:13px;color:var(--txm);font-variant-numeric:tabular-nums}
-/* traffic light tier examples */
-.sig-examples{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
-.sig-ex{padding:18px 14px;border-radius:var(--r);background:var(--sf2);border:1px solid var(--bd);text-align:center;transition:transform .25s,box-shadow .25s}
+.sig-ax-v{font-size:15px;font-weight:700;color:var(--tx2);font-variant-numeric:tabular-nums}
+.sig-ax-formula{font-size:11px;color:var(--txm);font-family:var(--fm);line-height:1.5}
+/* traffic light tier examples — full 6-axis cards */
+.sig-examples{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:24px}
+.sig-ex{padding:22px 18px;border-radius:var(--r);background:var(--sf2);border:1px solid var(--bd);transition:transform .25s,box-shadow .25s}
 .sig-ex:hover{transform:translateY(-3px);box-shadow:var(--shl)}
-.sig-ex-tier{font-size:12px;font-weight:800;padding:4px 14px;border-radius:100px;color:#fff;display:inline-block;margin-bottom:10px;letter-spacing:.03em}
-.sig-ex-product{font-size:13px;font-weight:700;color:var(--tx);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sig-ex-cat{font-size:11px;color:var(--txm);margin-bottom:12px}
-.sig-ex-lights{display:flex;justify-content:center;gap:6px;margin-bottom:10px}
-.sig-ex-dot{width:14px;height:14px;border-radius:50%;position:relative}
+.sig-ex-hd{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--bd)}
+.sig-ex-tier{font-size:12px;font-weight:800;padding:4px 14px;border-radius:100px;color:#fff;letter-spacing:.03em;flex-shrink:0}
+.sig-ex-info{flex:1;min-width:0}
+.sig-ex-product{font-size:14px;font-weight:700;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sig-ex-cat{font-size:11px;color:var(--txm)}
+.sig-ex-score-box{text-align:right;flex-shrink:0}
+.sig-ex-score{font-size:28px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1}
+.sig-ex-label{font-size:10px;color:var(--txm);font-weight:600;margin-top:2px}
+.sig-ex-axes{display:flex;flex-direction:column;gap:6px}
+.sig-ex-row{display:grid;grid-template-columns:16px 56px 1fr 52px;align-items:center;gap:8px;padding:5px 8px;border-radius:8px;background:var(--sf);font-size:12px}
+.sig-ex-row:hover{background:var(--sf3)}
+.sig-ex-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0}
 .sig-ex-dot.r{background:var(--red);box-shadow:0 0 6px rgba(255,59,48,.4)}
 .sig-ex-dot.a{background:var(--orange);box-shadow:0 0 6px rgba(255,149,0,.4)}
 .sig-ex-dot.g{background:var(--green);box-shadow:0 0 6px rgba(52,199,89,.4)}
 .sig-ex-dot.off{background:var(--sf3);box-shadow:none}
-.sig-ex-score{font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;margin-bottom:2px}
-.sig-ex-label{font-size:11px;color:var(--txm);font-weight:600}
-@media(max-width:700px){.sig-examples{grid-template-columns:repeat(2,1fr)}}
+.sig-ex-ax-name{font-weight:700;color:var(--tx2);font-size:12px}
+.sig-ex-ax-val{font-size:11px;color:var(--txm);font-variant-numeric:tabular-nums;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sig-ex-ax-wt{font-size:10px;font-weight:700;color:var(--txm);text-align:right;font-variant-numeric:tabular-nums}
+.sig-ex-reason{margin-top:10px;padding:10px 12px;border-radius:8px;font-size:11px;line-height:1.6;color:var(--tx2)}
+.sig-ex-reason.reason-s{background:rgba(255,59,48,.06);border-left:3px solid var(--red)}
+.sig-ex-reason.reason-a{background:rgba(255,149,0,.06);border-left:3px solid var(--orange)}
+.sig-ex-reason.reason-b{background:rgba(0,113,227,.06);border-left:3px solid var(--blue)}
+.sig-ex-reason.reason-c{background:var(--sf);border-left:3px solid var(--txm)}
+@media(max-width:700px){.sig-examples{grid-template-columns:1fr}}
 .sig-bar-w{height:5px;background:var(--sf3);border-radius:3px;margin-top:8px;overflow:hidden}
 .sig-bar{height:100%;border-radius:3px;transition:width 1s cubic-bezier(.16,1,.3,1)}
 /* signal legend */
@@ -1636,12 +1653,12 @@ html{scroll-behavior:smooth}
       <div class="sig-legend-item"><div class="sig-legend-dot" style="background:var(--green)"></div>&#50577;&#54840;(&#44148;&#44053;)</div>
     </div>
     <div class="sig-axes stg">
-      <div class="sig-ax" onclick="openAxisModal(0)"><div class="sig-tip">&#50808;&#48512; &#45824;&#48708; 8.3% &#48708;&#49912;</div><div class="sig-ax-n">&#44032;&#44201;</div><div class="sig-ax-src"><span class="src-t src-i">&#51088;&#49324;</span><span class="src-t src-e">&#50808;&#48512;</span></div><div class="sig-light r">!</div><div class="sig-ax-v">PCI &#8722;8.3%</div><div class="sig-bar-w"><div class="sig-bar" data-w="85" style="background:var(--red)"></div></div></div>
-      <div class="sig-ax" onclick="openAxisModal(1)"><div class="sig-tip">&#52852;&#53580;&#44256;&#47532; &#54217;&#44512; &#54616;&#54924;</div><div class="sig-ax-n">&#46364; &#49892;&#51201;</div><div class="sig-ax-src"><span class="src-t src-i">&#51088;&#49324;</span></div><div class="sig-light a">&#9651;</div><div class="sig-ax-v">&#44396;&#51340; 82</div><div class="sig-bar-w"><div class="sig-bar" data-w="55" style="background:var(--orange)"></div></div></div>
-      <div class="sig-ax" onclick="openAxisModal(2)"><div class="sig-tip">&#51204;&#50900; &#45824;&#48708; &#49457;&#51109; &#51473;</div><div class="sig-ax-n">&#47784;&#47704;&#53568;</div><div class="sig-ax-src"><span class="src-t src-i">&#51088;&#49324;</span></div><div class="sig-light g">&#9675;</div><div class="sig-ax-v">+12% MoM</div><div class="sig-bar-w"><div class="sig-bar" data-w="30" style="background:var(--green)"></div></div></div>
-      <div class="sig-ax" onclick="openAxisModal(3)"><div class="sig-tip">CVR &#44060;&#49440; &#50668;&#51648; &#51080;&#51020;</div><div class="sig-ax-n">&#51648;&#54364;</div><div class="sig-ax-src"><span class="src-t src-i">&#51088;&#49324;</span></div><div class="sig-light a">&#9651;</div><div class="sig-ax-v">CVR 2.1%</div><div class="sig-bar-w"><div class="sig-bar" data-w="50" style="background:var(--orange)"></div></div></div>
-      <div class="sig-ax" onclick="openAxisModal(4)"><div class="sig-tip">&#47532;&#48624; &#44148;&#44053; &#50577;&#54840;</div><div class="sig-ax-n">&#47532;&#48624;</div><div class="sig-ax-src"><span class="src-t src-i">&#51088;&#49324;</span><span class="src-t src-e">&#50808;&#48512;</span></div><div class="sig-light g">&#9675;</div><div class="sig-ax-v">4.7 / 842&#44148;</div><div class="sig-bar-w"><div class="sig-bar" data-w="20" style="background:var(--green)"></div></div></div>
-      <div class="sig-ax" onclick="openAxisModal(5)"><div class="sig-tip">&#51061;&#51068;&#48176;&#49569; &#54869;&#48372;</div><div class="sig-ax-n">&#48176;&#49569;</div><div class="sig-ax-src"><span class="src-t src-i">&#51088;&#49324;</span><span class="src-t src-e">&#50808;&#48512;</span></div><div class="sig-light g">&#9675;</div><div class="sig-ax-v">&#51061;&#51068; &#48176;&#49569;</div><div class="sig-bar-w"><div class="sig-bar" data-w="15" style="background:var(--green)"></div></div></div>
+      <div class="sig-ax" onclick="openAxisModal(0)"><div class="sig-tip">&#50808;&#48512; &#45824;&#48708; 8.3% &#48708;&#49912;</div><div class="sig-ax-top"><div class="sig-ax-n">&#44032;&#44201;</div><div class="sig-ax-wt">25%</div></div><div class="sig-ax-src"><span class="src-t src-i">&#51088;&#49324;</span><span class="src-t src-e">&#50808;&#48512;</span></div><div class="sig-ax-mid"><div class="sig-light r">!</div><div><div class="sig-ax-v">PCI &#8722;8.3%</div><div class="sig-ax-formula">(&#51088;&#49324;&#44032; &#8722; &#50808;&#48512;&#44032;) / &#50808;&#48512;&#44032;</div></div></div><div class="sig-bar-w"><div class="sig-bar" data-w="85" style="background:var(--red)"></div></div></div>
+      <div class="sig-ax" onclick="openAxisModal(1)"><div class="sig-tip">&#52852;&#53580;&#44256;&#47532; &#54217;&#44512; &#54616;&#54924;</div><div class="sig-ax-top"><div class="sig-ax-n">&#46364; &#49892;&#51201;</div><div class="sig-ax-wt">20%</div></div><div class="sig-ax-src"><span class="src-t src-i">&#51088;&#49324;</span></div><div class="sig-ax-mid"><div class="sig-light a">&#9651;</div><div><div class="sig-ax-v">&#44396;&#51340; 82</div><div class="sig-ax-formula">&#44144;&#47000;&#50529; / &#44396;&#51340;&#54217;&#44512; &times; 100</div></div></div><div class="sig-bar-w"><div class="sig-bar" data-w="55" style="background:var(--orange)"></div></div></div>
+      <div class="sig-ax" onclick="openAxisModal(2)"><div class="sig-tip">&#51204;&#50900; &#45824;&#48708; &#49457;&#51109; &#51473;</div><div class="sig-ax-top"><div class="sig-ax-n">&#47784;&#47704;&#53568;</div><div class="sig-ax-wt">15%</div></div><div class="sig-ax-src"><span class="src-t src-i">&#51088;&#49324;</span></div><div class="sig-ax-mid"><div class="sig-light g">&#9675;</div><div><div class="sig-ax-v">+12% MoM</div><div class="sig-ax-formula">(D &#8722; D-1) / D-1</div></div></div><div class="sig-bar-w"><div class="sig-bar" data-w="30" style="background:var(--green)"></div></div></div>
+      <div class="sig-ax" onclick="openAxisModal(3)"><div class="sig-tip">CVR &#44060;&#49440; &#50668;&#51648; &#51080;&#51020;</div><div class="sig-ax-top"><div class="sig-ax-n">&#51648;&#54364;/CVR</div><div class="sig-ax-wt">15%</div></div><div class="sig-ax-src"><span class="src-t src-i">&#51088;&#49324;</span><span class="src-t src-e">&#50808;&#48512;</span></div><div class="sig-ax-mid"><div class="sig-light a">&#9651;</div><div><div class="sig-ax-v">CVR 2.1%</div><div class="sig-ax-formula">&#44208;&#51228;&#44148;&#49688; / PV</div></div></div><div class="sig-bar-w"><div class="sig-bar" data-w="50" style="background:var(--orange)"></div></div></div>
+      <div class="sig-ax" onclick="openAxisModal(4)"><div class="sig-tip">&#47532;&#48624; &#44148;&#44053; &#50577;&#54840;</div><div class="sig-ax-top"><div class="sig-ax-n">&#47532;&#48624;</div><div class="sig-ax-wt">15%</div></div><div class="sig-ax-src"><span class="src-t src-i">&#51088;&#49324;</span><span class="src-t src-e">&#50808;&#48512;</span></div><div class="sig-ax-mid"><div class="sig-light g">&#9675;</div><div><div class="sig-ax-v">4.7 / 842&#44148;</div><div class="sig-ax-formula">(&#51088;&#49324; &#8722; &#50808;&#48512;) + &#44148;&#49688;&#48372;&#51221;</div></div></div><div class="sig-bar-w"><div class="sig-bar" data-w="20" style="background:var(--green)"></div></div></div>
+      <div class="sig-ax" onclick="openAxisModal(5)"><div class="sig-tip">&#51061;&#51068;&#48176;&#49569; &#54869;&#48372;</div><div class="sig-ax-top"><div class="sig-ax-n">&#48176;&#49569;</div><div class="sig-ax-wt">10%</div></div><div class="sig-ax-src"><span class="src-t src-e">&#50808;&#48512;</span></div><div class="sig-ax-mid"><div class="sig-light g">&#9675;</div><div><div class="sig-ax-v">&#51061;&#51068; &#48176;&#49569;</div><div class="sig-ax-formula">&#48176;&#49569;&#50976;&#54805; + C2D &#49549;&#46020;</div></div></div><div class="sig-bar-w"><div class="sig-bar" data-w="15" style="background:var(--green)"></div></div></div>
     </div>
     <div style="margin-bottom:16px"><div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--txm);margin-bottom:8px">6&#52629; &#44148;&#44053;&#46020; &#55176;&#53944;&#47605;</div><div class="heatmap" id="heatmapGrid"></div></div>
     <div style="margin-bottom:16px"><div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--txm);margin-bottom:8px">Gap &#53356;&#44592; &#46300;&#47000;&#44536; &#48708;&#44368; &#8212; &#46300;&#47000;&#44536;&#54644;&#49436; &#48708;&#44368;&#54616;&#49464;&#50836;</div><div class="drag-compare" id="dragCompare"><div class="drag-compare-fill" id="dragFill" style="width:68%"></div><div class="drag-compare-label" id="dragLabel">68 / 100</div><div class="drag-compare-markers"><div class="drag-compare-mark">C</div><div class="drag-compare-mark">B</div><div class="drag-compare-mark">A</div><div class="drag-compare-mark">S</div></div></div></div>
@@ -1652,67 +1669,74 @@ html{scroll-behavior:smooth}
       <div class="sig-act ripple"><div class="sig-act-n">&#54200;&#49457;&#183;&#44305;&#44256;</div><div class="sig-act-b">&#49444;&#51221; &#50676;&#44592;</div></div>
     </div>
   </div>
-  <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--txm);margin:24px 0 12px">&#49888;&#54840;&#46321; &#50696;&#49884; &#8212; &#46321;&#44553;&#48324; 6&#52629; &#44148;&#44053;&#46020; &#54364;&#49884;</div>
+  <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--txm);margin:24px 0 12px">&#49888;&#54840;&#46321; &#50696;&#49884; &#8212; &#46321;&#44553;&#48324; 6&#52629; &#44148;&#44053;&#46020; &#51204;&#52404; &#54364;&#49884;</div>
   <div class="sig-examples stg rv">
     <div class="sig-ex">
-      <div class="sig-ex-tier" style="background:var(--red)">S Tier</div>
-      <div class="sig-ex-product">[LG] &#49828;&#53472;&#48148;&#51060;&#48120; 27&#51064;&#52824;</div>
-      <div class="sig-ex-cat">&#44032;&#51204;&#183;&#46356;&#51648;&#53560;</div>
-      <div class="sig-ex-lights">
-        <div class="sig-ex-dot r" title="&#44032;&#44201;"></div>
-        <div class="sig-ex-dot a" title="&#46364;&#49892;&#51201;"></div>
-        <div class="sig-ex-dot g" title="&#47784;&#47704;&#53568;"></div>
-        <div class="sig-ex-dot a" title="&#51648;&#54364;"></div>
-        <div class="sig-ex-dot g" title="&#47532;&#48624;"></div>
-        <div class="sig-ex-dot g" title="&#48176;&#49569;"></div>
+      <div class="sig-ex-hd">
+        <div class="sig-ex-tier" style="background:var(--red)">S Tier</div>
+        <div class="sig-ex-info"><div class="sig-ex-product">[LG] &#49828;&#53472;&#48148;&#51060;&#48120; 2&#49464;&#45824; 27&#51064;&#52824;</div><div class="sig-ex-cat">&#44032;&#51204;&#183;&#46356;&#51648;&#53560; &#183; SLA 24h</div></div>
+        <div class="sig-ex-score-box"><div class="sig-ex-score" style="color:var(--red)">92</div><div class="sig-ex-label">&#51593;&#49884;&#49892;&#54665;</div></div>
       </div>
-      <div class="sig-ex-score" style="color:var(--red)">92</div>
-      <div class="sig-ex-label">&#51593;&#49884;&#49892;&#54665; &#183; SLA 24h</div>
+      <div class="sig-ex-axes">
+        <div class="sig-ex-row"><div class="sig-ex-dot r"></div><div class="sig-ex-ax-name">&#44032;&#44201;</div><div class="sig-ex-ax-val">PCI &#8722;8.3% &#183; &#50808;&#48512; &#45824;&#48708; &#8361;52,000 &#45458;&#51020;</div><div class="sig-ex-ax-wt">25%</div></div>
+        <div class="sig-ex-row"><div class="sig-ex-dot a"></div><div class="sig-ex-ax-name">&#46364; &#49892;&#51201;</div><div class="sig-ex-ax-val">&#44396;&#51340; 82 &#183; &#52852;&#53580;&#44256;&#47532; &#54217;&#44512; &#54616;&#54924;</div><div class="sig-ex-ax-wt">20%</div></div>
+        <div class="sig-ex-row"><div class="sig-ex-dot g"></div><div class="sig-ex-ax-name">&#47784;&#47704;&#53568;</div><div class="sig-ex-ax-val">+12% MoM &#183; &#51204;&#50900; &#45824;&#48708; &#49457;&#51109; &#51473;</div><div class="sig-ex-ax-wt">15%</div></div>
+        <div class="sig-ex-row"><div class="sig-ex-dot a"></div><div class="sig-ex-ax-name">&#51648;&#54364;/CVR</div><div class="sig-ex-ax-val">CVR 2.1% &#183; &#52852;&#53580;&#44256;&#47532; &#54217;&#44512; 3.2% &#48120;&#45804;</div><div class="sig-ex-ax-wt">15%</div></div>
+        <div class="sig-ex-row"><div class="sig-ex-dot g"></div><div class="sig-ex-ax-name">&#47532;&#48624;</div><div class="sig-ex-ax-val">&#9733; 4.7 / 842&#44148; &#183; &#44148;&#44053;</div><div class="sig-ex-ax-wt">15%</div></div>
+        <div class="sig-ex-row"><div class="sig-ex-dot g"></div><div class="sig-ex-ax-name">&#48176;&#49569;</div><div class="sig-ex-ax-val">&#51061;&#51068;&#48176;&#49569; &#54869;&#48372; &#183; &#44221;&#51137;&#49324; &#46041;&#51068;</div><div class="sig-ex-ax-wt">10%</div></div>
+      </div>
+      <div class="sig-ex-reason reason-s"><strong>&#44596;&#44553; &#51652;&#45800;:</strong> PRICE-X &#48156;&#46041; (PCI &#8805; 130) &#8212; &#53216;&#54049; &#52572;&#51200;&#44032; &#45824;&#48708; 8.3% &#44032;&#44201;&#50669;&#51204;. &#44032;&#44201; MCP &#51593;&#49884; &#51201;&#50857; + &#54532;&#47196;&#47784;&#49496; &#48264;&#46308; &#54596;&#50836;</div>
     </div>
+
     <div class="sig-ex">
-      <div class="sig-ex-tier" style="background:var(--orange)">A Tier</div>
-      <div class="sig-ex-product">[&#49340;&#49457;] &#44040;&#47085;&#49884; S25 &#52992;&#51060;&#49828;</div>
-      <div class="sig-ex-cat">&#47784;&#48148;&#51068; &#50529;&#49464;&#49436;&#47532;</div>
-      <div class="sig-ex-lights">
-        <div class="sig-ex-dot a" title="&#44032;&#44201;"></div>
-        <div class="sig-ex-dot g" title="&#46364;&#49892;&#51201;"></div>
-        <div class="sig-ex-dot g" title="&#47784;&#47704;&#53568;"></div>
-        <div class="sig-ex-dot a" title="&#51648;&#54364;"></div>
-        <div class="sig-ex-dot g" title="&#47532;&#48624;"></div>
-        <div class="sig-ex-dot g" title="&#48176;&#49569;"></div>
+      <div class="sig-ex-hd">
+        <div class="sig-ex-tier" style="background:var(--orange)">A Tier</div>
+        <div class="sig-ex-info"><div class="sig-ex-product">[&#49340;&#49457;] &#44040;&#47085;&#49884; S25 &#52992;&#51060;&#49828;</div><div class="sig-ex-cat">&#47784;&#48148;&#51068; &#50529;&#49464;&#49436;&#47532; &#183; SLA 7d</div></div>
+        <div class="sig-ex-score-box"><div class="sig-ex-score" style="color:var(--orange)">74</div><div class="sig-ex-label">&#51452;&#44036;&#44284;&#51228;</div></div>
       </div>
-      <div class="sig-ex-score" style="color:var(--orange)">74</div>
-      <div class="sig-ex-label">&#51452;&#44036;&#44284;&#51228; &#183; SLA 7d</div>
+      <div class="sig-ex-axes">
+        <div class="sig-ex-row"><div class="sig-ex-dot a"></div><div class="sig-ex-ax-name">&#44032;&#44201;</div><div class="sig-ex-ax-val">PCI &#8722;3.1% &#183; &#49548;&#54253; &#50669;&#51204; &#44396;&#44036;</div><div class="sig-ex-ax-wt">25%</div></div>
+        <div class="sig-ex-row"><div class="sig-ex-dot g"></div><div class="sig-ex-ax-name">&#46364; &#49892;&#51201;</div><div class="sig-ex-ax-val">&#44396;&#51340; 91 &#183; &#52852;&#53580;&#44256;&#47532; &#54217;&#44512; &#49345;&#54924;</div><div class="sig-ex-ax-wt">20%</div></div>
+        <div class="sig-ex-row"><div class="sig-ex-dot g"></div><div class="sig-ex-ax-name">&#47784;&#47704;&#53568;</div><div class="sig-ex-ax-val">+8% MoM &#183; &#50504;&#51221;&#51201; &#49457;&#51109;&#49464;</div><div class="sig-ex-ax-wt">15%</div></div>
+        <div class="sig-ex-row"><div class="sig-ex-dot a"></div><div class="sig-ex-ax-name">&#51648;&#54364;/CVR</div><div class="sig-ex-ax-val">CVR 1.8% &#183; &#44160;&#49353;&#49692;&#50948; 42&#50948; &#51200;&#51312;</div><div class="sig-ex-ax-wt">15%</div></div>
+        <div class="sig-ex-row"><div class="sig-ex-dot g"></div><div class="sig-ex-ax-name">&#47532;&#48624;</div><div class="sig-ex-ax-val">&#9733; 4.5 / 1,247&#44148; &#183; &#44148;&#44053;</div><div class="sig-ex-ax-wt">15%</div></div>
+        <div class="sig-ex-row"><div class="sig-ex-dot g"></div><div class="sig-ex-ax-name">&#48176;&#49569;</div><div class="sig-ex-ax-val">&#51061;&#51068;&#48176;&#49569; &#183; &#50577;&#54840;</div><div class="sig-ex-ax-wt">10%</div></div>
+      </div>
+      <div class="sig-ex-reason reason-a"><strong>&#51452;&#44036; &#44284;&#51228;:</strong> &#44032;&#44201; &#49548;&#54253; &#50669;&#51204;(PCI &#8722;3.1%) + CVR &#48512;&#51652;(1.8%) &#8212; &#49472;&#47084; &#44032;&#44201; &#51312;&#51221; &#54801;&#51032; + &#49345;&#49464;&#54168;&#51060;&#51648; UX &#44060;&#49440; &#54596;&#50836;</div>
     </div>
+
     <div class="sig-ex">
-      <div class="sig-ex-tier" style="background:var(--blue)">B Tier</div>
-      <div class="sig-ex-product">[&#45208;&#51060;&#53412;] &#50640;&#50612;&#47589;&#49828; 97</div>
-      <div class="sig-ex-cat">&#49828;&#54252;&#52768;&#183;&#47112;&#51200;</div>
-      <div class="sig-ex-lights">
-        <div class="sig-ex-dot g" title="&#44032;&#44201;"></div>
-        <div class="sig-ex-dot a" title="&#46364;&#49892;&#51201;"></div>
-        <div class="sig-ex-dot off" title="&#47784;&#47704;&#53568;"></div>
-        <div class="sig-ex-dot a" title="&#51648;&#54364;"></div>
-        <div class="sig-ex-dot g" title="&#47532;&#48624;"></div>
-        <div class="sig-ex-dot g" title="&#48176;&#49569;"></div>
+      <div class="sig-ex-hd">
+        <div class="sig-ex-tier" style="background:var(--blue)">B Tier</div>
+        <div class="sig-ex-info"><div class="sig-ex-product">[&#45208;&#51060;&#53412;] &#50640;&#50612;&#47589;&#49828; 97</div><div class="sig-ex-cat">&#49828;&#54252;&#52768;&#183;&#47112;&#51200; &#183; SLA 14d</div></div>
+        <div class="sig-ex-score-box"><div class="sig-ex-score" style="color:var(--blue)">52</div><div class="sig-ex-label">&#44160;&#49353;&#48512;&#49828;&#54021;</div></div>
       </div>
-      <div class="sig-ex-score" style="color:var(--blue)">52</div>
-      <div class="sig-ex-label">&#44160;&#49353;&#48512;&#49828;&#54021; &#183; SLA 14d</div>
+      <div class="sig-ex-axes">
+        <div class="sig-ex-row"><div class="sig-ex-dot g"></div><div class="sig-ex-ax-name">&#44032;&#44201;</div><div class="sig-ex-ax-val">PCI +1.2% &#183; &#44032;&#44201; &#44221;&#51137;&#47141; &#50577;&#54840;</div><div class="sig-ex-ax-wt">25%</div></div>
+        <div class="sig-ex-row"><div class="sig-ex-dot a"></div><div class="sig-ex-ax-name">&#46364; &#49892;&#51201;</div><div class="sig-ex-ax-val">&#44396;&#51340; 58 &#183; &#44396;&#51340; &#51473;&#50948;&#44428;</div><div class="sig-ex-ax-wt">20%</div></div>
+        <div class="sig-ex-row"><div class="sig-ex-dot off"></div><div class="sig-ex-ax-name">&#47784;&#47704;&#53568;</div><div class="sig-ex-ax-val">&#8722;3% MoM &#183; &#48320;&#46041; &#48120;&#48120;</div><div class="sig-ex-ax-wt">15%</div></div>
+        <div class="sig-ex-row"><div class="sig-ex-dot a"></div><div class="sig-ex-ax-name">&#51648;&#54364;/CVR</div><div class="sig-ex-ax-val">CVR 1.4% &#183; &#44160;&#49353;&#49692;&#50948; 87&#50948;</div><div class="sig-ex-ax-wt">15%</div></div>
+        <div class="sig-ex-row"><div class="sig-ex-dot g"></div><div class="sig-ex-ax-name">&#47532;&#48624;</div><div class="sig-ex-ax-val">&#9733; 4.3 / 356&#44148; &#183; &#50577;&#54840;</div><div class="sig-ex-ax-wt">15%</div></div>
+        <div class="sig-ex-row"><div class="sig-ex-dot g"></div><div class="sig-ex-ax-name">&#48176;&#49569;</div><div class="sig-ex-ax-val">&#51068;&#48152;&#48176;&#49569; &#183; &#44221;&#51137;&#49324; &#46041;&#51068;</div><div class="sig-ex-ax-wt">10%</div></div>
+      </div>
+      <div class="sig-ex-reason reason-b"><strong>&#44160;&#49353; &#48512;&#49828;&#54021;:</strong> CVR 1.4% &#51200;&#51312; + &#44160;&#49353;&#49692;&#50948; 87&#50948; &#8212; SEO &#53412;&#50892;&#46300; &#52572;&#51201;&#54868; + &#44305;&#44256; &#54252;&#51064;&#53944; &#51312;&#51221;, B-01 &#53468;&#49828;&#53356; &#48176;&#51221;</div>
     </div>
+
     <div class="sig-ex">
-      <div class="sig-ex-tier" style="background:var(--txm)">C Tier</div>
-      <div class="sig-ex-product">[&#47196;&#51648;&#53581;] &#47560;&#50864;&#49828; M750</div>
-      <div class="sig-ex-cat">PC &#51452;&#48320;&#44592;&#44592;</div>
-      <div class="sig-ex-lights">
-        <div class="sig-ex-dot g" title="&#44032;&#44201;"></div>
-        <div class="sig-ex-dot off" title="&#46364;&#49892;&#51201;"></div>
-        <div class="sig-ex-dot off" title="&#47784;&#47704;&#53568;"></div>
-        <div class="sig-ex-dot off" title="&#51648;&#54364;"></div>
-        <div class="sig-ex-dot g" title="&#47532;&#48624;"></div>
-        <div class="sig-ex-dot g" title="&#48176;&#49569;"></div>
+      <div class="sig-ex-hd">
+        <div class="sig-ex-tier" style="background:var(--txm)">C Tier</div>
+        <div class="sig-ex-info"><div class="sig-ex-product">[&#47196;&#51648;&#53581;] &#47560;&#50864;&#49828; M750</div><div class="sig-ex-cat">PC &#51452;&#48320;&#44592;&#44592; &#183; SLA 30d</div></div>
+        <div class="sig-ex-score-box"><div class="sig-ex-score" style="color:var(--txm)">31</div><div class="sig-ex-label">&#47784;&#45768;&#53552;&#47553;</div></div>
       </div>
-      <div class="sig-ex-score" style="color:var(--txm)">31</div>
-      <div class="sig-ex-label">&#47784;&#45768;&#53552;&#47553; &#183; SLA 30d</div>
+      <div class="sig-ex-axes">
+        <div class="sig-ex-row"><div class="sig-ex-dot g"></div><div class="sig-ex-ax-name">&#44032;&#44201;</div><div class="sig-ex-ax-val">PCI +2.5% &#183; &#44032;&#44201; &#50577;&#54840;</div><div class="sig-ex-ax-wt">18%</div></div>
+        <div class="sig-ex-row"><div class="sig-ex-dot off"></div><div class="sig-ex-ax-name">&#46364; &#49892;&#51201;</div><div class="sig-ex-ax-val">&#44396;&#51340; 22 &#183; &#54616;&#50948; &#44396;&#44036;</div><div class="sig-ex-ax-wt">17%</div></div>
+        <div class="sig-ex-row"><div class="sig-ex-dot off"></div><div class="sig-ex-ax-name">&#47784;&#47704;&#53568;</div><div class="sig-ex-ax-val">&#8722;18% MoM &#183; &#54616;&#46973;&#49464;</div><div class="sig-ex-ax-wt">17%</div></div>
+        <div class="sig-ex-row"><div class="sig-ex-dot off"></div><div class="sig-ex-ax-name">&#51648;&#54364;/CVR</div><div class="sig-ex-ax-val">CVR 0.7% &#183; &#44160;&#49353;&#49692;&#50948; 152&#50948;</div><div class="sig-ex-ax-wt">17%</div></div>
+        <div class="sig-ex-row"><div class="sig-ex-dot g"></div><div class="sig-ex-ax-name">&#47532;&#48624;</div><div class="sig-ex-ax-val">&#9733; 4.1 / 89&#44148; &#183; &#48372;&#53685;</div><div class="sig-ex-ax-wt">17%</div></div>
+        <div class="sig-ex-row"><div class="sig-ex-dot g"></div><div class="sig-ex-ax-name">&#48176;&#49569;</div><div class="sig-ex-ax-val">&#51068;&#48152;&#48176;&#49569; &#183; &#48372;&#53685;</div><div class="sig-ex-ax-wt">14%</div></div>
+      </div>
+      <div class="sig-ex-reason reason-c"><strong>&#47784;&#45768;&#53552;&#47553;:</strong> Gap &#48120;&#48120; &#8212; &#46364;&#49892;&#51201;/&#47784;&#47704;&#53568;/&#51648;&#54364; &#47784;&#46160; &#48512;&#51652;. &#53944;&#47116;&#46300; &#47532;&#54252;&#53944; &#48156;&#54665; + &#52628;&#51060; &#44288;&#52272; &#47784;&#46300;</div>
     </div>
   </div>
 </div>
