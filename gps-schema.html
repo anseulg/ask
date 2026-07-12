@@ -213,6 +213,62 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
   .pipe-rail{display:none}
 }
 
+/* ── Unified Flow Grid ── */
+.flow-progress{display:flex;align-items:center;gap:0;margin-bottom:20px;
+  background:var(--sf-card);border-radius:var(--r);padding:14px 20px;box-shadow:var(--shadow-card)}
+.flow-progress-bar{flex:1;height:4px;background:var(--bdr-subtle);border-radius:2px;overflow:hidden}
+.flow-progress-fill{height:100%;border-radius:2px;
+  background:linear-gradient(90deg,var(--sgreen),var(--sgreen) 60%,var(--amber));
+  transition:width 1.6s var(--ease);width:0}
+.flow-progress-label{font-size:11px;font-weight:700;color:var(--ink2);margin-left:12px;white-space:nowrap;
+  font-variant-numeric:tabular-nums}
+.flow-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+@media(max-width:768px){.flow-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.flow-grid{grid-template-columns:1fr}}
+.flow-card{background:var(--sf-card);border-radius:var(--r);padding:20px 16px 16px;cursor:pointer;
+  border-top:3px solid var(--bdr);box-shadow:var(--shadow-card);
+  display:flex;flex-direction:column;gap:8px;transition:all .35s var(--spring);position:relative}
+.flow-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover)}
+.flow-card.active{box-shadow:0 0 0 2px var(--blue),var(--shadow-hover);transform:translateY(-2px)}
+.flow-card.done{border-top-color:var(--sgreen)}
+.flow-card.wip{border-top-color:var(--amber)}
+.flow-card.plan{border-top-color:var(--ink3)}
+.flow-card.dest{border-top-color:var(--blue);background:color-mix(in srgb,var(--blue) 3%,var(--sf-card))}
+.flow-card-head{display:flex;align-items:center;gap:10px}
+.flow-card-ic{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:15px;font-weight:800;flex-shrink:0;
+  background:var(--sf-alt);color:var(--ink3);border:1.5px solid var(--bdr-subtle);
+  transition:all .4s var(--spring)}
+.flow-card.done .flow-card-ic{background:color-mix(in srgb,var(--sgreen) 12%,var(--sf-alt));
+  color:var(--sgreen);border-color:color-mix(in srgb,var(--sgreen) 30%,transparent)}
+.flow-card.wip .flow-card-ic{background:color-mix(in srgb,var(--amber) 12%,var(--sf-alt));
+  color:var(--amber);border-color:color-mix(in srgb,var(--amber) 30%,transparent)}
+.flow-card.dest .flow-card-ic{background:color-mix(in srgb,var(--blue) 12%,var(--sf-alt));
+  color:var(--blue);border-color:color-mix(in srgb,var(--blue) 30%,transparent)}
+.flow-card-meta{flex:1;min-width:0}
+.flow-card-step{font-size:9px;font-weight:800;color:var(--ink3);letter-spacing:.06em}
+.flow-card.done .flow-card-step{color:var(--sgreen)}
+.flow-card.dest .flow-card-step{color:var(--blue)}
+.flow-card-sys{font-size:11px;font-weight:700;letter-spacing:.02em;color:var(--ink2)}
+.flow-card-nm{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.02em;line-height:1.3}
+.flow-card.dest .flow-card-nm{color:var(--blue)}
+.flow-card-desc{font-size:11px;color:var(--ink3);line-height:1.5}
+.flow-card-desc code{font-size:9.5px;padding:1px 4px}
+.flow-card-foot{display:flex;align-items:center;gap:6px;margin-top:auto;padding-top:8px;
+  border-top:1px solid var(--bdr-subtle)}
+.flow-card-sdot{width:6px;height:6px;border-radius:50%}
+.flow-card.done .flow-card-sdot{background:var(--sgreen)}
+.flow-card.wip .flow-card-sdot{background:var(--amber)}
+.flow-card.plan .flow-card-sdot{background:var(--ink3);opacity:.4}
+.flow-card.dest .flow-card-sdot{background:var(--blue);box-shadow:0 0 6px color-mix(in srgb,var(--blue) 50%,transparent)}
+.flow-card-stxt{font-size:10px;font-weight:600;color:var(--ink3)}
+.flow-card.done .flow-card-stxt{color:var(--sgreen)}
+.flow-card.wip .flow-card-stxt{color:var(--amber)}
+.flow-card.dest .flow-card-stxt{color:var(--blue)}
+.flow-bridge{display:flex;align-items:center;gap:12px;margin:28px 0 12px}
+.flow-bridge-line{flex:1;height:1px;background:var(--bdr)}
+.flow-bridge-label{font-size:12px;color:var(--ink2);font-weight:600;letter-spacing:.04em;white-space:nowrap}
+
 /* ── System Flow 7-step ── */
 /* ── System Architecture Blocks ── */
 .arch-tier{display:grid;gap:0;align-items:stretch;margin-bottom:0}
@@ -766,79 +822,19 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
   <div class="pipe-narrative fade-in">수집 <span class="pn-a">→</span> 통합 <span class="pn-a">→</span> 진단 <span class="pn-a">→</span> 스코어 <span class="pn-a">→</span> 배분 <span class="pn-a">→</span> <span class="pn-end">관제</span></div>
   <div class="sec-desc">AX 모듈 아키텍처 기반 — 수집 대상 정의부터 MD 실행 관제까지 전 과정을 하나의 파이프라인으로 자동화합니다.</div>
 
-  <!-- Architecture: Top Tier — Data Layer -->
-  <div class="arch-tier arch-tier-top fade-in">
-    <div class="arch-block done">
-      <div class="arch-comp"><div class="arch-comp-icon">C</div><div class="arch-comp-name">Claw · 발톱</div></div>
-      <div class="arch-step">
-        <span class="arch-step-no">①</span><span class="arch-step-nm">수집 대상 정의</span>
-        <div class="arch-step-desc">크롤 사이트 · 정책 · 헬스체크<br><code>abt_crawl_site</code> <code>abt_crawl_job</code></div>
-      </div>
-      <div class="arch-step">
-        <span class="arch-step-no">②</span><span class="arch-step-nm">외부 데이터 수집</span>
-        <div class="arch-step-desc">경쟁사 11개 사이트 크롤<br><code>abt_crawl_product</code> <code>abt_crawl_product_rank</code></div>
-      </div>
-    </div>
-    <div class="arch-arrow">→</div>
-    <div class="arch-block done">
-      <div class="arch-comp"><div class="arch-comp-icon">H</div><div class="arch-comp-name">Heart · API</div></div>
-      <div class="arch-step">
-        <span class="arch-step-no">③</span><span class="arch-step-nm">내↔외부 연동</span>
-        <div class="arch-step-desc">자사 지표 API 연동<br>Metrics API · BIDB · Discovery</div>
-      </div>
-    </div>
-    <div class="arch-arrow">→</div>
-    <div class="arch-block wip">
-      <div class="arch-comp"><div class="arch-comp-icon">W</div><div class="arch-comp-name">Wing · 배치</div></div>
-      <div class="arch-step">
-        <span class="arch-step-no">④</span><span class="arch-step-nm">상품 매칭</span>
-        <div class="arch-step-desc">외부↔11번가 상품 매핑<br><code>gps_unified_product</code> <code>gps_11st_match</code></div>
-      </div>
-      <div class="arch-step">
-        <span class="arch-step-no">⑤</span><span class="arch-step-nm">Gap 분석</span>
-        <div class="arch-step-desc">6대 축 격차 진단 · 신호등<br><code>gps_gap_axis</code> <code>gps_product_score</code></div>
-      </div>
-    </div>
+  <!-- Unified Flow Grid -->
+  <div class="flow-progress fade-in">
+    <div class="flow-progress-bar"><div class="flow-progress-fill" id="flow-fill"></div></div>
+    <div class="flow-progress-label" id="flow-pct">0%</div>
   </div>
 
-  <!-- Connector -->
-  <div class="arch-tier-connect fade-in">↓</div>
-
-  <!-- Architecture: Bottom Tier — Intelligence Layer -->
-  <div class="arch-tier arch-tier-btm fade-in">
-    <div class="arch-block plan">
-      <div class="arch-comp"><div class="arch-comp-icon">B</div><div class="arch-comp-name">Brain · MCP</div></div>
-      <div class="arch-step">
-        <span class="arch-step-no">⑥</span><span class="arch-step-nm">Score & Action</span>
-        <div class="arch-step-desc">S/A/B/C 등급 산출 → MCP 자동 실행<br><code>gps_action_recommendation</code></div>
-      </div>
-    </div>
-    <div class="arch-arrow">→</div>
-    <div class="arch-block dest">
-      <div class="arch-comp"><div class="arch-comp-icon">G</div><div class="arch-comp-name">ESSENTIAL GPS</div></div>
-      <div class="arch-step">
-        <span class="arch-step-no">⑦</span><span class="arch-step-nm">MD 실행 관제</span>
-        <div class="arch-step-desc">Task 배분 · Accept/Reject · 성과 트래킹<br><code>gps_md_task</code> <code>gps_performance_track</code></div>
-      </div>
-    </div>
-  </div>
-
-  <div style="font-size:11px;color:var(--ink3);line-height:1.6;margin-bottom:20px">
-    조인 자연키: 외부 (<code>SITE_KEY</code>, <code>PRODUCT_ID</code>) · 자사 <code>ELEVEN_PRODUCT_NO</code> · 매핑 단일 출처 = <code>abt_gap_product</code>
-  </div>
-
-  <!-- Pipeline Interactive Cards -->
-  <div style="text-align:center;margin:32px 0 8px">
-    <span style="font-size:12px;color:var(--ink2);font-weight:600;letter-spacing:.04em">각 단계를 클릭하여 상세 확인</span>
-  </div>
-  <div class="pipe-flow fade-in">
-    <div class="pipe-rail"><div class="pipe-rail-fill" id="pipe-fill"></div></div>
-    <div class="pipe-cards" id="pipe-track"></div>
-  </div>
+  <div class="flow-grid fade-in" id="flow-grid"></div>
   <div class="pipe-expand" id="pipe-detail"></div>
 
-  <div style="text-align:center;margin:32px 0 12px">
-    <span style="font-size:12px;color:var(--ink2);font-weight:600;letter-spacing:.04em">레이어별 테이블 상세</span>
+  <div class="flow-bridge fade-in">
+    <div class="flow-bridge-line"></div>
+    <span class="flow-bridge-label">레이어별 테이블 상세</span>
+    <div class="flow-bridge-line"></div>
   </div>
 
   <div class="arch-flow fade-in">
@@ -1329,22 +1325,6 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
     </div>
   </div>
 
-  <div class="card fade-in" style="margin-top:20px">
-    <div style="font-size:17px;font-weight:700;letter-spacing:-.02em;margin-bottom:16px">데이터 가용성 현황</div>
-    <div class="tbl-overflow" style="border:none;margin:0">
-      <table class="data-table">
-        <thead><tr><th>축</th><th>외부 원천</th><th>내부 원천</th><th>가용성</th><th>비고</th></tr></thead>
-        <tbody>
-          <tr><td style="font-weight:600">가격 경쟁력</td><td>abt_crawl_product.price</td><td>Product Metrics API</td><td><span class="avail avail-ok">가능</span></td><td>외부최저가 vs 자사가</td></tr>
-          <tr><td style="font-weight:600">딜 구좌 실적</td><td>—</td><td>BIDB 딜 마트</td><td><span class="avail avail-ok">가능</span></td><td>구좌 지수 0~100</td></tr>
-          <tr><td style="font-weight:600">과거 딜 대비</td><td>—</td><td>BIDB 딜 이력</td><td><span class="avail avail-ok">가능</span></td><td>직전딜 매출 비교</td></tr>
-          <tr><td style="font-weight:600">CTR / CVR</td><td>—</td><td>로그 지표 연결</td><td><span class="avail avail-wip">수집중</span></td><td>로그지표 연결 후 가능</td></tr>
-          <tr><td style="font-weight:600">리뷰 평점</td><td>abt_crawl_product_metric</td><td>내부 리뷰 DB</td><td><span class="avail avail-ok">가능</span></td><td>리뷰 수 수집 여부 확인 필요</td></tr>
-          <tr><td style="font-weight:600">C2D 배송속도</td><td>—</td><td>배송 원천 추가 필요</td><td><span class="avail avail-need">필요</span></td><td>추가 데이터 원천 연결 필요</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
 </div>
 </section>
 
@@ -1442,83 +1422,117 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
   obs.observe(document.getElementById('gps-cards'));
 })();
 
-/* ── Pipeline stages ── */
+/* ── Unified Flow Pipeline ── */
 (function(){
-  const stages=[
-    {sys:"Claw · 수집",nm:"외부+내부 수집",mt:"Albatross 크롤러\n+ Product Metrics API",st:"done",ic:"ALB",
-     html:`<h4>① 외부+내부 데이터 수집</h4>
-      <div class="pipe-status"><span class="pipe-badge pipe-badge-done">MVP 완료</span><span class="pipe-badge pipe-badge-wip">확장 진행중</span></div>
-      <p class="pipe-lead">Albatross 크롤러로 경쟁사 11개 사이트 수집 + 자사 Product Metrics API 연동</p>
-      <div class="pipe-counters"><div class="pipe-counter"><div class="pc-v" data-pc="215838">0</div><div class="pc-l">크롤 상품</div></div>
-      <div class="pipe-counter"><div class="pc-v" data-pc="358833">0</div><div class="pc-l">수집 지표</div></div>
-      <div class="pipe-counter"><div class="pc-v" data-pc="1964436">0</div><div class="pc-l">랭킹 데이터</div></div></div>
-      <div class="pipe-tags" id="pSites"></div>`},
-    {sys:"Heart · 통합",nm:"데이터 통합",mt:"동일상품 매칭\n내부↔외부 데이터 통합",st:"wip",ic:"AX",
-     html:`<h4>② 데이터 통합 · 매핑</h4>
-      <div class="pipe-status"><span class="pipe-badge pipe-badge-wip">진행중</span></div>
-      <p class="pipe-lead">외부상품 ↔ 11번가 상품 매핑 → 하나의 상품 뷰</p>
-      <div class="pipe-tags"><span class="pipe-tag">IS_MATCHED</span><span class="pipe-tag">MATCH_TIER</span><span class="pipe-tag">MATCH_SCORE</span><span class="pipe-tag">ELEVEN_PRODUCT_NO</span></div>
-      <p style="font-size:12px;color:var(--ink3);margin-top:12px">네이버 유니크 상품 1개 → 랭킹 소스 평균 10.7행 → dedup 후 매핑. 매칭/미매칭 분리 트랙.</p>`},
-    {sys:"Wing · 진단",nm:"6대 축 진단",mt:"PCI · ACR · CVR\n신호등 판정",st:"wip",ic:"GAP",
-     html:`<h4>③ 6대 축 Gap 분석</h4>
-      <div class="pipe-status"><span class="pipe-badge pipe-badge-wip">진행중</span></div>
-      <p class="pipe-lead">자사 ↔ 외부 격차를 6대 축으로 진단 → 신호등 판정</p>
-      <div class="pipe-tags"><span class="pipe-tag">PRICE_GAP_RATE</span><span class="pipe-tag">SELECTION_GAP_TYPE</span><span class="pipe-tag">STATUS_TAG</span><span class="pipe-tag">PCI</span><span class="pipe-tag">ACR</span><span class="pipe-tag">CVR</span></div>`},
-    {sys:"Brain · 스코어",nm:"S/A/B/C 티어링",mt:"종합 점수 산출\n놓치는 매출 추정",st:"plan",ic:"S",
-     html:`<h4>④ Scoring · 등급 산출</h4>
-      <div class="pipe-status"><span class="pipe-badge pipe-badge-plan">예정</span></div>
-      <p class="pipe-lead">Priority(기회손실 GMV)로 정렬 후 S/A/B/C 단일 등급 직관화</p>
-      <div class="pipe-tags"><span class="pipe-tag">IMPACT_SCORE</span><span class="pipe-tag">IS_REVIEW_NEEDED</span><span class="pipe-tag">S/A/B/C 등급</span></div>`},
-    {sys:"GPS · 배분",nm:"카테고리별 매칭",mt:"담당 MD 배분\nTask 자동 생성",st:"plan",ic:"MD",
-     html:`<h4>⑤ MD Task 배분</h4>
-      <div class="pipe-status"><span class="pipe-badge pipe-badge-plan">예정</span></div>
-      <p class="pipe-lead">조직장 운영방향 가중치 반영 → 카테고리별 담당 MD 자동 매칭</p>
-      <div class="pipe-tags"><span class="pipe-tag">Task 자동생성</span><span class="pipe-tag">우선순위 배분</span><span class="pipe-tag">조직장 가중치</span><span class="pipe-tag">행사 일정 반영</span></div>
-      <p style="font-size:12px;color:var(--ink3);margin-top:12px">전사 행사(월간/그랜드십일절) 일정 고려. 과거 Reject 상품/셀러 2개월 미노출.</p>`},
-    {sys:"GPS · 관제",nm:"진척 관리",mt:"Accept/Reject\n성과 트래킹",st:"dest",ic:"▶",
-     html:`<h4>⑥ 실행 · 성과 관리</h4>
-      <div class="pipe-status"><span class="pipe-badge pipe-badge-plan">예정</span></div>
-      <p class="pipe-lead">MD별 Daily/Weekly/Monthly Task 수행 → Accept/Reject → 성과 트래킹</p>
-      <div class="pipe-tags"><span class="pipe-tag">Accept/Reject</span><span class="pipe-tag">진척도 관리</span><span class="pipe-tag">성과 조회</span><span class="pipe-tag">F/B 고도화</span></div>
-      <p style="font-size:12px;color:var(--ink3);margin-top:12px">MD 입력 Reject 사유로 시스템 추천 로직 고도화. 주/월/분기 기간별 성과 대시보드.</p>`},
+  var stages=[
+    {sys:"Claw · 발톱",steps:"①②",nm:"외부+내부 수집",
+     desc:"경쟁사 11개 사이트 크롤\n자사 Product Metrics API 연동",
+     codes:"abt_crawl_site · abt_crawl_product · abt_crawl_product_rank",
+     st:"done",ic:"C",stxt:"MVP 완료",
+     html:'<h4>① ② 외부+내부 데이터 수집</h4>'+
+      '<div class="pipe-status"><span class="pipe-badge pipe-badge-done">MVP 완료</span><span class="pipe-badge pipe-badge-wip">확장 진행중</span></div>'+
+      '<p class="pipe-lead">Albatross 크롤러로 경쟁사 11개 사이트 수집 + 자사 Product Metrics API 연동</p>'+
+      '<div class="pipe-counters"><div class="pipe-counter"><div class="pc-v" data-pc="215838">0</div><div class="pc-l">크롤 상품</div></div>'+
+      '<div class="pipe-counter"><div class="pc-v" data-pc="358833">0</div><div class="pc-l">수집 지표</div></div>'+
+      '<div class="pipe-counter"><div class="pc-v" data-pc="1964436">0</div><div class="pc-l">랭킹 데이터</div></div></div>'+
+      '<div class="pipe-tags" id="pSites"></div>'},
+    {sys:"Heart · API",steps:"③",nm:"데이터 통합",
+     desc:"동일상품 매칭\n내부↔외부 데이터 통합",
+     codes:"gps_unified_product · gps_product_source · gps_11st_match",
+     st:"wip",ic:"H",stxt:"진행중",
+     html:'<h4>③ 데이터 통합 · 매핑</h4>'+
+      '<div class="pipe-status"><span class="pipe-badge pipe-badge-wip">진행중</span></div>'+
+      '<p class="pipe-lead">외부상품 ↔ 11번가 상품 매핑 → 하나의 상품 뷰</p>'+
+      '<div class="pipe-tags"><span class="pipe-tag">IS_MATCHED</span><span class="pipe-tag">MATCH_TIER</span><span class="pipe-tag">MATCH_SCORE</span><span class="pipe-tag">ELEVEN_PRODUCT_NO</span></div>'+
+      '<p style="font-size:12px;color:var(--ink3);margin-top:12px">네이버 유니크 상품 1개 → 랭킹 소스 평균 10.7행 → dedup 후 매핑. 매칭/미매칭 분리 트랙.</p>'},
+    {sys:"Wing · 배치",steps:"④⑤",nm:"6대 축 진단",
+     desc:"PCI · ACR · CVR 격차 측정\n신호등 판정",
+     codes:"gps_gap_axis · gps_product_score",
+     st:"wip",ic:"W",stxt:"진행중",
+     html:'<h4>④ ⑤ 6대 축 Gap 분석</h4>'+
+      '<div class="pipe-status"><span class="pipe-badge pipe-badge-wip">진행중</span></div>'+
+      '<p class="pipe-lead">자사 ↔ 외부 격차를 6대 축으로 진단 → 신호등 판정</p>'+
+      '<div class="pipe-tags"><span class="pipe-tag">PRICE_GAP_RATE</span><span class="pipe-tag">SELECTION_GAP_TYPE</span><span class="pipe-tag">STATUS_TAG</span><span class="pipe-tag">PCI</span><span class="pipe-tag">ACR</span><span class="pipe-tag">CVR</span></div>'},
+    {sys:"Brain · MCP",steps:"⑥",nm:"S/A/B/C 티어링",
+     desc:"종합 점수 산출\n기회손실 매출 추정",
+     codes:"gps_action_recommendation",
+     st:"plan",ic:"B",stxt:"예정",
+     html:'<h4>⑥ Scoring · 등급 산출</h4>'+
+      '<div class="pipe-status"><span class="pipe-badge pipe-badge-plan">예정</span></div>'+
+      '<p class="pipe-lead">Priority(기회손실 GMV)로 정렬 후 S/A/B/C 단일 등급 직관화</p>'+
+      '<div class="pipe-tags"><span class="pipe-tag">IMPACT_SCORE</span><span class="pipe-tag">IS_REVIEW_NEEDED</span><span class="pipe-tag">S/A/B/C 등급</span></div>'},
+    {sys:"GPS · 배분",steps:"⑦-a",nm:"MD Task 배분",
+     desc:"담당 MD 자동 매칭\nTask 자동 생성",
+     codes:"gps_md_task",
+     st:"plan",ic:"G",stxt:"예정",
+     html:'<h4>⑦ MD Task 배분</h4>'+
+      '<div class="pipe-status"><span class="pipe-badge pipe-badge-plan">예정</span></div>'+
+      '<p class="pipe-lead">조직장 운영방향 가중치 반영 → 카테고리별 담당 MD 자동 매칭</p>'+
+      '<div class="pipe-tags"><span class="pipe-tag">Task 자동생성</span><span class="pipe-tag">우선순위 배분</span><span class="pipe-tag">조직장 가중치</span><span class="pipe-tag">행사 일정 반영</span></div>'+
+      '<p style="font-size:12px;color:var(--ink3);margin-top:12px">전사 행사(월간/그랜드십일절) 일정 고려. 과거 Reject 상품/셀러 2개월 미노출.</p>'},
+    {sys:"GPS · 관제",steps:"⑦-b",nm:"실행 · 성과 관리",
+     desc:"Accept / Reject\n성과 트래킹",
+     codes:"gps_performance_track",
+     st:"dest",ic:"▶",stxt:"목표",
+     html:'<h4>⑦ 실행 · 성과 관리</h4>'+
+      '<div class="pipe-status"><span class="pipe-badge pipe-badge-plan">예정</span></div>'+
+      '<p class="pipe-lead">MD별 Daily/Weekly/Monthly Task 수행 → Accept/Reject → 성과 트래킹</p>'+
+      '<div class="pipe-tags"><span class="pipe-tag">Accept/Reject</span><span class="pipe-tag">진척도 관리</span><span class="pipe-tag">성과 조회</span><span class="pipe-tag">F/B 고도화</span></div>'+
+      '<p style="font-size:12px;color:var(--ink3);margin-top:12px">MD 입력 Reject 사유로 시스템 추천 로직 고도화. 주/월/분기 기간별 성과 대시보드.</p>'},
   ];
-  const sites=[["네이버 쇼핑",1],["카카오 스토어",1],["마켓컬리",1],["롯데온",1],["무신사",1],["오늘의집",1],["SSG.COM",1],["GS SHOP",1],["올리브영",1],["옥션",1],["G마켓",1],["쿠팡",0]];
-  const track=document.getElementById('pipe-track');
-  const detail=document.getElementById('pipe-detail');
-  const fill=document.getElementById('pipe-fill');
-  if(!track) return;
+  var sites=[["\ub124\uc774\ubc84 \uc1fc\ud551",1],["\uce74\uce74\uc624 \uc2a4\ud1a0\uc5b4",1],["\ub9c8\ucf13\ucef4\ub9ac",1],["\ub86f\ub370\uc628",1],["\ubb34\uc2e0\uc0ac",1],["\uc624\ub298\uc758\uc9d1",1],["SSG.COM",1],["GS SHOP",1],["\uc62c\ub9ac\ube0c\uc601",1],["\uc625\uc158",1],["G\ub9c8\ucf13",1],["\ucfe0\ud321",0]];
+  var grid=document.getElementById('flow-grid');
+  var detail=document.getElementById('pipe-detail');
+  var fill=document.getElementById('flow-fill');
+  var pctEl=document.getElementById('flow-pct');
+  if(!grid) return;
 
-  const doneCount=stages.filter(s=>s.st==='done').length;
-  const wipCount=stages.filter(s=>s.st==='wip').length;
-  const progressPct=Math.round(((doneCount+(wipCount*.5))/stages.length)*100);
+  var doneCount=stages.filter(function(s){return s.st==='done'}).length;
+  var wipCount=stages.filter(function(s){return s.st==='wip'}).length;
+  var progressPct=Math.round(((doneCount+(wipCount*.5))/stages.length)*100);
 
-  let cur=-1;
-  stages.forEach((s,i)=>{
-    const d=document.createElement('div');
-    d.className='pipe-card '+s.st;d.dataset.i=i;
-    d.innerHTML=`<div class="pipe-ic">${s.ic}</div><div class="pipe-sys">${s.sys}</div><div class="pipe-nm">${s.nm}</div><div class="pipe-mt">${s.mt.replace(/\n/g,'<br>')}</div><div class="pipe-sdot"></div>`;
-    d.addEventListener('click',()=>openPipe(i));track.appendChild(d);
+  var cur=-1;
+  stages.forEach(function(s,i){
+    var d=document.createElement('div');
+    d.className='flow-card '+s.st;d.dataset.i=i;
+    d.innerHTML='<div class="flow-card-head">'+
+      '<div class="flow-card-ic">'+s.ic+'</div>'+
+      '<div class="flow-card-meta">'+
+        '<div class="flow-card-step">'+s.steps+'</div>'+
+        '<div class="flow-card-sys">'+s.sys+'</div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="flow-card-nm">'+s.nm+'</div>'+
+    '<div class="flow-card-desc">'+s.desc.replace(/\n/g,'<br>')+'</div>'+
+    '<div class="flow-card-desc"><code>'+s.codes.replace(/ \xb7 /g,'</code> <code>')+'</code></div>'+
+    '<div class="flow-card-foot">'+
+      '<div class="flow-card-sdot"></div>'+
+      '<div class="flow-card-stxt">'+s.stxt+'</div>'+
+    '</div>';
+    d.addEventListener('click',function(){openFlow(i)});
+    grid.appendChild(d);
   });
 
-  function openPipe(i){
-    const els=track.querySelectorAll('.pipe-card');
+  function openFlow(i){
+    var els=grid.querySelectorAll('.flow-card');
     if(cur===i){detail.classList.remove('show');els[i].classList.remove('active');cur=-1;return;}
-    els.forEach(e=>e.classList.remove('active'));els[i].classList.add('active');
+    els.forEach(function(e){e.classList.remove('active')});els[i].classList.add('active');
     detail.innerHTML=stages[i].html;detail.classList.add('show');cur=i;
     if(i===0){
-      const sl=detail.querySelector('#pSites');
-      if(sl) sites.forEach(([n,on])=>{const sp=document.createElement('span');sp.className='pipe-tag'+(on?'':' off');sp.textContent=n;sl.appendChild(sp);});
-      detail.querySelectorAll('[data-pc]').forEach(el=>{const t=+el.dataset.pc;let c=0;const s=Math.ceil(t/50);const iv=setInterval(()=>{c+=s;if(c>=t){c=t;clearInterval(iv);}el.textContent=c.toLocaleString();},20);});
+      var sl=detail.querySelector('#pSites');
+      if(sl) sites.forEach(function(s){var sp=document.createElement('span');sp.className='pipe-tag'+(s[1]?'':' off');sp.textContent=s[0];sl.appendChild(sp);});
+      detail.querySelectorAll('[data-pc]').forEach(function(el){var t=+el.dataset.pc;var c=0;var s=Math.ceil(t/50);var iv=setInterval(function(){c+=s;if(c>=t){c=t;clearInterval(iv);}el.textContent=c.toLocaleString();},20);});
     }
   }
 
-  const pipeObs=new IntersectionObserver(es=>{
+  var flowObs=new IntersectionObserver(function(es){
     if(es[0].isIntersecting){
       fill.style.width=progressPct+'%';
-      pipeObs.disconnect();
+      pctEl.textContent=progressPct+'%';
+      flowObs.disconnect();
     }
   },{threshold:.3});
-  pipeObs.observe(track);
+  flowObs.observe(grid);
 })();
 
 /* ── Toggle track ── */
