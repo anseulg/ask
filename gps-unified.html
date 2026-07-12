@@ -3440,7 +3440,7 @@ slots.forEach(function(s) {
   --red:#ff3b30;--orange:#ff9500;--teal:#5ac8fa;--indigo:#5856d6;
   --r:20px;--rs:12px;
   --fs-micro:10px;--fs-cap:11px;--fs-body:13px;--fs-body-lg:15px;--fs-sub:17px;--fs-t3:20px;--fs-t2:24px;--fs-t1:28px;--fs-disp:34px;
-  --f:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Pretendard',system-ui,sans-serif;
+  --f:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Gothic Neo','Noto Sans KR',system-ui,sans-serif;
   --fm:'SF Mono','Fira Code',ui-monospace,monospace;
   --sh:0 1px 3px rgba(0,0,0,.04);--shm:0 4px 16px rgba(0,0,0,.06);--shl:0 8px 32px rgba(0,0,0,.08);
 }
@@ -4063,9 +4063,15 @@ table.t{width:100%;border-collapse:separate;border-spacing:0;font-size:13px;min-
 @media(max-width:700px){.sim-grid{grid-template-columns:1fr}}
 .sim-panel{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:20px}
 .sim-title{font-size:15px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.sim-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--sf2)}
+.sim-row{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--sf2)}
 .sim-row:last-child{border-bottom:none}
-.sim-ax{width:80px;font-size:13px;font-weight:700;flex-shrink:0}
+.sim-ax{width:72px;font-size:13px;font-weight:700;flex-shrink:0}
+.sim-sel-group{display:flex;gap:4px;flex-shrink:0}
+.sim-sel{padding:4px 6px;border-radius:8px;border:1px solid var(--bd);background:var(--sf);font-family:var(--f);font-size:11px;font-weight:600;color:var(--tx);cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='%2386868b' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 5px center;padding-right:18px;min-width:0;width:auto}
+.sim-sel-label{font-size:9px;font-weight:700;letter-spacing:.04em;color:var(--tx3);text-align:center;margin-bottom:1px}
+.sim-sel-wrap{display:flex;flex-direction:column;align-items:stretch}
+.sim-sel.on{border-color:var(--green);background:rgba(52,199,89,.06)}
+.sim-sel.off{border-color:var(--red);color:var(--txm);background:rgba(255,59,48,.04)}
 .sim-bar{flex:1;height:20px;background:var(--sf3);border-radius:10px;overflow:hidden;position:relative}
 .sim-fill{height:100%;border-radius:10px;transition:width .4s}
 .sim-val{font-size:13px;font-weight:800;width:45px;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums}
@@ -4287,7 +4293,7 @@ select.cat-sel{padding:8px 14px;border-radius:10px;border:1px solid var(--bd);ba
 <!-- ===== SECTION 4: Interactive Simulator ===== -->
 <div class="sec">
   <div class="sec-t">4. &#49884;&#48044;&#47112;&#51060;&#53552; &#8212; &#52852;&#53580;&#44256;&#47532;/&#45936;&#51060;&#53552; &#50976;&#47924;&#50640; &#46384;&#47480; &#44032;&#51473;&#52824; &#48320;&#54868;</div>
-  <div class="sec-d">&#52852;&#53580;&#44256;&#47532;&#47484; &#49440;&#53469;&#54616;&#44256; &#52629;&#48324; &#45936;&#51060;&#53552; ON/OFF&#47484; &#53664;&#44544;&#54644;&#49436; &#44032;&#51473;&#52824; &#51116;&#48516;&#48176; &#44208;&#44284;&#47484; &#54869;&#51064; &#44032;&#45733;.</div>
+  <div class="sec-d">&#52852;&#53580;&#44256;&#47532;&#47484; &#49440;&#53469;&#54616;&#44256; &#52629;&#48324; <strong>&#51088;&#49324;/&#50808;&#48512;</strong> &#45936;&#51060;&#53552;&#47484; &#44033;&#44033; ON/OFF &#51228;&#50612;&#54644;&#49436; &#44032;&#51473;&#52824; &#51116;&#48516;&#48176; &#44208;&#44284;&#47484; &#54869;&#51064;. &#51088;&#49324;&#47564; &#51080;&#51004;&#47732; &times;0.7, &#50808;&#48512;&#47564; &#51080;&#51004;&#47732; &times;0.5 &#44048;&#49328;.</div>
 
   <div style="margin-bottom:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
     <label style="font-size:13px;font-weight:700;color:var(--tx3)">&#52852;&#53580;&#44256;&#47532;</label>
@@ -4311,7 +4317,7 @@ select.cat-sel{padding:8px 14px;border-radius:10px;border:1px solid var(--bd);ba
 
   <div class="sim-grid">
     <div class="sim-panel">
-      <div class="sim-title">&#52629;&#48324; &#45936;&#51060;&#53552; ON/OFF</div>
+      <div class="sim-title">&#52629;&#48324; &#51088;&#49324;/&#50808;&#48512; &#45936;&#51060;&#53552; &#51228;&#50612;</div>
       <div id="simToggles"></div>
     </div>
     <div class="sim-panel">
@@ -4415,81 +4421,105 @@ var CAT_DELTA = {
 };
 
 var CAT_DATA_AVAIL = {
-  common:[1,1,1,1,1,1],
-  mart:[1,1,0.5,0.5,1,1],
-  fashion:[1,0.5,1,0.5,1,0.5],
-  beauty:[1,0.5,0.5,1,1,1],
-  living:[1,1,0.5,0.5,1,1],
-  ccommerce:[1,0,0,0,0,0]
+  common:  {int:[1,1,1,1,1,1], ext:[1,1,1,1,1,1]},
+  mart:    {int:[1,1,1,1,1,1], ext:[1,1,0,0,1,1]},
+  fashion: {int:[1,1,1,1,1,1], ext:[1,0,1,0,1,0]},
+  beauty:  {int:[1,1,1,1,1,1], ext:[1,0,0,1,1,1]},
+  living:  {int:[1,1,1,1,1,1], ext:[1,1,0,0,1,1]},
+  ccommerce:{int:[1,0,0,0,0,0], ext:[1,0,0,0,0,0]}
 };
 
-function calcWeights(tier, cat, dataFlags) {
+function calcWeights(tier, cat, intFlags, extFlags) {
   var raw = [];
   for (var i = 0; i < 6; i++) {
     var w = BASE[i] + (TIER_DELTA[tier]||TIER_DELTA.base)[i] + (CAT_DELTA[cat]||CAT_DELTA.common)[i];
     if (w < 0) w = 0;
-    if (!dataFlags[i]) w = 0;
+    var hasInt = intFlags[i], hasExt = extFlags[i];
+    if (!hasInt && !hasExt) { w = 0; }
+    else if (hasInt && !hasExt) { w = Math.round(w * 0.7); }
+    else if (!hasInt && hasExt) { w = Math.round(w * 0.5); }
     raw.push(w);
   }
   var sum = raw.reduce(function(a,b){return a+b},0);
-  if (sum === 0) return raw.map(function(){return 0});
-  return raw.map(function(w){return Math.round(w/sum*1000)/10});
+  if (sum === 0) return raw.map(function(){return {w:0,mode:'none'}});
+  return raw.map(function(w,i){
+    var mode = 'both';
+    if(!intFlags[i]&&!extFlags[i]) mode='none';
+    else if(intFlags[i]&&!extFlags[i]) mode='int';
+    else if(!intFlags[i]&&extFlags[i]) mode='ext';
+    return {w:Math.round(w/sum*1000)/10, mode:mode};
+  });
 }
 
 function runSim() {
   var cat = document.getElementById('simCat').value;
   var tier = document.getElementById('simTier').value;
+  var avail = CAT_DATA_AVAIL[cat] || CAT_DATA_AVAIL.common;
 
   var toggles = document.getElementById('simToggles');
   toggles.innerHTML = '';
-  var dataFlags = [];
 
   for (var i = 0; i < 6; i++) {
-    var avail = CAT_DATA_AVAIL[cat] ? CAT_DATA_AVAIL[cat][i] : 1;
+    var intDef = avail.int[i], extDef = avail.ext[i];
     var row = document.createElement('div');
     row.className = 'sim-row';
-    var checked = avail > 0;
-    dataFlags.push(checked);
-    var statusText = avail>=1 ? '&#51088;&#49324;+&#50808;&#48512; &#50756;&#48708;' : avail>=0.5 ? '&#51068;&#48512; &#45936;&#51060;&#53552;&#47564;' : '&#45936;&#51060;&#53552; &#50630;&#51020;';
-    var statusColor = avail>=1 ? 'var(--green)' : avail>=0.5 ? 'var(--orange)' : 'var(--red)';
-    row.innerHTML = '<div class="sim-ax" style="color:'+(checked?COLORS[i]:'var(--txm)')+'">'+AXES[i]+'</div>'
-      +'<label style="display:flex;align-items:center;gap:8px;flex:1;cursor:pointer;font-size:13px;color:var(--tx2)">'
-      +'<input type="checkbox" '+(checked?'checked':'')+' data-idx="'+i+'" onchange="toggleAxis(this)" style="width:18px;height:18px;accent-color:'+COLORS[i]+'">'
-      +'<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:'+statusColor+'"></span>'
-      +statusText
-      +'</label>';
+    var intVal = intDef ? 'on' : 'off';
+    var extVal = extDef ? 'on' : 'off';
+    row.innerHTML = '<div class="sim-ax" style="color:'+COLORS[i]+'">'+AXES[i]+'</div>'
+      +'<div class="sim-sel-group">'
+      +'<div class="sim-sel-wrap"><div class="sim-sel-label">자사</div>'
+      +'<select class="sim-sel '+(intDef?'on':'off')+'" data-idx="'+i+'" data-src="int" onchange="onSelChange(this)">'
+      +'<option value="on"'+(intVal==='on'?' selected':'')+'>ON</option>'
+      +'<option value="off"'+(intVal==='off'?' selected':'')+'>OFF</option>'
+      +'</select></div>'
+      +'<div class="sim-sel-wrap"><div class="sim-sel-label">외부</div>'
+      +'<select class="sim-sel '+(extDef?'on':'off')+'" data-idx="'+i+'" data-src="ext" onchange="onSelChange(this)">'
+      +'<option value="on"'+(extVal==='on'?' selected':'')+'>ON</option>'
+      +'<option value="off"'+(extVal==='off'?' selected':'')+'>OFF</option>'
+      +'</select></div>'
+      +'</div>';
     toggles.appendChild(row);
   }
   updateResult();
 }
 
-function toggleAxis(el) {
+function onSelChange(el) {
+  el.className = 'sim-sel ' + el.value;
   updateResult();
 }
 
 function updateResult() {
   var cat = document.getElementById('simCat').value;
   var tier = document.getElementById('simTier').value;
-  var checks = document.querySelectorAll('#simToggles input[type="checkbox"]');
-  var flags = [];
-  checks.forEach(function(c){flags.push(c.checked)});
+  var intSels = document.querySelectorAll('#simToggles select[data-src="int"]');
+  var extSels = document.querySelectorAll('#simToggles select[data-src="ext"]');
+  var intFlags = [], extFlags = [];
+  intSels.forEach(function(s){intFlags.push(s.value==='on')});
+  extSels.forEach(function(s){extFlags.push(s.value==='on')});
 
-  var weights = calcWeights(tier, cat, flags);
+  var weights = calcWeights(tier, cat, intFlags, extFlags);
   var result = document.getElementById('simResult');
   result.innerHTML = '';
 
-  var activeCount = flags.filter(Boolean).length;
+  var activeCount = 0;
+  weights.forEach(function(item){if(item.mode!=='none') activeCount++});
 
-  weights.forEach(function(w, i) {
+  weights.forEach(function(item, i) {
+    var w = item.w, mode = item.mode;
     var row = document.createElement('div');
     row.className = 'sim-row';
-    if (!flags[i]) {
+    if (mode === 'none') {
       row.innerHTML = '<div class="sim-ax" style="color:var(--txm);text-decoration:line-through">'+AXES[i]+'</div>'
-        +'<div style="flex:1;font-size:11px;color:var(--txm);font-style:italic;padding:4px 8px;background:var(--sf2);border-radius:8px;text-align:center">&#45936;&#51060;&#53552; &#50630;&#51020; &#8212; &#44032;&#51473;&#52824; 0%&#47196; &#52376;&#47532;, &#45208;&#47672;&#51648; &#52629;&#50640; &#51116;&#48516;&#48176;</div>'
+        +'<div style="flex:1;font-size:11px;color:var(--txm);font-style:italic;padding:4px 8px;background:var(--sf2);border-radius:8px;text-align:center">데이터 없음 — 가중치 0%로 처리, 나머지 축에 재분배</div>'
         +'<div class="sim-val" style="color:var(--txm)">0%</div>';
     } else {
+      var modeLabel = mode==='both' ? '자사+외부' : mode==='int' ? '자사만 (\xD70.7)' : '외부만 (\xD70.5)';
+      var modeColor = mode==='both' ? 'var(--green)' : mode==='int' ? 'var(--orange)' : 'var(--blue)';
       row.innerHTML = '<div class="sim-ax" style="color:'+COLORS[i]+'">'+AXES[i]+'</div>'
+        +'<div style="flex:1;display:flex;flex-direction:column;gap:3px">'
         +'<div class="sim-bar"><div class="sim-fill" style="width:'+Math.min(w*2,100)+'%;background:'+COLORS[i]+'"></div></div>'
+        +'<div style="font-size:10px;color:'+modeColor+';font-weight:600">● '+modeLabel+'</div>'
+        +'</div>'
         +'<div class="sim-val" style="color:var(--tx)">'+w+'%</div>';
     }
     result.appendChild(row);
@@ -4497,15 +4527,32 @@ function updateResult() {
 
   var formula = document.getElementById('simFormula');
   if (activeCount < 2) {
-    formula.innerHTML = '<span style="color:var(--red);font-weight:700">&#9888; &#52572;&#49548; 2&#52629; &#51060;&#49345; &#45936;&#51060;&#53552; &#54596;&#50836; → PENDING &#49345;&#53468;</span>';
+    formula.innerHTML = '<span style="color:var(--red);font-weight:700">⚠ 최소 2축 이상 데이터 필요 → PENDING 상태</span>';
   } else if (activeCount < 6) {
-    var nullAxes = [];
-    flags.forEach(function(f,i){if(!f)nullAxes.push(AXES[i])});
-    formula.innerHTML = '&#45936;&#51060;&#53552; &#48512;&#51116;: '+nullAxes.join(', ')+'<br>'
-      +'&#8594; &#54644;&#45817; &#52629; &#44032;&#51473;&#52824; 0% → &#45208;&#47672;&#51648; &#52629;&#50640; &#48708;&#47168; &#51116;&#48516;&#48176;<br>'
-      +'&#54876;&#49457; &#52629;: '+activeCount+'&#44060; / &#54633;&#44228; 100%';
+    var nullAxes = [], intOnly = [], extOnly = [];
+    weights.forEach(function(item,i){
+      if(item.mode==='none') nullAxes.push(AXES[i]);
+      else if(item.mode==='int') intOnly.push(AXES[i]);
+      else if(item.mode==='ext') extOnly.push(AXES[i]);
+    });
+    var parts = [];
+    if(nullAxes.length) parts.push('데이터 부재: '+nullAxes.join(', ')+' → 0%');
+    if(intOnly.length) parts.push('자사만: '+intOnly.join(', ')+' → \xD70.7 감산');
+    if(extOnly.length) parts.push('외부만: '+extOnly.join(', ')+' → \xD70.5 감산');
+    parts.push('활성 축: '+activeCount+'개 / 합계 100%');
+    formula.innerHTML = parts.join('<br>');
   } else {
-    formula.innerHTML = '&#51204;&#52629; &#45936;&#51060;&#53552; &#51316;&#51116; &#8212; &#51221;&#49345; &#49328;&#52636;';
+    var hasPartial = weights.some(function(item){return item.mode==='int'||item.mode==='ext'});
+    if(hasPartial){
+      var pAxes = [];
+      weights.forEach(function(item,i){
+        if(item.mode==='int') pAxes.push(AXES[i]+' 자사만(\xD70.7)');
+        else if(item.mode==='ext') pAxes.push(AXES[i]+' 외부만(\xD70.5)');
+      });
+      formula.innerHTML = '전축 활성 — 부분 데이터: '+pAxes.join(', ');
+    } else {
+      formula.innerHTML = '전축 데이터 존재 (자사+외부) — 정상 산출';
+    }
   }
 }
 
