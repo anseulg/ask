@@ -2724,13 +2724,13 @@ document.querySelectorAll('.sig-act').forEach(function(el,i){
 (function(){
   var grid=document.getElementById('heatmapGrid');if(!grid)return;
   var axes=['\u{AC00}\u{ACA9}','\u{B51C}','\u{BAA8}\u{BA58}\u{D140}','\u{C9C0}\u{D45C}','\u{B9AC}\u{BDF0}','\u{BC30}\u{C1A1}'];
-  var competitors=['11ST','\u{CFE0}\u{D321}','\u{B124}\u{C774}\u{BC84}','G\u{B9C8}\u{CF13}','\u{C625}\u{C158}','SSG'];
+  var competitors=['11ST','\u{ACBD}\u{C7C1}\u{C0AC}A','\u{B124}\u{C774}\u{BC84}','G\u{B9C8}\u{CF13}','\u{C625}\u{C158}','SSG'];
   var data=[[35,72,80,65,55,40],[70,45,60,75,80,65],[80,68,50,42,72,88],[55,90,75,60,48,70],[75,60,85,70,92,80],[90,55,45,80,68,75]];
   var colors=function(v){
-    if(v>=80)return'rgba(255,59,48,.85)';
-    if(v>=60)return'rgba(255,149,0,.75)';
-    if(v>=40)return'rgba(0,113,227,.6)';
-    return'rgba(52,199,89,.5)';
+    if(v>=80)return'rgba(52,199,89,.8)';
+    if(v>=60)return'rgba(0,113,227,.65)';
+    if(v>=40)return'rgba(255,149,0,.75)';
+    return'rgba(255,59,48,.8)';
   };
   for(var r=0;r<6;r++){
     for(var c=0;c<6;c++){
