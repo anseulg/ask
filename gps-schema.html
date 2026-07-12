@@ -1245,7 +1245,7 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 <div class="container">
   <div class="sec-label">Roadmap — 7월 → 11월</div>
   <div class="sec-title" style="font-size:clamp(30px,5vw,48px)">실행 로드맵</div>
-  <div class="sec-desc">4단계 타임라인. 기반 MVP → 매칭·인기도 → 진단 고도화 → 실행 관제. 조만간 구현 → 장기 구축을 구분.</div>
+  <div class="sec-desc">4단계 타임라인. 기반 MVP → 매칭·등급 판정 → 진단·Task 배분 → 실행 관제·자동화. 각 Phase별 KPI로 진척 관리.</div>
 
   <div class="timeline fade-in">
     <div class="tl tl-1">
@@ -1257,6 +1257,7 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
         <li>랭킹 3종(상품/브랜드/키워드)</li>
         <li>자사 지표 API 연동 (4구간)</li>
         <li>abt_gap_product 1차 매칭+가격갭</li>
+        <li>SRP + Gap 대시보드 초안</li>
       </ul>
       <div style="margin-top:14px;padding-top:14px;border-top:1px solid color-mix(in srgb,var(--blue) 20%,transparent)">
         <div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);font-weight:700;margin-bottom:8px">완료 현황</div>
@@ -1264,15 +1265,18 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
           <li style="font-size:12px">Albatross 크롤러 11개 사이트 운영</li>
           <li style="font-size:12px">네이버 판매순 대/중분류 수집</li>
           <li style="font-size:12px">리뷰 수 · 평점 수집 확인</li>
+          <li style="font-size:12px">검색·전시팀 협의 (랭킹 부스팅)</li>
         </ul>
       </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--blue);font-weight:600">KPI — 데이터 충족률</div>
     </div>
     <div class="tl tl-2">
       <div class="tl-phase">AUG · Phase 2</div>
-      <div class="tl-name">매칭 · 인기도</div>
+      <div class="tl-name">매칭 · 등급 판정</div>
       <div class="tl-period">8월</div>
       <ul class="tl-items">
         <li>MATCH_TIER/SCORE 튜닝</li>
+        <li>Gap 기반 S/A/B/C 등급 판정</li>
         <li>통합 인기도 Score baseline</li>
         <li>SELECTION_GAP (Missing SKU)</li>
       </ul>
@@ -1281,46 +1285,52 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
         <ul class="tl-items" style="gap:5px">
           <li style="font-size:12px">다채널 상품 통합 (Dedup)</li>
           <li style="font-size:12px">11번가 상품 매칭 (AX 모듈)</li>
-          <li style="font-size:12px">통합 랭킹 산출 엔진</li>
+          <li style="font-size:12px">거래 비중 KPI 전환</li>
+          <li style="font-size:12px">가져왔나·팔렸나 리포팅 체계</li>
         </ul>
       </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--purple);font-weight:600">KPI — 거래 비중</div>
     </div>
     <div class="tl tl-3">
       <div class="tl-phase">SEP–OCT · Phase 3</div>
-      <div class="tl-name">진단 고도화</div>
+      <div class="tl-name">진단 · Task 배분</div>
       <div class="tl-period">9–10월</div>
       <ul class="tl-items">
         <li>IMPACT_SCORE (기회손실 GMV)</li>
         <li>6대 축 STATUS_TAG 신호등</li>
-        <li>채널 확대·가중치 정교화</li>
-        <li>전시·검색 부스팅 파일럿</li>
+        <li>조직별 Daily/Weekly Task 자동 생성</li>
+        <li>조직장 운영 방향 입력 + 가중치 반영</li>
       </ul>
       <div style="margin-top:14px;padding-top:14px;border-top:1px solid color-mix(in srgb,var(--teal) 20%,transparent)">
         <div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:8px">연동 시스템 · MCP</div>
         <ul class="tl-items" style="gap:5px">
           <li style="font-size:12px"><strong>가격 MCP</strong> — Gap 기반 자동 가격 조정</li>
           <li style="font-size:12px"><strong>편성 · 광고 MCP</strong> — 딜 편성 + CPC 연동</li>
+          <li style="font-size:12px"><strong>MD Task 시스템</strong> — 티어별 우선순위 배분</li>
         </ul>
       </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--teal);font-weight:600">KPI — Task 생성 정확도</div>
     </div>
     <div class="tl tl-4">
       <div class="tl-phase">NOV · Phase 4</div>
-      <div class="tl-name">실행 관제</div>
+      <div class="tl-name">실행 관제 · 자동화</div>
       <div class="tl-period">11월</div>
       <ul class="tl-items">
-        <li>MCP 액션 연동 (진단→실행)</li>
-        <li>UV·노출·클릭 반영</li>
-        <li>검색·전시·SO 표준 서비스</li>
+        <li>MD별 Task Accept/Reject + Reject 2개월 미노출</li>
+        <li>전사 행사 일정 연동 (그랜드십일절/페스타)</li>
+        <li>편성·노출 자동화 (딜카드·CPC)</li>
+        <li>UV·노출·클릭 성과 트래킹</li>
       </ul>
       <div style="margin-top:14px;padding-top:14px;border-top:1px solid color-mix(in srgb,var(--red) 20%,transparent)">
         <div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:8px">연동 시스템 · MCP</div>
         <ul class="tl-items" style="gap:5px">
-          <li style="font-size:12px"><strong>MD Task 시스템</strong> — 티어별 자동 배분</li>
-          <li style="font-size:12px"><strong>검색 · 전시 API</strong> — 실시간 연동</li>
+          <li style="font-size:12px"><strong>검색 · 전시 API</strong> — 부스팅 실시간 연동</li>
           <li style="font-size:12px"><strong>SO (SellerOffice)</strong> — 360 뷰 + 액션</li>
           <li style="font-size:12px"><strong>정산 API</strong> — 쿠폰 자동 실행</li>
+          <li style="font-size:12px"><strong>성과 F/B 루프</strong> — Reject 사유 → 추천 로직 고도화</li>
         </ul>
       </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--red);font-weight:600">KPI — 최적 SKU 검증 · MD 채택률</div>
     </div>
   </div>
 
