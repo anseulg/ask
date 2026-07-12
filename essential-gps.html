@@ -356,7 +356,6 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.7;-
 .result-text{flex:1}
 .score-val{font-family:var(--fm);font-size:34px;font-weight:700;font-variant-numeric:tabular-nums;transition:color .3s}
 .score-label{font-size:13px;color:var(--tx3);margin-top:3px}
-.sim-ring{flex-shrink:0}
 
 /* preset buttons for simulator */
 .sim-data-status{font-size:12px;font-weight:600;padding:8px 14px;border-radius:var(--rs);margin-bottom:12px;line-height:1.5;display:none}
@@ -612,9 +611,6 @@ html{scroll-behavior:smooth}
 @keyframes dataPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(52,199,89,.4)}50%{opacity:.6;box-shadow:0 0 0 8px rgba(52,199,89,0)}}
 
 /* animated score meter arc */
-.score-arc{position:relative;display:inline-block}
-.score-arc canvas{display:block}
-.score-arc-label{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-family:var(--fm);font-size:20px;font-weight:800;font-variant-numeric:tabular-nums}
 
 /* interactive heatmap grid */
 .heatmap{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;margin:20px 0}
@@ -670,9 +666,6 @@ html{scroll-behavior:smooth}
 .shake{animation:shakeIt .5s ease-in-out}
 @keyframes shakeIt{0%,100%{transform:translateX(0)}10%,30%,50%,70%,90%{transform:translateX(-3px)}20%,40%,60%,80%{transform:translateX(3px)}}
 
-/* score breakdown interactive donut */
-.donut-wrap{position:relative;cursor:pointer}
-.donut-tooltip{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;font-size:11px;font-weight:600;color:var(--tx2);pointer-events:none;transition:all .3s}
 
 /* keyboard nav indicator */
 .kbd-hint{position:fixed;bottom:24px;left:24px;z-index:900;display:flex;gap:6px;opacity:0;transition:opacity .3s;pointer-events:none}
@@ -1571,7 +1564,6 @@ html{scroll-behavior:smooth}
         <div class="score-val" id="sim-score">69.8</div>
         <div class="score-label" id="sim-label">&#51452;&#44036; &#44284;&#51228; &#8212; &#54532;&#47196;&#47784;&#49496; &#183; &#47532;&#48624; &#48512;&#49828;&#54021; (SLA 7&#51068;)</div>
       </div>
-      <div class="sim-ring"><canvas id="ringCanvas" width="80" height="80"></canvas></div>
     </div>
   </div>
 </div>
@@ -2021,7 +2013,7 @@ function calcGPS(){
     se.textContent='N/A';
     le.textContent='\u{B370}\u{C774}\u{D130} \u{BD80}\u{C7AC} \u{2014} \u{CD95}\u{BCC4} \u{B370}\u{C774}\u{D130} \u{CCB4}\u{D06C}\u{BC15}\u{C2A4}\u{B97C} \u{D65C}\u{C131}\u{D654}\u{D558}\u{C138}\u{C694}';
     var vals=[];for(var i=0;i<6;i++){vals.push(0)}
-    drawRing(0);drawRadar(vals);
+    drawRadar(vals);
     prevGrade='';
     for(var i=0;i<6;i++){document.getElementById('wt-'+i).textContent='0%'}
     return;
@@ -2069,7 +2061,7 @@ function calcGPS(){
   if(grade==='S'&&prevGrade!=='S')fireConfetti();
   prevGrade=grade;
   ge.style.transform='scale(1.2)';setTimeout(function(){ge.style.transform=''},300);
-  drawRing(+r);drawRadar(vals);
+  drawRadar(vals);
 }
 
 // confetti burst on S tier
@@ -2099,15 +2091,6 @@ function fireConfetti(){
   draw();
 }
 
-function drawRing(s){
-  var cv=document.getElementById('ringCanvas');if(!cv)return;
-  var ctx=cv.getContext('2d'),ctr=40,rad=32,lw=6;
-  ctx.clearRect(0,0,80,80);
-  var cs=getComputedStyle(document.documentElement);
-  ctx.beginPath();ctx.arc(ctr,ctr,rad,0,Math.PI*2);ctx.strokeStyle=cs.getPropertyValue('--sf3').trim()||'#eee';ctx.lineWidth=lw;ctx.stroke();
-  var col;if(s>=85)col=cs.getPropertyValue('--red').trim();else if(s>=65)col=cs.getPropertyValue('--orange').trim();else if(s>=40)col=cs.getPropertyValue('--blue').trim();else col=cs.getPropertyValue('--txm').trim();
-  ctx.beginPath();ctx.arc(ctr,ctr,rad,-Math.PI/2,-Math.PI/2+(s/100)*Math.PI*2);ctx.strokeStyle=col;ctx.lineWidth=lw;ctx.lineCap='round';ctx.stroke();
-}
 
 function drawRadar(vals){
   var cv=document.getElementById('radarCanvas');if(!cv)return;
@@ -2285,28 +2268,6 @@ document.querySelectorAll('.sig,.sim,.summary,.zone,.expo-card,.eng-item').forEa
   });
 });
 
-// interactive score breakdown donut in simulator
-(function(){
-  var rc=document.getElementById('ringCanvas');
-  if(!rc)return;
-  rc.addEventListener('click',function(e){
-    var r=rc.getBoundingClientRect();
-    var cx=r.width/2,cy=r.height/2;
-    var dx=e.clientX-r.left-cx,dy=e.clientY-r.top-cy;
-    var angle=Math.atan2(dy,dx)+Math.PI/2;
-    if(angle<0)angle+=Math.PI*2;
-    var idx=Math.floor(angle/(Math.PI*2)*6)%6;
-    var tooltip=document.getElementById('compareTooltip');
-    if(tooltip){
-      var v=document.getElementById('sl-'+idx).value;
-      tooltip.innerHTML=axLabels[idx]+': <strong>'+v+'</strong> ('+weights[idx]*100+'%)';
-      tooltip.style.left=(e.clientX+10)+'px';
-      tooltip.style.top=(e.clientY-30)+'px';
-      tooltip.classList.add('show');
-      setTimeout(function(){tooltip.classList.remove('show')},2000);
-    }
-  });
-})();
 
 // compare tooltip on gap bars
 document.querySelectorAll('.gap-bar').forEach(function(bar){
@@ -2463,38 +2424,6 @@ document.querySelectorAll('.sig-act').forEach(function(el,i){
   }
 })();
 
-// animated score arc for simulator
-(function(){
-  var simResult=document.querySelector('.sim-result');
-  if(!simResult)return;
-  var arcWrap=document.createElement('div');
-  arcWrap.className='score-arc';
-  var arcCanvas=document.createElement('canvas');
-  arcCanvas.id='arcCanvas';arcCanvas.width=100;arcCanvas.height=60;
-  arcWrap.appendChild(arcCanvas);
-  simResult.insertBefore(arcWrap,simResult.querySelector('.sim-ring'));
-
-  var origCalc=window.calcGPS;
-  var newCalc=function(){
-    origCalc();
-    var score=parseFloat(document.getElementById('sim-score').textContent);
-    var ctx=arcCanvas.getContext('2d');
-    ctx.clearRect(0,0,100,60);
-    var cx=50,cy=55,rad=40;
-    var cs=getComputedStyle(document.documentElement);
-    ctx.beginPath();ctx.arc(cx,cy,rad,Math.PI,0);
-    ctx.strokeStyle=cs.getPropertyValue('--sf3').trim()||'#eee';ctx.lineWidth=6;ctx.lineCap='round';ctx.stroke();
-    var col;
-    if(score>=85)col=cs.getPropertyValue('--red').trim();
-    else if(score>=65)col=cs.getPropertyValue('--orange').trim();
-    else if(score>=40)col=cs.getPropertyValue('--blue').trim();
-    else col=cs.getPropertyValue('--txm').trim();
-    ctx.beginPath();ctx.arc(cx,cy,rad,Math.PI,Math.PI+(score/100)*Math.PI);
-    ctx.strokeStyle=col;ctx.lineWidth=6;ctx.lineCap='round';ctx.stroke();
-  };
-  window.calcGPS=newCalc;
-  newCalc();
-})();
 
 // sparklines on KPI cards
 (function(){
