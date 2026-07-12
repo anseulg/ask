@@ -1093,55 +1093,55 @@ html{scroll-behavior:smooth}
 .arch-col-group-label{font-size:8px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--txm);margin-bottom:2px;font-family:var(--f)}
 @media(max-width:700px){.arch-tbls{grid-template-columns:1fr}.arch-gps-output{grid-template-columns:repeat(2,1fr)}.arch-gps-cell{border-bottom:1px solid var(--bd)}.arch-gps-cell:nth-child(2)::after{display:none}}
 
-/* progress grid */
-.progress-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.prog-card{padding:24px;position:relative;overflow:hidden}
-.prog-status-bar{height:3px;position:absolute;top:0;left:0;right:0}
-.prog-phase{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--txm);margin-bottom:6px;margin-top:6px}
-.prog-title{font-size:17px;font-weight:700;margin-bottom:14px}
-.prog-detail{display:flex;flex-direction:column;gap:4px;margin-bottom:14px}
-.prog-check{font-size:13px;color:var(--green);line-height:1.7;padding-left:4px}
-.prog-wip{font-size:13px;color:var(--blue);line-height:1.7;padding-left:4px}
-.prog-todo{font-size:13px;color:var(--txm);line-height:1.7;padding-left:4px}
-.prog-badge{font-size:11px;font-weight:700;padding:4px 14px;border-radius:100px;display:inline-block}
-.prog-done{border:2px solid var(--green);box-shadow:0 0 16px rgba(52,199,89,.1)}
-.prog-active{border:2px solid var(--blue);box-shadow:0 0 16px rgba(0,113,227,.1)}
+/* status & roadmap — flow layout */
+.sr-stats{display:flex;gap:0;margin-bottom:32px;border:1px solid var(--bd);border-radius:var(--rs);overflow:hidden;background:var(--sf)}
+.sr-stat{flex:1;padding:16px 20px;text-align:center;border-right:1px solid var(--bd);position:relative}
+.sr-stat:last-child{border-right:none}
+.sr-stat-val{font-size:26px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1}
+.sr-stat-label{font-size:11px;font-weight:700;color:var(--tx3);margin-top:5px;letter-spacing:.02em}
 
-/* mvp timeline */
-.mvp-timeline{display:flex;gap:0;align-items:stretch;flex-wrap:wrap}
-.mvp-phase{flex:1;min-width:240px;padding:24px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);position:relative;overflow:hidden}
-.mvp-current{border:2px solid var(--blue);box-shadow:0 0 20px rgba(0,113,227,.1)}
-.mvp-current::after{content:'NOW';position:absolute;top:10px;right:10px;font-size:10px;font-weight:800;color:#fff;background:var(--blue);padding:2px 8px;border-radius:100px}
-.mvp-next{opacity:.85}.mvp-future{opacity:.7}
-.mvp-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.mvp-date{font-size:13px;font-weight:700;color:var(--tx)}
-.mvp-label{font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px;background:var(--sf2);color:var(--txm)}
-.mvp-label-now{background:var(--blue);color:#fff}
-.mvp-title{font-size:17px;font-weight:700;margin-bottom:12px}
-.mvp-scope{margin-bottom:12px}
-.mvp-axis-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
-.mvp-axis{font-size:13px;font-weight:600;color:var(--tx2);display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:var(--rs);background:var(--sf2);border:1px solid var(--bd)}
-.mvp-axis-on{border-color:var(--blue);background:rgba(0,113,227,.05)}
-.mvp-axis-cross{border-color:var(--purple);background:rgba(191,90,242,.05)}
-.mvp-axis-plan{border-style:dashed}
-.mvp-ax-icon{display:none}
-.mvp-deliverables{display:flex;flex-direction:column;gap:3px}
-.mvp-del{font-size:13px;color:var(--green);line-height:1.7}
-.mvp-del-plan{font-size:13px;color:var(--txm);line-height:1.7}
-.mvp-kpi{font-size:11px;font-weight:600;color:var(--txm);padding:6px 12px;background:var(--sf2);border-radius:var(--rs);display:inline-block}
-.mvp-connector{display:flex;align-items:center;padding:0 4px;flex-shrink:0}
-.mvp-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
-.mvp-sum-card{padding:20px;text-align:center}
-.mvp-sum-icon{display:none}
-.mvp-sum-val{font-size:28px;font-weight:800;font-variant-numeric:tabular-nums;margin-bottom:4px}
-.mvp-sum-label{font-size:12px;color:var(--txm)}
+.sr-flow{position:relative;padding-left:28px}
+.sr-flow::before{content:'';position:absolute;left:11px;top:0;bottom:0;width:2px;background:var(--bd)}
+.sr-node{position:relative;padding:0 0 36px 28px}
+.sr-node:last-child{padding-bottom:0}
+.sr-dot{position:absolute;left:-28px;top:2px;width:22px;height:22px;border-radius:50%;border:2px solid var(--bd);background:var(--sf);display:flex;align-items:center;justify-content:center;z-index:2}
+.sr-dot-inner{width:10px;height:10px;border-radius:50%}
+.sr-node-done .sr-dot{border-color:var(--green)}.sr-node-done .sr-dot-inner{background:var(--green)}
+.sr-node-active .sr-dot{border-color:var(--blue);box-shadow:0 0 0 4px rgba(0,113,227,.12)}.sr-node-active .sr-dot-inner{background:var(--blue);animation:nodePulse 2s ease-in-out infinite}
+.sr-node-plan .sr-dot{border-style:dashed;border-color:var(--txm)}.sr-node-plan .sr-dot-inner{background:var(--sf3)}
+@keyframes nodePulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+.sr-head{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.sr-phase{font-size:18px;font-weight:800;color:var(--tx);letter-spacing:-.02em}
+.sr-tag{font-size:10px;font-weight:800;padding:3px 10px;border-radius:100px;letter-spacing:.03em;text-transform:uppercase}
+.sr-tag-done{background:rgba(52,199,89,.1);color:var(--green)}
+.sr-tag-active{background:rgba(0,113,227,.1);color:var(--blue)}
+.sr-tag-plan{background:var(--sf2);color:var(--txm)}
+.sr-date{font-size:12px;font-weight:700;color:var(--txm);margin-left:auto;font-variant-numeric:tabular-nums}
+
+.sr-items{display:flex;flex-wrap:wrap;gap:4px 16px;margin-bottom:8px}
+.sr-item{font-size:13px;line-height:1.7;letter-spacing:-.01em;display:flex;align-items:baseline;gap:5px}
+.sr-item::before{content:'';width:4px;height:4px;border-radius:50%;flex-shrink:0;margin-top:8px}
+.sr-node-done .sr-item::before{background:var(--green)}
+.sr-node-active .sr-item{color:var(--tx2)}
+.sr-node-active .sr-item-done::before{background:var(--green)}
+.sr-node-active .sr-item-wip::before{background:var(--blue)}
+.sr-node-active .sr-item-todo::before{background:var(--sf3)}
+.sr-node-active .sr-item-todo{color:var(--txm)}
+.sr-node-plan .sr-item{color:var(--txm)}
+.sr-node-plan .sr-item::before{background:var(--sf3)}
+
+.sr-axes{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.sr-ax{font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;letter-spacing:-.01em}
+.sr-ax-on{background:rgba(0,113,227,.06);color:var(--blue);border:1px solid rgba(0,113,227,.15)}
+.sr-ax-plan{background:var(--sf2);color:var(--txm);border:1px dashed var(--bd)}
+
+.sr-kpi{font-size:11px;font-weight:700;color:var(--txm);letter-spacing:.01em}
 
 @media(max-width:640px){
   .sys-nodes{grid-template-columns:1fr}
-  .progress-grid{grid-template-columns:1fr}
-  .mvp-timeline{flex-direction:column}
-  .mvp-connector{transform:rotate(90deg);padding:8px 0}
-  .mvp-summary{grid-template-columns:repeat(2,1fr)}
+  .sr-stats{flex-wrap:wrap}.sr-stat{min-width:50%;border-bottom:1px solid var(--bd)}
+  .sr-items{flex-direction:column;gap:2px}
 }
 </style>
 
@@ -1898,150 +1898,94 @@ html{scroll-behavior:smooth}
 <div class="sec rv" id="s-progress">
   <div class="eyebrow">Status &amp; Roadmap</div>
   <div class="sec-title">&#54788;&#51116; &#51652;&#54665; &#54788;&#54889; &amp; &#48176;&#54252; &#47196;&#46300;&#47605;</div>
-  <div class="sec-desc"><strong>&#49828;&#54169; &#49444;&#44228; 7/7 &#50756;&#47308;</strong> &#8594; &#54788;&#51116; MVP &#44060;&#48156; &#51652;&#54665; &#51473;. &#44032;&#44201;&#52629;&#183;&#47532;&#48624;&#52629; &#50864;&#49440; &#48176;&#54252; &#54980; 11&#50900; &#51204;&#52629; &#50868;&#50689;&#44620;&#51648; &#49692;&#52264; &#54869;&#51109;&#54633;&#45768;&#45796;.</div>
+  <div class="sec-desc"><strong>&#49828;&#54169; 7/7 &#50756;&#47308;</strong> &#8594; MVP &#44060;&#48156; &#51652;&#54665; &#51473;. &#44032;&#44201;&#52629;&#183;&#47532;&#48624;&#52629; &#50864;&#49440; &#48176;&#54252; &#54980; 11&#50900; &#51204;&#52629; &#50868;&#50689;&#44620;&#51648; &#49692;&#52264; &#54869;&#51109;.</div>
 
-  <div class="mvp-summary stg rv">
-    <div class="card mvp-sum-card">
-      <div class="mvp-sum-val" style="color:var(--green)">7/7</div>
-      <div class="mvp-sum-label">&#49828;&#54169; &#47928;&#49436; &#50756;&#47308;</div>
-    </div>
-    <div class="card mvp-sum-card">
-      <div class="mvp-sum-val" style="color:var(--blue)">2/6&#52629;</div>
-      <div class="mvp-sum-label">MVP &#52629; &#48176;&#54252; &#50696;&#51221;</div>
-    </div>
-    <div class="card mvp-sum-card">
-      <div class="mvp-sum-val" style="color:var(--purple)">7&#50900; &#47568;</div>
-      <div class="mvp-sum-label">MVP &#48176;&#54252; &#47785;&#54364;</div>
-    </div>
-    <div class="card mvp-sum-card">
-      <div class="mvp-sum-val" style="color:var(--orange)">11&#50900;</div>
-      <div class="mvp-sum-label">&#51204;&#52629; &#50868;&#50689; &#47785;&#54364;</div>
-    </div>
+  <div class="sr-stats stg rv">
+    <div class="sr-stat"><div class="sr-stat-val" style="color:var(--green)">7/7</div><div class="sr-stat-label">&#49828;&#54169; &#50756;&#47308;</div></div>
+    <div class="sr-stat"><div class="sr-stat-val" style="color:var(--blue)">2/6</div><div class="sr-stat-label">&#52629; &#48176;&#54252; &#50696;&#51221;</div></div>
+    <div class="sr-stat"><div class="sr-stat-val" style="color:var(--purple)">7&#50900;</div><div class="sr-stat-label">MVP &#47785;&#54364;</div></div>
+    <div class="sr-stat"><div class="sr-stat-val" style="color:var(--orange)">11&#50900;</div><div class="sr-stat-label">&#51204;&#52629; &#50868;&#50689;</div></div>
   </div>
 
-  <div style="font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--tx3);margin:32px 0 14px">&#51652;&#54665; &#49345;&#53468;</div>
-  <div class="progress-grid stg rv">
-    <div class="card prog-card prog-done">
-      <div class="prog-status-bar" style="background:var(--green)"></div>
-      <div class="prog-phase">&#50756;&#47308;</div>
-      <div class="prog-title">&#49444;&#44228;&#183;&#49828;&#54169; &#47928;&#49436;</div>
-      <div class="prog-detail">
-        <div class="prog-check">&#10003; GPS &#54532;&#47112;&#51076;&#50892;&#53356; &#49444;&#44228; (6&#45824;&#52629; + S/A/B/C)</div>
-        <div class="prog-check">&#10003; &#54000;&#50612;&#48324; &#44032;&#51473;&#52824;&#183;&#50724;&#48260;&#46972;&#51060;&#46300;&#183;SLA &#51221;&#51032;</div>
-        <div class="prog-check">&#10003; &#50529;&#49496; &#53468;&#49828;&#53356; &#47588;&#53944;&#47533;&#49828; (37&#44060; &#8594; 22&#44060; &#53685;&#54633;)</div>
-        <div class="prog-check">&#10003; &#48177;&#50644;&#46300; &#44032;&#51473;&#52824; &#50644;&#51652; &#49828;&#54169;</div>
-        <div class="prog-check">&#10003; &#45936;&#51060;&#53552; &#54028;&#51060;&#54532;&#46972;&#51064;&#183;&#51088;&#46041;&#47588;&#52845; &#49444;&#44228;</div>
-        <div class="prog-check">&#10003; &#54588;&#46300;&#48177;&#183;&#50892;&#53356;&#47196;&#46300;&#183;&#46972;&#51060;&#54532;&#49324;&#51060;&#53364; &#49444;&#44228;</div>
-        <div class="prog-check">&#10003; &#45936;&#51060;&#53552; &#51221;&#51032;&#49436; (138&#44060; &#54637;&#47785;)</div>
+  <div class="sr-flow stg rv">
+    <div class="sr-node sr-node-done">
+      <div class="sr-dot"><div class="sr-dot-inner"></div></div>
+      <div class="sr-head">
+        <div class="sr-phase">&#49444;&#44228;&#183;&#49828;&#54169; &#47928;&#49436;</div>
+        <div class="sr-tag sr-tag-done">&#50756;&#47308;</div>
+        <div class="sr-date">~6&#50900;</div>
       </div>
-      <div class="prog-badge" style="background:var(--green);color:#fff">7/7 &#50756;&#47308;</div>
-    </div>
-    <div class="card prog-card prog-active">
-      <div class="prog-status-bar" style="background:var(--blue)"></div>
-      <div class="prog-phase">&#51652;&#54665;&#51473;</div>
-      <div class="prog-title">MVP &#44060;&#48156;</div>
-      <div class="prog-detail">
-        <div class="prog-check">&#10003; &#51088;&#49324; &#46356;&#49828;&#52964;&#48260;&#47532; &#45936;&#51060;&#53552; 1&#52264; &#51201;&#51116;</div>
-        <div class="prog-check">&#10003; &#50808;&#48512; &#53356;&#47204;&#47553; &#54028;&#51060;&#54532;&#46972;&#51064;</div>
-        <div class="prog-wip">&#9654; SRP + Gap &#45824;&#49884;&#48372;&#46300; &#44396;&#54788;</div>
-        <div class="prog-wip">&#9654; &#44032;&#44201;&#52629;&#183;&#47532;&#48624;&#52629; Gap &#47196;&#51649; &#44160;&#51613;</div>
-        <div class="prog-todo">&#9675; &#44160;&#49353;&#54016; &#47021;&#53433; &#48512;&#49828;&#54021; &#48120;&#54021;</div>
-        <div class="prog-todo">&#9675; &#51204;&#49884;(&#54200;&#49457;)&#54016; &#48120;&#54021;</div>
+      <div class="sr-items">
+        <div class="sr-item">GPS &#54532;&#47112;&#51076;&#50892;&#53356; &#49444;&#44228; (6&#45824;&#52629; + S/A/B/C)</div>
+        <div class="sr-item">&#54000;&#50612;&#48324; &#44032;&#51473;&#52824;&#183;&#50724;&#48260;&#46972;&#51060;&#46300;&#183;SLA &#51221;&#51032;</div>
+        <div class="sr-item">&#50529;&#49496; &#53468;&#49828;&#53356; &#47588;&#53944;&#47533;&#49828; 37&#44060;</div>
+        <div class="sr-item">&#48177;&#50644;&#46300; &#50644;&#51652; + &#54028;&#51060;&#54532;&#46972;&#51064; + &#45936;&#51060;&#53552; &#51221;&#51032;&#49436; 138&#44060;</div>
       </div>
-      <div class="prog-badge" style="background:var(--blue);color:#fff">&#44060;&#48156;&#51088; 3&#51064; &#53804;&#51077;</div>
-    </div>
-    <div class="card prog-card">
-      <div class="prog-status-bar" style="background:var(--txm)"></div>
-      <div class="prog-phase">&#50696;&#51221;</div>
-      <div class="prog-title">&#54801;&#51032;&#183;&#44160;&#51613;</div>
-      <div class="prog-detail">
-        <div class="prog-todo">&#9675; &#44160;&#49353;&#54016; &#47021;&#53433; &#48512;&#49828;&#54021; &#48120;&#54021;</div>
-        <div class="prog-todo">&#9675; &#51204;&#49884;(&#54200;&#49457;)&#54016; &#48120;&#54021;</div>
-        <div class="prog-todo">&#9675; Gap &#47196;&#51649; &#44160;&#51613;</div>
-        <div class="prog-todo">&#9675; 7/4&#51452; &#44208;&#44284;&#47932; &#47560;&#44048;</div>
-      </div>
-      <div class="prog-badge" style="background:var(--sf3);color:var(--tx3)">&#45812;&#45817; MD = &#50689;&#50629;</div>
-    </div>
-  </div>
-
-  <div style="font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--tx3);margin:36px 0 14px;padding-top:24px;border-top:1px solid var(--sf2)">&#48176;&#54252; &#47196;&#46300;&#47605; &#8212; 7&#50900; MVP &#8594; 11&#50900; &#51204;&#52629; &#50868;&#50689;</div>
-  <div class="mvp-timeline stg rv">
-    <div class="mvp-phase mvp-current">
-      <div class="mvp-header">
-        <div class="mvp-date">7&#50900; &#47568;</div>
-        <div class="mvp-label mvp-label-now">MVP &#48176;&#54252;</div>
-      </div>
-      <div class="mvp-title">&#46028;&#50500;&#44032;&#45716; &#52572;&#49548; &#48260;&#51204;</div>
-      <div class="mvp-scope">
-        <div class="mvp-axis-row">
-          <div class="mvp-axis mvp-axis-on">&#44032;&#44201; 25%</div>
-          <div class="mvp-axis mvp-axis-on">&#47532;&#48624; 15%</div>
-          <div class="mvp-axis mvp-axis-cross">&#48288;&#49828;&#53944;&#49692;&#50948; (&#44368;&#52264;)</div>
-        </div>
-        <div class="mvp-deliverables">
-          <div class="mvp-del">&#10003; &#44032;&#44201; PCI Gap &#8594; S/A/B/C &#54032;&#51221;</div>
-          <div class="mvp-del">&#10003; &#47532;&#48624; Gap (&#54217;&#51216;&#183;&#44148;&#49688;&#183;&#48512;&#51221;&#48708;&#50984;)</div>
-          <div class="mvp-del">&#10003; SRP + Gap &#45824;&#49884;&#48372;&#46300;</div>
-          <div class="mvp-del">&#10003; &#50808;&#48512; &#53356;&#47204;&#47553; &#54028;&#51060;&#54532;&#46972;&#51064;</div>
-          <div class="mvp-del">&#10003; &#44592;&#48376; &#50529;&#49496; &#53468;&#49828;&#53356; &#48176;&#51221;</div>
-        </div>
-      </div>
-      <div class="mvp-kpi">KPI: &#44032;&#44201; Gap &#52649;&#51313;&#47456; + &#47532;&#48624; &#51025;&#45813;&#47456; &#44060;&#49440;</div>
     </div>
 
-    <div class="mvp-connector">
-      <svg width="40" height="2" viewBox="0 0 40 2"><line x1="0" y1="1" x2="40" y2="1" stroke="var(--bd)" stroke-width="2" stroke-dasharray="4 4"/></svg>
+    <div class="sr-node sr-node-active">
+      <div class="sr-dot"><div class="sr-dot-inner"></div></div>
+      <div class="sr-head">
+        <div class="sr-phase">MVP &#44060;&#48156; &#8212; &#44032;&#44201; + &#47532;&#48624;</div>
+        <div class="sr-tag sr-tag-active">&#51652;&#54665;&#51473;</div>
+        <div class="sr-date">7&#50900; &#47568;</div>
+      </div>
+      <div class="sr-axes">
+        <div class="sr-ax sr-ax-on">&#44032;&#44201; 25%</div>
+        <div class="sr-ax sr-ax-on">&#47532;&#48624; 15%</div>
+      </div>
+      <div class="sr-items">
+        <div class="sr-item sr-item-done">&#51088;&#49324; &#46356;&#49828;&#52964;&#48260;&#47532; &#45936;&#51060;&#53552; 1&#52264; &#51201;&#51116;</div>
+        <div class="sr-item sr-item-done">&#50808;&#48512; &#53356;&#47204;&#47553; &#54028;&#51060;&#54532;&#46972;&#51064;</div>
+        <div class="sr-item sr-item-wip">SRP + Gap &#45824;&#49884;&#48372;&#46300; &#44396;&#54788;</div>
+        <div class="sr-item sr-item-wip">&#44032;&#44201;&#52629;&#183;&#47532;&#48624;&#52629; Gap &#47196;&#51649; &#44160;&#51613;</div>
+        <div class="sr-item sr-item-todo">&#44160;&#49353;&#54016; &#47021;&#53433; &#48512;&#49828;&#54021;</div>
+        <div class="sr-item sr-item-todo">&#51204;&#49884;(&#54200;&#49457;)&#54016; &#48120;&#54021;</div>
+      </div>
+      <div class="sr-kpi">KPI: &#44032;&#44201; Gap &#52649;&#51313;&#47456; + &#47532;&#48624; &#51025;&#45813;&#47456;</div>
     </div>
 
-    <div class="mvp-phase mvp-next">
-      <div class="mvp-header">
-        <div class="mvp-date">8&#50900;</div>
-        <div class="mvp-label">&#54869;&#51109; 1</div>
+    <div class="sr-node sr-node-plan">
+      <div class="sr-dot"><div class="sr-dot-inner"></div></div>
+      <div class="sr-head">
+        <div class="sr-phase">&#54869;&#51109; 1 &#8212; &#44144;&#47000;&#183;&#46321;&#44553; &#54032;&#51221;</div>
+        <div class="sr-tag sr-tag-plan">&#44228;&#54925;</div>
+        <div class="sr-date">8&#50900;</div>
       </div>
-      <div class="mvp-title">&#44144;&#47000;&#183;&#46321;&#44553; &#54032;&#51221;</div>
-      <div class="mvp-scope">
-        <div class="mvp-axis-row">
-          <div class="mvp-axis mvp-axis-plan">&#46364;&#49892;&#51201; 20%</div>
-          <div class="mvp-axis mvp-axis-plan">&#47784;&#47704;&#53568; 15%</div>
-        </div>
-        <div class="mvp-deliverables">
-          <div class="mvp-del-plan">&#9675; &#44144;&#47000; &#48708;&#51473; KPI &#51204;&#54872;</div>
-          <div class="mvp-del-plan">&#9675; S/A/B/C &#46321;&#44553; &#51221;&#49885; &#54032;&#51221;</div>
-          <div class="mvp-del-plan">&#9675; &#46364;&#52852;&#46300; &#51060;&#48120;&#51648; &#51088;&#46041; &#49373;&#49457;</div>
-          <div class="mvp-del-plan">&#9675; &#49548;&#49905;&#183;&#54032;&#47588; &#49892;&#51201; &#47532;&#54252;&#54021;</div>
-        </div>
+      <div class="sr-axes">
+        <div class="sr-ax sr-ax-plan">&#46364;&#49892;&#51201; 20%</div>
+        <div class="sr-ax sr-ax-plan">&#47784;&#47704;&#53568; 15%</div>
       </div>
-      <div class="mvp-kpi">KPI: &#44144;&#47000; &#48708;&#51473; + &#46364;&#49892;&#51201; Gap &#44060;&#49440;</div>
+      <div class="sr-items">
+        <div class="sr-item">&#44144;&#47000; &#48708;&#51473; KPI &#51204;&#54872;</div>
+        <div class="sr-item">S/A/B/C &#46321;&#44553; &#51221;&#49885; &#54032;&#51221;</div>
+        <div class="sr-item">&#46364;&#52852;&#46300; &#51060;&#48120;&#51648; &#51088;&#46041; &#49373;&#49457;</div>
+        <div class="sr-item">&#49548;&#49905;&#183;&#54032;&#47588; &#49892;&#51201; &#47532;&#54252;&#54021;</div>
+      </div>
+      <div class="sr-kpi">KPI: &#44144;&#47000; &#48708;&#51473; + &#46364;&#49892;&#51201; Gap &#44060;&#49440;</div>
     </div>
 
-    <div class="mvp-connector">
-      <svg width="40" height="2" viewBox="0 0 40 2"><line x1="0" y1="1" x2="40" y2="1" stroke="var(--bd)" stroke-width="2" stroke-dasharray="4 4"/></svg>
-    </div>
-
-    <div class="mvp-phase mvp-future">
-      <div class="mvp-header">
-        <div class="mvp-date">9~11&#50900;</div>
-        <div class="mvp-label">&#54869;&#51109; 2</div>
+    <div class="sr-node sr-node-plan">
+      <div class="sr-dot"><div class="sr-dot-inner"></div></div>
+      <div class="sr-head">
+        <div class="sr-phase">&#54869;&#51109; 2 &#8212; &#54200;&#49457;&#183;&#45432;&#52636; &#51088;&#46041;&#54868;</div>
+        <div class="sr-tag sr-tag-plan">&#44228;&#54925;</div>
+        <div class="sr-date">9~11&#50900;</div>
       </div>
-      <div class="mvp-title">&#54200;&#49457;&#183;&#45432;&#52636; &#51088;&#46041;&#54868;</div>
-      <div class="mvp-scope">
-        <div class="mvp-axis-row">
-          <div class="mvp-axis mvp-axis-plan">&#51648;&#54364;/CVR 15%</div>
-          <div class="mvp-axis mvp-axis-plan">&#48176;&#49569; 10%</div>
-        </div>
-        <div class="mvp-deliverables">
-          <div class="mvp-del-plan">&#9675; &#45432;&#52636; &#54032;&#45800; &#51088;&#46041;&#54868;</div>
-          <div class="mvp-del-plan">&#9675; &#45796;&#51060;&#45208;&#48121;&#183;CPC &#51088;&#46041;&#54868;</div>
-          <div class="mvp-del-plan">&#9675; MD&#8596;&#54200;&#49457; &#54633;&#51032; &#53812;</div>
-          <div class="mvp-del-plan">&#9675; Gap Scoring &#51221;&#48128;&#54868;</div>
-        </div>
+      <div class="sr-axes">
+        <div class="sr-ax sr-ax-plan">&#51648;&#54364;/CVR 15%</div>
+        <div class="sr-ax sr-ax-plan">&#48176;&#49569; 10%</div>
       </div>
-      <div class="mvp-kpi">KPI: &#52572;&#51201; SKU &#44160;&#51613; + &#51204;&#52629; Gap &#50868;&#50689;</div>
+      <div class="sr-items">
+        <div class="sr-item">&#45432;&#52636; &#54032;&#45800; &#51088;&#46041;&#54868;</div>
+        <div class="sr-item">&#45796;&#51060;&#45208;&#48121;&#183;CPC &#51088;&#46041;&#54868;</div>
+        <div class="sr-item">MD&#8596;&#54200;&#49457; &#54633;&#51032; &#53812;</div>
+        <div class="sr-item">Gap Scoring &#51221;&#48128;&#54868;</div>
+      </div>
+      <div class="sr-kpi">KPI: &#52572;&#51201; SKU &#44160;&#51613; + &#51204;&#52629; 6&#52629; Gap &#50868;&#50689;</div>
     </div>
   </div>
 </div>
-
-<div class="section-connector"><svg width="2" height="32" viewBox="0 0 2 32"><line x1="1" y1="0" x2="1" y2="32" stroke="var(--bd)" stroke-width="2" stroke-dasharray="4 4"/></svg></div>
 
 <div class="summary rv">
   <p><span class="gradient-text">&#51088;&#49324; &#46356;&#49828;&#52964;&#48260;&#47532;</span>&#50752; <span class="gradient-text">&#50808;&#48512; &#44221;&#51137; &#45936;&#51060;&#53552;</span>&#47484; &#48708;&#44368;&#54644; Gap&#51012; &#49328;&#52636;&#54616;&#44256;<br><span class="gradient-text">S/A/B/C &#46321;&#44553;</span>&#51004;&#47196; &#52852;&#53580;&#44256;&#47532;&#48324; &#52572;&#50864;&#49440; &#49892;&#54665; &#44284;&#51228;&#47484; &#46020;&#52636;&#54633;&#45768;&#45796;</p>
