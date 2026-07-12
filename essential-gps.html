@@ -974,7 +974,6 @@ html{scroll-behavior:smooth}
 <nav class="side-nav" id="sideNav">
   <a href="#s-gps" data-label="GPS"></a>
   <a href="#s-arch" data-label="Architecture"></a>
-  <a href="#s-roles" data-label="Roles"></a>
   <a href="#s-data" data-label="Data"></a>
   <a href="#s-gap" data-label="Gap"></a>
   <a href="#s-scoring" data-label="Scoring"></a>
@@ -1267,37 +1266,6 @@ html{scroll-behavior:smooth}
     </div>
   </div>
   <div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 16px;background:var(--sf2);border-radius:var(--rs);border:1px solid var(--bd)" class="stg rv">&#8635; &#49892;&#54665; &#44208;&#44284;&#44032; &#45796;&#49884; Gap &#51652;&#45800;&#51004;&#47196; &#49692;&#54872; &mdash; &#46321;&#44553;&middot;&#53468;&#49828;&#53356;&#44032; &#51648;&#49549; &#44081;&#49888;</div>
-</div>
-
-<div class="sec rv" id="s-roles">
-  <div class="eyebrow">Role &amp; Execution Flow</div>
-  <div class="sec-title">&#50529;&#53552;&#48324; &#50669;&#54624; &#51204;&#54872; &#8212; &#45572;&#44032; &#47924;&#50631;&#51012; &#54616;&#45716;&#44032;</div>
-  <div class="role-unified stg rv">
-    <div class="role-uni-row">
-      <div class="role-uni-actor"><span class="role-uni-dot" style="background:var(--blue)"></span><span class="role-uni-name">&#49884;&#49828;&#53596;</span></div>
-      <div class="role-uni-transition"><div class="role-uni-asis"><span class="role-tag rt-old">AS-IS</span>&#45800;&#49692; &#45936;&#51060;&#53552; &#51312;&#54924;, MD&#44032; &#51649;&#51217; &#44160;&#49353;&#183;&#48516;&#49437;</div><div class="role-uni-arrow">&#8594;</div><div class="role-uni-tobe"><span class="role-tag rt-new">TO-BE</span><b>&#51088;&#49324; vs &#50808;&#48512; Gap &#48516;&#49437;</b> + <b>S/A/B/C &#51088;&#46041; &#49828;&#53076;&#50612;&#47553;</b></div></div>
-      <div class="role-uni-steps">
-        <div class="role-uni-step" style="--step-c:var(--blue)"><span class="role-uni-num">P1</span><div><div class="role-uni-step-title">&#51088;&#49324; &#49688;&#51665;</div><div class="role-uni-step-desc">BIDB &#47560;&#53944;&#50640;&#49436; &#44208;&#51228;&#44148;&#49688;, &#44144;&#47000;&#50529;, &#44032;&#44201;, &#47532;&#48624;, &#48176;&#49569; &#45936;&#51060;&#53552; &#49688;&#51665;</div></div></div>
-        <div class="role-uni-step" style="--step-c:var(--purple)"><span class="role-uni-num">P2</span><div><div class="role-uni-step-title">&#50808;&#48512; &#44221;&#51137; &#49688;&#51665;</div><div class="role-uni-step-desc">Albatross Crawling&#51004;&#47196; &#44221;&#51137;&#49324; &#44032;&#44201;&#183;&#47532;&#48624;&#183;SKU&#183;&#53944;&#47116;&#46300; &#49688;&#51665;</div></div></div>
-        <div class="role-uni-step" style="--step-c:var(--indigo)"><span class="role-uni-num">P3</span><div><div class="role-uni-step-title">Gap &#48516;&#49437; &amp; &#49828;&#53076;&#50612;&#47553;</div><div class="role-uni-step-desc">&#51088;&#49324; vs &#50808;&#48512; 6&#52629; &#48708;&#44368; &#8594; S/A/B/C &#46321;&#44553; &#51088;&#46041; &#48512;&#50668;</div></div></div>
-      </div>
-    </div>
-    <div class="role-uni-row">
-      <div class="role-uni-actor"><span class="role-uni-dot" style="background:var(--green)"></span><span class="role-uni-name">&#51312;&#51649;&#51109;</span></div>
-      <div class="role-uni-transition"><div class="role-uni-asis"><span class="role-tag rt-old">AS-IS</span>MD&#48324; &#50629;&#47924; &#44060;&#48324; &#51648;&#49884;, &#49892;&#51201; &#49688;&#44592; &#52712;&#54633;</div><div class="role-uni-arrow">&#8594;</div><div class="role-uni-tobe"><span class="role-tag rt-new">TO-BE</span><b>&#52852;&#53580;&#44256;&#47532; &#48169;&#54693;&#49457;</b> &#49444;&#51221; &#8594; <b>&#44032;&#51473;&#52824; &#48152;&#50689;</b> &#51088;&#46041; &#48176;&#48516;</div></div>
-      <div class="role-uni-steps">
-        <div class="role-uni-step" style="--step-c:var(--green)"><span class="role-uni-num">P4</span><div><div class="role-uni-step-title">&#48169;&#54693;&#49457; &amp; &#44032;&#51473;&#52824;</div><div class="role-uni-step-desc">&#49457;&#51109;/&#54952;&#50984; &#50868;&#50689; &#48169;&#54693; &#51077;&#47141; &#8594; Task &#50864;&#49440;&#49692;&#50948; &#51116;&#51312;&#51221;</div></div></div>
-      </div>
-    </div>
-    <div class="role-uni-row">
-      <div class="role-uni-actor"><span class="role-uni-dot" style="background:var(--orange)"></span><span class="role-uni-name">MD</span></div>
-      <div class="role-uni-transition"><div class="role-uni-asis"><span class="role-tag rt-old">AS-IS</span>&#49688;&#46041; &#49548;&#49905;, &#44221;&#54744;&#183;&#44048; &#51032;&#51316;, &#49457;&#44284; &#52628;&#51201; &#54620;&#44228;</div><div class="role-uni-arrow">&#8594;</div><div class="role-uni-tobe"><span class="role-tag rt-new">TO-BE</span><b>Accept/Reject &#51032;&#49324;&#44208;&#51221;</b> + <b>&#49457;&#44284; &#51088;&#46041; &#53944;&#47000;&#53433;</b></div></div>
-      <div class="role-uni-steps">
-        <div class="role-uni-step" style="--step-c:var(--orange)"><span class="role-uni-num">P5</span><div><div class="role-uni-step-title">Task &#48176;&#48516;</div><div class="role-uni-step-desc">&#44032;&#51473;&#52824; + &#54665;&#49324;&#51068;&#51221; + Reject &#51060;&#47141; &#48152;&#50689; &#8594; MD&#48324; &#48176;&#48516;</div></div></div>
-        <div class="role-uni-step" style="--step-c:var(--red)"><span class="role-uni-num">P6</span><div><div class="role-uni-step-title">&#49892;&#54665; &amp; &#53944;&#47000;&#53433;</div><div class="role-uni-step-desc">Accept/Reject &#49892;&#54665; &#8594; Gap &#48320;&#54868;&#183;&#46321;&#44553; &#51088;&#46041; &#53944;&#47000;&#53433;</div></div></div>
-      </div>
-    </div>
-  </div>
 </div>
 
 <div class="section-connector"><svg width="2" height="32" viewBox="0 0 2 32"><line x1="1" y1="0" x2="1" y2="32" stroke="var(--bd)" stroke-width="2" stroke-dasharray="4 4"/></svg></div>
@@ -2222,7 +2190,7 @@ document.addEventListener('click',function(e){
 
 // keyboard navigation
 (function(){
-  var sections=['s-gps','s-arch','s-roles','s-data','s-gap','s-scoring','s-signal','s-sim','s-engine','s-boost','s-progress'];
+  var sections=['s-gps','s-arch','s-data','s-gap','s-scoring','s-signal','s-sim','s-engine','s-boost','s-progress'];
   var kbdHint=document.getElementById('kbdHint');
   var hideTimer;
   document.addEventListener('keydown',function(e){
