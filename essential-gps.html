@@ -494,18 +494,27 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.7;-
 .bkpi-fill{height:100%;border-radius:2px;width:0;transition:width 1.5s cubic-bezier(.16,1,.3,1)}
 
 /* roles */
-.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.role{overflow:hidden;transition:transform .3s,box-shadow .3s}.role:hover{transform:translateY(-4px);box-shadow:var(--shl)}
-.role-bar{height:3px}.role-in{padding:22px 20px}
-.role-name{font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.role-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.role-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:4px}
 .role-tag{font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:100px;flex-shrink:0;margin-top:2px}
 .rt-old{background:var(--sf2);color:var(--txm)}
 .rt-new{background:rgba(0,113,227,.08);color:var(--blue)}
-.role-text{font-size:15px;line-height:1.6;color:var(--tx3)}
-.role-text b{color:var(--tx);font-weight:700}
-.role-arr{text-align:center;color:var(--txm);padding:4px 0;font-size:13px}
+.role-unified{display:flex;flex-direction:column;gap:0}
+.role-uni-row{padding:24px 0;border-bottom:1px solid var(--bd)}
+.role-uni-row:last-child{border-bottom:none;padding-bottom:0}
+.role-uni-row:first-child{padding-top:0}
+.role-uni-actor{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.role-uni-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.role-uni-name{font-size:18px;font-weight:800;color:var(--tx);letter-spacing:-.02em}
+.role-uni-transition{display:flex;align-items:center;gap:12px;padding:14px 18px;border-radius:var(--rs);background:var(--sf2);margin-bottom:14px;flex-wrap:wrap}
+.role-uni-asis,.role-uni-tobe{font-size:14px;color:var(--tx3);line-height:1.6;display:flex;align-items:flex-start;gap:8px;flex:1;min-width:200px}
+.role-uni-tobe b{color:var(--tx);font-weight:700}
+.role-uni-arrow{color:var(--txm);font-size:18px;font-weight:700;flex-shrink:0}
+.role-uni-steps{display:flex;gap:10px;flex-wrap:wrap}
+.role-uni-step{flex:1;min-width:180px;display:flex;gap:10px;padding:14px 16px;border-radius:var(--rs);background:var(--sf);border:1px solid var(--bd);transition:transform .2s,box-shadow .2s}
+.role-uni-step:hover{transform:translateY(-2px);box-shadow:var(--shl)}
+.role-uni-num{background:var(--step-c);color:#fff;font-size:11px;font-weight:800;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.role-uni-step-title{font-size:14px;font-weight:800;color:var(--tx);margin-bottom:4px;letter-spacing:-.02em}
+.role-uni-step-desc{font-size:12px;color:var(--tx3);line-height:1.6}
+@media(max-width:699px){.role-uni-transition{flex-direction:column;gap:4px}.role-uni-arrow{transform:rotate(90deg)}.role-uni-steps{flex-direction:column}.role-uni-step{min-width:0}}
 
 /* harness */
 .zones{display:flex;flex-direction:column;gap:8px}
@@ -727,7 +736,7 @@ html{scroll-behavior:smooth}
   .sig-axes{grid-template-columns:repeat(3,1fr)}.sig-actions{grid-template-columns:1fr}
   .sim-body{grid-template-columns:1fr}.sim-radar{display:none}
   .eng-ring,.expo-grid{grid-template-columns:repeat(2,1fr)}.boost-kpis{grid-template-columns:repeat(2,1fr)}
-  .roles{grid-template-columns:1fr}.zone-nodes{grid-template-columns:1fr}.tl-grid{grid-template-columns:repeat(2,1fr)}
+  .zone-nodes{grid-template-columns:1fr}.tl-grid{grid-template-columns:repeat(2,1fr)}
   .side-nav{display:none}#cursorTrail{display:none}
 }
 
@@ -1262,19 +1271,31 @@ html{scroll-behavior:smooth}
 <div class="sec rv" id="s-roles">
   <div class="eyebrow">Role &amp; Execution Flow</div>
   <div class="sec-title">&#50529;&#53552;&#48324; &#50669;&#54624; &#51204;&#54872; &#8212; &#45572;&#44032; &#47924;&#50631;&#51012; &#54616;&#45716;&#44032;</div>
-  <div class="roles stg rv">
-    <div class="card role ripple"><div class="role-bar" style="background:linear-gradient(90deg,var(--blue),var(--teal))"></div><div class="role-in"><div class="role-name"><span class="role-dot" style="background:var(--blue)"></span>&#49884;&#49828;&#53596;</div><div class="role-row"><span class="role-tag rt-old">AS-IS</span><span class="role-text">&#45800;&#49692; &#45936;&#51060;&#53552; &#51312;&#54924;, MD&#44032; &#51649;&#51217; &#44160;&#49353;&#183;&#48516;&#49437;</span></div><div class="role-arr">&#8595;</div><div class="role-row"><span class="role-tag rt-new">TO-BE</span><span class="role-text"><b>&#51088;&#49324; vs &#50808;&#48512; Gap &#48516;&#49437;</b> + <b>S/A/B/C &#51088;&#46041; &#49828;&#53076;&#50612;&#47553;</b></span></div></div></div>
-    <div class="card role ripple"><div class="role-bar" style="background:linear-gradient(90deg,var(--green),#63e6be)"></div><div class="role-in"><div class="role-name"><span class="role-dot" style="background:var(--green)"></span>&#51312;&#51649;&#51109;</div><div class="role-row"><span class="role-tag rt-old">AS-IS</span><span class="role-text">MD&#48324; &#50629;&#47924; &#44060;&#48324; &#51648;&#49884;, &#49892;&#51201; &#49688;&#44592; &#52712;&#54633;</span></div><div class="role-arr">&#8595;</div><div class="role-row"><span class="role-tag rt-new">TO-BE</span><span class="role-text"><b>&#52852;&#53580;&#44256;&#47532; &#48169;&#54693;&#49457;</b> &#49444;&#51221; &#8594; <b>&#44032;&#51473;&#52824; &#48152;&#50689;</b> &#51088;&#46041; &#48176;&#48516;</span></div></div></div>
-    <div class="card role ripple"><div class="role-bar" style="background:linear-gradient(90deg,var(--orange),#ffcc00)"></div><div class="role-in"><div class="role-name"><span class="role-dot" style="background:var(--orange)"></span>MD</div><div class="role-row"><span class="role-tag rt-old">AS-IS</span><span class="role-text">&#49688;&#46041; &#49548;&#49905;, &#44221;&#54744;&#183;&#44048; &#51032;&#51316;, &#49457;&#44284; &#52628;&#51201; &#54620;&#44228;</span></div><div class="role-arr">&#8595;</div><div class="role-row"><span class="role-tag rt-new">TO-BE</span><span class="role-text"><b>Accept/Reject &#51032;&#49324;&#44208;&#51221;</b> + <b>&#49457;&#44284; &#51088;&#46041; &#53944;&#47000;&#53433;</b></span></div></div></div>
-  </div>
-  <div style="font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--tx3);margin:28px 0 14px;padding-top:20px;border-top:1px solid var(--sf2)">&#52852;&#53580;&#44256;&#47532;&#48324; &#49892;&#54665; &#54540;&#47196;&#50864; &#8212; 6&#45800;&#44228;</div>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px" class="stg rv">
-    <div class="card" style="padding:16px 14px;border-left:3px solid var(--blue)"><div style="display:flex;align-items:center;gap:6px;margin-bottom:8px"><span style="background:var(--blue);color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:100px">P1</span><span style="font-size:10px;color:var(--blue);font-weight:700">&#49884;&#49828;&#53596;</span></div><div style="font-size:14px;font-weight:800;margin-bottom:4px">&#51088;&#49324; &#49688;&#51665;</div><div style="font-size:11px;color:var(--tx3);line-height:1.6">BIDB &#47560;&#53944;&#50640;&#49436; &#44208;&#51228;&#44148;&#49688;, &#44144;&#47000;&#50529;, &#44032;&#44201;, &#47532;&#48624;, &#48176;&#49569; &#45936;&#51060;&#53552; &#49688;&#51665;</div></div>
-    <div class="card" style="padding:16px 14px;border-left:3px solid var(--purple)"><div style="display:flex;align-items:center;gap:6px;margin-bottom:8px"><span style="background:var(--purple);color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:100px">P2</span><span style="font-size:10px;color:var(--purple);font-weight:700">&#49884;&#49828;&#53596;</span></div><div style="font-size:14px;font-weight:800;margin-bottom:4px">&#50808;&#48512; &#44221;&#51137; &#49688;&#51665;</div><div style="font-size:11px;color:var(--tx3);line-height:1.6">Albatross Crawling&#51004;&#47196; &#44221;&#51137;&#49324; &#44032;&#44201;&#183;&#47532;&#48624;&#183;SKU&#183;&#53944;&#47116;&#46300; &#49688;&#51665;</div></div>
-    <div class="card" style="padding:16px 14px;border-left:3px solid var(--indigo)"><div style="display:flex;align-items:center;gap:6px;margin-bottom:8px"><span style="background:var(--indigo);color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:100px">P3</span><span style="font-size:10px;color:var(--indigo);font-weight:700">&#49884;&#49828;&#53596;</span></div><div style="font-size:14px;font-weight:800;margin-bottom:4px">Gap &#48516;&#49437; &amp; &#49828;&#53076;&#50612;&#47553;</div><div style="font-size:11px;color:var(--tx3);line-height:1.6">&#51088;&#49324; vs &#50808;&#48512; 6&#52629; &#48708;&#44368; &#8594; S/A/B/C &#46321;&#44553; &#51088;&#46041; &#48512;&#50668;</div></div>
-    <div class="card" style="padding:16px 14px;border-left:3px solid var(--green)"><div style="display:flex;align-items:center;gap:6px;margin-bottom:8px"><span style="background:var(--green);color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:100px">P4</span><span style="font-size:10px;color:var(--green);font-weight:700">&#51312;&#51649;&#51109;</span></div><div style="font-size:14px;font-weight:800;margin-bottom:4px">&#48169;&#54693;&#49457; &amp; &#44032;&#51473;&#52824;</div><div style="font-size:11px;color:var(--tx3);line-height:1.6">&#49457;&#51109;/&#54952;&#50984; &#50868;&#50689; &#48169;&#54693; &#51077;&#47141; &#8594; Task &#50864;&#49440;&#49692;&#50948; &#51116;&#51312;&#51221;</div></div>
-    <div class="card" style="padding:16px 14px;border-left:3px solid var(--orange)"><div style="display:flex;align-items:center;gap:6px;margin-bottom:8px"><span style="background:var(--orange);color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:100px">P5</span><span style="font-size:10px;color:var(--orange);font-weight:700">&#49884;&#49828;&#53596; &#8594; MD</span></div><div style="font-size:14px;font-weight:800;margin-bottom:4px">Task &#48176;&#48516;</div><div style="font-size:11px;color:var(--tx3);line-height:1.6">&#44032;&#51473;&#52824; + &#54665;&#49324;&#51068;&#51221; + Reject &#51060;&#47141; &#48152;&#50689; &#8594; MD&#48324; &#48176;&#48516;</div></div>
-    <div class="card" style="padding:16px 14px;border-left:3px solid var(--red)"><div style="display:flex;align-items:center;gap:6px;margin-bottom:8px"><span style="background:var(--red);color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:100px">P6</span><span style="font-size:10px;color:var(--red);font-weight:700">MD + &#49884;&#49828;&#53596;</span></div><div style="font-size:14px;font-weight:800;margin-bottom:4px">&#49892;&#54665; &amp; &#53944;&#47000;&#53433;</div><div style="font-size:11px;color:var(--tx3);line-height:1.6">Accept/Reject &#49892;&#54665; &#8594; Gap &#48320;&#54868;&#183;&#46321;&#44553; &#51088;&#46041; &#53944;&#47000;&#53433;</div></div>
+  <div class="role-unified stg rv">
+    <div class="role-uni-row">
+      <div class="role-uni-actor"><span class="role-uni-dot" style="background:var(--blue)"></span><span class="role-uni-name">&#49884;&#49828;&#53596;</span></div>
+      <div class="role-uni-transition"><div class="role-uni-asis"><span class="role-tag rt-old">AS-IS</span>&#45800;&#49692; &#45936;&#51060;&#53552; &#51312;&#54924;, MD&#44032; &#51649;&#51217; &#44160;&#49353;&#183;&#48516;&#49437;</div><div class="role-uni-arrow">&#8594;</div><div class="role-uni-tobe"><span class="role-tag rt-new">TO-BE</span><b>&#51088;&#49324; vs &#50808;&#48512; Gap &#48516;&#49437;</b> + <b>S/A/B/C &#51088;&#46041; &#49828;&#53076;&#50612;&#47553;</b></div></div>
+      <div class="role-uni-steps">
+        <div class="role-uni-step" style="--step-c:var(--blue)"><span class="role-uni-num">P1</span><div><div class="role-uni-step-title">&#51088;&#49324; &#49688;&#51665;</div><div class="role-uni-step-desc">BIDB &#47560;&#53944;&#50640;&#49436; &#44208;&#51228;&#44148;&#49688;, &#44144;&#47000;&#50529;, &#44032;&#44201;, &#47532;&#48624;, &#48176;&#49569; &#45936;&#51060;&#53552; &#49688;&#51665;</div></div></div>
+        <div class="role-uni-step" style="--step-c:var(--purple)"><span class="role-uni-num">P2</span><div><div class="role-uni-step-title">&#50808;&#48512; &#44221;&#51137; &#49688;&#51665;</div><div class="role-uni-step-desc">Albatross Crawling&#51004;&#47196; &#44221;&#51137;&#49324; &#44032;&#44201;&#183;&#47532;&#48624;&#183;SKU&#183;&#53944;&#47116;&#46300; &#49688;&#51665;</div></div></div>
+        <div class="role-uni-step" style="--step-c:var(--indigo)"><span class="role-uni-num">P3</span><div><div class="role-uni-step-title">Gap &#48516;&#49437; &amp; &#49828;&#53076;&#50612;&#47553;</div><div class="role-uni-step-desc">&#51088;&#49324; vs &#50808;&#48512; 6&#52629; &#48708;&#44368; &#8594; S/A/B/C &#46321;&#44553; &#51088;&#46041; &#48512;&#50668;</div></div></div>
+      </div>
+    </div>
+    <div class="role-uni-row">
+      <div class="role-uni-actor"><span class="role-uni-dot" style="background:var(--green)"></span><span class="role-uni-name">&#51312;&#51649;&#51109;</span></div>
+      <div class="role-uni-transition"><div class="role-uni-asis"><span class="role-tag rt-old">AS-IS</span>MD&#48324; &#50629;&#47924; &#44060;&#48324; &#51648;&#49884;, &#49892;&#51201; &#49688;&#44592; &#52712;&#54633;</div><div class="role-uni-arrow">&#8594;</div><div class="role-uni-tobe"><span class="role-tag rt-new">TO-BE</span><b>&#52852;&#53580;&#44256;&#47532; &#48169;&#54693;&#49457;</b> &#49444;&#51221; &#8594; <b>&#44032;&#51473;&#52824; &#48152;&#50689;</b> &#51088;&#46041; &#48176;&#48516;</div></div>
+      <div class="role-uni-steps">
+        <div class="role-uni-step" style="--step-c:var(--green)"><span class="role-uni-num">P4</span><div><div class="role-uni-step-title">&#48169;&#54693;&#49457; &amp; &#44032;&#51473;&#52824;</div><div class="role-uni-step-desc">&#49457;&#51109;/&#54952;&#50984; &#50868;&#50689; &#48169;&#54693; &#51077;&#47141; &#8594; Task &#50864;&#49440;&#49692;&#50948; &#51116;&#51312;&#51221;</div></div></div>
+      </div>
+    </div>
+    <div class="role-uni-row">
+      <div class="role-uni-actor"><span class="role-uni-dot" style="background:var(--orange)"></span><span class="role-uni-name">MD</span></div>
+      <div class="role-uni-transition"><div class="role-uni-asis"><span class="role-tag rt-old">AS-IS</span>&#49688;&#46041; &#49548;&#49905;, &#44221;&#54744;&#183;&#44048; &#51032;&#51316;, &#49457;&#44284; &#52628;&#51201; &#54620;&#44228;</div><div class="role-uni-arrow">&#8594;</div><div class="role-uni-tobe"><span class="role-tag rt-new">TO-BE</span><b>Accept/Reject &#51032;&#49324;&#44208;&#51221;</b> + <b>&#49457;&#44284; &#51088;&#46041; &#53944;&#47000;&#53433;</b></div></div>
+      <div class="role-uni-steps">
+        <div class="role-uni-step" style="--step-c:var(--orange)"><span class="role-uni-num">P5</span><div><div class="role-uni-step-title">Task &#48176;&#48516;</div><div class="role-uni-step-desc">&#44032;&#51473;&#52824; + &#54665;&#49324;&#51068;&#51221; + Reject &#51060;&#47141; &#48152;&#50689; &#8594; MD&#48324; &#48176;&#48516;</div></div></div>
+        <div class="role-uni-step" style="--step-c:var(--red)"><span class="role-uni-num">P6</span><div><div class="role-uni-step-title">&#49892;&#54665; &amp; &#53944;&#47000;&#53433;</div><div class="role-uni-step-desc">Accept/Reject &#49892;&#54665; &#8594; Gap &#48320;&#54868;&#183;&#46321;&#44553; &#51088;&#46041; &#53944;&#47000;&#53433;</div></div></div>
+      </div>
+    </div>
   </div>
 </div>
 
