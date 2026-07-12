@@ -532,7 +532,7 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 <nav>
   <span class="logo">11st AX TF · Albatross</span>
   <a href="#framework" class="active">Framework</a>
-  <a href="#pipeline">Pipeline</a>
+  <a href="#pipeline">AX 모듈</a>
   <a href="#ranking">통합 랭킹</a>
   <a href="#schema">데이터 플로우</a>
   <a href="#output">결과물</a>
@@ -600,10 +600,10 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 <!-- ═══ Section 1: Pipeline ═══ -->
 <section id="pipeline" class="alt">
 <div class="container">
-  <div class="sec-label">Core Data Pipeline</div>
-  <div class="sec-title">경쟁사 수집에서 MD 실행까지</div>
-  <div class="pipe-narrative fade-in">수집 <span class="pn-a">→</span> 통합 <span class="pn-a">→</span> 진단 <span class="pn-a">→</span> 스코어링 <span class="pn-a">→</span> 배분 <span class="pn-a">→</span> <span class="pn-end">실행</span></div>
-  <div class="sec-desc fade-in">경쟁사 데이터와 우리 데이터를 합쳐서 상품별 격차를 진단하고, MD별 실행 과제까지 자동으로 만드는 흐름.</div>
+  <div class="sec-label">AX Module — End-to-End Pipeline</div>
+  <div class="sec-title">AX 모듈 실행 플로우</div>
+  <div class="pipe-narrative fade-in">AX.수집 <span class="pn-a">→</span> AX.통합 <span class="pn-a">→</span> AX.진단 <span class="pn-a">→</span> AX.스코어 <span class="pn-a">→</span> AX.배분 <span class="pn-a">→</span> <span class="pn-end">AX.관제</span></div>
+  <div class="sec-desc fade-in">AX 모듈이 경쟁사 수집부터 MD 실행까지 전 과정을 하나의 파이프라인으로 자동화합니다.</div>
 
   <div class="pipe-flow fade-in">
     <div class="pipe-rail"><div class="pipe-rail-fill" id="pipe-fill"></div></div>
@@ -779,7 +779,7 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 <div class="container">
   <div class="sec-label">System Architecture</div>
   <div class="sec-title">시스템 플로우</div>
-  <div class="sec-desc">수집 대상 정의부터 MD 실행 관제까지 — Albatross 아키텍처 기반 7단계 데이터 파이프라인.</div>
+  <div class="sec-desc">수집 대상 정의부터 MD 실행 관제까지 — AX 모듈 아키텍처 기반 7단계 데이터 파이프라인.</div>
 
   <!-- Architecture: Top Tier — Data Layer -->
   <div class="arch-tier arch-tier-top fade-in">
@@ -1450,38 +1450,38 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 /* ── Pipeline stages ── */
 (function(){
   const stages=[
-    {sys:"ALBATROSS",nm:"외부+내부 수집",mt:"11개 경쟁사 크롤\n+ Product Metrics API",st:"done",ic:"ALB",
-     html:`<h4>① 외부+내부 수집</h4>
+    {sys:"AX · 수집",nm:"외부+내부 수집",mt:"Albatross 크롤러\n+ Product Metrics API",st:"done",ic:"ALB",
+     html:`<h4>① AX.수집 — 외부+내부 데이터</h4>
       <div class="pipe-status"><span class="pipe-badge pipe-badge-done">MVP 완료</span><span class="pipe-badge pipe-badge-wip">확장 진행중</span></div>
-      <p class="pipe-lead">경쟁사 11개 사이트 크롤(Albatross) + 자사 지표 API 연동</p>
+      <p class="pipe-lead">Albatross 크롤러로 경쟁사 11개 사이트 수집 + 자사 Product Metrics API 연동</p>
       <div class="pipe-counters"><div class="pipe-counter"><div class="pc-v" data-pc="215838">0</div><div class="pc-l">크롤 상품</div></div>
       <div class="pipe-counter"><div class="pc-v" data-pc="358833">0</div><div class="pc-l">수집 지표</div></div>
       <div class="pipe-counter"><div class="pc-v" data-pc="1964436">0</div><div class="pc-l">랭킹 데이터</div></div></div>
       <div class="pipe-tags" id="pSites"></div>`},
-    {sys:"AX 모듈",nm:"데이터 통합",mt:"동일상품 매칭\n내부↔외부 데이터 통합",st:"wip",ic:"AX",
-     html:`<h4>② 데이터 통합</h4>
+    {sys:"AX · 통합",nm:"데이터 통합",mt:"동일상품 매칭\n내부↔외부 데이터 통합",st:"wip",ic:"AX",
+     html:`<h4>② AX.통합 — 동일상품 매핑</h4>
       <div class="pipe-status"><span class="pipe-badge pipe-badge-wip">진행중</span></div>
       <p class="pipe-lead">외부상품 ↔ 11번가 상품 매핑 → 하나의 상품 뷰</p>
       <div class="pipe-tags"><span class="pipe-tag">IS_MATCHED</span><span class="pipe-tag">MATCH_TIER</span><span class="pipe-tag">MATCH_SCORE</span><span class="pipe-tag">ELEVEN_PRODUCT_NO</span></div>
       <p style="font-size:12px;color:var(--ink3);margin-top:12px">네이버 유니크 상품 1개 → 랭킹 소스 평균 10.7행 → dedup 후 매핑. 매칭/미매칭 분리 트랙.</p>`},
-    {sys:"GAP 분석",nm:"6대 축 진단",mt:"PCI · ACR · CVR\n신호등 판정",st:"wip",ic:"GAP",
-     html:`<h4>③ 6대 축 Gap 분석</h4>
+    {sys:"AX · 진단",nm:"6대 축 진단",mt:"PCI · ACR · CVR\n신호등 판정",st:"wip",ic:"GAP",
+     html:`<h4>③ AX.진단 — 6대 축 Gap 분석</h4>
       <div class="pipe-status"><span class="pipe-badge pipe-badge-wip">진행중</span></div>
       <p class="pipe-lead">자사 ↔ 외부 격차를 6대 축으로 진단 → 신호등 판정</p>
       <div class="pipe-tags"><span class="pipe-tag">PRICE_GAP_RATE</span><span class="pipe-tag">SELECTION_GAP_TYPE</span><span class="pipe-tag">STATUS_TAG</span><span class="pipe-tag">PCI</span><span class="pipe-tag">ACR</span><span class="pipe-tag">CVR</span></div>`},
-    {sys:"SCORING",nm:"S/A/B 티어링",mt:"종합 점수 산출\n놓치는 매출 추정",st:"plan",ic:"S",
-     html:`<h4>④ Scoring · 등급 산출</h4>
+    {sys:"AX · 스코어",nm:"S/A/B/C 티어링",mt:"종합 점수 산출\n놓치는 매출 추정",st:"plan",ic:"S",
+     html:`<h4>④ AX.스코어 — 등급 산출</h4>
       <div class="pipe-status"><span class="pipe-badge pipe-badge-plan">예정</span></div>
       <p class="pipe-lead">Priority(기회손실 GMV)로 정렬 후 S/A/B/C 단일 등급 직관화</p>
       <div class="pipe-tags"><span class="pipe-tag">IMPACT_SCORE</span><span class="pipe-tag">IS_REVIEW_NEEDED</span><span class="pipe-tag">S/A/B/C 등급</span></div>`},
-    {sys:"MD 배분",nm:"카테고리별 매칭",mt:"담당 MD 배분\nTask 자동 생성",st:"plan",ic:"MD",
-     html:`<h4>⑤ MD 배분</h4>
+    {sys:"AX · 배분",nm:"카테고리별 매칭",mt:"담당 MD 배분\nTask 자동 생성",st:"plan",ic:"MD",
+     html:`<h4>⑤ AX.배분 — MD Task 배분</h4>
       <div class="pipe-status"><span class="pipe-badge pipe-badge-plan">예정</span></div>
       <p class="pipe-lead">조직장 운영방향 가중치 반영 → 카테고리별 담당 MD 자동 매칭</p>
       <div class="pipe-tags"><span class="pipe-tag">Task 자동생성</span><span class="pipe-tag">우선순위 배분</span><span class="pipe-tag">조직장 가중치</span><span class="pipe-tag">행사 일정 반영</span></div>
       <p style="font-size:12px;color:var(--ink3);margin-top:12px">전사 행사(월간/그랜드십일절) 일정 고려. 과거 Reject 상품/셀러 2개월 미노출.</p>`},
-    {sys:"실행·관제",nm:"진척 관리",mt:"Accept/Reject\n성과 트래킹",st:"dest",ic:"▶",
-     html:`<h4>⑥ 실행·관제</h4>
+    {sys:"AX · 관제",nm:"진척 관리",mt:"Accept/Reject\n성과 트래킹",st:"dest",ic:"▶",
+     html:`<h4>⑥ AX.관제 — 실행·성과 관리</h4>
       <div class="pipe-status"><span class="pipe-badge pipe-badge-plan">예정</span></div>
       <p class="pipe-lead">MD별 Daily/Weekly/Monthly Task 수행 → Accept/Reject → 성과 트래킹</p>
       <div class="pipe-tags"><span class="pipe-tag">Accept/Reject</span><span class="pipe-tag">진척도 관리</span><span class="pipe-tag">성과 조회</span><span class="pipe-tag">F/B 고도화</span></div>
