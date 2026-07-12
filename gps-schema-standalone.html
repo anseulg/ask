@@ -219,21 +219,40 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 }
 
 /* ── Unified Flow Grid ── */
-.flow-progress{display:flex;align-items:center;gap:0;margin-bottom:20px;
-  background:var(--sf-card);border-radius:var(--r);padding:14px 20px;box-shadow:var(--shadow-card)}
-.flow-progress-bar{flex:1;height:4px;background:var(--bdr-subtle);border-radius:2px;overflow:hidden}
-.flow-progress-fill{height:100%;border-radius:2px;
-  background:linear-gradient(90deg,var(--sgreen),var(--sgreen) 60%,var(--amber));
-  transition:width 1.6s var(--ease);width:0}
-.flow-progress-label{font-size:11px;font-weight:700;color:var(--ink2);margin-left:12px;white-space:nowrap;
-  font-variant-numeric:tabular-nums}
-.flow-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
-@media(max-width:768px){.flow-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:480px){.flow-grid{grid-template-columns:1fr}}
+.flow-seg-track{display:flex;gap:3px;margin-bottom:20px;background:var(--sf-card);
+  border-radius:var(--r);padding:14px 16px 10px;box-shadow:var(--shadow-card);align-items:flex-start}
+.flow-seg{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;position:relative}
+.flow-seg:not(:last-child)::after{content:'';position:absolute;right:-3px;top:3px;width:3px;height:4px;
+  background:var(--bdr-subtle);border-radius:1px}
+.flow-seg-bar{width:100%;height:4px;border-radius:2px;background:var(--bdr-subtle);overflow:hidden}
+.flow-seg-fill{height:100%;border-radius:2px;transition:width 1s var(--ease)}
+.flow-seg.done .flow-seg-fill{background:var(--sgreen);width:100%}
+.flow-seg.wip .flow-seg-fill{background:var(--amber);width:60%}
+.flow-seg.plan .flow-seg-fill,.flow-seg.dest .flow-seg-fill{background:transparent;width:0}
+.flow-seg-lbl{font-size:8.5px;font-weight:700;color:var(--ink3);letter-spacing:.02em;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;max-width:100%;text-align:center}
+.flow-seg.done .flow-seg-lbl{color:var(--sgreen)}
+.flow-seg.wip .flow-seg-lbl{color:var(--amber)}
+.flow-seg.dest .flow-seg-lbl{color:var(--blue)}
+.flow-seg-pct{font-size:11px;font-weight:700;color:var(--ink2);margin-left:auto;padding-left:12px;
+  white-space:nowrap;font-variant-numeric:tabular-nums;align-self:center}
+@keyframes segPulse{0%,100%{opacity:1}50%{opacity:.55}}
+.flow-seg.wip .flow-seg-bar{animation:segPulse 2.5s ease-in-out infinite}
+.flow-grid{display:grid;grid-template-columns:1fr 24px 1fr 24px 1fr;gap:10px 0;margin-bottom:16px;align-items:stretch}
+@media(max-width:768px){.flow-grid{grid-template-columns:1fr;gap:10px}
+  .flow-arrow,.flow-row-conn{display:none}}
+.flow-arrow{display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:16px;opacity:.3}
+.flow-row-conn{grid-column:1/-1;display:flex;align-items:center;justify-content:flex-end;
+  padding:2px 40px 2px 0;color:var(--ink3);font-size:14px;opacity:.3;line-height:1}
 .flow-card{background:var(--sf-card);border-radius:var(--r);padding:20px 16px 16px;cursor:pointer;
   border-top:3px solid var(--bdr);box-shadow:var(--shadow-card);
-  display:flex;flex-direction:column;gap:8px;transition:all .35s var(--spring);position:relative}
-.flow-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover)}
+  display:flex;flex-direction:column;gap:8px;position:relative;
+  opacity:0;transform:translateY(18px);
+  transition:opacity .45s calc(var(--fi,0) * .1s) var(--ease),
+    transform .5s calc(var(--fi,0) * .1s) var(--spring),
+    box-shadow .35s var(--spring)}
+.flow-grid.in-view .flow-card{opacity:1;transform:translateY(0)}
+.flow-grid.in-view .flow-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover)}
 .flow-card.active{box-shadow:0 0 0 2px var(--blue),var(--shadow-hover);transform:translateY(-2px)}
 .flow-card.done{border-top-color:var(--sgreen)}
 .flow-card.wip{border-top-color:var(--amber)}
@@ -796,12 +815,9 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
   <div class="sec-desc">AX 모듈 아키텍처 기반 — 수집 대상 정의부터 MD 실행 관제까지 전 과정을 하나의 파이프라인으로 자동화합니다.</div>
 
   <!-- Unified Flow Grid -->
-  <div class="flow-progress fade-in">
-    <div class="flow-progress-bar"><div class="flow-progress-fill" id="flow-fill"></div></div>
-    <div class="flow-progress-label" id="flow-pct">0%</div>
-  </div>
+  <div class="flow-seg-track fade-in" id="flow-seg-track"></div>
 
-  <div class="flow-grid fade-in" id="flow-grid"></div>
+  <div class="flow-grid" id="flow-grid"></div>
   <div class="pipe-expand" id="pipe-detail"></div>
 
   <div class="flow-bridge fade-in">
@@ -1395,7 +1411,7 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
 /* ── Unified Flow Pipeline ── */
 (function(){
   var stages=[
-    {sys:"Claw · 발톱",steps:"①②",nm:"외부+내부 수집",
+    {sys:"Claw · 발톱",steps:"①②",nm:"외부+내부 수집",seg:"수집",
      desc:"경쟁사 11개 사이트 크롤<br>자사 Product Metrics API 연동",
      codes:"abt_crawl_site · abt_crawl_product · abt_crawl_product_rank",
      st:"done",ic:"C",stxt:"MVP 완료",
@@ -1406,7 +1422,7 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
       '<div class="pipe-counter"><div class="pc-v" data-pc="358833">0</div><div class="pc-l">수집 지표</div></div>'+
       '<div class="pipe-counter"><div class="pc-v" data-pc="1964436">0</div><div class="pc-l">랭킹 데이터</div></div></div>'+
       '<div class="pipe-tags" id="pSites"></div>'},
-    {sys:"Heart · API",steps:"③",nm:"데이터 통합",
+    {sys:"Heart · API",steps:"③",nm:"데이터 통합",seg:"통합",
      desc:"동일상품 매칭<br>내부↔외부 데이터 통합",
      codes:"gps_unified_product · gps_product_source · gps_11st_match",
      st:"wip",ic:"H",stxt:"진행중",
@@ -1415,7 +1431,7 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
       '<p class="pipe-lead">외부상품 ↔ 11번가 상품 매핑 → 하나의 상품 뷰</p>'+
       '<div class="pipe-tags"><span class="pipe-tag">IS_MATCHED</span><span class="pipe-tag">MATCH_TIER</span><span class="pipe-tag">MATCH_SCORE</span><span class="pipe-tag">ELEVEN_PRODUCT_NO</span></div>'+
       '<p style="font-size:12px;color:var(--ink3);margin-top:12px">네이버 유니크 상품 1개 → 랭킹 소스 평균 10.7행 → dedup 후 매핑. 매칭/미매칭 분리 트랙.</p>'},
-    {sys:"Wing · 배치",steps:"④⑤",nm:"6대 축 진단",
+    {sys:"Wing · 배치",steps:"④⑤",nm:"6대 축 진단",seg:"진단",
      desc:"PCI · ACR · CVR 격차 측정<br>신호등 판정",
      codes:"gps_gap_axis · gps_product_score",
      st:"wip",ic:"W",stxt:"진행중",
@@ -1423,7 +1439,7 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
       '<div class="pipe-status"><span class="pipe-badge pipe-badge-wip">진행중</span></div>'+
       '<p class="pipe-lead">자사 ↔ 외부 격차를 6대 축으로 진단 → 신호등 판정</p>'+
       '<div class="pipe-tags"><span class="pipe-tag">PRICE_GAP_RATE</span><span class="pipe-tag">SELECTION_GAP_TYPE</span><span class="pipe-tag">STATUS_TAG</span><span class="pipe-tag">PCI</span><span class="pipe-tag">ACR</span><span class="pipe-tag">CVR</span></div>'},
-    {sys:"Brain · MCP",steps:"⑥",nm:"S/A/B/C 티어링",
+    {sys:"Brain · MCP",steps:"⑥",nm:"S/A/B/C 티어링",seg:"스코어",
      desc:"종합 점수 산출<br>기회손실 매출 추정",
      codes:"gps_action_recommendation",
      st:"plan",ic:"B",stxt:"예정",
@@ -1431,7 +1447,7 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
       '<div class="pipe-status"><span class="pipe-badge pipe-badge-plan">예정</span></div>'+
       '<p class="pipe-lead">Priority(기회손실 GMV)로 정렬 후 S/A/B/C 단일 등급 직관화</p>'+
       '<div class="pipe-tags"><span class="pipe-tag">IMPACT_SCORE</span><span class="pipe-tag">IS_REVIEW_NEEDED</span><span class="pipe-tag">S/A/B/C 등급</span></div>'},
-    {sys:"GPS · 배분",steps:"⑦-a",nm:"MD Task 배분",
+    {sys:"GPS · 배분",steps:"⑦-a",nm:"MD Task 배분",seg:"배분",
      desc:"담당 MD 자동 매칭<br>Task 자동 생성",
      codes:"gps_md_task",
      st:"plan",ic:"G",stxt:"예정",
@@ -1440,7 +1456,7 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
       '<p class="pipe-lead">조직장 운영방향 가중치 반영 → 카테고리별 담당 MD 자동 매칭</p>'+
       '<div class="pipe-tags"><span class="pipe-tag">Task 자동생성</span><span class="pipe-tag">우선순위 배분</span><span class="pipe-tag">조직장 가중치</span><span class="pipe-tag">행사 일정 반영</span></div>'+
       '<p style="font-size:12px;color:var(--ink3);margin-top:12px">전사 행사(월간/그랜드십일절) 일정 고려. 과거 Reject 상품/셀러 2개월 미노출.</p>'},
-    {sys:"GPS · 관제",steps:"⑦-b",nm:"실행 · 성과 관리",
+    {sys:"GPS · 관제",steps:"⑦-b",nm:"실행 · 성과 관리",seg:"관제",
      desc:"Accept / Reject<br>성과 트래킹",
      codes:"gps_performance_track",
      st:"dest",ic:"▶",stxt:"목표",
@@ -1450,21 +1466,32 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
       '<div class="pipe-tags"><span class="pipe-tag">Accept/Reject</span><span class="pipe-tag">진척도 관리</span><span class="pipe-tag">성과 조회</span><span class="pipe-tag">F/B 고도화</span></div>'+
       '<p style="font-size:12px;color:var(--ink3);margin-top:12px">MD 입력 Reject 사유로 시스템 추천 로직 고도화. 주/월/분기 기간별 성과 대시보드.</p>'},
   ];
-  var sites=[["\ub124\uc774\ubc84 \uc1fc\ud551",1],["\uce74\uce74\uc624 \uc2a4\ud1a0\uc5b4",1],["\ub9c8\ucf13\ucef4\ub9ac",1],["\ub86f\ub370\uc628",1],["\ubb34\uc2e0\uc0ac",1],["\uc624\ub298\uc758\uc9d1",1],["SSG.COM",1],["GS SHOP",1],["\uc62c\ub9ac\ube0c\uc601",1],["\uc625\uc158",1],["G\ub9c8\ucf13",1],["\ucfe0\ud321",0]];
+  var sites=[["네이버 쇼핑",1],["카카오 스토어",1],["마켓컴리",1],["롯데온",1],["무신사",1],["오늘의집",1],["SSG.COM",1],["GS SHOP",1],["올리브영",1],["옥션",1],["G마켓",1],["쿠팡",0]];
   var grid=document.getElementById('flow-grid');
   var detail=document.getElementById('pipe-detail');
-  var fill=document.getElementById('flow-fill');
-  var pctEl=document.getElementById('flow-pct');
+  var segTrack=document.getElementById('flow-seg-track');
   if(!grid) return;
 
   var doneCount=stages.filter(function(s){return s.st==='done'}).length;
   var wipCount=stages.filter(function(s){return s.st==='wip'}).length;
   var progressPct=Math.round(((doneCount+(wipCount*.5))/stages.length)*100);
 
+  /* Segmented progress bar */
+  if(segTrack){
+    var segHtml='';
+    stages.forEach(function(s){
+      segHtml+='<div class="flow-seg '+s.st+'"><div class="flow-seg-bar"><div class="flow-seg-fill"></div></div><div class="flow-seg-lbl">'+s.seg+'</div></div>';
+    });
+    segHtml+='<div class="flow-seg-pct">'+progressPct+'%</div>';
+    segTrack.innerHTML=segHtml;
+  }
+
+  /* Build grid with arrow connectors */
   var cur=-1;
+  var fiIdx=0;
   stages.forEach(function(s,i){
     var d=document.createElement('div');
-    d.className='flow-card '+s.st;d.dataset.i=i;
+    d.className='flow-card '+s.st;d.dataset.i=i;d.style.setProperty('--fi',fiIdx);
     d.innerHTML='<div class="flow-card-head">'+
       '<div class="flow-card-ic">'+s.ic+'</div>'+
       '<div class="flow-card-meta">'+
@@ -1473,7 +1500,7 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
       '</div>'+
     '</div>'+
     '<div class="flow-card-nm">'+s.nm+'</div>'+
-    '<div class="flow-card-desc">'+s.desc+'</div>'+
+        '<div class="flow-card-desc">'+s.desc+'</div>'+
     '<div class="flow-card-desc"><code>'+s.codes.replace(/ \xb7 /g,'</code> <code>')+'</code></div>'+
     '<div class="flow-card-foot">'+
       '<div class="flow-card-sdot"></div>'+
@@ -1481,6 +1508,17 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
     '</div>';
     d.addEventListener('click',function(){openFlow(i)});
     grid.appendChild(d);
+    fiIdx++;
+    if(i%3<2){
+      var arrow=document.createElement('div');
+      arrow.className='flow-arrow';arrow.textContent='\u2192';
+      grid.appendChild(arrow);
+    }
+    if(i===2){
+      var conn=document.createElement('div');
+      conn.className='flow-row-conn';conn.textContent='\u21b3';
+      grid.appendChild(conn);
+    }
   });
 
   function openFlow(i){
@@ -1496,12 +1534,8 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
   }
 
   var flowObs=new IntersectionObserver(function(es){
-    if(es[0].isIntersecting){
-      fill.style.width=progressPct+'%';
-      pctEl.textContent=progressPct+'%';
-      flowObs.disconnect();
-    }
-  },{threshold:.3});
+    if(es[0].isIntersecting){grid.classList.add('in-view');flowObs.disconnect();}
+  },{threshold:.15});
   flowObs.observe(grid);
 })();
 
