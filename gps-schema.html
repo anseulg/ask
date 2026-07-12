@@ -428,10 +428,10 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
   0%,100%{box-shadow:0 4px 20px rgba(0,0,0,.15)}
   50%{box-shadow:0 4px 32px var(--tier-glow,rgba(94,92,230,.35))}
 }
-.tier-s{background:linear-gradient(135deg,#FFD60A,#FF9F0A);--tier-glow:rgba(255,159,10,.4)}
-.tier-a{background:linear-gradient(135deg,var(--blue),var(--indigo));--tier-glow:rgba(94,92,230,.4)}
-.tier-b{background:linear-gradient(135deg,#64D2FF,#0A84FF);--tier-glow:rgba(10,132,255,.35)}
-.tier-c{background:linear-gradient(135deg,var(--ink3),#48484A);--tier-glow:rgba(110,110,115,.3)}
+.tier-s{background:linear-gradient(135deg,var(--red),#FF6B6B);--tier-glow:rgba(255,59,48,.4)}
+.tier-a{background:linear-gradient(135deg,var(--amber),#FFB94D);--tier-glow:rgba(255,159,10,.4)}
+.tier-b{background:linear-gradient(135deg,var(--blue),var(--indigo));--tier-glow:rgba(94,92,230,.35)}
+.tier-c{background:linear-gradient(135deg,var(--sgreen),#6BD67E);--tier-glow:rgba(52,199,89,.3)}
 
 .status-line{display:flex;align-items:center;gap:8px;margin-top:-4px}
 @media(max-width:768px){.status-line{justify-content:center}}
@@ -709,10 +709,10 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
       <span style="font-size:17px;font-weight:700;letter-spacing:-.02em">등급 산출 기준</span>
     </div>
     <div class="tier-output-grid">
-      <div class="tier-output-item tier-output-s"><div class="tier-output-badge" style="background:var(--sgreen)">S</div><div class="tier-output-body"><strong>90~100</strong><span>성장 가속 — 검색 부스트 · 전시 우선 · SO 자동 연동</span></div></div>
-      <div class="tier-output-item tier-output-a"><div class="tier-output-badge" style="background:var(--blue)">A</div><div class="tier-output-body"><strong>70~89</strong><span>유지 · 개선 — 약점 축 집중 개선 Task 생성</span></div></div>
-      <div class="tier-output-item tier-output-b"><div class="tier-output-badge" style="background:var(--amber)">B</div><div class="tier-output-body"><strong>40~69</strong><span>관찰 필요 — 주간 리뷰 대상, MD 수동 판단</span></div></div>
-      <div class="tier-output-item tier-output-c"><div class="tier-output-badge" style="background:var(--red)">C</div><div class="tier-output-body"><strong>0~39</strong><span>재검토 — 가격·구색 근본 격차, 전략 재수립 필요</span></div></div>
+      <div class="tier-output-item tier-output-s"><div class="tier-output-badge" style="background:var(--red)">S</div><div class="tier-output-body"><strong>90~100</strong><span>즉시 실행 — Gap + 기회손실 최대, 최우선 Task 배분</span></div></div>
+      <div class="tier-output-item tier-output-a"><div class="tier-output-badge" style="background:var(--amber)">A</div><div class="tier-output-body"><strong>70~89</strong><span>우선 개선 — 주요 축 격차, 집중 개선 Task 생성</span></div></div>
+      <div class="tier-output-item tier-output-b"><div class="tier-output-badge" style="background:var(--blue)">B</div><div class="tier-output-body"><strong>40~69</strong><span>모니터링 — 소폭 격차, 정기 리뷰 대상</span></div></div>
+      <div class="tier-output-item tier-output-c"><div class="tier-output-badge" style="background:var(--sgreen)">C</div><div class="tier-output-body"><strong>0~39</strong><span>현상 유지 — 격차 미미, 별도 액션 불필요</span></div></div>
     </div>
   </div>
 
@@ -1040,7 +1040,7 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
           <tr><td>prd_no <span class="fk">FK</span></td><td>BIGINT</td><td>11번가 상품번호</td></tr>
           <tr><td>total_score</td><td>INT</td><td>종합 점수 (0~100)</td></tr>
           <tr><td>tier</td><td>ENUM</td><td>S / A / B / C</td></tr>
-          <tr><td>tier_label</td><td>VARCHAR</td><td>성장 가속 / 유지 / 관찰 / 재검토</td></tr>
+          <tr><td>tier_label</td><td>VARCHAR</td><td>즉시 실행 / 우선 개선 / 모니터링 / 현상 유지</td></tr>
           <tr><td>overall_status</td><td>ENUM</td><td>양호 / 주의 / 열위 / 위험</td></tr>
           <tr><td>problem_definition</td><td>TEXT</td><td>자동 진단 (예: 가격 열위 → CVR 저하)</td></tr>
           <tr><td>primary_gap_axis</td><td>ENUM</td><td>최대 Gap 축</td></tr>
@@ -1159,25 +1159,25 @@ section{padding:80px 32px}section.alt{background:var(--sf-alt)}
           <div class="tier-row">
             <span class="tier-dot tier-s">S</span>
             <span class="tier-range">90–100</span>
-            <span class="tier-desc">성장 가속</span>
+            <span class="tier-desc">즉시 실행</span>
             <span class="tier-arrow">←</span>
           </div>
           <div class="tier-row current">
             <span class="tier-dot tier-a">A</span>
             <span class="tier-range">70–89</span>
-            <span class="tier-desc">유지 · 개선 가능</span>
+            <span class="tier-desc">우선 개선</span>
             <span class="tier-arrow">←</span>
           </div>
           <div class="tier-row">
             <span class="tier-dot tier-b">B</span>
             <span class="tier-range">40–69</span>
-            <span class="tier-desc">관찰 필요</span>
+            <span class="tier-desc">모니터링</span>
             <span class="tier-arrow">←</span>
           </div>
           <div class="tier-row">
             <span class="tier-dot tier-c">C</span>
             <span class="tier-range">0–39</span>
-            <span class="tier-desc">재검토 대상</span>
+            <span class="tier-desc">현상 유지</span>
             <span class="tier-arrow">←</span>
           </div>
         </div>
