@@ -138,36 +138,36 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.7;-
 .gap-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--r);border:1px solid var(--bd);background:var(--sf);box-shadow:var(--shm)}
 .gap-tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:15px;min-width:860px;table-layout:auto;font-family:'Apple SD Gothic Neo','Pretendard','Malgun Gothic','Noto Sans KR',system-ui,sans-serif}
 .gap-tbl thead{background:var(--sf2)}
-.gap-tbl th{padding:14px 16px;text-align:left;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3);white-space:nowrap;border-bottom:2px solid var(--bd);position:sticky;top:0;z-index:1}
+.gap-tbl th{padding:16px 18px;text-align:left;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3);white-space:nowrap;border-bottom:2px solid var(--bd);position:sticky;top:0;z-index:1}
 .gap-tbl th:first-child{border-radius:var(--r) 0 0 0}
 .gap-tbl th:last-child{border-radius:0 var(--r) 0 0;text-align:center}
-.gap-tbl td{padding:18px 16px;border-bottom:1px solid var(--sf2);vertical-align:middle;color:var(--tx);line-height:1.6;font-size:15px;font-weight:500}
-.gap-tbl td:nth-child(3),.gap-tbl td:nth-child(4){white-space:nowrap}
+.gap-tbl td{padding:20px 18px;border-bottom:1px solid var(--sf2);vertical-align:middle;color:var(--tx);line-height:1.7;font-size:15px;font-weight:500}
+.gap-tbl td:nth-child(3),.gap-tbl td:nth-child(4){white-space:nowrap;font-size:14px}
 .gap-tbl tbody tr[data-axis]{cursor:pointer;transition:background .25s}
 .gap-tbl tbody tr[data-axis]:nth-child(4n+1) td{background:rgba(0,0,0,.008)}
 :root[data-theme="dark"] .gap-tbl tbody tr[data-axis]:nth-child(4n+1) td{background:rgba(255,255,255,.015)}
 @media(prefers-color-scheme:dark){.gap-tbl tbody tr[data-axis]:nth-child(4n+1) td{background:rgba(255,255,255,.015)}}
 .gap-tbl tbody tr[data-axis]:hover td{background:rgba(0,113,227,.04)}
-.gap-ax{font-size:17px;font-weight:800;white-space:nowrap;display:flex;align-items:center;gap:12px;color:var(--tx);letter-spacing:-.02em}
+.gap-ax{font-size:18px;font-weight:800;white-space:nowrap;display:flex;align-items:center;gap:14px;color:var(--tx);letter-spacing:-.02em}
 .gap-ax-d{display:none}
-.gap-ax-ico{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;letter-spacing:-.02em;flex-shrink:0;color:#fff;transition:transform .3s,box-shadow .3s;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.gap-ax-ico{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;letter-spacing:-.02em;flex-shrink:0;color:#fff;transition:transform .3s,box-shadow .3s;box-shadow:0 3px 10px rgba(0,0,0,.15)}
 .gap-tbl tbody tr[data-axis]:hover .gap-ax-ico{transform:scale(1.12);box-shadow:0 4px 14px rgba(0,0,0,.2)}
-.gap-tbl td:nth-child(2){font-size:17px;text-align:center;color:var(--tx);font-weight:800;font-variant-numeric:tabular-nums}
-.gap-tbl td:nth-child(5){font-size:12px;font-family:var(--fm);color:var(--tx2);line-height:1.5;font-weight:500;white-space:nowrap}
+.gap-tbl td:nth-child(2){font-size:20px;text-align:center;color:var(--tx);font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.gap-tbl td:nth-child(5){font-size:13px;font-family:var(--fm);color:var(--tx2);line-height:1.6;font-weight:500;white-space:nowrap}
 .gap-tbl td:last-child{text-align:center}
-.gap-bar-w{height:16px;background:var(--sf3);border-radius:8px;overflow:hidden;min-width:120px;position:relative}
-.gap-bar{height:100%;border-radius:8px;width:0;transition:width 1.2s cubic-bezier(.16,1,.3,1);position:relative}
-.gap-bar::after{content:attr(data-w) '%';position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:10px;font-weight:800;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3);font-family:var(--fm)}
-.gap-sig{font-size:14px;font-weight:800;padding:8px 18px;border-radius:100px;white-space:nowrap;display:inline-flex;align-items:center;gap:7px;letter-spacing:-.01em;transition:transform .2s,box-shadow .2s}
+.gap-bar-w{height:20px;background:var(--sf3);border-radius:10px;overflow:hidden;min-width:140px;position:relative}
+.gap-bar{height:100%;border-radius:10px;width:0;transition:width 1.2s cubic-bezier(.16,1,.3,1);position:relative}
+.gap-bar::after{content:attr(data-w) '%';position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:800;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3);font-family:var(--fm)}
+.gap-sig{font-size:15px;font-weight:800;padding:9px 20px;border-radius:100px;white-space:nowrap;display:inline-flex;align-items:center;gap:8px;letter-spacing:-.01em;transition:transform .2s,box-shadow .2s}
 .gap-sig:hover{transform:scale(1.05)}
-.gap-sig::before{content:'';width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.gap-sig::before{content:'';width:11px;height:11px;border-radius:50%;flex-shrink:0}
 .gs-g::before{background:var(--green);box-shadow:0 0 8px rgba(52,199,89,.6)}
 .gs-w::before{background:var(--orange);box-shadow:0 0 8px rgba(255,149,0,.6)}
 .gs-r::before{background:var(--red);box-shadow:0 0 8px rgba(255,59,48,.6)}
 .gs-g{color:var(--green);background:rgba(52,199,89,.14)}
 .gs-w{color:var(--orange);background:rgba(255,149,0,.14)}
 .gs-r{color:var(--red);background:rgba(255,59,48,.15)}
-.src-t{font-size:11px;font-weight:700;padding:3px 9px;border-radius:100px;margin-right:3px;letter-spacing:.02em;vertical-align:middle}
+.src-t{font-size:12px;font-weight:700;padding:4px 10px;border-radius:100px;margin-right:4px;letter-spacing:.02em;vertical-align:middle}
 .src-i{background:rgba(0,113,227,.08);color:var(--blue)}
 .src-e{background:rgba(191,90,242,.08);color:var(--purple)}
 /* mvp status badge */
@@ -182,8 +182,8 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.7;-
 /* gap row expand */
 .gap-expand{display:none}
 .gap-expand.open{display:table-row}
-.gap-expand td{padding:24px 20px;background:var(--sf2);border-bottom:2px solid var(--bd)}
-.gap-mini-chart{height:100px;display:flex;align-items:flex-end;gap:10px;min-width:200px}
+.gap-expand td{padding:26px 22px;background:var(--sf2);border-bottom:2px solid var(--bd)}
+.gap-mini-chart{height:110px;display:flex;align-items:flex-end;gap:10px;min-width:200px}
 .gap-mini-bar{flex:1;border-radius:4px 4px 0 0;transition:height .8s cubic-bezier(.16,1,.3,1);min-width:18px}
 
 /* decision tree - clickable */
@@ -298,6 +298,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.7;-
 .sig-ex-reason.reason-b{background:rgba(0,113,227,.06);border-left:4px solid var(--blue)}
 .sig-ex-reason.reason-c{background:var(--sf2);border-left:4px solid var(--txm)}
 @media(min-width:700px){.sig-examples{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1100px){.sig-examples{grid-template-columns:repeat(2,1fr)}}
 .sig-ex-toggle{border:none;background:none;padding:0;cursor:pointer;width:100%;text-align:left}
 .sig-ex-toggle summary{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--tx3);margin:32px 0 14px;padding:24px 0 14px;border-top:1px solid var(--sf2);cursor:pointer;list-style:none;user-select:none;transition:color .2s}
 .sig-ex-toggle summary::-webkit-details-marker{display:none}
@@ -1291,7 +1292,7 @@ html{scroll-behavior:smooth}
 <div class="sec rv" id="s-gap">
   <div class="eyebrow">05 Gap Diagnosis</div>
   <div class="sec-title">3&#45800;&#44228; Gap &#51652;&#45800; &#8212; &#50630;&#45716; &#44163;&#48512;&#53552; &#52286;&#44256;, &#51080;&#45716; &#44163;&#51012; &#44256;&#52828;&#45796;</div>
-  <div class="sec-desc">&#50808;&#48512; 10&#44060; &#49324;&#51060;&#53944; + &#45236;&#48512; &#45936;&#51060;&#53552;&#47484; 6&#45824;&#52629;&#51004;&#47196; &#48516;&#49437;&#54616;&#50668;, &#49345;&#54408;&#51060; &#50612;&#46500; Gap&#50640; &#54644;&#45817;&#54616;&#45716;&#51648; &#54032;&#48324;&#54633;&#45768;&#45796;. 6&#45824;&#52629;&#51008; 3&#44060; Gap &#51204;&#52404;&#47484; &#44288;&#53685;&#54616;&#45716; &#48516;&#49437; &#54532;&#47112;&#51076;&#51077;&#45768;&#45796;.</div>
+  <div class="sec-desc">&#50808;&#48512; 10&#44060; &#49324;&#51060;&#53944; + &#45236;&#48512; &#45936;&#51060;&#53552;&#47484; &#47588;&#52845;&#54616;&#50668; &#49345;&#54408;&#51012; &#51652;&#45800;&#54633;&#45768;&#45796;. &#44033; Gap&#51008; &#54032;&#48324; &#48169;&#49885;&#51060; &#45796;&#47493;&#45768;&#45796;.</div>
 
   <div class="gap-3tier stg rv" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px">
     <div style="padding:20px;border-radius:var(--rs);background:var(--sf);border:1px solid var(--bd);border-top:3px solid var(--red)">
@@ -1299,9 +1300,9 @@ html{scroll-behavior:smooth}
         <div style="width:28px;height:28px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0">1</div>
         <div style="font-size:15px;font-weight:800;color:var(--tx);letter-spacing:-.02em">&#49472;&#47113;&#49496; Gap <span style="font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;background:rgba(52,199,89,.12);color:var(--green);vertical-align:middle">MVP</span></div>
       </div>
-      <div style="font-size:13px;color:var(--tx2);line-height:1.7;margin-bottom:10px">6&#45824;&#52629; &#45936;&#51060;&#53552;&#47196; &#48156;&#44204;: &#44221;&#51137;&#49324;&#50640;&#47564; &#51080;&#44256; &#50864;&#47532;&#50640;&#44172; <strong style="color:var(--red)">&#50500;&#50696; &#50630;&#45716;</strong> &#49345;&#54408;</div>
+      <div style="font-size:13px;color:var(--tx2);line-height:1.7;margin-bottom:10px">&#44221;&#51137;&#49324;&#50640;&#47564; &#51080;&#44256; &#50864;&#47532;&#50640;&#44172; <strong style="color:var(--red)">&#50500;&#50696; &#50630;&#45716;</strong> &#49345;&#54408;</div>
       <div style="font-size:12px;color:var(--tx3);line-height:1.6;padding:10px 12px;background:var(--sf2);border-radius:8px">
-        <strong style="color:var(--tx)">&#50808;&#48512; &#44032;&#44201;&#183;&#47532;&#48624;&#183;&#46364;&#49892;&#51201; &#45936;&#51060;&#53552;&#47196; &#53456;&#51648;</strong><br>
+        <strong style="color:var(--tx)">&#54032;&#48324;: &#50808;&#48512; &#49345;&#54408; &#47588;&#52845; &#49892;&#54056; (&#51080;&#45796;/&#50630;&#45796;)</strong><br>
         &#8594; &#48288;&#49828;&#53944; &#49692;&#50948; &#45458;&#51012;&#49688;&#47197; &#50864;&#49440; &#44053;&#51228; S<br>
         &#8594; 24h &#45236; &#49472;&#47084; &#50689;&#50629; &#52265;&#49688;
       </div>
@@ -1311,9 +1312,9 @@ html{scroll-behavior:smooth}
         <div style="width:28px;height:28px;border-radius:50%;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0">2</div>
         <div style="font-size:15px;font-weight:800;color:var(--tx);letter-spacing:-.02em">&#44396;&#49353; Gap <span style="font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;background:rgba(52,199,89,.12);color:var(--green);vertical-align:middle">MVP</span></div>
       </div>
-      <div style="font-size:13px;color:var(--tx2);line-height:1.7;margin-bottom:10px">6&#45824;&#52629; &#45936;&#51060;&#53552;&#47196; &#44048;&#51648;: &#49345;&#54408;&#51008; &#51080;&#51648;&#47564; &#52852;&#53580;&#44256;&#47532;&#48324; <strong style="color:var(--orange)">&#44396;&#49353;&#51060; &#48712;&#50557;&#54620;</strong> &#50689;&#50669;</div>
+      <div style="font-size:13px;color:var(--tx2);line-height:1.7;margin-bottom:10px">&#49345;&#54408;&#51008; &#51080;&#51648;&#47564; &#52852;&#53580;&#44256;&#47532;&#48324; <strong style="color:var(--orange)">&#44396;&#49353;&#51060; &#48712;&#50557;&#54620;</strong> &#50689;&#50669;</div>
       <div style="font-size:12px;color:var(--tx3);line-height:1.6;padding:10px 12px;background:var(--sf2);border-radius:8px">
-        <strong style="color:var(--tx)">&#46364;&#49892;&#51201;&#183;&#47784;&#47704;&#53568;&#183;CVR &#45936;&#51060;&#53552;&#47196; &#44048;&#51648;</strong><br>
+        <strong style="color:var(--tx)">&#54032;&#48324;: &#54032;&#47588;0&#44148;&#183;&#55092;&#47732;&#183;&#52852;&#53580;&#44256;&#47532;&#44277;&#48177; &#44048;&#51648;</strong><br>
         &#8594; &#50864;&#47532; SKU &#49688;&#44032; &#48512;&#51313;&#54620; &#50689;&#50669; &#46020;&#52636;<br>
         &#8594; &#49472;&#47084; &#50689;&#50629; + &#49345;&#54408; &#54869;&#45824;
       </div>
@@ -1323,16 +1324,16 @@ html{scroll-behavior:smooth}
         <div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0">3</div>
         <div style="font-size:15px;font-weight:800;color:var(--tx);letter-spacing:-.02em">&#44032;&#44201; Gap <span style="font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;background:rgba(52,199,89,.12);color:var(--green);vertical-align:middle">MVP</span></div>
       </div>
-      <div style="font-size:13px;color:var(--tx2);line-height:1.7;margin-bottom:10px">6&#45824;&#52629; &#51333;&#54633; &#51216;&#49688;&#54868;: &#50577;&#51901; &#45796; &#51080;&#45716; &#49345;&#54408;&#51032; <strong style="color:var(--blue)">&#44221;&#51137;&#47141; &#52264;&#51060;</strong> &#48708;&#44368;</div>
+      <div style="font-size:13px;color:var(--tx2);line-height:1.7;margin-bottom:10px">&#50577;&#51901; &#45796; &#51080;&#45716; &#49345;&#54408;&#51032; <strong style="color:var(--blue)">&#44221;&#51137;&#47141; &#52264;&#51060;</strong> &#48708;&#44368;</div>
       <div style="font-size:12px;color:var(--tx3);line-height:1.6;padding:10px 12px;background:var(--sf2);border-radius:8px">
-        <strong style="color:var(--tx)">6&#52629; &#51204;&#52404; &#51216;&#49688; &#8594; S/A/B/C &#46321;&#44553;</strong><br>
-        &#8594; &#44032;&#44201;&#183;&#46364;&#183;&#47784;&#47704;&#53568;&#183;&#51648;&#54364;&#183;&#47532;&#48624;&#183;&#48176;&#49569;<br>
+        <strong style="color:var(--tx)">&#54032;&#48324;: 6&#52629; &#44032;&#51473;&#52824; &#51216;&#49688; (&#50500;&#47000; &#54364; &#52280;&#51312;)</strong><br>
+        &#8594; &#44032;&#44201;25 &#183; &#46364;20 &#183; &#47784;&#47704;&#53568;15 &#183; &#51648;&#54364;15 &#183; &#47532;&#48624;15 &#183; &#48176;&#49569;10<br>
         &#8594; &#52629;&#48324; &#44060;&#49440; &#44284;&#51228; &#46020;&#52636;
       </div>
     </div>
   </div>
 
-  <div style="font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--txm);margin-bottom:10px" class="rv">&#9660; 6&#45824;&#52629; &#48516;&#49437; &#54532;&#47112;&#51076; &#8212; 3 Gap &#51204;&#52404;&#47484; &#44288;&#53685;&#54616;&#45716; &#45936;&#51060;&#53552;</div>
+  <div style="font-size:15px;font-weight:800;letter-spacing:.02em;color:var(--tx2);margin-bottom:14px;padding:12px 16px;background:var(--sf2);border-radius:10px;border-left:4px solid var(--blue)" class="rv">&#9660; 6&#45824;&#52629; &#48516;&#49437; &#54532;&#47112;&#51076; &#8212; 3 Gap &#51204;&#52404;&#47484; &#44288;&#53685;&#54616;&#45716; &#45936;&#51060;&#53552;</div>
   <div class="gap-wrap rv">
     <table class="gap-tbl" id="gapTable">
       <thead><tr><th>&#51652;&#45800; &#52629;</th><th>&#44032;&#51473;&#52824;</th><th>&#51088;&#49324; &#45936;&#51060;&#53552;</th><th>&#50808;&#48512; &#45936;&#51060;&#53552;</th><th>Gap &#49328;&#52636;</th><th>&#44201;&#52264; &#53356;&#44592;</th><th>&#49888;&#54840;</th></tr></thead>
@@ -1464,8 +1465,7 @@ html{scroll-behavior:smooth}
       <div class="sig-act ripple"><div class="sig-act-n">&#54200;&#49457;&#183;&#44305;&#44256;</div><div class="sig-act-b">&#49444;&#51221; &#50676;&#44592;</div></div>
     </div>
   </div>
-  <details class="sig-ex-toggle">
-  <summary>&#49888;&#54840;&#46321; &#50696;&#49884; &#8212; S / A / B / C &#46321;&#44553;&#48324; 6&#52629; &#44221;&#51137;&#47141;</summary>
+  <div style="font-size:14px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--tx3);margin:32px 0 14px;padding:24px 0 14px;border-top:1px solid var(--sf2)">&#49888;&#54840;&#46321; &#50696;&#49884; &#8212; S / A / B / C &#46321;&#44553;&#48324; 6&#52629; &#44221;&#51137;&#47141;</div>
   <div class="sig-examples stg rv">
     <div class="sig-ex">
       <div class="sig-ex-hd">
@@ -1535,7 +1535,6 @@ html{scroll-behavior:smooth}
       <div class="sig-ex-reason reason-c"><strong>&#47784;&#45768;&#53552;&#47553;:</strong> Gap &#48120;&#48120; &#8212; &#46364;&#49892;&#51201;/&#47784;&#47704;&#53568;/&#51648;&#54364; &#47784;&#46160; &#48512;&#51652;. &#53944;&#47116;&#46300; &#47532;&#54252;&#53944; &#48156;&#54665; + &#52628;&#51060; &#44288;&#52272; &#47784;&#46300;</div>
     </div>
   </div>
-  </details>
 </div>
 
 <div class="sec rv" id="s-sim">
