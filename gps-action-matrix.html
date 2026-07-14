@@ -95,7 +95,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.5;-
 
 /* Summary table */
 .sum-wrap{overflow-x:auto;border-radius:var(--r);border:1px solid var(--bd);background:var(--sf);box-shadow:var(--shm)}
-.sum{width:100%;border-collapse:separate;border-spacing:0;font-size:13px;min-width:800px}
+.sum{width:100%;border-collapse:separate;border-spacing:0;font-size:13px;min-width:900px}
 .sum th{padding:10px 14px;text-align:left;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3);background:var(--sf2);border-bottom:2px solid var(--bd);white-space:nowrap;position:sticky;top:0}
 .sum td{padding:10px 14px;border-bottom:1px solid var(--sf2);vertical-align:top;line-height:1.5}
 .sum tr:last-child td{border-bottom:none}
@@ -105,6 +105,24 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.5;-
 .ax-chip.c{background:rgba(255,59,48,.1);color:var(--red)}
 .ax-chip.w{background:rgba(255,149,0,.1);color:var(--orange)}
 .ax-chip.g{background:rgba(52,199,89,.08);color:var(--green)}
+
+/* Gap type badges */
+.gap-badge{font-size:10px;font-weight:800;padding:3px 10px;border-radius:100px;display:inline-block;letter-spacing:.02em;white-space:nowrap}
+.gap-badge.sel{background:rgba(88,86,214,.12);color:var(--indigo)}
+.gap-badge.asrt{background:rgba(191,90,242,.12);color:var(--purple)}
+.gap-badge.prc{background:rgba(255,59,48,.1);color:var(--red)}
+.gap-badge.multi{background:rgba(255,149,0,.1);color:var(--orange)}
+.gap-badge.mon{background:var(--sf2);color:var(--tx3)}
+
+/* Process flow banner */
+.process-flow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:14px 20px;background:var(--sf2);border-radius:var(--rs);margin-bottom:24px;font-size:13px;font-weight:600;color:var(--tx2)}
+.process-flow .pf-step{display:flex;align-items:center;gap:6px}
+.process-flow .pf-arrow{color:var(--txm);font-size:11px}
+.process-flow .pf-label{padding:4px 12px;border-radius:100px;font-size:12px;font-weight:700}
+.process-flow .pf-ext{background:rgba(90,200,250,.12);color:var(--teal)}
+.process-flow .pf-six{background:rgba(88,86,214,.12);color:var(--indigo)}
+.process-flow .pf-gap{background:rgba(191,90,242,.12);color:var(--purple)}
+.process-flow .pf-act{background:rgba(255,59,48,.1);color:var(--red)}
 
 @media(max-width:640px){
   .hero h1{font-size:28px}
@@ -119,7 +137,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.5;-
 <div class="hero">
   <div class="hero-ey">Essential GPS Action Matrix v1.0</div>
   <h1>&#54000;&#50612;&#48324; &#50529;&#49496; &#53468;&#49828;&#53356; &#51204;&#52404; &#44221;&#50864;&#51032; &#49688;</h1>
-  <p>6&#45824;&#52629; Gap &#49888;&#54840; &#51312;&#54633;&#50640; &#46384;&#46972; MD&#50640;&#44172; &#48176;&#51221;&#46104;&#45716; &#47784;&#46304; &#50529;&#49496; &#53468;&#49828;&#53356;. &#44033; &#54000;&#50612;&#48324; &#53944;&#47532;&#44144; &#51312;&#44148;&#44284; &#50864;&#49440;&#49692;&#50948; &#54252;&#54632;.</p>
+  <p>&#50808;&#48512; 10&#44060; &#49324;&#51060;&#53944; &#53356;&#47204;&#47553; + &#45236;&#48512; &#45936;&#51060;&#53552; &#8594; 6&#45824;&#52629; &#48516;&#49437; &#8594; 3&#44032;&#51648; Gap &#54032;&#48324;(&#49472;&#47113;&#49496;/&#44396;&#49353;/&#44032;&#44201;) &#8594; MD &#50529;&#49496; &#48176;&#51221;. &#44033; &#54000;&#50612;&#48324; &#53944;&#47532;&#44144; &#51312;&#44148;&#44284; &#50864;&#49440;&#49692;&#50948; &#54252;&#54632;.</p>
 </div>
 
 <!-- Stats -->
@@ -128,6 +146,17 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.5;-
   <div class="stat"><div class="stat-v" style="color:var(--red)" id="st-s">12</div><div class="stat-l">S&#46321;&#44553; &#44596;&#44553;</div></div>
   <div class="stat"><div class="stat-v" style="color:var(--orange)" id="st-a">11</div><div class="stat-l">A&#46321;&#44553; &#44060;&#49440;</div></div>
   <div class="stat"><div class="stat-v" style="color:var(--blue)" id="st-b">9</div><div class="stat-l">B&#46321;&#44553; &#48512;&#49828;&#54021;</div></div>
+</div>
+
+<!-- Process flow -->
+<div class="process-flow">
+  <span class="pf-step"><span class="pf-label pf-ext">&#50808;&#48512; 10&#44060; &#49324;&#51060;&#53944; + &#45236;&#48512; &#45936;&#51060;&#53552;</span></span>
+  <span class="pf-arrow">&#8594;</span>
+  <span class="pf-step"><span class="pf-label pf-six">6&#45824;&#52629; &#48516;&#49437;</span></span>
+  <span class="pf-arrow">&#8594;</span>
+  <span class="pf-step"><span class="pf-label pf-gap">&#49472;&#47113;&#49496; Gap / &#44396;&#49353; Gap / &#44032;&#44201; Gap &#54032;&#48324;</span></span>
+  <span class="pf-arrow">&#8594;</span>
+  <span class="pf-step"><span class="pf-label pf-act">MD &#50529;&#49496; &#48176;&#51221;</span></span>
 </div>
 
 <!-- Tier selector -->
@@ -147,7 +176,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.5;-
   <div class="sec-d">37&#44060; &#51204;&#52404; &#44221;&#50864;&#51032; &#49688; &#54620;&#45576;&#50640; &#48372;&#44592;. &#53944;&#47532;&#44144; &#51312;&#44148; + &#52629;&#48324; &#49888;&#54840; + &#50529;&#49496; &#53468;&#49828;&#53356; + &#50756;&#47308; &#44592;&#51456;.</div>
   <div class="sum-wrap">
     <table class="sum" id="sumTable">
-      <thead><tr><th>#</th><th>&#54000;&#50612;</th><th>&#53944;&#47532;&#44144;</th><th>&#52629; &#49888;&#54840; &#54056;&#53556;</th><th>&#50529;&#49496; &#53468;&#49828;&#53356;</th><th>&#50756;&#47308; &#44592;&#51456;</th></tr></thead>
+      <thead><tr><th>#</th><th>&#54000;&#50612;</th><th>Gap &#50976;&#54805;</th><th>&#53944;&#47532;&#44144;</th><th>&#52629; &#49888;&#54840; &#54056;&#53556;</th><th>&#50529;&#49496; &#53468;&#49828;&#53356;</th><th>&#50756;&#47308; &#44592;&#51456;</th></tr></thead>
       <tbody id="sumBody"></tbody>
     </table>
   </div>
@@ -160,6 +189,7 @@ var DATA = {
   S: [
     {
       id:'S-01', name:'미입점 긴급 입점',
+      gap:'sel',
       cond:'AUTO-S: 자사_상품_존재 = FALSE',
       axes:['any','any','any','any','any','any'],
       tasks:[
@@ -170,6 +200,7 @@ var DATA = {
     },
     {
       id:'S-02', name:'가격역전 긴급 조정',
+      gap:'prc',
       cond:'PRICE-X: PCI ≥ 130',
       axes:['crit','any','any','any','any','any'],
       tasks:[
@@ -180,6 +211,7 @@ var DATA = {
     },
     {
       id:'S-03', name:'바이럴 긴급 노출',
+      gap:'asrt',
       cond:'SURGE: MoM ≥ 300% OR 소셜바이럴 = TRUE',
       axes:['any','any','crit','any','any','any'],
       tasks:[
@@ -190,6 +222,7 @@ var DATA = {
     },
     {
       id:'S-04', name:'가격역전 + 딜실적 동반 하락',
+      gap:'prc',
       cond:'PRICE-X + 딜 Gap ≥ 60',
       axes:['crit','crit','any','any','any','any'],
       tasks:[
@@ -199,6 +232,7 @@ var DATA = {
     },
     {
       id:'S-05', name:'가격역전 + 리뷰 저조',
+      gap:'prc',
       cond:'PRICE-X + 리뷰 Gap ≥ 50',
       axes:['crit','any','any','any','warn','any'],
       tasks:[
@@ -208,6 +242,7 @@ var DATA = {
     },
     {
       id:'S-06', name:'가격역전 + 배송 불리',
+      gap:'prc',
       cond:'PRICE-X + 배송 Gap ≥ 60',
       axes:['crit','any','any','any','any','crit'],
       tasks:[
@@ -217,6 +252,7 @@ var DATA = {
     },
     {
       id:'S-07', name:'바이럴 + 가격 문제',
+      gap:'prc',
       cond:'SURGE + PCI ≥ 120',
       axes:['crit','any','crit','any','any','any'],
       tasks:[
@@ -226,6 +262,7 @@ var DATA = {
     },
     {
       id:'S-08', name:'바이럴 + 재고 부족',
+      gap:'asrt',
       cond:'SURGE + 재고일수 < 3',
       axes:['any','any','crit','any','any','warn'],
       tasks:[
@@ -235,6 +272,7 @@ var DATA = {
     },
     {
       id:'S-09', name:'복합 위기 — 3축 이상 Critical',
+      gap:'multi',
       cond:'Critical축 ≥ 3개 (오버라이드 없이 점수만으로 S)',
       axes:['crit','crit','any','crit','any','any'],
       tasks:[
@@ -244,6 +282,7 @@ var DATA = {
     },
     {
       id:'S-10', name:'미입점 + 경쟁사 고평점',
+      gap:'sel',
       cond:'AUTO-S + 외부리뷰 ≥ 4.5',
       axes:['any','any','any','any','crit','any'],
       tasks:[
@@ -253,6 +292,7 @@ var DATA = {
     },
     {
       id:'S-11', name:'미입점 + 경쟁사 대량판매',
+      gap:'sel',
       cond:'AUTO-S + 외부 딜실적 ≥ 500건/월',
       axes:['any','crit','any','any','any','any'],
       tasks:[
@@ -262,6 +302,7 @@ var DATA = {
     },
     {
       id:'S-12', name:'가격역전 + 전체 축 하락',
+      gap:'prc',
       cond:'PRICE-X + 4축 이상 Gap ≥ 40',
       axes:['crit','warn','warn','warn','warn','any'],
       tasks:[
@@ -273,6 +314,7 @@ var DATA = {
   A: [
     {
       id:'A-01', name:'가격 Gap 중간 — 정기 조정',
+      gap:'prc',
       cond:'PCI 110~129 (가격 역전은 아니지만 불리)',
       axes:['warn','any','any','any','any','any'],
       tasks:[
@@ -283,6 +325,7 @@ var DATA = {
     },
     {
       id:'A-02', name:'ZOMBIE 상품 보정',
+      gap:'asrt',
       cond:'딜실적 구좌 40~60 + 조회 대비 전환 저조',
       axes:['any','warn','any','warn','any','any'],
       tasks:[
@@ -292,6 +335,7 @@ var DATA = {
     },
     {
       id:'A-03', name:'DORMANT 모멘텀 회복',
+      gap:'asrt',
       cond:'모멘텀 MoM -20%~-50% (하락세)',
       axes:['any','any','warn','any','any','any'],
       tasks:[
@@ -302,6 +346,7 @@ var DATA = {
     },
     {
       id:'A-04', name:'리뷰 부족 — 신뢰 개선',
+      gap:'asrt',
       cond:'리뷰 Gap ≥ 40 (건수 부족 또는 평점 저조)',
       axes:['any','any','any','any','warn','any'],
       tasks:[
@@ -311,6 +356,7 @@ var DATA = {
     },
     {
       id:'A-05', name:'CVR 저조 — 전환율 개선',
+      gap:'asrt',
       cond:'지표/CVR Gap ≥ 40 (조회 대비 전환 부진)',
       axes:['any','any','any','warn','any','any'],
       tasks:[
@@ -320,6 +366,7 @@ var DATA = {
     },
     {
       id:'A-06', name:'배송 불리 — 배송 경험 개선',
+      gap:'asrt',
       cond:'배송 Gap ≥ 40 (경쟁사 대비 배송 열세)',
       axes:['any','any','any','any','any','warn'],
       tasks:[
@@ -329,6 +376,7 @@ var DATA = {
     },
     {
       id:'A-07', name:'가격 + CVR 복합 Gap',
+      gap:'prc',
       cond:'가격 Gap ≥ 40 + CVR Gap ≥ 40',
       axes:['warn','any','any','warn','any','any'],
       tasks:[
@@ -337,6 +385,7 @@ var DATA = {
     },
     {
       id:'A-08', name:'딜실적 + 리뷰 복합 Gap',
+      gap:'asrt',
       cond:'딜 Gap ≥ 40 + 리뷰 Gap ≥ 40',
       axes:['any','warn','any','any','warn','any'],
       tasks:[
@@ -345,6 +394,7 @@ var DATA = {
     },
     {
       id:'A-09', name:'모멘텀 + 딜실적 복합 하락',
+      gap:'asrt',
       cond:'모멘텀 MoM ≤ -20% + 딜 Gap ≥ 40',
       axes:['any','warn','warn','any','any','any'],
       tasks:[
@@ -353,6 +403,7 @@ var DATA = {
     },
     {
       id:'A-10', name:'시즈널 상품 — 긴급 프로모션',
+      gap:'asrt',
       cond:'시즈널 플래그 = TRUE + 모멘텀 ≥ 50%',
       axes:['any','any','warn','any','any','any'],
       tasks:[
@@ -362,6 +413,7 @@ var DATA = {
     },
     {
       id:'A-11', name:'전체 축 소폭 하락 (경계)',
+      gap:'multi',
       cond:'3축 이상 Gap 40~60 (복합 약화)',
       axes:['warn','warn','warn','any','any','any'],
       tasks:[
@@ -373,6 +425,7 @@ var DATA = {
   B: [
     {
       id:'B-01', name:'SEO 키워드 최적화',
+      gap:'asrt',
       cond:'지표/CVR Gap 20~39 + 검색 순위 저조',
       axes:['any','any','any','warn','any','any'],
       tasks:[
@@ -382,6 +435,7 @@ var DATA = {
     },
     {
       id:'B-02', name:'리뷰 점진적 개선',
+      gap:'asrt',
       cond:'리뷰 Gap 20~39',
       axes:['any','any','any','any','warn','any'],
       tasks:[
@@ -390,6 +444,7 @@ var DATA = {
     },
     {
       id:'B-03', name:'가격 소폭 Gap — 모니터링',
+      gap:'prc',
       cond:'가격 Gap 20~39 (PCI 110~119)',
       axes:['warn','any','any','any','any','any'],
       tasks:[
@@ -399,6 +454,7 @@ var DATA = {
     },
     {
       id:'B-04', name:'딜실적 소폭 Gap',
+      gap:'asrt',
       cond:'딜 Gap 20~39',
       axes:['any','warn','any','any','any','any'],
       tasks:[
@@ -408,6 +464,7 @@ var DATA = {
     },
     {
       id:'B-05', name:'모멘텀 소폭 하락',
+      gap:'asrt',
       cond:'모멘텀 MoM -5%~-19%',
       axes:['any','any','warn','any','any','any'],
       tasks:[
@@ -416,6 +473,7 @@ var DATA = {
     },
     {
       id:'B-06', name:'배송 소폭 Gap',
+      gap:'asrt',
       cond:'배송 Gap 20~39',
       axes:['any','any','any','any','any','warn'],
       tasks:[
@@ -424,6 +482,7 @@ var DATA = {
     },
     {
       id:'B-07', name:'복합 소폭 Gap (2축)',
+      gap:'multi',
       cond:'2축 이상 Gap 20~39',
       axes:['warn','any','any','warn','any','any'],
       tasks:[
@@ -433,6 +492,7 @@ var DATA = {
     },
     {
       id:'B-08', name:'검색 순위 정체',
+      gap:'asrt',
       cond:'지표 Gap 20~39 + 검색 순위 변화 없음',
       axes:['any','any','any','warn','any','any'],
       tasks:[
@@ -441,6 +501,7 @@ var DATA = {
     },
     {
       id:'B-09', name:'전체축 소폭 Gap (경계 상황)',
+      gap:'multi',
       cond:'4축+ Gap 20~39',
       axes:['warn','warn','warn','warn','any','any'],
       tasks:[
@@ -452,6 +513,7 @@ var DATA = {
   C: [
     {
       id:'C-01', name:'정기 트렌드 모니터링',
+      gap:'mon',
       cond:'전축 Gap < 20 (정상 범위)',
       axes:['good','good','good','good','good','good'],
       tasks:[
@@ -460,6 +522,7 @@ var DATA = {
     },
     {
       id:'C-02', name:'경쟁사 동향 모니터링',
+      gap:'mon',
       cond:'전축 Gap < 20 + 경쟁사 변화 감지',
       axes:['good','good','good','good','good','good'],
       tasks:[
@@ -468,6 +531,7 @@ var DATA = {
     },
     {
       id:'C-03', name:'신규 경쟁사 진입 감지',
+      gap:'mon',
       cond:'외부 새 셀러 감지',
       axes:['good','good','any','any','any','any'],
       tasks:[
@@ -476,6 +540,7 @@ var DATA = {
     },
     {
       id:'C-04', name:'시즈널 사전 준비',
+      gap:'mon',
       cond:'시즈널 D-30 이내 + Gap < 20',
       axes:['good','good','good','good','good','good'],
       tasks:[
@@ -484,6 +549,7 @@ var DATA = {
     },
     {
       id:'C-05', name:'승격 예방 알림 유지',
+      gap:'mon',
       cond:'전축 Gap < 20이지만 특정축 15 이상',
       axes:['good','good','good','good','good','good'],
       tasks:[
@@ -494,6 +560,7 @@ var DATA = {
 };
 
 var AX_SHORT = ['가','딜','모','지','리','배'];
+var GAP_LABELS = {sel:'셀렉션 Gap',asrt:'구색 Gap',prc:'가격 Gap',multi:'복합 Gap',mon:'모니터링'};
 
 function showT(tier) {
   document.querySelectorAll('.tier-btn').forEach(function(b){b.classList.remove('active')});
@@ -527,7 +594,8 @@ function renderFlow(tier) {
     html += '<div class="flow-node" onclick="this.classList.toggle(\'open\')">';
     html += '<div class="flow-head">';
     html += '<div class="flow-id" style="background:'+tierColor+'">'+item.id+'</div>';
-    html += '<div class="flow-trigger"><div class="flow-name">'+item.name+'</div><div class="flow-cond">'+item.cond+'</div></div>';
+    var gapBadge = item.gap ? '<span class="gap-badge '+item.gap+'" style="margin-left:8px">'+GAP_LABELS[item.gap]+'</span>' : '';
+    html += '<div class="flow-trigger"><div class="flow-name">'+item.name+gapBadge+'</div><div class="flow-cond">'+item.cond+'</div></div>';
     html += '<div class="flow-axes">'+axHtml+'</div>';
     html += '<span class="flow-chev">&#9654;</span>';
     html += '</div>';
@@ -553,8 +621,10 @@ function buildSummary() {
       var taskNames = item.tasks.map(function(t){return t.name}).join(', ');
       var doneMetric = item.tasks[0].metric ? item.tasks[0].metric[0] : '-';
       var tr = document.createElement('tr');
+      var gapLabel = item.gap ? '<span class="gap-badge '+item.gap+'">'+GAP_LABELS[item.gap]+'</span>' : '';
       tr.innerHTML = '<td style="font-weight:700;font-variant-numeric:tabular-nums">'+n+'</td>'
         +'<td><span style="font-size:11px;font-weight:800;padding:3px 8px;border-radius:100px;color:#fff;background:'+tierColors[tier]+'">'+tier+'</span></td>'
+        +'<td>'+gapLabel+'</td>'
         +'<td style="font-weight:700;font-size:13px">'+item.name+'</td>'
         +'<td>'+axHtml+'</td>'
         +'<td style="font-size:13px;color:var(--tx2)">'+taskNames+'</td>'
