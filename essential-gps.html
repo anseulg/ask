@@ -250,53 +250,53 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.7;-
 .sig-tier{font-size:12px;font-weight:800;padding:5px 16px;border-radius:100px;color:#fff;letter-spacing:.03em;animation:tierGlow 2s ease-in-out infinite}
 @keyframes tierGlow{0%,100%{box-shadow:0 0 8px rgba(88,86,214,.3)}50%{box-shadow:0 0 24px rgba(88,86,214,.7)}}
 .sig-cat{font-size:13px;color:var(--tx3);font-weight:700;margin-left:auto;letter-spacing:-.01em}
-.sig-axes{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
-.sig-ax{text-align:left;padding:22px 20px;border-radius:var(--rs);background:var(--sf2);border:1px solid transparent;transition:transform .25s,box-shadow .25s,border-color .25s;cursor:pointer;position:relative;display:flex;flex-direction:column;gap:10px}
+.sig-axes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.sig-ax{text-align:left;padding:24px 22px;border-radius:var(--rs);background:var(--sf2);border:1px solid transparent;transition:transform .25s,box-shadow .25s,border-color .25s;cursor:pointer;position:relative;display:flex;flex-direction:column;gap:12px}
 .sig-ax:hover{transform:scale(1.03) translateY(-3px);box-shadow:var(--shl);border-color:var(--bd)}
 .sig-ax .sig-tip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);font-size:12px;font-weight:600;padding:7px 14px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;transform:translateX(-50%) translateY(4px);letter-spacing:-.01em}
 .sig-ax:hover .sig-tip{opacity:1;transform:translateX(-50%) translateY(0)}
 .sig-ax-top{display:flex;align-items:baseline;gap:10px}
-.sig-ax-n{font-size:20px;font-weight:900;color:var(--tx);letter-spacing:-.03em;line-height:1.1}
-.sig-ax-wt{font-size:13px;font-weight:800;color:var(--tx3);margin-left:auto;font-variant-numeric:tabular-nums;background:var(--sf3);padding:4px 12px;border-radius:6px;letter-spacing:.01em}
-.sig-ax-src{font-size:10px;font-weight:700;margin-top:2px}
-.sig-ax-mid{display:flex;align-items:center;gap:14px;margin:4px 0}
-.sig-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.04em;padding:5px 14px;border-radius:6px;flex-shrink:0;text-transform:uppercase}
-.sig-badge-bar{width:3px;height:18px;border-radius:2px;flex-shrink:0}
+.sig-ax-n{font-size:22px;font-weight:900;color:var(--tx);letter-spacing:-.03em;line-height:1.1}
+.sig-ax-wt{font-size:14px;font-weight:800;color:var(--tx3);margin-left:auto;font-variant-numeric:tabular-nums;background:var(--sf3);padding:5px 14px;border-radius:8px;letter-spacing:.01em}
+.sig-ax-src{font-size:11px;font-weight:700;margin-top:4px;letter-spacing:.02em}
+.sig-ax-mid{display:flex;align-items:center;gap:14px;margin:6px 0}
+.sig-badge{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:800;letter-spacing:.04em;padding:6px 16px;border-radius:8px;flex-shrink:0;text-transform:uppercase}
+.sig-badge-bar{width:4px;height:20px;border-radius:2px;flex-shrink:0}
 .sig-badge.r{color:var(--red);background:rgba(255,59,48,.08)}.sig-badge.r .sig-badge-bar{background:var(--red)}
 .sig-badge.a{color:var(--orange);background:rgba(255,149,0,.08)}.sig-badge.a .sig-badge-bar{background:var(--orange)}
 .sig-badge.g{color:var(--green);background:rgba(52,199,89,.08)}.sig-badge.g .sig-badge-bar{background:var(--green)}
 @keyframes pulseR{0%,100%{box-shadow:0 0 16px rgba(255,59,48,.35)}50%{box-shadow:0 0 32px rgba(255,59,48,.65)}}
-.sig-ax-v{font-size:18px;font-weight:900;color:var(--tx);font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1.2}
-.sig-ax-formula{font-size:11px;color:var(--tx3);font-family:var(--fm);line-height:1.5;letter-spacing:0;margin-top:1px}
+.sig-ax-v{font-size:22px;font-weight:900;color:var(--tx);font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1.2}
+.sig-ax-formula{font-size:12px;color:var(--tx3);font-family:var(--fm);line-height:1.5;letter-spacing:0;margin-top:2px}
 /* traffic light tier examples — full 6-axis cards */
-.sig-examples{display:grid;grid-template-columns:1fr;gap:20px;margin-top:28px}
-.sig-ex{padding:28px 26px;border-radius:var(--r);background:var(--sf);border:1px solid var(--bd);transition:transform .25s,box-shadow .25s;font-family:'Apple SD Gothic Neo','Pretendard','Malgun Gothic','Noto Sans KR',system-ui,sans-serif}
+.sig-examples{display:grid;grid-template-columns:1fr;gap:24px;margin-top:28px}
+.sig-ex{padding:30px 28px;border-radius:var(--r);background:var(--sf);border:1px solid var(--bd);transition:transform .25s,box-shadow .25s;font-family:'Apple SD Gothic Neo','Pretendard','Malgun Gothic','Noto Sans KR',system-ui,sans-serif}
 .sig-ex:hover{transform:translateY(-3px);box-shadow:var(--shl)}
-.sig-ex-hd{display:flex;align-items:center;gap:14px;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--bd)}
-.sig-ex-tier{font-size:14px;font-weight:800;padding:8px 22px;border-radius:100px;color:#fff;letter-spacing:.04em;flex-shrink:0}
+.sig-ex-hd{display:flex;align-items:center;gap:16px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--bd)}
+.sig-ex-tier{font-size:15px;font-weight:800;padding:9px 24px;border-radius:100px;color:#fff;letter-spacing:.04em;flex-shrink:0}
 .sig-ex-info{flex:1;min-width:0}
-.sig-ex-product{font-size:16px;font-weight:800;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.02em}
-.sig-ex-cat{font-size:13px;color:var(--tx3);margin-top:4px;letter-spacing:-.01em}
-.sig-ex-score-box{text-align:right;flex-shrink:0;padding-left:12px}
-.sig-ex-score{font-size:42px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1;letter-spacing:-.03em}
-.sig-ex-label{font-size:12px;color:var(--tx3);font-weight:700;margin-top:5px;letter-spacing:.03em;text-transform:uppercase}
-.sig-ex-axes{display:flex;flex-direction:column;gap:5px}
-.sig-ex-row{display:grid;grid-template-columns:8px 80px 1fr 48px;align-items:center;gap:10px;padding:12px 16px;border-radius:10px;background:var(--sf2);font-size:14px;transition:background .2s}
+.sig-ex-product{font-size:18px;font-weight:800;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.02em}
+.sig-ex-cat{font-size:14px;color:var(--tx3);margin-top:5px;letter-spacing:-.01em}
+.sig-ex-score-box{text-align:right;flex-shrink:0;padding-left:16px}
+.sig-ex-score{font-size:48px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1;letter-spacing:-.03em}
+.sig-ex-label{font-size:13px;color:var(--tx3);font-weight:700;margin-top:6px;letter-spacing:.03em;text-transform:uppercase}
+.sig-ex-axes{display:flex;flex-direction:column;gap:6px}
+.sig-ex-row{display:grid;grid-template-columns:10px 100px 1fr 52px;align-items:center;gap:12px;padding:14px 18px;border-radius:10px;background:var(--sf2);font-size:15px;transition:background .2s}
 .sig-ex-row:hover{background:var(--sf3)}
-.sig-ex-dot{width:5px;height:26px;border-radius:3px;flex-shrink:0}
-.sig-ex-dot.r{background:var(--red);box-shadow:0 0 6px rgba(255,59,48,.3)}
-.sig-ex-dot.a{background:var(--orange);box-shadow:0 0 6px rgba(255,149,0,.3)}
-.sig-ex-dot.g{background:var(--green);box-shadow:0 0 6px rgba(52,199,89,.3)}
+.sig-ex-dot{width:6px;height:30px;border-radius:3px;flex-shrink:0}
+.sig-ex-dot.r{background:var(--red);box-shadow:0 0 8px rgba(255,59,48,.35)}
+.sig-ex-dot.a{background:var(--orange);box-shadow:0 0 8px rgba(255,149,0,.35)}
+.sig-ex-dot.g{background:var(--green);box-shadow:0 0 8px rgba(52,199,89,.35)}
 .sig-ex-dot.off{background:var(--sf3)}
-.sig-ex-ax-name{font-weight:800;color:var(--tx);font-size:15px;letter-spacing:-.02em}
-.sig-ex-ax-val{font-size:14px;color:var(--tx2);font-variant-numeric:tabular-nums;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:-.01em}
-.sig-ex-ax-wt{font-size:12px;font-weight:800;color:var(--txm);text-align:right;font-variant-numeric:tabular-nums}
-.sig-ex-reason{margin-top:16px;padding:16px 18px;border-radius:12px;font-size:14px;line-height:1.7;color:var(--tx2);letter-spacing:-.01em}
+.sig-ex-ax-name{font-weight:800;color:var(--tx);font-size:16px;letter-spacing:-.02em}
+.sig-ex-ax-val{font-size:15px;color:var(--tx2);font-variant-numeric:tabular-nums;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:-.01em}
+.sig-ex-ax-wt{font-size:13px;font-weight:800;color:var(--txm);text-align:right;font-variant-numeric:tabular-nums}
+.sig-ex-reason{margin-top:18px;padding:18px 20px;border-radius:12px;font-size:15px;line-height:1.7;color:var(--tx2);letter-spacing:-.01em}
 .sig-ex-reason strong{font-weight:800;letter-spacing:-.01em}
-.sig-ex-reason.reason-s{background:rgba(255,59,48,.06);border-left:4px solid var(--red)}
-.sig-ex-reason.reason-a{background:rgba(255,149,0,.06);border-left:4px solid var(--orange)}
-.sig-ex-reason.reason-b{background:rgba(0,113,227,.06);border-left:4px solid var(--blue)}
-.sig-ex-reason.reason-c{background:var(--sf2);border-left:4px solid var(--txm)}
+.sig-ex-reason.reason-s{background:rgba(255,59,48,.06);border-left:5px solid var(--red)}
+.sig-ex-reason.reason-a{background:rgba(255,149,0,.06);border-left:5px solid var(--orange)}
+.sig-ex-reason.reason-b{background:rgba(0,113,227,.06);border-left:5px solid var(--blue)}
+.sig-ex-reason.reason-c{background:var(--sf2);border-left:5px solid var(--txm)}
 @media(min-width:700px){.sig-examples{grid-template-columns:repeat(2,1fr)}}
 @media(min-width:1100px){.sig-examples{grid-template-columns:repeat(2,1fr)}}
 .sig-ex-toggle{border:none;background:none;padding:0;cursor:pointer;width:100%;text-align:left}
@@ -307,8 +307,8 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.7;-
 .sig-ex-toggle summary:hover{color:var(--tx)}
 .sig-ex-toggle .sig-examples{animation:sigFadeIn .35s ease}
 @keyframes sigFadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-.sig-bar-w{height:5px;background:var(--sf3);border-radius:3px;margin-top:8px;overflow:hidden}
-.sig-bar{height:100%;border-radius:3px;transition:width 1s cubic-bezier(.16,1,.3,1)}
+.sig-bar-w{height:8px;background:var(--sf3);border-radius:4px;margin-top:10px;overflow:hidden}
+.sig-bar{height:100%;border-radius:4px;transition:width 1s cubic-bezier(.16,1,.3,1)}
 /* signal legend */
 .sig-legend{display:flex;justify-content:center;gap:28px;margin-bottom:18px;padding:12px 0;border-bottom:1px solid var(--sf2)}
 .sig-legend-item{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--tx2);letter-spacing:-.01em}
@@ -1101,7 +1101,7 @@ html{scroll-behavior:smooth}
             <div class="pipe-detail-label">&#51201;&#51116; &middot; &#51221;&#44508;&#54868;</div>
             <div style="font-size:13px;color:var(--tx2);padding:12px 16px;background:var(--sf2);border-radius:8px;line-height:1.8">
               &#51068;&#51068; &#48176;&#52824; <strong style="color:var(--tx)">06:00&#8211;09:00</strong> + &#49892;&#49884;&#44036; &#53944;&#47532;&#44144;&#47196; &#51088;&#46041;&#54868;<br>
-              <span style="color:var(--tx3);font-size:12px">&#49688;&#51665;&#44228; + &#44077;&#48516;&#49437;&#44228; &#53685;&#54633; &#51200;&#51109; &middot; &#51088;&#49324;&harr;&#50808;&#48512; &#51221;&#54633;</span>
+              <span style="color:var(--tx3);font-size:12px">&#49688;&#51665;&#44228; + &#44081;&#48516;&#49437;&#44228; &#53685;&#54633; &#51200;&#51109; &middot; &#51088;&#49324;&harr;&#50808;&#48512; &#51221;&#54633;</span>
             </div>
           </div>
           <div class="pipe-detail-section">
@@ -1353,7 +1353,7 @@ html{scroll-behavior:smooth}
       </div>
       <div style="font-size:13px;color:var(--tx2);line-height:1.7;margin-bottom:10px">&#49345;&#54408;&#51008; &#51080;&#51648;&#47564; &#52852;&#53580;&#44256;&#47532;&#48324; <strong style="color:var(--orange)">&#44396;&#49353;&#51060; &#48712;&#50557;&#54620;</strong> &#50689;&#50669;</div>
       <div style="font-size:12px;color:var(--tx3);line-height:1.6;padding:10px 12px;background:var(--sf2);border-radius:8px">
-        <strong style="color:var(--tx)">&#54032;&#48324;: &#47588;&#52845;&#46076;&#51648;&#47564; &#51060;&#49345; &#49345;&#53468; &#44048;&#51648;</strong><br>
+        <strong style="color:var(--tx)">&#54032;&#48324;: &#47588;&#52845;&#46120;&#51648;&#47564; &#51060;&#49345; &#49345;&#53468; &#44048;&#51648;</strong><br>
         <span style="color:var(--tx2)">&#54876;&#50857; &#52629;:</span> &#46364;&#49892;&#51201;(&#54032;&#47588;0&#44148;=ZOMBIE) &#183; &#47784;&#47704;&#53568;(&#48120;&#52636;&#44256;=DORMANT) &#183; &#44032;&#44201;(0&#50896;=DATA-X)<br>
         &rarr; &#52852;&#53580;&#44256;&#47532;&#44277;&#48177;(CAT-VOID) &#46020;&#52636; &rarr; &#49472;&#47084; &#50689;&#50629; + &#49345;&#54408; &#54869;&#45824;
       </div>
@@ -1403,7 +1403,7 @@ html{scroll-behavior:smooth}
 <div class="sec rv" id="s-scoring">
   <div class="eyebrow">04 Scoring &amp; Tier</div>
   <div class="sec-title">4&#45800;&#44228; &#49828;&#53076;&#50612;&#47553; &#8212; Gap &#50976;&#54805;&#51012; &#54032;&#48324;&#54616;&#44256; &#46321;&#44553;&#51012; &#47588;&#44596;&#45796;</div>
-  <div class="sec-desc">&#50808;&#48512; &#48288;&#49828;&#53944;&#49472;&#47084;/&#51064;&#44592;&#49692;&#50948;&#50752; &#45236;&#48512; &#47588;&#52845; &#45936;&#51060;&#53552;&#47484; 6&#52629;&#51004;&#47196; &#51652;&#45800;&#54616;&#50668; Gap &#50976;&#54805;&#51012; &#54032;&#48324;&#54633;&#45768;&#45796;. &#44201;&#52264;&#44032; &#53364;&#49688;&#47197; &#49345;&#50948; &#46321;&#44553;&#51012; &#48155;&#44256;, MD&#50640;&#44172; &#49345;&#54408;&#48324; &#49892;&#54665; &#44284;&#51228;&#47484; &#51204;&#45804;&#54616;&#45716; &#44163;&#51060; &#47785;&#51201;&#51077;&#45768;&#45796;.<br>S&#46321;&#44553; = <strong>&ldquo;MD&#44032; 24&#49884;&#44036; &#45236; &#50504; &#54616;&#47732; &#49892;&#47588;&#52636;&#51060; &#48736;&#51068; &#49345;&#54889;&rdquo;</strong>&#50640;&#47564; &#48512;&#50668;&#54633;&#45768;&#45796;.</div>
+  <div class="sec-desc">&#50808;&#48512; &#48288;&#49828;&#53944;&#49472;&#47084;/&#51064;&#44592;&#49692;&#50948;&#50752; &#45236;&#48512; &#47588;&#52845; &#45936;&#51060;&#53552;&#47484; 6&#52629;&#51004;&#47196; &#51652;&#45800;&#54616;&#50668; Gap &#50976;&#54805;&#51012; &#54032;&#48324;&#54633;&#45768;&#45796;. &#44201;&#52264;&#44032; &#53364;&#49688;&#47197; &#49345;&#50948; &#46321;&#44553;&#51012; &#48155;&#44256;, MD&#50640;&#44172; &#49345;&#54408;&#48324; &#49892;&#54665; &#44284;&#51228;&#47484; &#51204;&#45804;&#54616;&#45716; &#44163;&#51060; &#47785;&#51201;&#51077;&#45768;&#45796;.<br>S&#46321;&#44553; = <strong>&ldquo;MD&#44032; 24&#49884;&#44036; &#45236; &#50504; &#54616;&#47732; &#49892;&#47588;&#52636;&#51060; &#48736;&#51656; &#49345;&#54889;&rdquo;</strong>&#50640;&#47564; &#48512;&#50668;&#54633;&#45768;&#45796;.</div>
 
   <div class="score-flow stg rv">
     <div class="score-flow-step" style="border-top:3px solid var(--red)">
