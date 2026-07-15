@@ -968,8 +968,7 @@ html{scroll-behavior:smooth}
 <nav class="side-nav" id="sideNav">
   <a href="#s-gps" data-label="GPS"></a>
   <a href="#s-arch" data-label="Architecture"></a>
-  <a href="#s-data" data-label="Data"></a>
-  <a href="#s-gap" data-label="Gap"></a>
+  <a href="#s-pipeline" data-label="Pipeline"></a>
   <a href="#s-scoring" data-label="Scoring"></a>
   <a href="#s-signal" data-label="Signal"></a>
   <a href="#s-sim" data-label="Simulator"></a>
@@ -1230,110 +1229,151 @@ html{scroll-behavior:smooth}
   </div>
 </div>
 
+
 <div class="section-connector"><svg width="2" height="32" viewBox="0 0 2 32"><line x1="1" y1="0" x2="1" y2="32" stroke="var(--bd)" stroke-width="2" stroke-dasharray="4 4"/></svg></div>
 
-<!-- EYE + ENGINE execution layer -->
-<div class="sec rv" id="s-eye-engine">
-  <div class="eyebrow">03 Execution Layer</div>
-  <div class="sec-title">EYE + ENGINE &middot; GPS &#49828;&#53076;&#50612;&#47553; &rarr; &#49892;&#54665; &#44228;&#52789;</div>
-  <div class="sec-desc"><span style="font-size:18px;font-weight:800;vertical-align:middle">&#128065;</span> <strong>EYE</strong> 6&#52629; &#44221;&#51137;&#47141; &#51652;&#45800; &rarr; 3 Gap &#54032;&#48324; &middot; <span style="font-size:18px;font-weight:800;vertical-align:middle">&#9881;</span> <strong>ENGINE</strong> Score &rarr; Grade &rarr; Task &rarr; MD &rarr; &#54588;&#46300;&#48177; &#49692;&#54872;</div>
+<div class="sec rv" id="s-pipeline">
+  <div class="eyebrow">03 Analysis Pipeline</div>
+  <div class="sec-title">&#49688;&#51665; &rarr; &#47588;&#52845; &rarr; &#49828;&#53076;&#50612;&#47553; &rarr; MD &#50529;&#49496;</div>
+  <div class="sec-desc">&#50808;&#48512; 10&#44060; &#49324;&#51060;&#53944;&#51032; &#48288;&#49828;&#53944;&#49472;&#47084;&#183;&#51064;&#44592;&#49692;&#50948;&#183;&#52852;&#53580;&#44256;&#47532;&#48324; &#47021;&#53433;&#51012; &#49688;&#51665;&#54616;&#44256;, 11ST &#45236;&#48512; &#49345;&#54408;&#44284; &#47588;&#52845;&#54633;&#45768;&#45796;. &#47588;&#52845; &#44208;&#44284;(Track A/B)&#50640; &#46384;&#46972; Popularity Score&#50752; Priority Score&#47484; &#49328;&#52636;&#54616;&#50668; Gap&#51012; &#54032;&#48324;&#54616;&#44256;, MD&#50640;&#44172; &#49345;&#54408;&#48324; &#49892;&#54665; &#44284;&#51228;&#47484; &#51204;&#45804;&#54633;&#45768;&#45796;.</div>
 
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;background:var(--sf);margin-bottom:14px" class="stg rv">
-    <div style="padding:24px 16px;text-align:center;border-right:1px solid var(--bd);position:relative">
-      <div style="font-size:28px;font-weight:900;color:var(--red);margin-bottom:6px">6</div>
-      <div style="font-size:13px;font-weight:800;color:var(--tx);margin-bottom:4px">6&#52629; &#44221;&#51137;&#47141; &#51652;&#45800;</div>
-      <div style="font-size:11px;color:var(--tx3);line-height:1.6">3 Gap &#51204;&#52404; &#44221;&#51137;&#47141; &#51652;&#45800;<br><span style="color:var(--txm)">&#44032;&#51473;&#52824; &#51312;&#51221; &#44032;&#45733;</span></div>
-      <div style="position:absolute;right:-8px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--txm);z-index:1">&rarr;</div>
+  <!-- 4-step pipeline flow -->
+  <div class="score-flow stg rv">
+    <div class="score-flow-step" style="border-top:3px solid var(--purple)">
+      <div class="score-flow-num" style="background:var(--purple)">1</div>
+      <div class="score-flow-label">&#49688;&#51665;</div>
+      <div class="score-flow-desc">&#50808;&#48512; 10&#44060; &#49324;&#51060;&#53944;<br>&#48288;&#49828;&#53944;/&#51064;&#44592;/&#52852;&#53580;&#44256;&#47532;&#48324; &#47021;&#53433;</div>
+      <div class="score-flow-out" style="background:rgba(191,90,242,.1);color:var(--purple)">Popularity Score</div>
+      <div class="score-flow-arrow">&rarr;</div>
     </div>
-    <div style="padding:24px 16px;text-align:center;border-right:1px solid var(--bd);position:relative">
-      <div style="display:flex;gap:4px;justify-content:center;margin-bottom:6px"><span style="font-size:12px;font-weight:800;padding:4px 10px;border-radius:100px;color:#fff;background:var(--red)">S</span><span style="font-size:12px;font-weight:800;padding:4px 10px;border-radius:100px;color:#fff;background:var(--orange)">A</span><span style="font-size:12px;font-weight:800;padding:4px 10px;border-radius:100px;color:#fff;background:var(--blue)">B</span><span style="font-size:12px;font-weight:800;padding:4px 8px;border-radius:100px;color:#fff;background:var(--txm)">C</span></div>
-      <div style="font-size:13px;font-weight:800;color:var(--tx);margin-bottom:4px">4&#45800;&#44228; &#46321;&#44553;</div>
-      <div style="font-size:11px;color:var(--tx3);line-height:1.6">&ge;85 S(24h) &middot; &ge;65 A(7d)<br>&ge;40 B(14d) &middot; &lt;40 C(30d)</div>
-      <div style="position:absolute;right:-8px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--txm);z-index:1">&rarr;</div>
+    <div class="score-flow-step" style="border-top:3px solid var(--blue)">
+      <div class="score-flow-num" style="background:var(--blue)">2</div>
+      <div class="score-flow-label">&#47588;&#52845;</div>
+      <div class="score-flow-desc">11&#48264;&#44032; &#45236;&#48512; &#49345;&#54408; &#53945;&#51221;<br>Track A(&#47588;&#52845;) / B(&#48120;&#47588;&#52845;)</div>
+      <div class="score-flow-out" style="background:rgba(0,113,227,.1);color:var(--blue)">Track &#48516;&#47532;</div>
+      <div class="score-flow-arrow">&rarr;</div>
     </div>
-    <div style="padding:24px 16px;text-align:center;border-right:1px solid var(--bd);position:relative">
-      <div style="font-size:28px;font-weight:900;color:var(--green);margin-bottom:6px">37</div>
-      <div style="font-size:13px;font-weight:800;color:var(--tx);margin-bottom:4px">&#50529;&#49496; &#53468;&#49828;&#53356;</div>
-      <div style="font-size:11px;color:var(--tx3);line-height:1.6">&#46321;&#44553;&#48324; &#51088;&#46041; &#49373;&#49457;<br>MD Accept / Reject</div>
-      <div style="position:absolute;right:-8px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--txm);z-index:1">&rarr;</div>
+    <div class="score-flow-step" style="border-top:3px solid var(--green)">
+      <div class="score-flow-num" style="background:var(--green)">3</div>
+      <div class="score-flow-label">&#49828;&#53076;&#50612;&#47553;</div>
+      <div class="score-flow-desc">Track A: &#50808;&#48512; + &#51088;&#49324;&#51648;&#54364;<br>Track B: &#50808;&#48512;&#47564;</div>
+      <div class="score-flow-out" style="background:rgba(52,199,89,.1);color:var(--green)">6&#52629; &rarr; S/A/B/C</div>
+      <div class="score-flow-arrow">&rarr;</div>
     </div>
-    <div style="padding:24px 16px;text-align:center;position:relative">
-      <div style="font-size:28px;font-weight:900;color:var(--blue);margin-bottom:6px">&#8635;</div>
-      <div style="font-size:13px;font-weight:800;color:var(--tx);margin-bottom:4px">&#54588;&#46300;&#48177; &#47336;&#54532;</div>
-      <div style="font-size:11px;color:var(--tx3);line-height:1.6">&#54952;&#44284;&#52769;&#51221; &rarr; Gap &#51116;&#49328;&#52636;<br>&rarr; &#46321;&#44553; &#51116;&#54032;&#51221;</div>
+    <div class="score-flow-step" style="border-top:3px solid var(--red)">
+      <div class="score-flow-num" style="background:var(--red)">4</div>
+      <div class="score-flow-label">MD &#50529;&#49496;</div>
+      <div class="score-flow-desc">Gap &#50976;&#54805;&#48324; &#44284;&#51228; &#49373;&#49457;<br>SLA &#44592;&#48152; &#49892;&#54665;</div>
+      <div class="score-flow-out" style="background:rgba(255,59,48,.1);color:var(--red)">37&#44060; &#53468;&#49828;&#53356;</div>
     </div>
   </div>
-  <div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 16px;background:var(--sf2);border-radius:var(--rs);border:1px solid var(--bd)" class="stg rv">&#8635; &#49892;&#54665; &#44208;&#44284;&#44032; &#45796;&#49884; Gap &#51652;&#45800;&#51004;&#47196; &#49692;&#54872; &mdash; &#46321;&#44553;&middot;&#53468;&#49828;&#53356;&#44032; &#51648;&#49549; &#44081;&#49888;</div>
-</div>
 
-<div class="section-connector"><svg width="2" height="32" viewBox="0 0 2 32"><line x1="1" y1="0" x2="1" y2="32" stroke="var(--bd)" stroke-width="2" stroke-dasharray="4 4"/></svg></div>
-<div class="sec rv" id="s-data">
-  <div class="eyebrow">04 Data Sources</div>
-  <div class="sec-title">&#45936;&#51060;&#53552; &#49688;&#51665; &#8212; &#51088;&#49324; &#46356;&#49828;&#52964;&#48260;&#47532; + &#50808;&#48512; &#44221;&#51137; 10&#44060; &#49324;&#51060;&#53944; MVP &#50756;&#47308;</div>
-  <div class="sec-desc">Gap&#51012; &#49328;&#52636;&#54616;&#47140;&#47732; &#50577;&#51901; &#45936;&#51060;&#53552;&#44032; &#54596;&#50836;&#54633;&#45768;&#45796;. &#51088;&#49324; &#45936;&#51060;&#53552;&#47196; &#54788;&#51116;&#47484; &#51069;&#44256;, &#50808;&#48512; &#53356;&#47204;&#47553; &#45936;&#51060;&#53552;&#47196; &#44592;&#51456;&#49440;&#51012; &#49464;&#50881;&#45768;&#45796;.</div>
+  <!-- Track A/B architecture -->
+  <div style="font-size:15px;font-weight:800;letter-spacing:.02em;color:var(--tx2);margin:24px 0 14px;padding:12px 16px;background:var(--sf2);border-radius:10px;border-left:4px solid var(--blue)" class="rv">&#9660; Track A / B &mdash; &#50808;&#48512; &#49345;&#54408; &#47588;&#52845; &#44208;&#44284;&#50640; &#46384;&#46972; &#48516;&#47532; (abt_gap_product)</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px" class="stg rv">
+    <div style="padding:20px;border-radius:var(--rs);background:var(--sf);border:1px solid var(--bd);border-top:3px solid var(--green)">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <div style="font-size:14px;font-weight:900;padding:4px 10px;border-radius:6px;background:var(--green);color:#fff">Track A</div>
+        <div style="font-size:12px;font-weight:700;color:var(--tx2)">IS_MATCHED = 1</div>
+      </div>
+      <div style="font-size:13px;color:var(--tx);font-weight:700;margin-bottom:6px">11&#48264;&#44032;&#50640; &#51080;&#45716; &#49345;&#54408; (&#47588;&#52845;&#46120;)</div>
+      <div style="font-size:12px;color:var(--tx3);line-height:1.7">
+        <strong style="color:var(--tx)">&#49828;&#53076;&#50612;:</strong> Popularity + &#51088;&#49324;&#51648;&#54364;(&#44208;&#51228;&#44144;&#47000;&#50529;&#183;&#51204;&#54872;)<br>
+        <strong style="color:var(--tx)">&#49328;&#49885;:</strong> Priority = Popularity &times; &#51088;&#49324;&#44592;&#54924; (&asymp;IMPACT_SCORE)<br>
+        <strong style="color:var(--tx)">&#50857;&#46020;:</strong> &#44081;&#48516;&#49437;&#183;&#50864;&#49440;&#49692;&#50948;, &#44160;&#49353;&#183;&#51204;&#49884; &#48512;&#49828;&#54021;<br>
+        &rarr; <strong style="color:var(--orange)">&#44396;&#49353; Gap</strong> / <strong style="color:var(--blue)">&#44032;&#44201; Gap</strong> &#51652;&#45800;
+      </div>
+    </div>
+    <div style="padding:20px;border-radius:var(--rs);background:var(--sf);border:1px solid var(--bd);border-top:3px solid var(--purple)">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <div style="font-size:14px;font-weight:900;padding:4px 10px;border-radius:6px;background:var(--purple);color:#fff">Track B</div>
+        <div style="font-size:12px;font-weight:700;color:var(--tx2)">&#48120;&#47588;&#52845;</div>
+      </div>
+      <div style="font-size:13px;color:var(--tx);font-weight:700;margin-bottom:6px">11&#48264;&#44032;&#50640; &#50630;&#45716; &#49345;&#54408; (&#48120;&#47588;&#52845;)</div>
+      <div style="font-size:12px;color:var(--tx3);line-height:1.7">
+        <strong style="color:var(--tx)">&#49828;&#53076;&#50612;:</strong> &#50808;&#48512; Popularity Score&#47564;<br>
+        <strong style="color:var(--tx)">&#49328;&#49885;:</strong> Popularity(p) = &Sigma;[w_ch &middot; RankScore(p)] &middot; Review &middot; Recency<br>
+        <strong style="color:var(--tx)">&#50857;&#46020;:</strong> &#49548;&#49905;&#183;&#48120;&#51077;&#51216;(SELECTION_GAP) &#48156;&#44404;<br>
+        &rarr; <strong style="color:var(--red)">&#49472;&#47113;&#49496; Gap</strong> &#51652;&#45800;
+      </div>
+    </div>
+  </div>
+
+  <!-- Popularity Score formula -->
+  <div style="padding:16px 20px;border-radius:var(--rs);background:var(--sf);border:1px solid var(--bd);margin-bottom:24px;font-family:'SF Mono',Menlo,monospace;font-size:12px;line-height:1.8;color:var(--tx2);overflow-x:auto" class="rv">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--txm);margin-bottom:8px">Popularity Score &#49328;&#49885; (popularity_policy &#53580;&#51060;&#48660; &#44288;&#47532;, &#54616;&#46300;&#53076;&#46377; &#44552;&#51648;)</div>
+    <code style="color:var(--tx);font-weight:600">Popularity(p) = &Sigma;_channel[ w_channel &middot; RankScore_channel(p) ] &middot; (1 + &alpha; &middot; ReviewSignal(p)) &middot; RecencyFactor(p)</code><br>
+    <span style="color:var(--tx3)">RankScore = normalize( aggregate_over_segments(1/RANK_NO &middot; w_seg) ) &mdash; &#52852;&#53580;&#44256;&#47532;(L1) &#45236; 0~1 &#49828;&#52992;&#51068;</span><br>
+    <span style="color:var(--tx3)">ReviewSignal = z(log1p(REVIEW_COUNT)) &middot; qualityWeight(RATING) &mdash; &#47532;&#48624;&#49688; ~96%, &#54217;&#51216; ~92% &#49688;&#51665; &#54869;&#51064;</span><br>
+    <div style="margin-top:8px;font-size:11px;color:var(--tx3);line-height:1.6">
+      <span style="display:inline-block;padding:2px 6px;border-radius:4px;background:var(--sf2);margin:2px 4px 2px 0">w_channel: &#52292;&#45328; &#44032;&#51473;&#52824; (site.TIER &#50669;&#49688;)</span>
+      <span style="display:inline-block;padding:2px 6px;border-radius:4px;background:var(--sf2);margin:2px 4px 2px 0">w_seg: &#49464;&#44536;&#47676;&#53944; &#51473;&#50836;&#46020; (ALL &#50864;&#49440;)</span>
+      <span style="display:inline-block;padding:2px 6px;border-radius:4px;background:var(--sf2);margin:2px 4px 2px 0">&alpha;: &#47532;&#48624; &#44053;&#46020; (0.2~0.3)</span>
+      <span style="display:inline-block;padding:2px 6px;border-radius:4px;background:var(--sf2);margin:2px 4px 2px 0">RANK_BASIS: &#44592;&#48376; PURCHASE</span>
+    </div>
+  </div>
+
+  <!-- Data Sources (condensed) -->
+  <div style="font-size:15px;font-weight:800;letter-spacing:.02em;color:var(--tx2);margin-bottom:14px;padding:12px 16px;background:var(--sf2);border-radius:10px;border-left:4px solid var(--purple)" class="rv">&#9660; &#45936;&#51060;&#53552; &#49548;&#49828; &mdash; &#51088;&#49324; DB + &#50808;&#48512; &#44221;&#51137; 10&#44060; &#49324;&#51060;&#53944;</div>
   <div class="dsplit stg rv">
     <div class="card dbox int ripple">
-      <div class="dbox-label"><span class="dbox-dot" style="background:var(--blue)"></span>&#51088;&#49324; &#45936;&#51060;&#53552; &#8212; 11&#48264;&#44032; &#45236;&#48512; DB + DW &#51068;&#48176;&#52824;</div>
+      <div class="dbox-label"><span class="dbox-dot" style="background:var(--blue)"></span>&#51088;&#49324; &#45936;&#51060;&#53552; &mdash; 11&#48264;&#44032; &#45236;&#48512; DB + DW &#51068;&#48176;&#52824;</div>
       <div class="dbox-fields"><span class="df di">&#54032;&#47588;&#44032;</span><span class="df di">&#54624;&#51064;&#44032;</span><span class="df di">&#54788;&#51116;&#44032;</span><span class="df di">PCI</span><span class="df di">&#47532;&#48624;&#49688;</span><span class="df di">&#54217;&#51216;</span><span class="df di">&#54252;&#53664;&#47532;&#48624;&#48708;&#50984;</span></div>
       <div class="dbox-note"><span class="pill" style="font-size:10px;padding:2px 8px;background:rgba(52,199,89,.1);color:var(--green)">1&#52264; &#54869;&#48372; &#50756;&#47308;</span> &#44032;&#44201;&#52629; 14&#44060; + &#47532;&#48624;&#52629; 6&#44060; &#54596;&#46300; (MVP 20&#44060;)</div>
       <div class="dbox-fields" style="margin-top:10px"><span class="df na">&#44144;&#47000;&#50529;</span><span class="df na">&#44208;&#51228;&#44148;&#49688;</span><span class="df na">CTR</span><span class="df na">CVR</span><span class="df na">&#44160;&#49353;&#49692;&#50948;</span><span class="df na">&#48176;&#49569;&#49548;&#50836;&#51068;</span><span class="df na">&#52712;&#49548;&#50984;</span></div>
       <div class="dbox-note"><span class="pill" style="font-size:10px;padding:2px 8px;background:rgba(0,113,227,.08);color:var(--blue)">2&#52264; &#54869;&#48372; &#45824;&#49345;</span> &#46364;&#49892;&#51201;&#183;&#47784;&#47704;&#53568;&#183;&#51648;&#54364;/CVR&#183;&#48176;&#49569; 4&#52629; &#54596;&#46300; (118&#44060;)</div>
     </div>
     <div class="card dbox ext ripple">
-      <div class="dbox-label"><span class="dbox-dot" style="background:var(--purple)"></span>&#50808;&#48512; &#44221;&#51137; &#45936;&#51060;&#53552; &#8212; &#48288;&#49828;&#53944;&#49472;&#47084;/&#51064;&#44592;&#49692;&#50948;/&#52852;&#53580;&#44256;&#47532;&#48324; &#47021;&#53433;</div>
+      <div class="dbox-label"><span class="dbox-dot" style="background:var(--purple)"></span>&#50808;&#48512; &#44221;&#51137; &#45936;&#51060;&#53552; &mdash; &#48288;&#49828;&#53944;&#49472;&#47084;/&#51064;&#44592;&#49692;&#50948;/&#52852;&#53580;&#44256;&#47532;&#48324; &#47021;&#53433;</div>
       <div class="dbox-fields"><span class="df de">&#48288;&#49828;&#53944; &#49692;&#50948;</span><span class="df de">&#52852;&#53580;&#44256;&#47532;&#48324; &#47021;&#53433;</span><span class="df de">&#44221;&#51137;&#49324; &#52572;&#51200;&#44032;</span><span class="df de">&#44221;&#51137;&#49324; &#47532;&#48624;&#49688;</span><span class="df de">&#44221;&#51137;&#49324; &#54217;&#51216;</span><span class="df de">&#44221;&#51137;&#49324; SKU&#49688;</span><span class="df de">&#49884;&#51109; &#53944;&#47116;&#46300;</span><span class="df de">&#49884;&#51600;&#49457; &#51648;&#49688;</span><span class="df de">&#51060;&#49800;&#49345;&#54408;</span><span class="df de">&#53440;&#49324; &#48176;&#49569;&#49549;&#46020;</span></div>
       <div class="dbox-note"><span class="pill" style="font-size:10px;padding:2px 8px;background:rgba(52,199,89,.1);color:var(--green)">MVP 10&#44060; &#50756;&#47308;</span> &#45348;&#51060;&#48260;&#49660;&#54609;&#183;G&#47560;&#53011;&#183;&#50725;&#49496;&#183;SSG&#183;&#47215;&#45936;ON&#183;&#52852;&#52852;&#50724;&#183;&#50948;&#47700;&#54532;&#183;&#54000;&#47788;&#183;&#47924;&#49888;&#49324;&#183;&#50732;&#47532;&#48652;&#50689;</div>
-      <div class="dbox-note" style="margin-top:6px"><span class="pill" style="font-size:10px;padding:2px 8px;background:rgba(255,59,48,.1);color:var(--red)">&#53216;&#54049; &#53356;&#47204;&#47553; &#52264;&#45800; &#45824;&#51025;&#51473;</span> <span class="pill" style="font-size:10px;padding:2px 8px;background:rgba(191,90,242,.1);color:var(--purple)">&#52628;&#44032;&#50696;&#51221;</span> &#51064;&#53552;&#54028;&#53356; <span class="pill" style="font-size:10px;padding:2px 8px;background:rgba(142,142,147,.08);color:var(--tx3)">&#52852;&#53580;&#44256;&#47532;&#48324; &#49900;&#54868; &#44160;&#53664;</span> &#50508;&#47532;&#51061;&#49828;&#54532;&#47112;&#49828;&#183;&#50724;&#45720;&#51032;&#51665;&#183;&#51648;&#44536;&#51116;&#44536;&#183;&#50640;&#51060;&#48660;&#47532;&#183;&#50500;&#51060;&#54728;&#48652; &#50808;</div>
+      <div class="dbox-note" style="margin-top:4px;font-size:11px;color:var(--tx3)">&#49688;&#51665; &#53580;&#51060;&#48660;: <code style="font-size:10px;padding:2px 5px;border-radius:4px;background:var(--sf2)">abt_crawl_product_rank</code> <code style="font-size:10px;padding:2px 5px;border-radius:4px;background:var(--sf2)">abt_crawl_brand_rank</code> <code style="font-size:10px;padding:2px 5px;border-radius:4px;background:var(--sf2)">abt_crawl_keyword_rank</code></div>
     </div>
   </div>
-</div>
 
-<div class="section-connector"><svg width="2" height="32" viewBox="0 0 2 32"><line x1="1" y1="0" x2="1" y2="32" stroke="var(--bd)" stroke-width="2" stroke-dasharray="4 4"/></svg></div>
-<div class="sec rv" id="s-gap">
-  <div class="eyebrow">05 Gap Diagnosis</div>
-  <div class="sec-title">3&#45800;&#44228; Gap &#51652;&#45800; &#8212; &#50630;&#45716; &#44163;&#48512;&#53552; &#52286;&#44256;, &#51080;&#45716; &#44163;&#51012; &#44256;&#52828;&#45796;</div>
-  <div class="sec-desc">&#50808;&#48512; 10&#44060; &#49324;&#51060;&#53944;&#51032; &#48288;&#49828;&#53944;&#49472;&#47084;&#183;&#51064;&#44592;&#49692;&#50948;&#183;&#52852;&#53580;&#44256;&#47532;&#48324; &#47021;&#53433;&#51012; &#53356;&#47204;&#47553;&#54616;&#44256;, 11ST &#45236;&#48512; &#49345;&#54408;&#44284; &#47588;&#52845;&#54633;&#45768;&#45796;. &#47588;&#52845; &#44208;&#44284;&#50640; &#46384;&#46972; 3&#44032;&#51648; Gap&#51012; &#51652;&#45800;&#54616;&#44256;, MD&#50640;&#44172; &#49345;&#54408;&#48324; &#49892;&#54665; &#44284;&#51228;&#47484; &#51204;&#45804;&#54633;&#45768;&#45796;.</div>
-
-  <div class="gap-3tier stg rv" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px">
+  <!-- 3 Gap Cards -->
+  <div style="font-size:15px;font-weight:800;letter-spacing:.02em;color:var(--tx2);margin:4px 0 14px;padding:12px 16px;background:var(--sf2);border-radius:10px;border-left:4px solid var(--red)" class="rv">&#9660; 3&#45800;&#44228; Gap &#54032;&#48324; &mdash; Track&#50640; &#46384;&#46972; Gap&#51012; &#51652;&#45800;&#54616;&#44256; MD&#50640;&#44172; &#44284;&#51228; &#51204;&#45804;</div>
+  <div class="gap-3tier stg rv" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px">
     <div style="padding:20px;border-radius:var(--rs);background:var(--sf);border:1px solid var(--bd);border-top:3px solid var(--red)">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
         <div style="width:28px;height:28px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0">1</div>
-        <div style="font-size:15px;font-weight:800;color:var(--tx);letter-spacing:-.02em">&#49472;&#47113;&#49496; Gap <span style="font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;background:rgba(52,199,89,.12);color:var(--green);vertical-align:middle">MVP</span></div>
+        <div style="font-size:15px;font-weight:800;color:var(--tx);letter-spacing:-.02em">&#49472;&#47113;&#49496; Gap <span style="font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;background:rgba(191,90,242,.12);color:var(--purple);vertical-align:middle">Track B</span></div>
       </div>
       <div style="font-size:13px;color:var(--tx2);line-height:1.7;margin-bottom:10px">&#44221;&#51137;&#49324;&#50640;&#47564; &#51080;&#44256; &#50864;&#47532;&#50640;&#44172; <strong style="color:var(--red)">&#50500;&#50696; &#50630;&#45716;</strong> &#49345;&#54408;</div>
       <div style="font-size:12px;color:var(--tx3);line-height:1.6;padding:10px 12px;background:var(--sf2);border-radius:8px">
-        <strong style="color:var(--tx)">&#54032;&#48324;: &#50808;&#48512; &#49345;&#54408; &#47588;&#52845; &#49892;&#54056; (&#51080;&#45796;/&#50630;&#45796;)</strong><br>
+        <strong style="color:var(--tx)">&#54032;&#48324;: &#50808;&#48512; &#49345;&#54408; &#47588;&#52845; &#49892;&#54056; (IS_MATCHED=0)</strong><br>
         <span style="color:var(--tx2)">&#54876;&#50857; &#52629;:</span> &#46364;&#49892;&#51201;(&#48288;&#49828;&#53944;&#49692;&#50948;) &#183; &#47784;&#47704;&#53568;(&#44553;&#46321;&#50668;&#48512;) &#183; &#47532;&#48624;(&#51064;&#44592;&#46020;)<br>
-        &#8594; &#49692;&#50948; &#45458;&#51012;&#49688;&#47197; &#50864;&#49440; &#44053;&#51228; S &#8594; 24h &#45236; &#49472;&#47084; &#50689;&#50629; &#52265;&#49688;
+        &rarr; Popularity &#49692;&#50948; &#45458;&#51012;&#49688;&#47197; &#50864;&#49440; &rarr; &#44053;&#51228; S &rarr; 24h &#45236; &#49472;&#47084; &#50689;&#50629; &#52265;&#49688;
       </div>
     </div>
     <div style="padding:20px;border-radius:var(--rs);background:var(--sf);border:1px solid var(--bd);border-top:3px solid var(--orange)">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
         <div style="width:28px;height:28px;border-radius:50%;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0">2</div>
-        <div style="font-size:15px;font-weight:800;color:var(--tx);letter-spacing:-.02em">&#44396;&#49353; Gap <span style="font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;background:rgba(52,199,89,.12);color:var(--green);vertical-align:middle">MVP</span></div>
+        <div style="font-size:15px;font-weight:800;color:var(--tx);letter-spacing:-.02em">&#44396;&#49353; Gap <span style="font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;background:rgba(52,199,89,.12);color:var(--green);vertical-align:middle">Track A</span></div>
       </div>
       <div style="font-size:13px;color:var(--tx2);line-height:1.7;margin-bottom:10px">&#49345;&#54408;&#51008; &#51080;&#51648;&#47564; &#52852;&#53580;&#44256;&#47532;&#48324; <strong style="color:var(--orange)">&#44396;&#49353;&#51060; &#48712;&#50557;&#54620;</strong> &#50689;&#50669;</div>
       <div style="font-size:12px;color:var(--tx3);line-height:1.6;padding:10px 12px;background:var(--sf2);border-radius:8px">
         <strong style="color:var(--tx)">&#54032;&#48324;: &#47588;&#52845;&#46076;&#51648;&#47564; &#51060;&#49345; &#49345;&#53468; &#44048;&#51648;</strong><br>
         <span style="color:var(--tx2)">&#54876;&#50857; &#52629;:</span> &#46364;&#49892;&#51201;(&#54032;&#47588;0&#44148;=ZOMBIE) &#183; &#47784;&#47704;&#53568;(&#48120;&#52636;&#44256;=DORMANT) &#183; &#44032;&#44201;(0&#50896;=DATA-X)<br>
-        &#8594; &#52852;&#53580;&#44256;&#47532;&#44277;&#48177;(CAT-VOID) &#46020;&#52636; &#8594; &#49472;&#47084; &#50689;&#50629; + &#49345;&#54408; &#54869;&#45824;
+        &rarr; &#52852;&#53580;&#44256;&#47532;&#44277;&#48177;(CAT-VOID) &#46020;&#52636; &rarr; &#49472;&#47084; &#50689;&#50629; + &#49345;&#54408; &#54869;&#45824;
       </div>
     </div>
     <div style="padding:20px;border-radius:var(--rs);background:var(--sf);border:1px solid var(--bd);border-top:3px solid var(--blue)">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
         <div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0">3</div>
-        <div style="font-size:15px;font-weight:800;color:var(--tx);letter-spacing:-.02em">&#44032;&#44201; Gap <span style="font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;background:rgba(52,199,89,.12);color:var(--green);vertical-align:middle">MVP</span></div>
+        <div style="font-size:15px;font-weight:800;color:var(--tx);letter-spacing:-.02em">&#44032;&#44201; Gap <span style="font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;background:rgba(52,199,89,.12);color:var(--green);vertical-align:middle">Track A</span></div>
       </div>
       <div style="font-size:13px;color:var(--tx2);line-height:1.7;margin-bottom:10px">&#50577;&#51901; &#45796; &#51080;&#45716; &#49345;&#54408;&#51032; <strong style="color:var(--blue)">&#44221;&#51137;&#47141; &#52264;&#51060;</strong> &#48708;&#44368;</div>
       <div style="font-size:12px;color:var(--tx3);line-height:1.6;padding:10px 12px;background:var(--sf2);border-radius:8px">
         <strong style="color:var(--tx)">&#54032;&#48324;: 6&#52629; &#51204;&#52404; &#51333;&#54633; &#44221;&#51137;&#47141; &#49828;&#53076;&#50612;&#47553;</strong><br>
         <span style="color:var(--tx2)">&#54876;&#50857; &#52629;:</span> &#44032;&#44201; &#183; &#46364;&#49892;&#51201; &#183; &#47784;&#47704;&#53568; &#183; &#51648;&#54364;/CVR &#183; &#47532;&#48624; &#183; &#48176;&#49569; &#51204;&#52404;<br>
-        &#8594; &#44032;&#51473;&#52824; &#50696;&#49884;: 25/20/15/15/15/10 (&#51312;&#51221; &#44032;&#45733;) &#8594; &#52629;&#48324; &#44060;&#49440; &#44284;&#51228; &#46020;&#52636;
+        &rarr; &#44032;&#51473;&#52824; &#50696;&#49884;: 25/20/15/15/15/10 (&#51312;&#51221; &#44032;&#45733;) &rarr; &#52629;&#48324; &#44060;&#49440; &#44284;&#51228; &#46020;&#52636;
       </div>
     </div>
   </div>
 
-  <div style="font-size:15px;font-weight:800;letter-spacing:.02em;color:var(--tx2);margin-bottom:14px;padding:12px 16px;background:var(--sf2);border-radius:10px;border-left:4px solid var(--blue)" class="rv">&#9660; 6&#45824;&#52629; &#48516;&#49437; &#54532;&#47112;&#51076; &#8212; 3 Gap &#51204;&#52404;&#47484; &#44288;&#53685;&#54616;&#45716; &#45936;&#51060;&#53552;</div>
+  <!-- 6-axis table -->
+  <div style="font-size:15px;font-weight:800;letter-spacing:.02em;color:var(--tx2);margin-bottom:14px;padding:12px 16px;background:var(--sf2);border-radius:10px;border-left:4px solid var(--blue)" class="rv">&#9660; 6&#45824;&#52629; &#48516;&#49437; &#54532;&#47112;&#51076; &mdash; 3 Gap &#51204;&#52404;&#47484; &#44288;&#53685;&#54616;&#45716; &#45936;&#51060;&#53552;</div>
   <div class="gap-wrap rv">
     <table class="gap-tbl" id="gapTable">
       <thead><tr><th>&#51652;&#45800; &#52629;</th><th>&#44032;&#51473;&#52824;</th><th>&#51088;&#49324; &#45936;&#51060;&#53552;</th><th>&#50808;&#48512; &#45936;&#51060;&#53552;</th><th>Gap &#49328;&#52636;</th><th>&#44201;&#52264; &#53356;&#44592;</th><th>&#49888;&#54840;</th></tr></thead>
@@ -1354,10 +1394,14 @@ html{scroll-behavior:smooth}
     </table>
     <div style="font-size:12px;color:var(--tx3);margin-top:10px;padding:10px 14px;background:var(--sf2);border-radius:8px;line-height:1.7" class="rv">&#8251; <strong style="color:var(--tx2)">6&#52629; &#45936;&#51060;&#53552;&#45716; &#49472;&#47113;&#49496;&#183;&#44396;&#49353;&#183;&#44032;&#44201; 3 Gap &#51204;&#52404;&#50640; &#54876;&#50857;&#46121;&#45768;&#45796;.</strong> &#44032;&#51473;&#52824; &#48708;&#50984;(25/20/15/15/15/10)&#51008; &#44592;&#48376; &#50696;&#49884;&#51060;&#47728; &#52852;&#53580;&#44256;&#47532;&#183;&#51204;&#47029;&#50640; &#46384;&#46972; &#51312;&#51221;&#54624; &#49688; &#51080;&#49845;&#45768;&#45796;.</div>
   </div>
+
+  <!-- Execution cycle note -->
+  <div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 16px;background:var(--sf2);border-radius:var(--rs);border:1px solid var(--bd);margin-top:16px" class="stg rv">&#8635; &#49892;&#54665; &#44208;&#44284;&#44032; &#45796;&#49884; Gap &#51652;&#45800;&#51004;&#47196; &#49692;&#54872; &mdash; &#46321;&#44553;&middot;&#53468;&#49828;&#53356;&#44032; &#51648;&#49549; &#44081;&#49888;</div>
 </div>
 
+
 <div class="sec rv" id="s-scoring">
-  <div class="eyebrow">06 Scoring &amp; Tier</div>
+  <div class="eyebrow">04 Scoring &amp; Tier</div>
   <div class="sec-title">4&#45800;&#44228; &#49828;&#53076;&#50612;&#47553; &#8212; Gap &#50976;&#54805;&#51012; &#54032;&#48324;&#54616;&#44256; &#46321;&#44553;&#51012; &#47588;&#44596;&#45796;</div>
   <div class="sec-desc">&#50808;&#48512; &#48288;&#49828;&#53944;&#49472;&#47084;/&#51064;&#44592;&#49692;&#50948;&#50752; &#45236;&#48512; &#47588;&#52845; &#45936;&#51060;&#53552;&#47484; 6&#52629;&#51004;&#47196; &#51652;&#45800;&#54616;&#50668; Gap &#50976;&#54805;&#51012; &#54032;&#48324;&#54633;&#45768;&#45796;. &#44201;&#52264;&#44032; &#53364;&#49688;&#47197; &#49345;&#50948; &#46321;&#44553;&#51012; &#48155;&#44256;, MD&#50640;&#44172; &#49345;&#54408;&#48324; &#49892;&#54665; &#44284;&#51228;&#47484; &#51204;&#45804;&#54616;&#45716; &#44163;&#51060; &#47785;&#51201;&#51077;&#45768;&#45796;.<br>S&#46321;&#44553; = <strong>&ldquo;MD&#44032; 24&#49884;&#44036; &#45236; &#50504; &#54616;&#47732; &#49892;&#47588;&#52636;&#51060; &#48736;&#51068; &#49345;&#54889;&rdquo;</strong>&#50640;&#47564; &#48512;&#50668;&#54633;&#45768;&#45796;.</div>
 
@@ -1439,7 +1483,7 @@ html{scroll-behavior:smooth}
 </div>
 
 <div class="sec rv" id="s-signal">
-  <div class="eyebrow">07 Signal Card</div>
+  <div class="eyebrow">05 Signal Card</div>
   <div class="sec-title">6&#45824;&#52629; &#51652;&#45800; &#52852;&#46300; &#8212; &#49345;&#54408; &#44221;&#51137;&#47141;&#51012; &#54620;&#45576;&#50640;</div>
   <div class="sec-desc"><strong>&#44032;&#44201; &#183; &#46364;&#49892;&#51201; &#183; &#47784;&#47704;&#53568; &#183; &#51648;&#54364;/CVR &#183; &#47532;&#48624; &#183; &#48176;&#49569;</strong> &#8212; 6&#44060; &#52629;&#51032; &#49888;&#54840;&#46321;&#183;Gap&#48148;&#183;&#51216;&#49688;&#47196; &#49345;&#54408; &#44221;&#51137;&#47141;&#51012; &#50836;&#50557;&#54633;&#45768;&#45796;. &#44032;&#51473;&#52824;&#45716; &#52852;&#53580;&#44256;&#47532;&#183;&#51204;&#47029;&#50640; &#46384;&#46972; &#51312;&#51221; &#44032;&#45733;&#54633;&#45768;&#45796;. &#52629;&#51012; &#53364;&#47533;&#54616;&#47732; &#49345;&#49464; &#51648;&#54364;&#44032; &#50676;&#47549;&#45768;&#45796;.</div>
   <div class="card sig rv">
@@ -1539,7 +1583,7 @@ html{scroll-behavior:smooth}
 </div>
 
 <div class="sec rv" id="s-sim">
-  <div class="eyebrow">08 GPS Simulator</div>
+  <div class="eyebrow">06 GPS Simulator</div>
   <div class="sec-title">GPS &#49828;&#53076;&#50612; &#49884;&#48044;&#47112;&#51060;&#53552; &#8212; &#49836;&#46972;&#51060;&#45908;&#47196; &#51649;&#51217; &#52404;&#54744;</div>
   <div class="sim rv">
     <div class="sim-title"><span class="live-dot"></span>&#49892;&#49884;&#44036; &#49884;&#48044;&#47112;&#51060;&#49496;<span class="data-pulse">LIVE DATA</span></div>
@@ -1611,7 +1655,7 @@ html{scroll-behavior:smooth}
 
 
 <div class="sec rv" id="s-engine">
-  <div class="eyebrow">09 Flywheel</div>
+  <div class="eyebrow">07 Flywheel</div>
   <div class="sec-title">&#49440;&#49692;&#54872; &#50644;&#51652; &#8212; &#45936;&#51060;&#53552;&#44032; &#49939;&#51068;&#49688;&#47197; &#51652;&#45800;&#51060; &#51221;&#54869;&#54644;&#51652;&#45796;</div>
   <div class="sec-desc">3 Gap &#48156;&#44404; &#8594; &#49472;&#47084; &#50689;&#51077; &#8594; &#54812;&#53469; &#8594; &#44032;&#44201; &#8594; &#45432;&#52636; &#8594; &#44144;&#47000;&#183;&#46321;&#44553; &#54032;&#51221;&#51012; &#49692;&#54872;&#54633;&#45768;&#45796;. &#45936;&#51060;&#53552; &#44396;&#52629; &#48276;&#50948;&#44032; &#45331;&#50612;&#51656;&#49688;&#47197; &#49692;&#54872; &#49549;&#46020;&#50752; &#51221;&#54869;&#46020;&#44032; &#45458;&#50500;&#51665;&#45768;&#45796;.</div>
   <div class="eng-ring stg rv">
@@ -1637,7 +1681,7 @@ html{scroll-behavior:smooth}
 
 
 <div class="sec rv" id="s-boost">
-  <div class="eyebrow">10 Revenue Impact</div>
+  <div class="eyebrow">08 Revenue Impact</div>
   <div class="sec-title">&#47588;&#52636; &#51076;&#54057;&#53944; &#8212; &#45908; &#51221;&#54869;&#54620; &#45936;&#51060;&#53552;, &#45908; &#51221;&#54869;&#54620; &#49892;&#54665;</div>
   <div class="sec-desc">&#45936;&#51060;&#53552; &#44396;&#52629; &#48276;&#50948;&#44032; &#45331;&#50612;&#51656;&#49688;&#47197; Gap &#51652;&#45800;&#51060; &#51221;&#54869;&#54644;&#51648;&#44256;, MD&#44032; &#49892;&#54665;&#54624; &#49688; &#51080;&#45716; &#44284;&#51228;&#44032; &#47749;&#54869;&#54644;&#51665;&#45768;&#45796;.<br>&#54645;&#49900;&#51008; &#8220;&#51060; &#44201;&#52264;&#47484; &#47700;&#50864;&#47732; &#50620;&#47560;&#51032; &#47588;&#52636;&#51012; &#54924;&#49688;&#54616;&#45716;&#44032;&#8221;&#46972;&#45716; &#54616;&#45208;&#51032; &#51656;&#47928;&#51077;&#45768;&#45796;.</div>
   <div class="boost-kpis stg rv">
@@ -1669,7 +1713,7 @@ html{scroll-behavior:smooth}
 </div>
 
 <div class="sec rv" id="s-progress">
-  <div class="eyebrow">11 Roadmap</div>
+  <div class="eyebrow">09 Roadmap</div>
   <div class="sec-title">&#47196;&#46300;&#47605; &#8212; &#45936;&#51060;&#53552; &#44396;&#52629; &#48276;&#50948;&#50640; &#46384;&#46972; &#44256;&#46020;&#54868;</div>
   <div class="sec-desc"><strong>P0~P1 3 Gap MVP</strong>(7&#50900;) &rarr; P2 &#51204;&#52629; &#45936;&#51060;&#53552; &#50672;&#46041;+&#44160;&#49353; SRP &rarr; P3 &#54200;&#49457;&#51088;&#46041;&#54868;&#183;AI Agent. &#45936;&#51060;&#53552;&#44032; &#49939;&#51068;&#49688;&#47197; &#51652;&#45800;&#51060; &#51221;&#54869;&#54644;&#51648;&#44256;, MD&#50640;&#44172; &#45908; &#51221;&#54869;&#54620; &#49892;&#54665; &#44284;&#51228;&#47484; &#51460; &#49688; &#51080;&#49845;&#45768;&#45796;.</div>
 
@@ -2217,7 +2261,7 @@ document.addEventListener('click',function(e){
 
 // keyboard navigation
 (function(){
-  var sections=['s-gps','s-arch','s-data','s-gap','s-scoring','s-signal','s-sim','s-engine','s-boost','s-progress'];
+  var sections=['s-gps','s-arch','s-pipeline','s-scoring','s-signal','s-sim','s-engine','s-boost','s-progress'];
   var kbdHint=document.getElementById('kbdHint');
   var hideTimer;
   document.addEventListener('keydown',function(e){
