@@ -1,0 +1,639 @@
+<title>Essential GPS — Action Task Decision Matrix</title>
+<style>
+:root{
+  --bg:#fbfbfd;--sf:#fff;--sf2:#f5f5f7;--sf3:#e8e8ed;
+  --tx:#1d1d1f;--tx2:#424245;--tx3:#6e6e73;--txm:#86868b;
+  --bd:#d2d2d7;
+  --blue:#0071e3;--purple:#bf5af2;--green:#34c759;
+  --red:#ff3b30;--orange:#ff9500;--teal:#5ac8fa;--indigo:#5856d6;
+  --r:20px;--rs:12px;
+  --fs-micro:10px;--fs-cap:11px;--fs-body:13px;--fs-body-lg:15px;--fs-sub:17px;--fs-t3:20px;--fs-t2:24px;--fs-t1:28px;--fs-disp:34px;
+  --f:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Gothic Neo','Noto Sans KR',system-ui,sans-serif;
+  --fm:'SF Mono','Fira Code',ui-monospace,monospace;
+  --sh:0 1px 3px rgba(0,0,0,.04);--shm:0 4px 16px rgba(0,0,0,.06);--shl:0 8px 32px rgba(0,0,0,.08);
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#000;--sf:#1c1c1e;--sf2:#2c2c2e;--sf3:#3a3a3c;
+  --tx:#f5f5f7;--tx2:#d1d1d6;--tx3:#98989d;--txm:#636366;
+  --bd:#38383a;
+  --blue:#0a84ff;--purple:#bf5af2;--green:#30d158;
+  --red:#ff453a;--orange:#ff9f0a;--teal:#64d2ff;--indigo:#5e5ce6;
+  --sh:0 1px 3px rgba(0,0,0,.3);--shm:0 4px 16px rgba(0,0,0,.3);--shl:0 8px 32px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"]{--bg:#000;--sf:#1c1c1e;--sf2:#2c2c2e;--sf3:#3a3a3c;--tx:#f5f5f7;--tx2:#d1d1d6;--tx3:#98989d;--txm:#636366;--bd:#38383a;--blue:#0a84ff;--purple:#bf5af2;--green:#30d158;--red:#ff453a;--orange:#ff9f0a;--teal:#64d2ff;--indigo:#5e5ce6;--sh:0 1px 3px rgba(0,0,0,.3);--shm:0 4px 16px rgba(0,0,0,.3);--shl:0 8px 32px rgba(0,0,0,.35)}
+:root[data-theme="light"]{--bg:#fbfbfd;--sf:#fff;--sf2:#f5f5f7;--sf3:#e8e8ed;--tx:#1d1d1f;--tx2:#424245;--tx3:#6e6e73;--txm:#86868b;--bd:#d2d2d7;--blue:#0071e3;--purple:#bf5af2;--green:#34c759;--red:#ff3b30;--orange:#ff9500;--teal:#5ac8fa;--indigo:#5856d6;--sh:0 1px 3px rgba(0,0,0,.04);--shm:0 4px 16px rgba(0,0,0,.06);--shl:0 8px 32px rgba(0,0,0,.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.5;-webkit-font-smoothing:antialiased}
+.page{max-width:1040px;margin:0 auto;padding:32px 24px 120px}
+.hero{text-align:center;padding:40px 0 36px}
+.hero-ey{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:6px}
+.hero h1{font-size:34px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.hero p{font-size:15px;color:var(--tx2);max-width:600px;margin:0 auto}
+.sec{margin-top:48px}
+.sec-t{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.sec-d{font-size:15px;color:var(--tx3);margin-bottom:20px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:24px;box-shadow:var(--shm)}
+
+/* Tier selector */
+.tier-sel{display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap}
+.tier-btn{padding:10px 24px;border-radius:100px;border:2px solid var(--bd);background:var(--sf);font-family:var(--f);font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;color:var(--tx2);display:flex;align-items:center;gap:8px}
+.tier-btn .cnt{font-size:11px;font-weight:800;background:var(--sf2);padding:2px 8px;border-radius:100px;color:var(--tx3);transition:all .25s}
+.tier-btn.active{color:#fff;border-color:transparent}
+.tier-btn.active .cnt{background:rgba(255,255,255,.25);color:#fff}
+.tier-btn[data-t="S"].active{background:var(--red)}
+.tier-btn[data-t="A"].active{background:var(--orange)}
+.tier-btn[data-t="B"].active{background:var(--blue)}
+.tier-btn[data-t="C"].active{background:var(--txm)}
+
+/* Stats strip */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px}
+.stat{background:var(--sf2);border-radius:var(--rs);padding:14px 16px;text-align:center}
+.stat-v{font-size:24px;font-weight:800;letter-spacing:-.02em}
+.stat-l{font-size:11px;font-weight:600;color:var(--tx3);margin-top:2px}
+
+/* Decision flow */
+.flow{display:flex;flex-direction:column;gap:0}
+.flow-node{position:relative;padding:20px 24px;border:1px solid var(--bd);background:var(--sf);transition:all .25s;cursor:pointer}
+.flow-node:first-child{border-radius:var(--r) var(--r) 0 0}
+.flow-node:last-child{border-radius:0 0 var(--r) var(--r)}
+.flow-node+.flow-node{border-top:none}
+.flow-node:hover{background:var(--sf2)}
+.flow-node.open{background:var(--sf)}
+.flow-head{display:flex;align-items:center;gap:12px}
+.flow-id{font-size:11px;font-weight:800;padding:4px 10px;border-radius:100px;color:#fff;flex-shrink:0;min-width:48px;text-align:center;letter-spacing:.02em}
+.flow-trigger{flex:1;display:flex;flex-direction:column;gap:2px}
+.flow-name{font-size:15px;font-weight:700}
+.flow-cond{font-size:11px;color:var(--tx3);font-family:var(--fm)}
+.flow-axes{display:flex;gap:4px;flex-shrink:0}
+.flow-ax{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;border:1.5px solid var(--bd)}
+.flow-ax.crit{background:rgba(255,59,48,.12);border-color:var(--red);color:var(--red)}
+.flow-ax.warn{background:rgba(255,149,0,.12);border-color:var(--orange);color:var(--orange)}
+.flow-ax.good{background:rgba(52,199,89,.1);border-color:var(--green);color:var(--green)}
+.flow-ax.any{background:var(--sf2);color:var(--txm)}
+.flow-chev{color:var(--txm);font-size:11px;transition:transform .2s;flex-shrink:0;margin-left:8px}
+.flow-node.open .flow-chev{transform:rotate(90deg)}
+
+/* Expanded detail */
+.flow-detail{display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--sf2)}
+.flow-node.open .flow-detail{display:block}
+.task-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+.task{display:flex;gap:12px;align-items:flex-start}
+.task-pri{font-size:10px;font-weight:800;padding:3px 8px;border-radius:100px;flex-shrink:0;margin-top:2px;letter-spacing:.03em}
+.task-pri.p1{background:rgba(255,59,48,.12);color:var(--red)}
+.task-pri.p2{background:rgba(255,149,0,.12);color:var(--orange)}
+.task-pri.p3{background:rgba(0,113,227,.1);color:var(--blue)}
+.task-body{flex:1}
+.task-name{font-size:15px;font-weight:700;margin-bottom:2px}
+.task-desc{font-size:13px;color:var(--tx2);line-height:1.55}
+.task-metric{font-size:11px;font-family:var(--fm);color:var(--tx3);margin-top:4px;display:flex;flex-wrap:wrap;gap:8px}
+.task-metric span{background:var(--sf2);padding:2px 8px;border-radius:6px}
+
+/* Combo badge */
+.combo{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;margin-left:8px}
+.combo-and{background:rgba(191,90,242,.1);color:var(--purple)}
+.combo-or{background:rgba(90,200,250,.1);color:var(--teal)}
+
+/* Summary table */
+.sum-wrap{overflow-x:auto;border-radius:var(--r);border:1px solid var(--bd);background:var(--sf);box-shadow:var(--shm)}
+.sum{width:100%;border-collapse:separate;border-spacing:0;font-size:13px;min-width:900px}
+.sum th{padding:10px 14px;text-align:left;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3);background:var(--sf2);border-bottom:2px solid var(--bd);white-space:nowrap;position:sticky;top:0}
+.sum td{padding:10px 14px;border-bottom:1px solid var(--sf2);vertical-align:top;line-height:1.5}
+.sum tr:last-child td{border-bottom:none}
+.sum tr:hover td{background:var(--sf2)}
+
+.ax-chip{font-size:10px;font-weight:800;padding:2px 7px;border-radius:6px;display:inline-block;margin:1px 2px}
+.ax-chip.c{background:rgba(255,59,48,.1);color:var(--red)}
+.ax-chip.w{background:rgba(255,149,0,.1);color:var(--orange)}
+.ax-chip.g{background:rgba(52,199,89,.08);color:var(--green)}
+
+/* Gap type badges */
+.gap-badge{font-size:10px;font-weight:800;padding:3px 10px;border-radius:100px;display:inline-block;letter-spacing:.02em;white-space:nowrap}
+.gap-badge.sel{background:rgba(88,86,214,.12);color:var(--indigo)}
+.gap-badge.asrt{background:rgba(191,90,242,.12);color:var(--purple)}
+.gap-badge.prc{background:rgba(255,59,48,.1);color:var(--red)}
+.gap-badge.multi{background:rgba(255,149,0,.1);color:var(--orange)}
+.gap-badge.mon{background:var(--sf2);color:var(--tx3)}
+
+/* Process flow banner */
+.process-flow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:14px 20px;background:var(--sf2);border-radius:var(--rs);margin-bottom:24px;font-size:13px;font-weight:600;color:var(--tx2)}
+.process-flow .pf-step{display:flex;align-items:center;gap:6px}
+.process-flow .pf-arrow{color:var(--txm);font-size:11px}
+.process-flow .pf-label{padding:4px 12px;border-radius:100px;font-size:12px;font-weight:700}
+.process-flow .pf-ext{background:rgba(90,200,250,.12);color:var(--teal)}
+.process-flow .pf-six{background:rgba(88,86,214,.12);color:var(--indigo)}
+.process-flow .pf-gap{background:rgba(191,90,242,.12);color:var(--purple)}
+.process-flow .pf-act{background:rgba(255,59,48,.1);color:var(--red)}
+
+@media(max-width:640px){
+  .hero h1{font-size:28px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .flow-axes{display:none}
+  .flow-head{flex-wrap:wrap}
+}
+</style>
+
+<div class="page">
+
+<div class="hero">
+  <div class="hero-ey">Essential GPS Action Matrix v1.0</div>
+  <h1>&#54000;&#50612;&#48324; &#50529;&#49496; &#53468;&#49828;&#53356; &#51204;&#52404; &#44221;&#50864;&#51032; &#49688;</h1>
+  <p>&#50808;&#48512; 10&#44060; &#49324;&#51060;&#53944; &#53356;&#47204;&#47553; + &#45236;&#48512; &#45936;&#51060;&#53552; &#8594; 6&#45824;&#52629; &#48516;&#49437; &#8594; 3&#44032;&#51648; Gap &#54032;&#48324;(&#49472;&#47113;&#49496;/&#44396;&#49353;/&#44032;&#44201;) &#8594; MD &#50529;&#49496; &#48176;&#51221;. &#44033; &#54000;&#50612;&#48324; &#53944;&#47532;&#44144; &#51312;&#44148;&#44284; &#50864;&#49440;&#49692;&#50948; &#54252;&#54632;.</p>
+</div>
+
+<!-- Stats -->
+<div class="stats" id="statsBar">
+  <div class="stat"><div class="stat-v" style="color:var(--red)" id="st-total">37</div><div class="stat-l">&#51204;&#52404; &#50529;&#49496; &#53468;&#49828;&#53356;</div></div>
+  <div class="stat"><div class="stat-v" style="color:var(--red)" id="st-s">12</div><div class="stat-l">S&#46321;&#44553; &#44596;&#44553;</div></div>
+  <div class="stat"><div class="stat-v" style="color:var(--orange)" id="st-a">11</div><div class="stat-l">A&#46321;&#44553; &#44060;&#49440;</div></div>
+  <div class="stat"><div class="stat-v" style="color:var(--blue)" id="st-b">9</div><div class="stat-l">B&#46321;&#44553; &#48512;&#49828;&#54021;</div></div>
+</div>
+
+<!-- Process flow -->
+<div class="process-flow">
+  <span class="pf-step"><span class="pf-label pf-ext">&#50808;&#48512; 10&#44060; &#49324;&#51060;&#53944; + &#45236;&#48512; &#45936;&#51060;&#53552;</span></span>
+  <span class="pf-arrow">&#8594;</span>
+  <span class="pf-step"><span class="pf-label pf-six">6&#45824;&#52629; &#48516;&#49437;</span></span>
+  <span class="pf-arrow">&#8594;</span>
+  <span class="pf-step"><span class="pf-label pf-gap">&#49472;&#47113;&#49496; Gap / &#44396;&#49353; Gap / &#44032;&#44201; Gap &#54032;&#48324;</span></span>
+  <span class="pf-arrow">&#8594;</span>
+  <span class="pf-step"><span class="pf-label pf-act">MD &#50529;&#49496; &#48176;&#51221;</span></span>
+</div>
+
+<!-- Tier selector -->
+<div class="tier-sel" id="tierSel">
+  <button class="tier-btn active" data-t="S" onclick="showT('S')">S &#51593;&#49884;&#49892;&#54665; <span class="cnt">12</span></button>
+  <button class="tier-btn" data-t="A" onclick="showT('A')">A &#51452;&#44036;&#44284;&#51228; <span class="cnt">11</span></button>
+  <button class="tier-btn" data-t="B" onclick="showT('B')">B &#44160;&#49353;&#48512;&#49828;&#54021; <span class="cnt">9</span></button>
+  <button class="tier-btn" data-t="C" onclick="showT('C')">C &#47784;&#45768;&#53552;&#47553; <span class="cnt">5</span></button>
+</div>
+
+<!-- Decision flows per tier -->
+<div id="flows"></div>
+
+<!-- Full summary table -->
+<div class="sec">
+  <div class="sec-t">&#51204;&#52404; &#50529;&#49496; &#47588;&#53944;&#47533;&#49828; &#50836;&#50557;</div>
+  <div class="sec-d">37&#44060; &#51204;&#52404; &#44221;&#50864;&#51032; &#49688; &#54620;&#45576;&#50640; &#48372;&#44592;. &#53944;&#47532;&#44144; &#51312;&#44148; + &#52629;&#48324; &#49888;&#54840; + &#50529;&#49496; &#53468;&#49828;&#53356; + &#50756;&#47308; &#44592;&#51456;.</div>
+  <div class="sum-wrap">
+    <table class="sum" id="sumTable">
+      <thead><tr><th>#</th><th>&#54000;&#50612;</th><th>Gap &#50976;&#54805;</th><th>&#53944;&#47532;&#44144;</th><th>&#52629; &#49888;&#54840; &#54056;&#53556;</th><th>&#50529;&#49496; &#53468;&#49828;&#53356;</th><th>&#50756;&#47308; &#44592;&#51456;</th></tr></thead>
+      <tbody id="sumBody"></tbody>
+    </table>
+  </div>
+</div>
+
+</div>
+
+<script>
+var DATA = {
+  S: [
+    {
+      id:'S-01', name:'미입점 긴급 입점',
+      gap:'sel',
+      cond:'AUTO-S: 자사_상품_존재 = FALSE',
+      axes:['any','any','any','any','any','any'],
+      tasks:[
+        {pri:'P1',name:'입점 제안서 발송',desc:'경쟁사 판매 데이터 첨부, 예상 GMV 산출 포함',metric:['완료: 셀러 응답 수신','목표: 24h 내 발송']},
+        {pri:'P1',name:'셀러 컨택 및 협상',desc:'입점 조건 협의 (수수료, 배송, 가격 정책)',metric:['완료: 계약 체결','목표: 72h 내']},
+        {pri:'P2',name:'상품 등록 대행/가이드',desc:'셀러 등록 어려울 시 MD가 직접 등록 지원',metric:['완료: 상품 라이브','목표: 48h 내']}
+      ]
+    },
+    {
+      id:'S-02', name:'가격역전 긴급 조정',
+      gap:'prc',
+      cond:'PRICE-X: PCI ≥ 130',
+      axes:['crit','any','any','any','any','any'],
+      tasks:[
+        {pri:'P1',name:'가격 즉시 조정 요청',desc:'셀러에게 경쟁사 가격 데이터 첨부, 가격 조정 요청',metric:['완료: PCI < 110 도달','목표: 12h 내']},
+        {pri:'P1',name:'긴급 쿠폰 발행',desc:'가격 조정 불가 시 쿠폰/포인트로 즉시 보전',metric:['완료: 쿠폰 라이브','목표: 6h 내']},
+        {pri:'P2',name:'경쟁사 가격 모니터링 세팅',desc:'해당 상품 경쟁사 가격 자동 추적 설정',metric:['완료: 알림 설정 완료']}
+      ]
+    },
+    {
+      id:'S-03', name:'바이럴 긴급 노출',
+      gap:'asrt',
+      cond:'SURGE: MoM ≥ 300% OR 소셜바이럴 = TRUE',
+      axes:['any','any','crit','any','any','any'],
+      tasks:[
+        {pri:'P1',name:'긴급 재고 확보 확인',desc:'셀러 재고 확인 + 물류센터 입고 확인',metric:['완료: 재고 ≥ 7일치','목표: 4h 내']},
+        {pri:'P1',name:'홈 배너 / 추천 영역 노출',desc:'홈 탭 배너, 실시간 인기 영역 노출 세팅',metric:['완료: 노출 라이브','목표: 6h 내']},
+        {pri:'P2',name:'키워드 광고 부스팅',desc:'관련 키워드 CPC 광고 입찰 + 예산 확대',metric:['완료: 광고 라이브','목표: 12h 내']}
+      ]
+    },
+    {
+      id:'S-04', name:'가격역전 + 딜실적 동반 하락',
+      gap:'prc',
+      cond:'PRICE-X + 딜 Gap ≥ 60',
+      axes:['crit','crit','any','any','any','any'],
+      tasks:[
+        {pri:'P1',name:'가격 조정 + 프로모션 번들',desc:'가격 조정과 동시에 타임딜/특가 프로모션 세팅',metric:['완료: PCI < 110 + 딜 구좌 ≥ 85','목표: 24h']},
+        {pri:'P2',name:'셀링포인트 긴급 재작성',desc:'가격 메리트 + 프로모션 강조 상세페이지',metric:['완료: CTR 개선 확인']}
+      ]
+    },
+    {
+      id:'S-05', name:'가격역전 + 리뷰 저조',
+      gap:'prc',
+      cond:'PRICE-X + 리뷰 Gap ≥ 50',
+      axes:['crit','any','any','any','warn','any'],
+      tasks:[
+        {pri:'P1',name:'가격 조정 선행',desc:'가격이 우선. 가격 조정 후 리뷰 이벤트 진행',metric:['완료: PCI < 110','목표: 12h']},
+        {pri:'P2',name:'리뷰 긴급 이벤트',desc:'구매확정 고객 대상 리뷰 작성 유도 (포인트 인센티브)',metric:['완료: 리뷰 +20건 증가','목표: 7d']}
+      ]
+    },
+    {
+      id:'S-06', name:'가격역전 + 배송 불리',
+      gap:'prc',
+      cond:'PRICE-X + 배송 Gap ≥ 60',
+      axes:['crit','any','any','any','any','crit'],
+      tasks:[
+        {pri:'P1',name:'가격 조정 + 배송 업그레이드',desc:'가격 조정과 동시에 익일배송/무료배송 협의',metric:['완료: PCI < 110 + 배송 업그레이드','목표: 24h']},
+        {pri:'P2',name:'배송비 쿠폰 발행',desc:'배송 업그레이드 불가 시 배송비 쿠폰으로 보전',metric:['완료: 쿠폰 라이브']}
+      ]
+    },
+    {
+      id:'S-07', name:'바이럴 + 가격 문제',
+      gap:'prc',
+      cond:'SURGE + PCI ≥ 120',
+      axes:['crit','any','crit','any','any','any'],
+      tasks:[
+        {pri:'P1',name:'가격 우선 조정',desc:'바이럴인데 가격이 비싸면 전환이 안 됨. 가격부터 해결',metric:['완료: PCI < 110','목표: 6h']},
+        {pri:'P1',name:'홈 노출 + 광고 동시 진행',desc:'가격 조정 후 즉시 홈 노출 + CPC 부스팅',metric:['완료: 노출 + 광고 라이브','목표: 12h']}
+      ]
+    },
+    {
+      id:'S-08', name:'바이럴 + 재고 부족',
+      gap:'asrt',
+      cond:'SURGE + 재고일수 < 3',
+      axes:['any','any','crit','any','any','warn'],
+      tasks:[
+        {pri:'P1',name:'긴급 재고 입고 요청',desc:'셀러에게 긴급 입고 요청 + 물류 확인',metric:['완료: 재고 ≥ 7일치','목표: 12h']},
+        {pri:'P2',name:'품절 방지 예약판매 세팅',desc:'품절 임박 시 예약판매 전환으로 수요 확보',metric:['완료: 예약판매 세팅']}
+      ]
+    },
+    {
+      id:'S-09', name:'복합 위기 — 3축 이상 Critical',
+      gap:'multi',
+      cond:'Critical축 ≥ 3개 (오버라이드 없이 점수만으로 S)',
+      axes:['crit','crit','any','crit','any','any'],
+      tasks:[
+        {pri:'P1',name:'가격 + 프로모션 + CVR 동시 개선',desc:'가장 Gap이 큰 축부터 순차적 해결. 복합 위기 상황',metric:['완료: 전체 GPS 점수 < 85','목표: 24h 내 최우선 1건']},
+        {pri:'P1',name:'상품 전략 긴급 회의',desc:'팀장과 함께 해당 상품 존폐/전략변경 회의',metric:['완료: 액션플랜 확정','목표: 12h']}
+      ]
+    },
+    {
+      id:'S-10', name:'미입점 + 경쟁사 고평점',
+      gap:'sel',
+      cond:'AUTO-S + 외부리뷰 ≥ 4.5',
+      axes:['any','any','any','any','crit','any'],
+      tasks:[
+        {pri:'P1',name:'셀러 VIP 입점 제안',desc:'경쟁사에서 고평점 상품 → 프리미엄 조건 제안',metric:['완료: 셀러 응답','목표: 24h']},
+        {pri:'P2',name:'리뷰 마이그레이션 준비',desc:'입점 시 경쟁사 리뷰 참고하여 상세페이지 작성',metric:['완료: 상세페이지 준비']}
+      ]
+    },
+    {
+      id:'S-11', name:'미입점 + 경쟁사 대량판매',
+      gap:'sel',
+      cond:'AUTO-S + 외부 딜실적 ≥ 500건/월',
+      axes:['any','crit','any','any','any','any'],
+      tasks:[
+        {pri:'P1',name:'신속 입점 + 프로모션 패키지',desc:'경쟁사 대량판매 상품은 입점 즉시 프로모션 지원',metric:['완료: 입점 + 프로모션 라이브','목표: 48h']},
+        {pri:'P2',name:'경쟁사 판매 전략 분석',desc:'어떤 프로모션/가격으로 판매하는지 분석',metric:['완료: 분석 리포트']}
+      ]
+    },
+    {
+      id:'S-12', name:'가격역전 + 전체 축 하락',
+      gap:'prc',
+      cond:'PRICE-X + 4축 이상 Gap ≥ 40',
+      axes:['crit','warn','warn','warn','warn','any'],
+      tasks:[
+        {pri:'P1',name:'상품 존폐 검토',desc:'전반적 경쟁력 상실. 존폐 vs 전면개편 판단 필요',metric:['완료: 존폐/개편 결정','목표: 24h']},
+        {pri:'P2',name:'대체 상품 발굴',desc:'해당 상품 교체 가능한 새 상품 발굴 시작',metric:['완료: 대체 상품 발굴 시작']}
+      ]
+    }
+  ],
+  A: [
+    {
+      id:'A-01', name:'가격 Gap 중간 — 정기 조정',
+      gap:'prc',
+      cond:'PCI 110~129 (가격 역전은 아니지만 불리)',
+      axes:['warn','any','any','any','any','any'],
+      tasks:[
+        {pri:'P1',name:'셀러 가격 조정 협의',desc:'경쟁사 가격 데이터 공유 + 조정 요청',metric:['완료: PCI < 110','목표: 3d']},
+        {pri:'P2',name:'정기 쿠폰/포인트 세팅',desc:'주간 쿠폰 발행 또는 적립 포인트 세팅',metric:['완료: 쿠폰 활성화','목표: 5d']},
+        {pri:'P3',name:'가격 모니터링 알림 설정',desc:'PCI ≥ 130 도달 시 자동 S 승격 알림',metric:['완료: 알림 세팅']}
+      ]
+    },
+    {
+      id:'A-02', name:'ZOMBIE 상품 보정',
+      gap:'asrt',
+      cond:'딜실적 구좌 40~60 + 조회 대비 전환 저조',
+      axes:['any','warn','any','warn','any','any'],
+      tasks:[
+        {pri:'P1',name:'셀링포인트 전면 재작성',desc:'제목/썸네일/상세페이지 A/B 테스트',metric:['완료: CTR +15% 개선','목표: 5d']},
+        {pri:'P2',name:'카테고리 내 위치 조정',desc:'검색 순위 부스팅 + 카테고리 재분류 검토',metric:['완료: 노출 순위 개선','목표: 7d']}
+      ]
+    },
+    {
+      id:'A-03', name:'DORMANT 모멘텀 회복',
+      gap:'asrt',
+      cond:'모멘텀 MoM -20%~-50% (하락세)',
+      axes:['any','any','warn','any','any','any'],
+      tasks:[
+        {pri:'P1',name:'홈 노출 요청',desc:'내리막 탭/추천 영역 노출 요청',metric:['완료: 노출 반영','목표: 5d']},
+        {pri:'P2',name:'타임딜/특가 프로모션',desc:'주간 타임딜 또는 카테고리 특가 프로모션 세팅',metric:['완료: 프로모션 라이브','목표: 5d']},
+        {pri:'P3',name:'이메일/푸시 타겟팅',desc:'기존 구매고객 대상 리타겟팅',metric:['완료: 발송 완료']}
+      ]
+    },
+    {
+      id:'A-04', name:'리뷰 부족 — 신뢰 개선',
+      gap:'asrt',
+      cond:'리뷰 Gap ≥ 40 (건수 부족 또는 평점 저조)',
+      axes:['any','any','any','any','warn','any'],
+      tasks:[
+        {pri:'P1',name:'리뷰 이벤트 프로모션',desc:'구매확정 고객 대상 포인트 리뷰 이벤트',metric:['완료: 리뷰 +30건','목표: 7d']},
+        {pri:'P2',name:'포토/동영상 리뷰 캠페인',desc:'포토리뷰 인센티브 강화 (포인트 2배)',metric:['완료: 포토리뷰 비율 +20%']}
+      ]
+    },
+    {
+      id:'A-05', name:'CVR 저조 — 전환율 개선',
+      gap:'asrt',
+      cond:'지표/CVR Gap ≥ 40 (조회 대비 전환 부진)',
+      axes:['any','any','any','warn','any','any'],
+      tasks:[
+        {pri:'P1',name:'상세페이지 UX 개선',desc:'상세 이미지, 상품정보, 구매버튼 최적화',metric:['완료: CVR +0.3%p','목표: 7d']},
+        {pri:'P2',name:'구매 유도 쿠폰 세팅',desc:'장바구니 담기 → 구매 전환 쿠폰 발행',metric:['완료: 쿠폰 활성화']}
+      ]
+    },
+    {
+      id:'A-06', name:'배송 불리 — 배송 경험 개선',
+      gap:'asrt',
+      cond:'배송 Gap ≥ 40 (경쟁사 대비 배송 열세)',
+      axes:['any','any','any','any','any','warn'],
+      tasks:[
+        {pri:'P1',name:'배송 옵션 업그레이드 협의',desc:'셀러와 익일/특급배송 전환 협의',metric:['완료: 배송 업그레이드','목표: 7d']},
+        {pri:'P2',name:'배송비 무료 프로모션',desc:'무료배송 프로모션으로 배송 Gap 보전',metric:['완료: 프로모션 세팅']}
+      ]
+    },
+    {
+      id:'A-07', name:'가격 + CVR 복합 Gap',
+      gap:'prc',
+      cond:'가격 Gap ≥ 40 + CVR Gap ≥ 40',
+      axes:['warn','any','any','warn','any','any'],
+      tasks:[
+        {pri:'P1',name:'가격 조정 선행 → CVR 연동 개선',desc:'가격 먼저 조정 → 가격 메리트 강조 상세페이지 개선',metric:['완료: PCI < 110 + CVR +0.2%p','목표: 7d']}
+      ]
+    },
+    {
+      id:'A-08', name:'딜실적 + 리뷰 복합 Gap',
+      gap:'asrt',
+      cond:'딜 Gap ≥ 40 + 리뷰 Gap ≥ 40',
+      axes:['any','warn','any','any','warn','any'],
+      tasks:[
+        {pri:'P1',name:'리뷰 부스팅 + 상세페이지 개선',desc:'리뷰 이벤트로 신뢰 확보 → 셀링포인트 개선으로 전환 유도',metric:['완료: 리뷰 +20건 + CTR +10%','목표: 7d']}
+      ]
+    },
+    {
+      id:'A-09', name:'모멘텀 + 딜실적 복합 하락',
+      gap:'asrt',
+      cond:'모멘텀 MoM ≤ -20% + 딜 Gap ≥ 40',
+      axes:['any','warn','warn','any','any','any'],
+      tasks:[
+        {pri:'P1',name:'프로모션 + 셀링포인트 동시 개선',desc:'하락세 반전을 위해 프로모션과 상세페이지 동시 개선',metric:['완료: MoM 반등 + 구좌 개선','목표: 7d']}
+      ]
+    },
+    {
+      id:'A-10', name:'시즈널 상품 — 긴급 프로모션',
+      gap:'asrt',
+      cond:'시즈널 플래그 = TRUE + 모멘텀 ≥ 50%',
+      axes:['any','any','warn','any','any','any'],
+      tasks:[
+        {pri:'P1',name:'시즈널 프로모션 세팅',desc:'시즈널 기획전/타임딜/홈 노출 우선',metric:['완료: 프로모션 세팅','목표: 3d']},
+        {pri:'P2',name:'재고 선제적 확보',desc:'시즈널 수요 예측 기반 재고 선확보',metric:['완료: 재고 ≥ 14일치']}
+      ]
+    },
+    {
+      id:'A-11', name:'전체 축 소폭 하락 (경계)',
+      gap:'multi',
+      cond:'3축 이상 Gap 40~60 (복합 약화)',
+      axes:['warn','warn','warn','any','any','any'],
+      tasks:[
+        {pri:'P1',name:'종합 개선 플랜 수립',desc:'전체적 경쟁력 하락 중. 축별 우선순위 정하여 순차 개선',metric:['완료: 플랜 확정 + 1건 착수','목표: 7d']},
+        {pri:'P2',name:'S 승격 예방 모니터링',desc:'축별 Gap 추이 알림 세팅 (1축이라도 60 넘으면 S)',metric:['완료: 알림 세팅']}
+      ]
+    }
+  ],
+  B: [
+    {
+      id:'B-01', name:'SEO 키워드 최적화',
+      gap:'asrt',
+      cond:'지표/CVR Gap 20~39 + 검색 순위 저조',
+      axes:['any','any','any','warn','any','any'],
+      tasks:[
+        {pri:'P2',name:'상품명/키워드 최적화',desc:'검색 키워드 분석 → 상품명/태그 개선',metric:['완료: 검색 노출 순위 +5','목표: 14d']},
+        {pri:'P3',name:'광고 포인트 조정',desc:'CPC 광고 키워드 추가 + 입찰가 조정',metric:['완료: 광고 조정 반영']}
+      ]
+    },
+    {
+      id:'B-02', name:'리뷰 점진적 개선',
+      gap:'asrt',
+      cond:'리뷰 Gap 20~39',
+      axes:['any','any','any','any','warn','any'],
+      tasks:[
+        {pri:'P2',name:'정기 리뷰 이벤트',desc:'월간 리뷰 이벤트 세팅 (소규모 포인트)',metric:['완료: 리뷰 +10건/월','목표: 14d']}
+      ]
+    },
+    {
+      id:'B-03', name:'가격 소폭 Gap — 모니터링',
+      gap:'prc',
+      cond:'가격 Gap 20~39 (PCI 110~119)',
+      axes:['warn','any','any','any','any','any'],
+      tasks:[
+        {pri:'P2',name:'가격 자동 모니터링 세팅',desc:'경쟁사 가격 변동 알림 세팅',metric:['완료: 알림 세팅','목표: 7d']},
+        {pri:'P3',name:'정기 쿠폰 검토',desc:'월간 쿠폰 발행 검토 (필요 시)',metric:['완료: 검토 완료']}
+      ]
+    },
+    {
+      id:'B-04', name:'딜실적 소폭 Gap',
+      gap:'asrt',
+      cond:'딜 Gap 20~39',
+      axes:['any','warn','any','any','any','any'],
+      tasks:[
+        {pri:'P2',name:'셀링포인트 미세 조정',desc:'썸네일 개선, 상세페이지 소폭 수정',metric:['완료: CTR +5% 개선','목표: 14d']},
+        {pri:'P3',name:'카테고리 기획전 참여 검토',desc:'카테고리 기획전 포함 가능 여부 확인',metric:['완료: 기획전 참여 결정']}
+      ]
+    },
+    {
+      id:'B-05', name:'모멘텀 소폭 하락',
+      gap:'asrt',
+      cond:'모멘텀 MoM -5%~-19%',
+      axes:['any','any','warn','any','any','any'],
+      tasks:[
+        {pri:'P2',name:'이메일/푸시 리타겟팅',desc:'기존 구매고객 대상 재구매 유도',metric:['완료: 발송 완료','목표: 10d']}
+      ]
+    },
+    {
+      id:'B-06', name:'배송 소폭 Gap',
+      gap:'asrt',
+      cond:'배송 Gap 20~39',
+      axes:['any','any','any','any','any','warn'],
+      tasks:[
+        {pri:'P3',name:'배송 옵션 개선 협의',desc:'셀러와 배송 옵션 개선 협의 (장기)',metric:['완료: 협의 완료','목표: 14d']}
+      ]
+    },
+    {
+      id:'B-07', name:'복합 소폭 Gap (2축)',
+      gap:'multi',
+      cond:'2축 이상 Gap 20~39',
+      axes:['warn','any','any','warn','any','any'],
+      tasks:[
+        {pri:'P2',name:'우선축 선정 → 순차 개선',desc:'가중치 높은 축부터 순차적으로 개선',metric:['완료: 우선축 Gap 개선','목표: 14d']},
+        {pri:'P3',name:'A 승격 예방 모니터링',desc:'Gap 40 도달 시 A등급 자동 승격 알림',metric:['완료: 알림 세팅']}
+      ]
+    },
+    {
+      id:'B-08', name:'검색 순위 정체',
+      gap:'asrt',
+      cond:'지표 Gap 20~39 + 검색 순위 변화 없음',
+      axes:['any','any','any','warn','any','any'],
+      tasks:[
+        {pri:'P2',name:'카테고리 재분류 검토',desc:'더 적합한 카테고리로 이동 가능 여부 확인',metric:['완료: 재분류 결정','목표: 14d']}
+      ]
+    },
+    {
+      id:'B-09', name:'전체축 소폭 Gap (경계 상황)',
+      gap:'multi',
+      cond:'4축+ Gap 20~39',
+      axes:['warn','warn','warn','warn','any','any'],
+      tasks:[
+        {pri:'P2',name:'종합 경쟁력 분석 리포트',desc:'전반적 경쟁력 분석 + 개선 방향 보고서',metric:['완료: 리포트 작성','목표: 14d']},
+        {pri:'P3',name:'A 승격 예방 알림',desc:'축별 개별 모니터링 + 이상징후 구간 알림',metric:['완료: 알림 세팅']}
+      ]
+    }
+  ],
+  C: [
+    {
+      id:'C-01', name:'정기 트렌드 모니터링',
+      gap:'mon',
+      cond:'전축 Gap < 20 (정상 범위)',
+      axes:['good','good','good','good','good','good'],
+      tasks:[
+        {pri:'P3',name:'월간 트렌드 리포트 확인',desc:'매월 GPS 추이 변화 확인. 이상징후 시 자동 승격',metric:['완료: 리포트 확인','목표: 30d']}
+      ]
+    },
+    {
+      id:'C-02', name:'경쟁사 동향 모니터링',
+      gap:'mon',
+      cond:'전축 Gap < 20 + 경쟁사 변화 감지',
+      axes:['good','good','good','good','good','good'],
+      tasks:[
+        {pri:'P3',name:'경쟁사 가격/프로모션 변화 추적',desc:'경쟁사 전략 변화 조기 감지용',metric:['완료: 알림 세팅','목표: 30d']}
+      ]
+    },
+    {
+      id:'C-03', name:'신규 경쟁사 진입 감지',
+      gap:'mon',
+      cond:'외부 새 셀러 감지',
+      axes:['good','good','any','any','any','any'],
+      tasks:[
+        {pri:'P3',name:'신규 경쟁사 분석 리포트',desc:'새 경쟁사 가격/리뷰/배송 분석',metric:['완료: 분석 리포트','목표: 30d']}
+      ]
+    },
+    {
+      id:'C-04', name:'시즈널 사전 준비',
+      gap:'mon',
+      cond:'시즈널 D-30 이내 + Gap < 20',
+      axes:['good','good','good','good','good','good'],
+      tasks:[
+        {pri:'P3',name:'시즈널 재고/프로모션 사전 기획',desc:'시즈널 대비 재고 선확보 + 프로모션 기획',metric:['완료: 기획안 완성','목표: D-14까지']}
+      ]
+    },
+    {
+      id:'C-05', name:'승격 예방 알림 유지',
+      gap:'mon',
+      cond:'전축 Gap < 20이지만 특정축 15 이상',
+      axes:['good','good','good','good','good','good'],
+      tasks:[
+        {pri:'P3',name:'임계치 접근 축 알림 유지',desc:'Gap 20 접근 축 알림 유지, B 승격 예방',metric:['완료: 알림 활성','목표: 상시']}
+      ]
+    }
+  ]
+};
+
+var AX_SHORT = ['가','딜','모','지','리','배'];
+var GAP_LABELS = {sel:'셀렉션 Gap',asrt:'구색 Gap',prc:'가격 Gap',multi:'복합 Gap',mon:'모니터링'};
+
+function showT(tier) {
+  document.querySelectorAll('.tier-btn').forEach(function(b){b.classList.remove('active')});
+  document.querySelector('.tier-btn[data-t="'+tier+'"]').classList.add('active');
+  renderFlow(tier);
+}
+
+function renderFlow(tier) {
+  var container = document.getElementById('flows');
+  var items = DATA[tier];
+  if(!items){container.innerHTML='';return;}
+  var html = '<div class="flow">';
+  items.forEach(function(item){
+    var axHtml = '';
+    item.axes.forEach(function(st,i){
+      axHtml += '<div class="flow-ax '+st+'" title="'+AX_SHORT[i]+'">'+AX_SHORT[i]+'</div>';
+    });
+    var tasksHtml = '<ul class="task-list">';
+    item.tasks.forEach(function(t){
+      var metricHtml = '';
+      if(t.metric){
+        metricHtml = '<div class="task-metric">';
+        t.metric.forEach(function(m){metricHtml+='<span>'+m+'</span>';});
+        metricHtml += '</div>';
+      }
+      tasksHtml += '<li class="task"><div class="task-pri '+t.pri.toLowerCase()+'">'+t.pri+'</div><div class="task-body"><div class="task-name">'+t.name+'</div><div class="task-desc">'+t.desc+'</div>'+metricHtml+'</div></li>';
+    });
+    tasksHtml += '</ul>';
+
+    var tierColor = tier==='S'?'var(--red)':tier==='A'?'var(--orange)':tier==='B'?'var(--blue)':'var(--txm)';
+    html += '<div class="flow-node" onclick="this.classList.toggle(\'open\')">';
+    html += '<div class="flow-head">';
+    html += '<div class="flow-id" style="background:'+tierColor+'">'+item.id+'</div>';
+    var gapBadge = item.gap ? '<span class="gap-badge '+item.gap+'" style="margin-left:8px">'+GAP_LABELS[item.gap]+'</span>' : '';
+    html += '<div class="flow-trigger"><div class="flow-name">'+item.name+gapBadge+'</div><div class="flow-cond">'+item.cond+'</div></div>';
+    html += '<div class="flow-axes">'+axHtml+'</div>';
+    html += '<span class="flow-chev">&#9654;</span>';
+    html += '</div>';
+    html += '<div class="flow-detail">'+tasksHtml+'</div>';
+    html += '</div>';
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+function buildSummary() {
+  var body = document.getElementById('sumBody');
+  var n = 0;
+  var tierColors = {S:'var(--red)',A:'var(--orange)',B:'var(--blue)',C:'var(--txm)'};
+  ['S','A','B','C'].forEach(function(tier){
+    DATA[tier].forEach(function(item){
+      n++;
+      var axHtml = '';
+      item.axes.forEach(function(st,i){
+        var cls = st==='crit'?'c':st==='warn'?'w':st==='good'?'g':'';
+        if(cls) axHtml += '<span class="ax-chip '+cls+'">'+AX_SHORT[i]+'</span>';
+      });
+      var taskNames = item.tasks.map(function(t){return t.name}).join(', ');
+      var doneMetric = item.tasks[0].metric ? item.tasks[0].metric[0] : '-';
+      var tr = document.createElement('tr');
+      var gapLabel = item.gap ? '<span class="gap-badge '+item.gap+'">'+GAP_LABELS[item.gap]+'</span>' : '';
+      tr.innerHTML = '<td style="font-weight:700;font-variant-numeric:tabular-nums">'+n+'</td>'
+        +'<td><span style="font-size:11px;font-weight:800;padding:3px 8px;border-radius:100px;color:#fff;background:'+tierColors[tier]+'">'+tier+'</span></td>'
+        +'<td>'+gapLabel+'</td>'
+        +'<td style="font-weight:700;font-size:13px">'+item.name+'</td>'
+        +'<td>'+axHtml+'</td>'
+        +'<td style="font-size:13px;color:var(--tx2)">'+taskNames+'</td>'
+        +'<td style="font-size:11px;font-family:var(--fm);color:var(--tx3)">'+doneMetric+'</td>';
+      body.appendChild(tr);
+    });
+  });
+}
+
+renderFlow('S');
+buildSummary();
+</script>

@@ -1,0 +1,631 @@
+<title>Essential GPS — 6-Axis 3 Gap Diagnosis & SLA Process</title>
+<style>
+@font-face{font-family:'SF';src:local('-apple-system'),local('BlinkMacSystemFont'),local('system-ui')}
+:root{
+  --bg:#fbfbfd;--sf:#fff;--sf2:#f5f5f7;--sf3:#e8e8ed;
+  --tx:#1d1d1f;--tx2:#424245;--tx3:#6e6e73;--txm:#86868b;
+  --bd:#d2d2d7;
+  --blue:#0071e3;--purple:#bf5af2;--green:#34c759;
+  --red:#ff3b30;--orange:#ff9500;--teal:#5ac8fa;--indigo:#5856d6;
+  --r:20px;--rs:12px;
+  --fs-micro:10px;--fs-cap:11px;--fs-body:13px;--fs-body-lg:15px;--fs-sub:17px;--fs-t3:20px;--fs-t2:24px;--fs-t1:28px;--fs-disp:34px;--fs-disp-lg:38px;
+  --f:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Pretendard',system-ui,sans-serif;
+  --fm:'SF Mono','Fira Code',ui-monospace,monospace;
+  --sh:0 1px 3px rgba(0,0,0,.04);--shm:0 4px 16px rgba(0,0,0,.06);--shl:0 8px 32px rgba(0,0,0,.08);
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#000;--sf:#1c1c1e;--sf2:#2c2c2e;--sf3:#3a3a3c;
+  --tx:#f5f5f7;--tx2:#d1d1d6;--tx3:#98989d;--txm:#636366;
+  --bd:#38383a;
+  --blue:#0a84ff;--purple:#bf5af2;--green:#30d158;
+  --red:#ff453a;--orange:#ff9f0a;--teal:#64d2ff;--indigo:#5e5ce6;
+  --sh:0 1px 3px rgba(0,0,0,.3);--shm:0 4px 16px rgba(0,0,0,.3);--shl:0 8px 32px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"]{
+  --bg:#000;--sf:#1c1c1e;--sf2:#2c2c2e;--sf3:#3a3a3c;
+  --tx:#f5f5f7;--tx2:#d1d1d6;--tx3:#98989d;--txm:#636366;
+  --bd:#38383a;
+  --blue:#0a84ff;--purple:#bf5af2;--green:#30d158;
+  --red:#ff453a;--orange:#ff9f0a;--teal:#64d2ff;--indigo:#5e5ce6;
+  --sh:0 1px 3px rgba(0,0,0,.3);--shm:0 4px 16px rgba(0,0,0,.3);--shl:0 8px 32px rgba(0,0,0,.35);
+}
+:root[data-theme="light"]{
+  --bg:#fbfbfd;--sf:#fff;--sf2:#f5f5f7;--sf3:#e8e8ed;
+  --tx:#1d1d1f;--tx2:#424245;--tx3:#6e6e73;--txm:#86868b;
+  --bd:#d2d2d7;
+  --blue:#0071e3;--purple:#bf5af2;--green:#34c759;
+  --red:#ff3b30;--orange:#ff9500;--teal:#5ac8fa;--indigo:#5856d6;
+  --sh:0 1px 3px rgba(0,0,0,.04);--shm:0 4px 16px rgba(0,0,0,.06);--shl:0 8px 32px rgba(0,0,0,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.5;-webkit-font-smoothing:antialiased}
+.page{max-width:920px;margin:0 auto;padding:32px 24px 100px}
+
+.hero{text-align:center;padding:48px 0 40px}
+.hero-eyebrow{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:8px}
+.hero h1{font-size:34px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.hero p{font-size:17px;color:var(--tx2);max-width:560px;margin:0 auto}
+
+.sec{margin-top:48px}
+.sec-title{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.sec-sub{font-size:15px;color:var(--tx3);margin-bottom:24px}
+
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:24px;box-shadow:var(--shm)}
+
+/* Tab nav */
+.tabs{display:flex;gap:4px;background:var(--sf2);border-radius:12px;padding:4px;margin-bottom:24px;overflow-x:auto}
+.tab{flex:1;padding:10px 16px;border-radius:10px;border:none;background:none;font-family:var(--f);font-size:13px;font-weight:700;color:var(--tx3);cursor:pointer;transition:all .2s;white-space:nowrap;text-align:center}
+.tab.active{background:var(--sf);color:var(--tx);box-shadow:var(--sh)}
+.tab:hover:not(.active){color:var(--tx2)}
+.tab[data-tier="S"]{border-bottom:2px solid var(--red)}
+.tab[data-tier="A"]{border-bottom:2px solid var(--orange)}
+.tab[data-tier="B"]{border-bottom:2px solid var(--blue)}
+.tab[data-tier="C"]{border-bottom:2px solid var(--txm)}
+
+.tier-panel{display:none}
+.tier-panel.active{display:block}
+
+/* Weight bars */
+.w-row{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--sf2)}
+.w-row:last-child{border-bottom:none}
+.w-axis{width:80px;font-size:15px;font-weight:700;flex-shrink:0}
+.w-bar-wrap{flex:1;height:28px;background:var(--sf2);border-radius:14px;overflow:hidden;position:relative}
+.w-bar{height:100%;border-radius:14px;transition:width .6s cubic-bezier(.22,1,.36,1);display:flex;align-items:center;justify-content:flex-end;padding-right:10px}
+.w-pct{font-size:13px;font-weight:800;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.2);min-width:36px;text-align:right}
+.w-base{font-size:11px;color:var(--txm);width:48px;text-align:right;flex-shrink:0}
+.w-delta{font-size:11px;font-weight:700;width:52px;flex-shrink:0;text-align:center}
+.w-delta.up{color:var(--red)}
+.w-delta.down{color:var(--blue)}
+.w-delta.same{color:var(--txm)}
+
+/* Override cards */
+.override{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:16px 20px;margin-bottom:12px;display:flex;gap:16px;align-items:flex-start;transition:border-color .2s}
+.override:hover{border-color:var(--blue)}
+.override-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.override-body{flex:1}
+.override-name{font-size:15px;font-weight:800;margin-bottom:2px}
+.override-desc{font-size:13px;color:var(--tx2);line-height:1.5}
+.override-rule{font-size:11px;font-weight:700;font-family:var(--fm);background:var(--sf2);padding:4px 10px;border-radius:6px;margin-top:8px;display:inline-block;color:var(--tx3)}
+
+/* Edge case */
+.edge{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:16px 20px;margin-bottom:10px;cursor:pointer;transition:all .2s}
+.edge:hover{border-color:var(--orange);box-shadow:var(--sh)}
+.edge-head{display:flex;justify-content:space-between;align-items:center}
+.edge-title{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px}
+.edge-tag{font-size:10px;font-weight:800;padding:3px 8px;border-radius:100px;letter-spacing:.04em}
+.edge-tag.critical{background:rgba(255,59,48,.12);color:var(--red)}
+.edge-tag.warn{background:rgba(255,149,0,.12);color:var(--orange)}
+.edge-tag.info{background:rgba(0,113,227,.1);color:var(--blue)}
+.edge-detail{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--sf2);font-size:13px;color:var(--tx2);line-height:1.7}
+.edge.open .edge-detail{display:block}
+.edge-chevron{color:var(--txm);transition:transform .2s;font-size:13px}
+.edge.open .edge-chevron{transform:rotate(90deg)}
+
+/* SLA Timeline */
+.tl{position:relative;padding-left:32px}
+.tl::before{content:'';position:absolute;left:11px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,var(--green),var(--orange),var(--red),#8b0000);border-radius:1px}
+.tl-node{position:relative;padding:16px 0 24px}
+.tl-dot{position:absolute;left:-27px;top:20px;width:14px;height:14px;border-radius:50%;border:3px solid var(--sf);box-shadow:0 0 0 2px var(--green)}
+.tl-time{font-size:13px;font-weight:800;font-family:var(--fm);margin-bottom:4px}
+.tl-action{font-size:15px;font-weight:700;margin-bottom:4px}
+.tl-desc{font-size:13px;color:var(--tx2);line-height:1.6}
+.tl-node:nth-child(1) .tl-dot{box-shadow:0 0 0 2px var(--green);background:var(--green)}
+.tl-node:nth-child(2) .tl-dot{box-shadow:0 0 0 2px var(--blue);background:var(--blue)}
+.tl-node:nth-child(3) .tl-dot{box-shadow:0 0 0 2px var(--orange);background:var(--orange)}
+.tl-node:nth-child(4) .tl-dot{box-shadow:0 0 0 2px var(--red);background:var(--red)}
+.tl-node:nth-child(5) .tl-dot{box-shadow:0 0 0 2px #8b0000;background:#8b0000}
+
+/* Process table */
+.ptbl-wrap{overflow-x:auto;border-radius:var(--r);border:1px solid var(--bd);background:var(--sf);box-shadow:var(--shm)}
+.ptbl{width:100%;border-collapse:separate;border-spacing:0;font-size:13px;min-width:700px}
+.ptbl th{padding:12px 16px;text-align:left;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3);background:var(--sf2);border-bottom:2px solid var(--bd);white-space:nowrap}
+.ptbl td{padding:12px 16px;border-bottom:1px solid var(--sf2);vertical-align:top;line-height:1.55;color:var(--tx)}
+.ptbl tr:last-child td{border-bottom:none}
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+
+/* Formula box */
+.formula-box{background:var(--sf2);border-radius:var(--rs);padding:20px;font-family:var(--fm);font-size:13px;line-height:2;color:var(--tx2);overflow-x:auto}
+.formula-box .hl{color:var(--red);font-weight:700}
+.formula-box .hb{color:var(--blue);font-weight:700}
+.formula-box .ho{color:var(--orange);font-weight:700}
+.formula-box .hg{color:var(--green);font-weight:700}
+.formula-box .comment{color:var(--txm);font-style:italic}
+
+/* Score penalty vis */
+.penalty-meter{display:flex;align-items:center;gap:12px;margin:16px 0}
+.penalty-bar{flex:1;height:12px;background:var(--sf3);border-radius:6px;overflow:hidden;position:relative}
+.penalty-fill{height:100%;border-radius:6px;transition:width .8s}
+.penalty-label{font-size:13px;font-weight:700;width:80px;text-align:right;flex-shrink:0}
+
+/* Slot allocation */
+.slot-grid{display:grid;grid-template-columns:repeat(15,1fr);gap:3px;margin:16px 0}
+.slot{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;transition:all .3s}
+.slot.price-x{background:var(--red)}
+.slot.surge{background:var(--purple)}
+.slot.auto-s{background:var(--orange)}
+.slot.empty{background:var(--sf3);color:var(--txm)}
+
+.slot-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px}
+.slot-legend-item{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--tx2)}
+.slot-legend-dot{width:10px;height:10px;border-radius:4px}
+
+/* Responsive */
+@media(max-width:600px){
+  .hero h1{font-size:28px}
+  .sec-title{font-size:20px}
+  .w-axis{width:60px;font-size:13px}
+  .tabs{flex-wrap:nowrap}
+  .tab{font-size:11px;padding:8px 12px}
+}
+</style>
+
+<div class="page">
+
+<div class="hero">
+  <div class="hero-eyebrow">Essential GPS Logic Spec v1.0</div>
+  <h1>6&#45824;&#52629; &#44592;&#48152; 3 Gap &#51652;&#45800; &amp; &#54000;&#50612; &#48176;&#51221; &middot; SLA &#54532;&#47196;&#49464;&#49828;</h1>
+  <p>&#50808;&#48512; 10&#44060; &#49324;&#51060;&#53944; &#53356;&#47204;&#47553; + &#45236;&#48512; &#45936;&#51060;&#53552;&#47484; 6&#45824;&#52629;&#51004;&#47196; &#48516;&#49437; &rarr; &#49472;&#47113;&#49496;/&#44396;&#49353;/&#44032;&#44201; Gap &#51652;&#45800; &rarr; &#54000;&#50612; &#48176;&#51221; &rarr; SLA &#44288;&#47532;&#44620;&#51648;&#51032; &#51204;&#52404; &#54532;&#47196;&#49464;&#49828;</p>
+</div>
+
+<!-- ============ SECTION 1: Tier Weights ============ -->
+<div class="sec">
+  <div class="sec-title">1. 6&#45824;&#52629; &#48516;&#49437; &#54532;&#47112;&#51076;&#50892;&#53356; &amp; &#54000;&#50612; &#48176;&#51221;</div>
+  <div class="sec-sub">6&#45824;&#52629; &#45936;&#51060;&#53552;&#47196; 3&#44032;&#51648; Gap&#51012; &#51652;&#45800;&#54633;&#45768;&#45796;. &#9312; &#49472;&#47113;&#49496; Gap &rarr; AUTO-S(&#47924;&#51312;&#44148; S&#46321;&#44553;), &#9313; &#44396;&#49353; Gap &rarr; &#48372;&#51221; A&#46321;&#44553;, &#9314; &#44032;&#44201; Gap &rarr; &#50500;&#47000; 6&#52629; &#51333;&#54633; &#51216;&#49688;&#47196; S/A/B/C &#48176;&#51221;. &#53485;&#51012; &#53364;&#47533;&#54644;&#49436; &#48708;&#44368;&#54616;&#49464;&#50836;.</div>
+
+  <div class="tabs" id="tierTabs">
+    <button class="tab active" data-tier="base" onclick="showTier('base')">&#44592;&#48376; &#44032;&#51473;&#52824;</button>
+    <button class="tab" data-tier="S" onclick="showTier('S')">S &#51593;&#49884;&#49892;&#54665;</button>
+    <button class="tab" data-tier="A" onclick="showTier('A')">A &#51452;&#44036;&#44284;&#51228;</button>
+    <button class="tab" data-tier="B" onclick="showTier('B')">B &#44160;&#49353;&#48512;&#49828;&#54021;</button>
+    <button class="tab" data-tier="C" onclick="showTier('C')">C &#47784;&#45768;&#53552;&#47553;</button>
+  </div>
+
+  <div class="card">
+    <div class="tier-panel active" id="panel-base">
+      <div style="font-size:13px;color:var(--tx3);margin-bottom:16px;font-weight:600">&#9632; &#44592;&#48376; &#44032;&#51473;&#52824; &#8212; &#44032;&#44201; Gap &#54032;&#51221; &#49884; 6&#52629; &#51333;&#54633; &#51216;&#49688; &#49328;&#52636; &#44592;&#51456;</div>
+      <div id="bars-base"></div>
+      <div class="formula-box" style="margin-top:20px">
+        <span class="comment">// &#44032;&#44201; Gap &#54032;&#51221;&#50857; &#44592;&#48376; GPS &#49328;&#52636;&#49885; (&#49472;&#47113;&#49496;/&#44396;&#49353; Gap &#54596;&#53552;&#47553; &#54980; &#51201;&#50857;)</span><br>
+        GPS = &#8721;(&#52629;&#48324;_&#51216;&#49688; × &#44592;&#48376;_&#44032;&#51473;&#52824;)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;= <span class="hl">&#44032;&#44201;(25%)</span> + <span class="ho">&#46364;(20%)</span> + <span class="hb">&#47784;&#47704;&#53568;(15%)</span> + &#51648;&#54364;(15%) + <span class="hg">&#47532;&#48624;(15%)</span> + &#48176;&#49569;(10%)
+      </div>
+    </div>
+
+    <div class="tier-panel" id="panel-S">
+      <div style="font-size:13px;color:var(--red);margin-bottom:16px;font-weight:700">&#9632; S&#46321;&#44553; &#8212; 24h SLA / &#44032;&#44201;&#183;&#46364;&#49892;&#51201; &#44553;&#46321;, &#47532;&#48624;&#183;&#48176;&#49569; &#50557;&#54868;</div>
+      <div id="bars-S"></div>
+      <div class="formula-box" style="margin-top:20px">
+        <span class="comment">// S&#46321;&#44553; (&#44032;&#44201; Gap &#54032;&#51221;): &#44552;&#51204;&#51201; &#49552;&#49892;&#51060; &#48156;&#49373;&#51473;&#51064; &#52629;&#50640; &#51665;&#51473;</span><br>
+        GPS_S = <span class="hl">&#44032;&#44201;(35%)</span> + <span class="ho">&#46364;(25%)</span> + &#47784;&#47704;&#53568;(15%) + &#51648;&#54364;(10%) + &#47532;&#48624;(10%) + &#48176;&#49569;(5%)<br>
+        <span class="comment">// &#44032;&#44201; +10p, &#46364; +5p → &#47532;&#48624; -5p, &#48176;&#49569; -5p, &#51648;&#54364; -5p</span>
+      </div>
+    </div>
+
+    <div class="tier-panel" id="panel-A">
+      <div style="font-size:13px;color:var(--orange);margin-bottom:16px;font-weight:700">&#9632; A&#46321;&#44553; &#8212; 7d SLA / &#44032;&#44201;&#183;&#46364; &#49548;&#54253; &#49345;&#54693;, &#47784;&#47704;&#53568; &#44053;&#54868;</div>
+      <div id="bars-A"></div>
+      <div class="formula-box" style="margin-top:20px">
+        <span class="comment">// A&#46321;&#44553;: &#44396;&#51312;&#51201; &#44060;&#49440; + &#47784;&#47704;&#53568; &#54252;&#52265;</span><br>
+        GPS_A = <span class="hl">&#44032;&#44201;(28%)</span> + <span class="ho">&#46364;(22%)</span> + <span class="hb">&#47784;&#47704;&#53568;(18%)</span> + &#51648;&#54364;(14%) + &#47532;&#48624;(12%) + &#48176;&#49569;(6%)<br>
+        <span class="comment">// &#47784;&#47704;&#53568; +3p &#8594; &#47532;&#48624; -3p (&#49457;&#51109;&#49464; &#54032;&#45800; &#44053;&#54868;)</span>
+      </div>
+    </div>
+
+    <div class="tier-panel" id="panel-B">
+      <div style="font-size:13px;color:var(--blue);margin-bottom:16px;font-weight:700">&#9632; B&#46321;&#44553; &#8212; 14d SLA / &#44160;&#49353; &#51473;&#49900;, &#51648;&#54364;&#183;&#47532;&#48624; &#44053;&#54868;</div>
+      <div id="bars-B"></div>
+      <div class="formula-box" style="margin-top:20px">
+        <span class="comment">// B&#46321;&#44553;: SEO/&#44160;&#49353; &#48512;&#49828;&#54021; &#8594; &#51648;&#54364;&#183;&#47532;&#48624; &#44032;&#51473;&#52824; &#49345;&#49849;</span><br>
+        GPS_B = &#44032;&#44201;(20%) + &#46364;(15%) + &#47784;&#47704;&#53568;(12%) + <span class="hb">&#51648;&#54364;(22%)</span> + <span class="hg">&#47532;&#48624;(21%)</span> + &#48176;&#49569;(10%)<br>
+        <span class="comment">// &#51648;&#54364; +7p, &#47532;&#48624; +6p → &#44032;&#44201; -5p, &#46364; -5p, &#47784;&#47704;&#53568; -3p</span>
+      </div>
+    </div>
+
+    <div class="tier-panel" id="panel-C">
+      <div style="font-size:13px;color:var(--txm);margin-bottom:16px;font-weight:700">&#9632; C&#46321;&#44553; &#8212; 30d SLA / &#44512;&#54805; &#48176;&#48516;, &#51204;&#52404; &#44288;&#52272;</div>
+      <div id="bars-C"></div>
+      <div class="formula-box" style="margin-top:20px">
+        <span class="comment">// C&#46321;&#44553;: &#47784;&#45768;&#53552;&#47553; &#8594; &#44512;&#46321; &#48176;&#48516;&#51004;&#47196; &#51204;&#52404; &#52629; &#44288;&#52272;</span><br>
+        GPS_C = &#44032;&#44201;(18%) + &#46364;(17%) + &#47784;&#47704;&#53568;(17%) + &#51648;&#54364;(17%) + &#47532;&#48624;(17%) + &#48176;&#49569;(14%)<br>
+        <span class="comment">// &#44144;&#51032; &#44512;&#46321;. &#53945;&#51221; &#52629; &#51060;&#49345; &#51669;&#54980; &#44048;&#51648; &#47785;&#51201;</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SECTION 2: Override Rules ============ -->
+<div class="sec">
+  <div class="sec-title">2. &#44053;&#51228; &#50724;&#48260;&#46972;&#51060;&#46300; &#44508;&#52825;</div>
+  <div class="sec-sub">&#49472;&#47113;&#49496; Gap(AUTO-S) &middot; &#44396;&#49353; Gap &middot; &#44032;&#44201; Gap(PRICE-X) &#46321; 6&#45824;&#52629; &#48516;&#49437;&#50640;&#49436; &#44048;&#51648;&#46108; &#51312;&#44148; &#52649;&#51313; &#49884; &#47924;&#51312;&#44148; S&#46321;&#44553; &#49849;&#44201;</div>
+
+  <div class="override">
+    <div class="override-icon" style="background:rgba(255,59,48,.12)">&#128680;</div>
+    <div class="override-body">
+      <div class="override-name" style="color:var(--red)">AUTO-S &#8212; &#49472;&#47113;&#49496; Gap &#48120;&#51077;&#51216; &#54032;&#51221;</div>
+      <div class="override-desc">6&#45824;&#52629; &#45936;&#51060;&#53552; &#48516;&#49437;&#51004;&#47196; &#49472;&#47113;&#49496; Gap &#44048;&#51648;: &#50808;&#48512;&#50640;&#49436; &#54032;&#47588;&#51473;&#51064;&#45936; &#51088;&#49324;&#50640; &#50630;&#45716; &#49345;&#54408;. GPS &#51216;&#49688; &#49328;&#52636; &#51088;&#52404;&#44032; &#48520;&#44032;&#45733;(&#51088;&#49324; &#45936;&#51060;&#53552; &#50630;&#51020;)&#54616;&#48064;&#47196; &#47924;&#51312;&#44148; S&#46321;&#44553; &#48512;&#50668;.</div>
+      <div class="override-rule">IF &#51088;&#49324;_&#49345;&#54408;_&#51316;&#51116; = FALSE → FORCE S&#46321;&#44553;</div>
+      <div class="override-desc" style="margin-top:8px"><strong>&#44032;&#51473;&#52824; &#51201;&#50857;:</strong> &#44032;&#44201;(0%) &#46364;(0%) &#47784;&#47704;&#53568;(0%) &#51648;&#54364;(0%) &#47532;&#48624;(0%) &#48176;&#49569;(0%) → <strong>&#50808;&#48512; &#44221;&#51137;&#47141; &#51648;&#49688;(ECI)</strong>&#47564;&#51004;&#47196; &#50864;&#49440;&#49692;&#50948; &#44208;&#51221;</div>
+    </div>
+  </div>
+
+  <div class="override">
+    <div class="override-icon" style="background:rgba(255,59,48,.12)">&#128176;</div>
+    <div class="override-body">
+      <div class="override-name" style="color:var(--red)">PRICE-X &#8212; &#44032;&#44201; Gap &#44596;&#44553; (&#44032;&#44201;&#50669;&#51204;)</div>
+      <div class="override-desc">6&#45824;&#52629; &#44032;&#44201;&#52629; &#48516;&#49437;&#50640;&#49436; &#44048;&#51648;: &#44221;&#51137;&#49324; &#45824;&#48708; &#44032;&#44201;&#44221;&#51137;&#47141;&#51648;&#49688;(PCI)&#44032; 130 &#51060;&#49345;. &#44256;&#44061;&#51060; &#51060;&#53448;&#51473;&#51064; &#49345;&#54889;.</div>
+      <div class="override-rule">IF PCI &#8805; 130 → FORCE S&#46321;&#44553; (&#44032;&#44201;&#52629; &#44032;&#51473;&#52824; 50%&#47196; &#44053;&#51228; &#51201;&#50857;)</div>
+      <div class="override-desc" style="margin-top:8px"><strong>&#44032;&#51473;&#52824; &#50724;&#48260;&#46972;&#51060;&#46300;:</strong> &#44032;&#44201;(<span style="color:var(--red);font-weight:800">50%</span>) &#46364;(20%) &#47784;&#47704;&#53568;(10%) &#51648;&#54364;(10%) &#47532;&#48624;(5%) &#48176;&#49569;(5%)</div>
+    </div>
+  </div>
+
+  <div class="override">
+    <div class="override-icon" style="background:rgba(191,90,242,.12)">&#128293;</div>
+    <div class="override-body">
+      <div class="override-name" style="color:var(--purple)">SURGE &#8212; &#48148;&#51060;&#47092; &#44553;&#46321;</div>
+      <div class="override-desc">&#47784;&#47704;&#53568; &#52629; &#44553;&#46321; &#48320;&#46041;(MoM &#8805; 300% &#46608;&#45716; &#49548;&#49500; &#50669;&#51452;&#54665; &#44048;&#51648;). &#53440;&#51060;&#48141; &#50976;&#54952;&#44592;&#44036; 48h.</div>
+      <div class="override-rule">IF &#47784;&#47704;&#53568;_MoM &#8805; 300% OR &#49548;&#49500;&#48148;&#51060;&#47092; = TRUE → FORCE S&#46321;&#44553;</div>
+      <div class="override-desc" style="margin-top:8px"><strong>&#44032;&#51473;&#52824; &#50724;&#48260;&#46972;&#51060;&#46300;:</strong> &#44032;&#44201;(15%) &#46364;(15%) <span style="color:var(--purple);font-weight:800">&#47784;&#47704;&#53568;(40%)</span> &#51648;&#54364;(15%) &#47532;&#48624;(10%) &#48176;&#49569;(5%)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SECTION 3: 15 Slot Allocation ============ -->
+<div class="sec">
+  <div class="sec-title">3. S&#46321;&#44553; 15&#44060; &#49836;&#47215; &#48176;&#48516; &#47196;&#51649;</div>
+  <div class="sec-sub">&#48120;&#51077;&#51216;&#51060; 15&#44060; &#52488;&#44284; &#49884;, &#53944;&#47532;&#44144; &#50976;&#54805;&#48324; &#49836;&#47215; &#50864;&#49440; &#54869;&#48372; → &#45236;&#48512; GMV &#49548;&#54021;</div>
+
+  <div class="card">
+    <div style="font-size:15px;font-weight:700;margin-bottom:12px">&#49836;&#47215; &#48176;&#48516; &#49884;&#48044;&#47112;&#51060;&#49496; <span style="font-size:13px;color:var(--tx3);font-weight:500">(&#50696;&#49884;: &#54980;&#48372; 47&#44060; &#51473; 15&#44060; &#49440;&#51221;)</span></div>
+
+    <div class="slot-grid" id="slotGrid"></div>
+    <div class="slot-legend">
+      <div class="slot-legend-item"><div class="slot-legend-dot" style="background:var(--red)"></div>PRICE-X &#44032;&#44201;&#50669;&#51204; (&#52572;&#50864;&#49440;)</div>
+      <div class="slot-legend-item"><div class="slot-legend-dot" style="background:var(--purple)"></div>SURGE &#48148;&#51060;&#47092; (&#53440;&#51060;&#48141; &#54620;&#51221;)</div>
+      <div class="slot-legend-item"><div class="slot-legend-dot" style="background:var(--orange)"></div>AUTO-S &#48120;&#51077;&#51216; (&#45208;&#47672;&#51648;)</div>
+    </div>
+
+    <div class="formula-box" style="margin-top:20px">
+      <span class="comment">// &#49836;&#47215; &#48176;&#48516; &#50508;&#44256;&#47532;&#51608;</span><br>
+      1. PRICE-X &#49836;&#47215; = <span class="hl">min(5, count(PRICE-X))</span> <span class="comment">// &#52572;&#45824; 5&#44060; &#44256;&#51221;</span><br>
+      2. SURGE &#49836;&#47215;&nbsp; = <span class="hl">min(2, count(SURGE))</span>&nbsp;&nbsp; <span class="comment">// &#52572;&#45824; 2&#44060; &#44256;&#51221;</span><br>
+      3. AUTO-S &#49836;&#47215; = <span class="ho">15 - PRICE-X&#49836;&#47215; - SURGE&#49836;&#47215;</span> <span class="comment">// &#45208;&#47672;&#51648; &#51204;&#48512;</span><br>
+      4. &#44033; &#50976;&#54805; &#45236; &#49548;&#54021;: <span class="hb">&#44592;&#54924;&#49552;&#49892;_GMV × &#51204;&#54872;&#54869;&#47456;</span> &#45236;&#47548;&#52264;&#49692;<br>
+      5. &#51092;&#50668; &#54980;&#48372; → <span class="comment">&#45796;&#51020; &#49324;&#51060;&#53364; &#53328;</span>&#50640; &#51088;&#46041; &#51060;&#50900;
+    </div>
+  </div>
+</div>
+
+<!-- ============ SECTION 4: Edge Cases ============ -->
+<div class="sec">
+  <div class="sec-title">4. &#50696;&#50808; &#52992;&#51060;&#49828; &#52376;&#47532;</div>
+  <div class="sec-sub">&#44592;&#48376; &#47196;&#51649;&#51004;&#47196; &#52376;&#47532; &#48520;&#44032;&#45733;&#54620; &#49345;&#54889;&#46308;&#51032; &#50696;&#50808; &#44508;&#52825;</div>
+
+  <div class="edge" onclick="this.classList.toggle('open')">
+    <div class="edge-head">
+      <div class="edge-title"><span class="edge-tag critical">CRITICAL</span>&#45800;&#51068;&#52629; &#53356;&#47532;&#54000;&#52972; &#8212; &#44053;&#51228; &#54000;&#50612; &#48276;&#54532;</div>
+      <span class="edge-chevron">&#9654;</span>
+    </div>
+    <div class="edge-detail">
+      <strong>&#51312;&#44148;:</strong> &#50612;&#45712; &#54620; &#52629;&#51032; Gap&#51060; 90&#51216; &#51060;&#49345;(&#44032;&#44201; PCI &#8805; 150 &#46608;&#45716; &#46364;&#49892;&#51201; &#44396;&#51340; &#8804; 20)<br>
+      <strong>&#52376;&#47532;:</strong> &#54644;&#45817; &#52629;&#51032; &#44032;&#51473;&#52824;&#47484; <strong>+15%p</strong> &#44053;&#51228; &#49345;&#54693;, &#45208;&#47672;&#51648; &#52629;&#50640;&#49436; &#48708;&#47168;&#48176;&#48516; &#52264;&#44048;<br>
+      <strong>&#50696;&#49884;:</strong> &#44032;&#44201; PCI 155 &#8594; S&#46321;&#44553; &#44032;&#51473;&#52824;&#44032; 35% → 50%, &#47532;&#48624; 10% → 5%, &#48176;&#49569; 5% → 0%<br>
+      <strong>&#44208;&#44284;:</strong> &#54644;&#45817; &#52629;&#51032; &#50529;&#49496; &#50500;&#51060;&#53596;&#51060; &#51088;&#46041;&#51004;&#47196; &#52572;&#49345;&#45800; &#45432;&#52636;
+    </div>
+  </div>
+
+  <div class="edge" onclick="this.classList.toggle('open')">
+    <div class="edge-head">
+      <div class="edge-title"><span class="edge-tag critical">CRITICAL</span>&#48373;&#54633; &#50724;&#48260;&#46972;&#51060;&#46300; &#52649;&#46028; &#8212; PRICE-X + SURGE &#46041;&#49884;</div>
+      <span class="edge-chevron">&#9654;</span>
+    </div>
+    <div class="edge-detail">
+      <strong>&#51312;&#44148;:</strong> &#54620; &#49345;&#54408;&#51060; PRICE-X&#50752; SURGE &#46041;&#49884; &#52649;&#51313; (&#44032;&#44201;&#50669;&#51204; + &#48148;&#51060;&#47092;)<br>
+      <strong>&#52376;&#47532;:</strong> <strong>PRICE-X &#50864;&#49440;</strong>. &#44032;&#44201; &#47928;&#51228;&#44032; &#48148;&#51060;&#47092;&#48372;&#45796; &#51649;&#51217;&#51201; &#49552;&#49892;&#51060; &#53356;&#44592; &#46412;&#47928;.<br>
+      &#44032;&#51473;&#52824;: &#44032;&#44201;(<span style="color:var(--red);font-weight:800">45%</span>) + &#47784;&#47704;&#53568;(<span style="color:var(--purple);font-weight:800">25%</span>) + &#46364;(15%) + &#51648;&#54364;(10%) + &#47532;&#48624;(3%) + &#48176;&#49569;(2%)<br>
+      <strong>&#49836;&#47215;:</strong> PRICE-X &#49836;&#47215;&#50640;&#49436; &#52264;&#44048; (&#51473;&#48373;&#52852;&#50868;&#53944; &#48169;&#51648;)
+    </div>
+  </div>
+
+  <div class="edge" onclick="this.classList.toggle('open')">
+    <div class="edge-head">
+      <div class="edge-title"><span class="edge-tag warn">WARNING</span>&#45936;&#51060;&#53552; &#48512;&#51313; &#8212; &#49888;&#44508;&#49345;&#54408; 7&#51068; &#48120;&#47564;</div>
+      <span class="edge-chevron">&#9654;</span>
+    </div>
+    <div class="edge-detail">
+      <strong>&#51312;&#44148;:</strong> &#51077;&#51216; 7&#51068; &#48120;&#47564;&#51004;&#47196; &#46364;&#49892;&#51201;&#183;&#47784;&#47704;&#53568;&#183;&#47532;&#48624; &#45936;&#51060;&#53552; &#48512;&#51313;<br>
+      <strong>&#52376;&#47532;:</strong> &#45936;&#51060;&#53552; &#51080;&#45716; &#52629;&#47564; &#44032;&#51473;&#52824; &#51201;&#50857;, &#48512;&#51313; &#52629;&#51008; <strong>&#52852;&#53580;&#44256;&#47532; &#54217;&#44512;&#44050;</strong>&#51004;&#47196; &#45824;&#52404;<br>
+      <strong>&#50696;&#49884;:</strong> &#51077;&#51216; 3&#51068;&#52264;. &#44032;&#44201;(35%) + &#48176;&#49569;(15%) &#47564; &#49892;&#51228; &#45936;&#51060;&#53552;, &#45208;&#47672;&#51648; 4&#52629;&#51008; &#52852;&#53580;&#44256;&#47532; &#54217;&#44512;&#51004;&#47196; 50% &#48176;&#48516;<br>
+      <strong>&#51452;&#51032;:</strong> 7&#51068; &#44221;&#44284; &#54980; &#51088;&#46041; &#51116;&#49328;&#52636; &#53944;&#47532;&#44144; &#48156;&#46041; (&#54000;&#50612; &#48320;&#46041; &#44032;&#45733;&#49457;)
+    </div>
+  </div>
+
+  <div class="edge" onclick="this.classList.toggle('open')">
+    <div class="edge-head">
+      <div class="edge-title"><span class="edge-tag warn">WARNING</span>&#49884;&#51592;&#45328; &#44032;&#51473;&#52824; &#49884;&#54532;&#53944;</div>
+      <span class="edge-chevron">&#9654;</span>
+    </div>
+    <div class="edge-detail">
+      <strong>&#51312;&#44148;:</strong> &#45824;&#54805; &#54665;&#49324; &#44592;&#44036;(11&#51208;, &#49444;&#45216;, &#52628;&#49437; &#46321;) D-14 ~ D+3 &#44396;&#44036;<br>
+      <strong>&#52376;&#47532;:</strong> &#47784;&#47704;&#53568; &#44032;&#51473;&#52824; <strong>+8%p</strong>, &#44032;&#44201; &#44032;&#51473;&#52824; <strong>+5%p</strong> (&#49884;&#51592;&#45328; &#44032;&#44201;&#44221;&#51137; &#44201;&#54868;)<br>
+      &#52264;&#44048;: &#48176;&#49569;(-3%p), &#47532;&#48624;(-5%p), &#51648;&#54364;(-5%p)<br>
+      <strong>&#51060;&#50976;:</strong> &#49884;&#51592;&#45328;&#50640;&#45716; &#53440;&#51060;&#48141;&#44284; &#44032;&#44201;&#51060; &#44144;&#51032; &#47784;&#46304; &#44163;&#51012; &#44208;&#51221;. &#47532;&#48624;&#183;&#51648;&#54364;&#45716; &#49884;&#51592;&#45328; &#54980; &#51088;&#50672;&#48373;&#44480;
+    </div>
+  </div>
+
+  <div class="edge" onclick="this.classList.toggle('open')">
+    <div class="edge-head">
+      <div class="edge-title"><span class="edge-tag info">INFO</span>&#52852;&#53580;&#44256;&#47532; &#48169;&#54693;&#49457; &#50724;&#48260;&#46972;&#51060;&#46300;</div>
+      <span class="edge-chevron">&#9654;</span>
+    </div>
+    <div class="edge-detail">
+      <strong>&#51312;&#44148;:</strong> &#51312;&#51649;&#51109;&#51060; &#52852;&#53580;&#44256;&#47532; &#48169;&#54693;&#49457;&#51012; &#8220;&#49457;&#51109;&#8221; &#46608;&#45716; &#8220;&#54952;&#50984;&#8221;&#47196; &#49444;&#51221;<br>
+      <strong>&#49457;&#51109; &#47784;&#46300;:</strong> &#47784;&#47704;&#53568; +5%p, &#46364;&#49892;&#51201; +3%p &#8594; &#48176;&#49569; -5%p, &#51648;&#54364; -3%p<br>
+      <strong>&#54952;&#50984; &#47784;&#46300;:</strong> &#44032;&#44201; +5%p, &#51648;&#54364;/CVR +5%p &#8594; &#47784;&#47704;&#53568; -5%p, &#46364;&#49892;&#51201; -5%p<br>
+      <strong>&#50976;&#50857;:</strong> &#44057;&#51008; S&#46321;&#44553; &#49345;&#54408;&#51060;&#46972;&#46020; &#51312;&#51649;&#51109; &#51032;&#46020;&#50640; &#46384;&#46972; &#50529;&#49496; &#50864;&#49440;&#49692;&#50948; &#45804;&#46972;&#51664;
+    </div>
+  </div>
+
+  <div class="edge" onclick="this.classList.toggle('open')">
+    <div class="edge-head">
+      <div class="edge-title"><span class="edge-tag info">INFO</span>&#46041;&#51068; &#49345;&#54408; &#47680;&#54000;&#52852;&#53580;&#44256;&#47532; &#51473;&#48373;</div>
+      <span class="edge-chevron">&#9654;</span>
+    </div>
+    <div class="edge-detail">
+      <strong>&#51312;&#44148;:</strong> &#54620; &#49345;&#54408;&#51060; &#50668;&#47084; MD &#52852;&#53580;&#44256;&#47532;&#50640; &#44152;&#52832; &#46412; (&#50696;: &#47784;&#45768;&#53552; = &#44032;&#51204; + &#51452;&#48320;&#44592;&#44592;)<br>
+      <strong>&#52376;&#47532;:</strong> <strong>&#44032;&#51109; &#45458;&#51008; &#54000;&#50612;&#51032; MD&#50640;&#44172; &#50864;&#49440; &#48176;&#51221;</strong>. &#45208;&#47672;&#51648; MD&#50640;&#44172;&#45716; &#8220;&#53440; MD &#50529;&#49496; &#51652;&#54665;&#51473;&#8221; &#54364;&#49884;<br>
+      <strong>&#44592;&#51456;:</strong> S &gt; A &gt; B &gt; C &#49692;. &#46041;&#51068; &#54000;&#50612;&#47732; GPS &#51216;&#49688; &#45458;&#51008; &#52852;&#53580;&#44256;&#47532; &#50864;&#49440;
+    </div>
+  </div>
+</div>
+
+<!-- ============ SECTION 5: SLA Process ============ -->
+<div class="sec">
+  <div class="sec-title">5. SLA &#48120;&#52376;&#47532; &#50640;&#49828;&#52972;&#47112;&#51060;&#49496; &#54532;&#47196;&#49464;&#49828;</div>
+  <div class="sec-sub">MD &#48120;&#50529;&#49496; &#49884; &#49884;&#44036;&#45824;&#48324; &#51088;&#46041; &#50640;&#49828;&#52972;&#47112;&#51060;&#49496;. S&#46321;&#44553; &#44592;&#51456; (&#45796;&#47480; &#54000;&#50612;&#45716; &#48708;&#47168; &#54869;&#51109;)</div>
+
+  <div class="card">
+    <div class="tl">
+      <div class="tl-node">
+        <div class="tl-dot"></div>
+        <div class="tl-time" style="color:var(--green)">T+0h &#8212; &#53468;&#49828;&#53356; &#48176;&#51221;</div>
+        <div class="tl-action">&#49345;&#54408; &#52852;&#46300; &#48156;&#44553; + MD &#50508;&#47548;</div>
+        <div class="tl-desc">
+          GPS &#49328;&#52636; &#50756;&#47308; &#8594; &#54000;&#50612; &#54032;&#51221; &#8594; MD &#45824;&#49884;&#48372;&#46300;&#50640; &#49345;&#54408; &#52852;&#46300; &#45432;&#52636;<br>
+          &#49345;&#53468;&#44050;: <strong style="color:var(--green)">ASSIGNED</strong> / &#52852;&#50868;&#53944;&#45796;&#50868; &#49884;&#51089;<br>
+          MD&#50640;&#44172; &#50508;&#47548;&#53665; &#48156;&#49569; (&#54392;&#49884; + &#49836;&#47001; + &#51060;&#47700;&#51068;)
+        </div>
+      </div>
+
+      <div class="tl-node">
+        <div class="tl-dot"></div>
+        <div class="tl-time" style="color:var(--blue)">T+6h &#8212; 1&#52264; &#47532;&#47560;&#51064;&#45908;</div>
+        <div class="tl-action">&#51088;&#46041; &#47532;&#47560;&#51064;&#45908; &#48156;&#49569;</div>
+        <div class="tl-desc">
+          &#49345;&#53468;&#44050;&#51060; &#50668;&#51204;&#55176; ASSIGNED&#51060;&#47732; &#51088;&#46041; &#47532;&#47560;&#51064;&#45908;<br>
+          &#8220;[S&#46321;&#44553;] OOO &#49345;&#54408; &#48120;&#52376;&#47532; &#8212; 18&#49884;&#44036; &#45224;&#51020;&#8221;<br>
+          &#49345;&#53468;&#44050;: <strong style="color:var(--blue)">REMINDED</strong>
+        </div>
+      </div>
+
+      <div class="tl-node">
+        <div class="tl-dot"></div>
+        <div class="tl-time" style="color:var(--orange)">T+18h &#8212; &#50724;&#47116;&#51648; &#50508;&#47103;</div>
+        <div class="tl-action">&#54016;&#51109;&#50640;&#44172; &#46041;&#49884; &#50508;&#47548; + &#45824;&#49884;&#48372;&#46300; &#44221;&#44256; &#54364;&#49884;</div>
+        <div class="tl-desc">
+          MD + <strong>&#54016;&#51109;</strong> &#46041;&#49884; &#50508;&#47548;. &#45824;&#49884;&#48372;&#46300;&#50640; &#50724;&#47116;&#51648; &#44221;&#44256; &#48176;&#51648; &#45432;&#52636;<br>
+          &#8220;&#9888;&#65039; 6&#49884;&#44036; &#45224;&#51020; &#8212; SLA &#50948;&#48152; &#50696;&#51221;&#8221;<br>
+          &#49345;&#53468;&#44050;: <strong style="color:var(--orange)">ESCALATED_L1</strong><br>
+          <strong>&#54016;&#51109; &#50529;&#49496;:</strong> MD&#50640;&#44172; &#51649;&#51217; &#54869;&#51064; &#46608;&#45716; &#51116;&#48176;&#51221; &#44208;&#51221;
+        </div>
+      </div>
+
+      <div class="tl-node">
+        <div class="tl-dot"></div>
+        <div class="tl-time" style="color:var(--red)">T+24h &#8212; SLA &#48652;&#47532;&#52824;</div>
+        <div class="tl-action">SLA &#50948;&#48152; &#54869;&#51221; + &#51088;&#46041; &#54168;&#45328;&#54000; &#48512;&#44284;</div>
+        <div class="tl-desc">
+          &#49345;&#53468;&#44050;: <strong style="color:var(--red)">BREACHED</strong><br><br>
+          <strong>&#51088;&#46041; &#52376;&#47532; 3&#44148;:</strong><br>
+          &#9312; <strong>GPS &#51216;&#49688; &#54168;&#45328;&#54000;:</strong> &#54644;&#45817; &#49345;&#54408; Gap&#50640; +10&#51216; &#44053;&#51228; &#44032;&#49328;. &#54000;&#50612; &#49345;&#49849; &#44032;&#45733;&#49457; &#9650;<br>
+          &#9313; <strong>&#51088;&#46041; &#51116;&#48176;&#51221;:</strong> &#44057;&#51008; &#52852;&#53580;&#44256;&#47532; &#45236; &#45824;&#52404; &#44032;&#45733;&#54620; &#48512;MD &#46608;&#45716; &#54016;&#51109;&#50640;&#44172; &#51088;&#46041; &#51204;&#51060;<br>
+          &#9314; <strong>&#51060;&#47141; &#44592;&#47197;:</strong> MD &#49457;&#44284; &#45824;&#49884;&#48372;&#46300;&#50640; SLA &#48652;&#47532;&#52824; &#52852;&#50868;&#53944; &#45572;&#51201;
+        </div>
+      </div>
+
+      <div class="tl-node">
+        <div class="tl-dot"></div>
+        <div class="tl-time" style="color:#8b0000">T+48h &#8212; &#48376;&#48512;&#51109; &#50640;&#49828;&#52972;&#47112;&#51060;&#49496;</div>
+        <div class="tl-action">&#48376;&#48512;&#51109;&#44553; &#50508;&#47548; + &#49345;&#54408; &#46041;&#44208; &#44160;&#53664;</div>
+        <div class="tl-desc">
+          &#49345;&#53468;&#44050;: <strong style="color:#8b0000">ESCALATED_L2</strong><br>
+          &#48376;&#48512;&#51109;&#50640;&#44172; &#51452;&#44036; &#47532;&#54252;&#53944;&#50640; &#54252;&#54632;. &#48120;&#52376;&#47532; &#49324;&#50976; &#48516;&#49437;<br>
+          <strong>&#44537;&#45800; &#44208;&#51221;:</strong> &#49345;&#54408; &#46041;&#44208; &#54644;&#51228; &#46608;&#45716; &#52852;&#53580;&#44256;&#47532; &#51116;&#54200;&#49457; &#44160;&#53664;
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SECTION 6: Status Matrix ============ -->
+<div class="sec">
+  <div class="sec-title">6. &#54000;&#50612;&#48324; SLA &#48708;&#44368; &#47588;&#53944;&#47533;&#49828;</div>
+  <div class="sec-sub">&#44033; &#54000;&#50612;&#48324; &#49884;&#44036; &#51076;&#44228;&#44050;&#44284; &#50640;&#49828;&#52972;&#47112;&#51060;&#49496; &#45800;&#44228; &#48708;&#44368;</div>
+
+  <div class="ptbl-wrap">
+    <table class="ptbl">
+      <thead>
+        <tr><th></th><th>SLA</th><th>1&#52264; &#47532;&#47560;&#51064;&#45908;</th><th>&#54016;&#51109; &#50508;&#47548;</th><th>SLA &#48652;&#47532;&#52824;</th><th>&#48376;&#48512;&#51109; &#50640;&#49828;&#52972;&#47112;&#51060;&#49496;</th><th>&#54168;&#45328;&#54000;</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong style="color:var(--red)">S &#51593;&#49884;&#49892;&#54665;</strong></td>
+          <td><strong>24h</strong></td>
+          <td>T+6h</td>
+          <td>T+18h</td>
+          <td style="color:var(--red);font-weight:700">T+24h</td>
+          <td>T+48h</td>
+          <td>Gap +10&#51216;</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--orange)">A &#51452;&#44036;&#44284;&#51228;</strong></td>
+          <td><strong>7d</strong></td>
+          <td>T+2d</td>
+          <td>T+5d</td>
+          <td style="color:var(--orange);font-weight:700">T+7d</td>
+          <td>T+10d</td>
+          <td>Gap +7&#51216;</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--blue)">B &#44160;&#49353;&#48512;&#49828;&#54021;</strong></td>
+          <td><strong>14d</strong></td>
+          <td>T+5d</td>
+          <td>T+10d</td>
+          <td style="color:var(--blue);font-weight:700">T+14d</td>
+          <td>T+21d</td>
+          <td>Gap +5&#51216;</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--txm)">C &#47784;&#45768;&#53552;&#47553;</strong></td>
+          <td><strong>30d</strong></td>
+          <td>T+10d</td>
+          <td>T+20d</td>
+          <td style="color:var(--txm);font-weight:700">T+30d</td>
+          <td>&#8212;</td>
+          <td>Gap +3&#51216;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ============ SECTION 7: Processed State ============ -->
+<div class="sec">
+  <div class="sec-title">7. MD &#50529;&#49496; &#54980; &#49345;&#53468;&#44050; &#51204;&#51060;</div>
+  <div class="sec-sub">MD&#44032; &#50529;&#49496;&#54664;&#51012; &#46412;&#51032; &#52376;&#47532; &#54532;&#47196;&#49464;&#49828;&#50752; &#49345;&#53468;&#44050; &#48320;&#54868;</div>
+
+  <div class="card">
+    <div class="formula-box">
+      <span class="comment">// MD &#50529;&#49496; &#50756;&#47308; &#49884; &#49345;&#53468; &#51204;&#51060;</span><br><br>
+      <span class="hg">CASE 1: &#51221;&#49345; &#52376;&#47532; (SLA &#45236;)</span><br>
+      &nbsp;&nbsp;&#49345;&#53468;: ASSIGNED → <span class="hg">RESOLVED</span><br>
+      &nbsp;&nbsp;&#52376;&#47532;: &#54644;&#45817; &#49836;&#47215; &#48708;&#50880; → &#53328;&#50640;&#49436; &#45796;&#51020; &#49345;&#54408; &#51088;&#46041; &#49849;&#44201;<br>
+      &nbsp;&nbsp;&#44592;&#47197;: &#52376;&#47532;&#49884;&#44036;, &#50529;&#49496;&#45236;&#50857;, &#44208;&#44284;&#44050; &#51200;&#51109;<br>
+      &nbsp;&nbsp;GPS &#51116;&#49328;&#52636;: <span class="hg">&#45796;&#51020; &#49324;&#51060;&#53364;&#50640;&#49436; &#48152;&#50689;</span><br><br>
+
+      <span class="ho">CASE 2: &#51648;&#50672; &#52376;&#47532; (SLA &#52488;&#44284;)</span><br>
+      &nbsp;&nbsp;&#49345;&#53468;: BREACHED → <span class="ho">RESOLVED_LATE</span><br>
+      &nbsp;&nbsp;&#52376;&#47532;: &#49836;&#47215; &#48708;&#50880; + &#54168;&#45328;&#54000;&#45716; &#50976;&#51648;<br>
+      &nbsp;&nbsp;&#54168;&#45328;&#54000;: Gap +10&#51216;&#51008; <span class="ho">&#45796;&#51020; &#49324;&#51060;&#53364;&#44620;&#51648; &#50976;&#51648;</span> (&#51593;&#49884; &#54644;&#51228; &#50504;&#46120;)<br>
+      &nbsp;&nbsp;&#44592;&#47197;: SLA &#52488;&#44284; &#49884;&#44036;, &#52488;&#44284; &#49324;&#50976; &#54632;&#44760; &#51200;&#51109;<br><br>
+
+      <span class="hl">CASE 3: &#48120;&#52376;&#47532; &#51088;&#46041; &#51116;&#48176;&#51221;</span><br>
+      &nbsp;&nbsp;&#49345;&#53468;: BREACHED → <span class="hl">REASSIGNED</span><br>
+      &nbsp;&nbsp;&#52376;&#47532;: &#50896;&#47000; MD&#50640;&#49436; &#51228;&#44144; → &#48512;MD/&#54016;&#51109;&#50640;&#44172; &#51088;&#46041; &#51204;&#51060;<br>
+      &nbsp;&nbsp;SLA: <span class="hl">&#49352;&#47196;&#50868; 24h SLA &#49884;&#51089;</span> (&#47532;&#49483; &#50500;&#45784;)<br>
+      &nbsp;&nbsp;&#44592;&#47197;: &#51116;&#48176;&#51221; &#49324;&#50976;, &#50896;&#47000; MD &#51060;&#47141; &#44592;&#47197;&#50640; &#48152;&#50689;
+    </div>
+  </div>
+</div>
+
+<!-- ============ SECTION 8: Queue Logic ============ -->
+<div class="sec">
+  <div class="sec-title">8. &#53328; &#49692;&#54872; &#47196;&#51649;</div>
+  <div class="sec-sub">15&#44060; &#52376;&#47532; &#50756;&#47308; &#49884; &#45796;&#51020; &#49345;&#54408; &#51088;&#46041; &#49849;&#44201; &#44508;&#52825;</div>
+
+  <div class="card">
+    <div class="formula-box">
+      <span class="comment">// &#53328; &#49692;&#54872; &#50508;&#44256;&#47532;&#51608;</span><br><br>
+      <span class="hb">&#47588; &#49345;&#54408; RESOLVED &#49884;:</span><br>
+      &nbsp;&nbsp;1. &#48736;&#51652; &#49836;&#47215;&#51032; &#53944;&#47532;&#44144; &#50976;&#54805; &#54869;&#51064;<br>
+      &nbsp;&nbsp;2. &#45824;&#44592;&#53328;&#50640;&#49436; <span class="hl">&#46041;&#51068; &#53944;&#47532;&#44144; &#50976;&#54805; &#52572;&#49345;&#50948;</span> &#49849;&#44201;<br>
+      &nbsp;&nbsp;3. &#45824;&#44592;&#53328;&#50640;&#46020; &#46041;&#51068; &#50976;&#54805; &#50630;&#51004;&#47732; → &#44592;&#54924;&#49552;&#49892;GMV &#45236;&#47548;&#52264;&#49692;&#51004;&#47196; &#49849;&#44201;<br>
+      &nbsp;&nbsp;4. &#49836;&#47215; &#48716; &#46412;&#47560;&#45796; &#49849;&#44201; (&#48176;&#52824;&#51201; &#49849;&#44201; &#50500;&#45784;)<br><br>
+
+      <span class="hb">&#47588;&#51068; 09:00 &#51204;&#52404; &#51116;&#49328;&#52636;:</span><br>
+      &nbsp;&nbsp;1. &#50808;&#48512; 10&#44060; &#49324;&#51060;&#53944; &#53356;&#47204;&#47553; + &#45236;&#48512; &#45936;&#51060;&#53552; &#49688;&#51665;<br>
+      &nbsp;&nbsp;2. 6&#45824;&#52629; &#48516;&#49437; &#49892;&#54665; (&#44032;&#44201;&#183;&#46364;&#183;&#47784;&#47704;&#53568;&#183;&#51648;&#54364;&#183;&#47532;&#48624;&#183;&#48176;&#49569;)<br>
+      &nbsp;&nbsp;3. &#49472;&#47113;&#49496; Gap &rarr; &#44396;&#49353; Gap &rarr; &#44032;&#44201; Gap &#49692;&#49436;&#47196; 3 Gap &#51652;&#45800; &rarr; &#54000;&#50612; &#51116;&#54032;&#51221;<br>
+      &nbsp;&nbsp;4. <span class="ho">&#50612;&#51228; A&#50688;&#45912; &#49345;&#54408;&#51060; &#50724;&#45720; S&#47196; &#48148;&#45076; &#49688; &#51080;&#51020;</span><br>
+      &nbsp;&nbsp;5. &#49352; S&#46321;&#44553; &#48156;&#49373; &#49884; → &#44592;&#51316; &#53328;&#50640; &#50864;&#49440; &#49341;&#51077;(&#44592;&#51316; &#45824;&#44592;&#51088; &#48128;&#47548; &#50500;&#45784;)
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+var AXES = [
+  {name:'가격', icon:'💰'},
+  {name:'딜 실적', icon:'📈'},
+  {name:'모멘텀', icon:'🚀'},
+  {name:'지표/CVR', icon:'🎯'},
+  {name:'리뷰', icon:'⭐'},
+  {name:'배송', icon:'🚚'}
+];
+
+var WEIGHTS = {
+  base:  [25,20,15,15,15,10],
+  S:     [35,25,15,10,10,5],
+  A:     [28,22,18,14,12,6],
+  B:     [20,15,12,22,21,10],
+  C:     [18,17,17,17,17,14]
+};
+
+var COLORS = {
+  base: 'var(--blue)',
+  S:    'var(--red)',
+  A:    'var(--orange)',
+  B:    'var(--blue)',
+  C:    'var(--txm)'
+};
+
+function buildBars(tier) {
+  var container = document.getElementById('bars-' + tier);
+  if (!container) return;
+  container.innerHTML = '';
+  var w = WEIGHTS[tier];
+  var base = WEIGHTS.base;
+  w.forEach(function(pct, i) {
+    var diff = pct - base[i];
+    var deltaClass = diff > 0 ? 'up' : diff < 0 ? 'down' : 'same';
+    var deltaText = diff > 0 ? '+' + diff + '%p' : diff < 0 ? diff + '%p' : '—';
+    var row = document.createElement('div');
+    row.className = 'w-row';
+    row.innerHTML =
+      '<div class="w-axis">' + AXES[i].icon + ' ' + AXES[i].name + '</div>' +
+      '<div class="w-bar-wrap"><div class="w-bar" style="width:0%;background:' + COLORS[tier] + '"><span class="w-pct">' + pct + '%</span></div></div>' +
+      (tier !== 'base' ? '<div class="w-base">' + base[i] + '%</div><div class="w-delta ' + deltaClass + '">' + deltaText + '</div>' : '');
+    container.appendChild(row);
+    setTimeout(function() {
+      row.querySelector('.w-bar').style.width = (pct / 50 * 100) + '%';
+    }, 50 + i * 80);
+  });
+}
+
+function showTier(tier) {
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelector('.tab[data-tier="' + tier + '"]').classList.add('active');
+  document.querySelectorAll('.tier-panel').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById('panel-' + tier).classList.add('active');
+  buildBars(tier);
+}
+
+Object.keys(WEIGHTS).forEach(function(k) { buildBars(k); });
+
+// Slot grid
+var grid = document.getElementById('slotGrid');
+var slots = [
+  {type:'price-x',label:'P1'},{type:'price-x',label:'P2'},{type:'price-x',label:'P3'},{type:'price-x',label:'P4'},
+  {type:'surge',label:'S1'},{type:'surge',label:'S2'},
+  {type:'auto-s',label:'A1'},{type:'auto-s',label:'A2'},{type:'auto-s',label:'A3'},{type:'auto-s',label:'A4'},
+  {type:'auto-s',label:'A5'},{type:'auto-s',label:'A6'},{type:'auto-s',label:'A7'},{type:'auto-s',label:'A8'},
+  {type:'auto-s',label:'A9'}
+];
+slots.forEach(function(s) {
+  var el = document.createElement('div');
+  el.className = 'slot ' + s.type;
+  el.textContent = s.label;
+  el.title = s.type === 'price-x' ? 'PRICE-X 가격역전' : s.type === 'surge' ? 'SURGE 바이럴' : 'AUTO-S 미입점';
+  grid.appendChild(el);
+});
+</script>

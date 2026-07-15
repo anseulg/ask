@@ -1,0 +1,612 @@
+<title>Essential GPS — Data Pipeline & Auto-Match Decision Engine</title>
+<style>
+:root{
+  --bg:#fbfbfd;--sf:#fff;--sf2:#f5f5f7;--sf3:#e8e8ed;
+  --tx:#1d1d1f;--tx2:#424245;--tx3:#6e6e73;--txm:#86868b;
+  --bd:#d2d2d7;
+  --blue:#0071e3;--purple:#bf5af2;--green:#34c759;
+  --red:#ff3b30;--orange:#ff9500;--teal:#5ac8fa;--indigo:#5856d6;
+  --r:20px;--rs:12px;
+  --f:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Pretendard',system-ui,sans-serif;
+  --fm:'SF Mono','Fira Code',ui-monospace,monospace;
+  --sh:0 1px 3px rgba(0,0,0,.04);--shm:0 4px 16px rgba(0,0,0,.06);--shl:0 8px 32px rgba(0,0,0,.08);
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#000;--sf:#1c1c1e;--sf2:#2c2c2e;--sf3:#3a3a3c;
+  --tx:#f5f5f7;--tx2:#d1d1d6;--tx3:#98989d;--txm:#636366;
+  --bd:#38383a;--blue:#0a84ff;--purple:#bf5af2;--green:#30d158;
+  --red:#ff453a;--orange:#ff9f0a;--teal:#64d2ff;--indigo:#5e5ce6;
+  --sh:0 1px 3px rgba(0,0,0,.3);--shm:0 4px 16px rgba(0,0,0,.3);--shl:0 8px 32px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"]{--bg:#000;--sf:#1c1c1e;--sf2:#2c2c2e;--sf3:#3a3a3c;--tx:#f5f5f7;--tx2:#d1d1d6;--tx3:#98989d;--txm:#636366;--bd:#38383a;--blue:#0a84ff;--purple:#bf5af2;--green:#30d158;--red:#ff453a;--orange:#ff9f0a;--teal:#64d2ff;--indigo:#5e5ce6;--sh:0 1px 3px rgba(0,0,0,.3);--shm:0 4px 16px rgba(0,0,0,.3);--shl:0 8px 32px rgba(0,0,0,.35)}
+:root[data-theme="light"]{--bg:#fbfbfd;--sf:#fff;--sf2:#f5f5f7;--sf3:#e8e8ed;--tx:#1d1d1f;--tx2:#424245;--tx3:#6e6e73;--txm:#86868b;--bd:#d2d2d7;--blue:#0071e3;--purple:#bf5af2;--green:#34c759;--red:#ff3b30;--orange:#ff9500;--teal:#5ac8fa;--indigo:#5856d6;--sh:0 1px 3px rgba(0,0,0,.04);--shm:0 4px 16px rgba(0,0,0,.06);--shl:0 8px 32px rgba(0,0,0,.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased}
+.page{max-width:1060px;margin:0 auto;padding:32px 24px 120px}
+.hero{text-align:center;padding:40px 0 32px}
+.hero-ey{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:6px}
+.hero h1{font-size:34px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.hero p{font-size:15px;color:var(--tx2);max-width:640px;margin:0 auto}
+.sec{margin-top:48px}
+.sec-t{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.sec-d{font-size:15px;color:var(--tx3);margin-bottom:20px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:24px;box-shadow:var(--shm);margin-bottom:16px}
+
+.tw{overflow-x:auto;border-radius:var(--r);border:1px solid var(--bd);background:var(--sf);box-shadow:var(--shm);margin-bottom:20px}
+table.t{width:100%;border-collapse:separate;border-spacing:0;font-size:13px;min-width:700px}
+.t th{padding:10px 14px;text-align:left;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3);background:var(--sf2);border-bottom:2px solid var(--bd);white-space:nowrap;position:sticky;top:0}
+.t td{padding:10px 14px;border-bottom:1px solid var(--sf2);vertical-align:top;line-height:1.55}
+.t tr:last-child td{border-bottom:none}
+.t tr:hover td{background:var(--sf2)}
+
+.chip{font-size:10px;font-weight:800;padding:3px 8px;border-radius:100px;display:inline-block;margin:1px 2px;white-space:nowrap}
+.chip-r{background:rgba(255,59,48,.1);color:var(--red)}
+.chip-o{background:rgba(255,149,0,.1);color:var(--orange)}
+.chip-b{background:rgba(0,113,227,.1);color:var(--blue)}
+.chip-g{background:rgba(52,199,89,.08);color:var(--green)}
+.chip-p{background:rgba(191,90,242,.1);color:var(--purple)}
+.chip-t{background:rgba(90,200,250,.1);color:var(--teal)}
+.chip-m{background:var(--sf2);color:var(--txm)}
+
+.code{background:var(--sf2);border-radius:var(--rs);padding:20px;font-family:var(--fm);font-size:13px;line-height:1.9;color:var(--tx2);overflow-x:auto;white-space:pre;tab-size:2}
+.code .kw{color:var(--purple);font-weight:700}
+.code .fn{color:var(--blue);font-weight:700}
+.code .cm{color:var(--txm);font-style:italic}
+.code .st{color:var(--green)}
+.code .nu{color:var(--orange)}
+.code .hl{color:var(--red);font-weight:700}
+
+/* Pipeline visual */
+.pipe{display:flex;flex-direction:column;gap:0;position:relative}
+.pipe-stage{display:flex;align-items:stretch;gap:0}
+.pipe-label{width:100px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 8px;font-size:11px;font-weight:800;text-align:center;letter-spacing:.04em;position:relative}
+.pipe-label::after{content:'';position:absolute;right:0;top:0;bottom:0;width:2px;background:var(--bd)}
+.pipe-cards{flex:1;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;padding:16px}
+.pipe-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;font-size:13px;transition:all .2s}
+.pipe-card:hover{border-color:var(--blue);box-shadow:var(--sh)}
+.pipe-card-t{font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.pipe-card-d{font-size:11px;color:var(--tx3);line-height:1.5}
+.pipe-freq{font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px}
+.pipe-arrow{display:flex;justify-content:center;padding:4px 0}
+.pipe-arrow svg{width:24px;height:24px;fill:var(--bd)}
+
+/* Decision tree */
+.dtree{position:relative}
+.dnode{background:var(--sf);border:2px solid var(--bd);border-radius:var(--rs);padding:14px 18px;margin-bottom:8px;cursor:pointer;transition:all .2s}
+.dnode:hover{border-color:var(--blue)}
+.dnode.open{border-color:var(--blue)}
+.dnode-head{display:flex;align-items:center;gap:10px}
+.dnode-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.dnode-body{flex:1}
+.dnode-title{font-size:15px;font-weight:700}
+.dnode-cond{font-size:11px;color:var(--tx3);font-family:var(--fm)}
+.dnode-chev{color:var(--txm);font-size:11px;transition:transform .2s}
+.dnode.open .dnode-chev{transform:rotate(90deg)}
+.dnode-detail{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--sf2)}
+.dnode.open .dnode-detail{display:block}
+.dnode-children{padding-left:28px;border-left:2px solid var(--sf3);margin-left:16px;margin-top:4px}
+
+/* Action output card */
+.action-out{background:var(--sf2);border-radius:var(--rs);padding:12px 16px;margin-top:8px;margin-bottom:4px}
+.action-out-t{font-size:13px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.action-out-list{font-size:13px;color:var(--tx2);line-height:1.7}
+
+/* Interactive sim */
+.sim-box{background:var(--sf);border:2px solid var(--bd);border-radius:var(--r);padding:24px;margin-top:24px}
+.sim-inputs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+@media(max-width:640px){.sim-inputs{grid-template-columns:1fr}}
+.sim-input{display:flex;flex-direction:column;gap:4px}
+.sim-input label{font-size:11px;font-weight:700;color:var(--tx3);letter-spacing:.04em}
+.sim-input select,.sim-input input{padding:8px 12px;border:1px solid var(--bd);border-radius:8px;font-family:var(--f);font-size:13px;background:var(--sf);color:var(--tx)}
+.sim-result{background:var(--sf2);border-radius:var(--rs);padding:20px;min-height:100px}
+.sim-result-title{font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.sim-task{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--sf3);align-items:flex-start}
+.sim-task:last-child{border-bottom:none}
+.sim-task-pri{font-size:10px;font-weight:800;padding:3px 8px;border-radius:100px;flex-shrink:0;margin-top:2px}
+.sim-task-body{flex:1}
+.sim-task-name{font-size:15px;font-weight:700}
+.sim-task-desc{font-size:13px;color:var(--tx2);margin-top:2px}
+.sim-task-sla{font-size:11px;font-family:var(--fm);color:var(--tx3);margin-top:4px}
+</style>
+
+<div class="page">
+
+<div class="hero">
+  <div class="hero-ey">Essential GPS Engine Spec v2.0</div>
+  <h1>&#45936;&#51060;&#53552; &#54028;&#51060;&#54532;&#46972;&#51064; &amp; &#51088;&#46041; &#47588;&#52845; &#50644;&#51652;</h1>
+  <p>&#50808;&#48512; 10&#44060; &#49324;&#51060;&#53944; &#53356;&#47204;&#47553; + &#45236;&#48512; &#45936;&#51060;&#53552; &#8594; 6&#45824;&#52629; &#48516;&#49437; &#8594; 3&#45824; Gap(&#49472;&#47113;&#49496;&#183;&#44396;&#49353;&#183;&#44032;&#44201;) &#54032;&#48324; &#8594; MD &#50529;&#49496; &#51088;&#46041; &#48176;&#51221;&#44620;&#51648;&#51032; &#51204;&#52404; &#54540;&#47196;&#50864;</p>
+</div>
+
+<!-- ====== PART 1: DATA PIPELINE ====== -->
+<div class="sec">
+  <div class="sec-t">PART 1. &#45936;&#51060;&#53552; &#49688;&#51665; &#54028;&#51060;&#54532;&#46972;&#51064;</div>
+  <div class="sec-d">&#50808;&#48512; &#53356;&#47204;&#47553; 10&#44060; &#49324;&#51060;&#53944; + &#45236;&#48512; &#45936;&#51060;&#53552;&#47484; 6&#45824;&#52629;&#51004;&#47196; &#48516;&#49437;&#54616;&#50668; &#49472;&#47113;&#49496;/&#44396;&#49353;/&#44032;&#44201; Gap&#51012; &#54032;&#48324;&#54616;&#44256;, MD&#50640;&#44172; &#50529;&#49496;&#51012; &#48176;&#51221;&#54616;&#45716; &#44592;&#48152; &#45936;&#51060;&#53552;</div>
+</div>
+
+<!-- Pipeline table -->
+<div class="tw">
+  <table class="t">
+    <thead>
+      <tr>
+        <th>&#52629;</th>
+        <th>&#51088;&#49324;(Internal)</th>
+        <th>&#49548;&#49828;</th>
+        <th>&#50808;&#48512;(External)</th>
+        <th>&#49548;&#49828;</th>
+        <th>&#49688;&#51665; &#51452;&#44592;</th>
+        <th>&#48169;&#49885;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong style="color:var(--red)">&#44032;&#44201;</strong></td>
+        <td>&#51088;&#49324; &#54032;&#47588;&#44032;, &#54624;&#51064;&#44032;, &#53216;&#54256;&#51201;&#50857;&#44032;</td>
+        <td><span class="chip chip-g">DB</span></td>
+        <td>&#44221;&#51137;&#49324; &#52572;&#51200;&#44032;, PCI &#49328;&#52636;</td>
+        <td><span class="chip chip-b">&#53356;&#47204;&#47553;</span> <span class="chip chip-t">API</span></td>
+        <td><span class="chip chip-r">4h</span></td>
+        <td>&#45348;&#51060;&#48260; &#49660;&#54609; API + &#53216;&#54049;/&#51648;&#47560;&#53011; &#53356;&#47204;&#47553;</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--orange)">&#46364; &#49892;&#51201;</strong></td>
+        <td>&#54032;&#47588;&#44148;&#49688;, &#44396;&#51340;&#51216;&#49688;, &#51204;&#54872;&#50984;</td>
+        <td><span class="chip chip-g">DB</span></td>
+        <td>&#44221;&#51137;&#49324; &#48288;&#49828;&#53944;&#47021;&#53433;, &#54032;&#47588;&#47049; &#52628;&#51221;</td>
+        <td><span class="chip chip-b">&#53356;&#47204;&#47553;</span></td>
+        <td><span class="chip chip-o">1d</span></td>
+        <td>&#51088;&#49324; DW &#51068;&#48176;&#52824; + &#44221;&#51137;&#49324; &#47021;&#53433; &#51068;&#48176;&#52824; &#53356;&#47204;&#47553;</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--purple)">&#47784;&#47704;&#53568;</strong></td>
+        <td>MoM &#48320;&#54868;&#50984;, &#51312;&#54924;&#49688; &#52628;&#51060;</td>
+        <td><span class="chip chip-g">DB</span></td>
+        <td>&#44160;&#49353;&#47049; &#52628;&#51060;, &#49548;&#49500; &#48260;&#51592;</td>
+        <td><span class="chip chip-t">API</span> <span class="chip chip-p">&#49688;&#46041;</span></td>
+        <td><span class="chip chip-o">1d</span></td>
+        <td>&#45348;&#51060;&#48260; &#45936;&#51060;&#53552;&#47017; API + &#49548;&#49500; &#47784;&#45768;&#53552;&#47553;(&#48152;&#51088;&#46041;)</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--blue)">&#51648;&#54364;/CVR</strong></td>
+        <td>CVR, CTR, &#44160;&#49353;&#49692;&#50948;, &#51109;&#48148;&#44396;&#45768;&#50984;</td>
+        <td><span class="chip chip-g">DB</span> <span class="chip chip-t">GA</span></td>
+        <td>&#44221;&#51137;&#49324; &#44160;&#49353;&#49692;&#50948;(&#51228;&#54620;&#51201;)</td>
+        <td><span class="chip chip-b">&#53356;&#47204;&#47553;</span></td>
+        <td><span class="chip chip-o">1d</span></td>
+        <td>&#51088;&#49324; GA/&#48516;&#49437;&#53812; &#51068;&#48176;&#52824; + &#44221;&#51137;&#49324; &#44160;&#49353; &#49692;&#50948; &#53356;&#47204;&#47553;</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--green)">&#47532;&#48624;</strong></td>
+        <td>&#54217;&#51216;, &#47532;&#48624;&#49688;, &#54252;&#53664;&#47532;&#48624;&#48708;&#50984;</td>
+        <td><span class="chip chip-g">DB</span></td>
+        <td>&#44221;&#51137;&#49324; &#54217;&#51216;, &#47532;&#48624;&#49688;</td>
+        <td><span class="chip chip-b">&#53356;&#47204;&#47553;</span></td>
+        <td><span class="chip chip-o">1d</span></td>
+        <td>&#51088;&#49324; DB + &#44221;&#51137;&#49324; &#49345;&#54408;&#54168;&#51060;&#51648; &#53356;&#47204;&#47553;</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--teal)">&#48176;&#49569;</strong></td>
+        <td>&#48176;&#49569;&#50976;&#54805;, &#48176;&#49569;&#48708;, &#51061;&#48176; &#50668;&#48512;</td>
+        <td><span class="chip chip-g">DB</span></td>
+        <td>&#44221;&#51137;&#49324; &#48176;&#49569;&#50976;&#54805;</td>
+        <td><span class="chip chip-b">&#53356;&#47204;&#47553;</span></td>
+        <td><span class="chip chip-m">7d</span></td>
+        <td>&#48176;&#49569;&#51008; &#48320;&#46041;&#51060; &#51201;&#51020; → &#51452;&#44036; &#48176;&#52824;. &#44596;&#44553; &#48320;&#44221; &#49884; &#49688;&#46041; &#53944;&#47532;&#44144;</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Pipeline flow visual -->
+<div class="card">
+  <div style="font-size:15px;font-weight:700;margin-bottom:16px">&#51068;&#51068; &#48176;&#52824; &#54028;&#51060;&#54532;&#46972;&#51064; &#54540;&#47196;&#50864;</div>
+  <div class="code"><span class="cm">// &#47588;&#51068; 06:00 &#49892;&#54665; &#8212; GPS &#51068;&#48176;&#52824;</span>
+
+<span class="fn">STEP 1</span> [06:00] <span class="st">&#50808;&#48512; &#45936;&#51060;&#53552; &#49688;&#51665;</span>
+  ├─ &#45348;&#51060;&#48260; &#49660;&#54609; API → &#44032;&#44201;, &#47532;&#48624;, &#44160;&#49353;&#47049;
+  ├─ &#53216;&#54049; &#53356;&#47204;&#47553; → &#44032;&#44201;, &#47532;&#48624;, &#48176;&#49569;, &#47021;&#53433;
+  ├─ &#52852;&#53580;&#44256;&#47532;&#48324; &#53945;&#54868; &#44221;&#51137;&#49324; &#53356;&#47204;&#47553;
+  └─ <span class="hl">&#49892;&#54056; &#49884; → &#51060;&#51204; &#45936;&#51060;&#53552; &#50976;&#51648; + &#8220;STALE&#8221; &#54540;&#47000;&#44536;</span>
+
+<span class="fn">STEP 2</span> [07:00] <span class="st">&#51088;&#49324; &#45936;&#51060;&#53552; &#49828;&#45253;&#49399;</span>
+  ├─ DW &#51068;&#48176;&#52824; &#50756;&#47308; &#54869;&#51064;
+  ├─ &#54032;&#47588;/&#51204;&#54872;/&#51312;&#54924; &#45936;&#51060;&#53552; &#52628;&#52636;
+  └─ GA &#51648;&#54364; &#45936;&#51060;&#53552; &#46041;&#44592;&#54868;
+
+<span class="fn">STEP 3</span> [08:00] <span class="st">6&#45824;&#52629; &#48516;&#49437; → 3&#45824; Gap &#54032;&#48324; + GPS &#49828;&#53076;&#50612;&#47553;</span>
+  ├─ &#52629;&#48324; null &#52404;&#53356; → 0 &#52376;&#47532; + &#44032;&#51473;&#52824; &#51116;&#48516;&#48176;
+  ├─ &#52852;&#53580;&#44256;&#47532;&#48324; &#44032;&#51473;&#52824; &#51201;&#50857;
+  ├─ <span class="hl">&#49472;&#47113;&#49496; Gap</span> &#44048;&#51648;: AUTO-S <span class="cm">// &#44221;&#51137;&#49324;&#50640;&#45716; &#51080;&#51004;&#45208; &#51088;&#49324; &#48120;&#51077;&#51216; → 6&#45824;&#52629; &#45936;&#51060;&#53552;&#47196; &#54032;&#48324;</span>
+  ├─ <span class="hl">&#44396;&#49353; Gap</span> &#44048;&#51648;: &#52852;&#53580;&#44256;&#47532;&#48324; &#48372;&#51221;&#44228;&#49688; <span class="cm">// 6&#45824;&#52629; &#45936;&#51060;&#53552;&#47196; &#44396;&#49353; &#48520;&#44512;&#54805; &#54032;&#48324;</span>
+  ├─ <span class="hl">&#44032;&#44201; Gap</span> &#44048;&#51648;: PRICE-X, SURGE <span class="cm">// 6&#45824;&#52629; &#44032;&#44201;/&#47784;&#47704;&#53568; &#45936;&#51060;&#53552; &#44592;&#48152;</span>
+  └─ GPS &#51216;&#49688; &#49328;&#52636; → &#54000;&#50612; &#54032;&#51221;
+
+<span class="fn">STEP 4</span> [08:30] <span class="hl">&#50529;&#49496; &#51088;&#46041; &#47588;&#52845;</span> ← <span class="cm">PART 2&#50640;&#49436; &#49444;&#47749;</span>
+  ├─ &#54000;&#50612; + &#52629;&#48324; Gap &#54056;&#53556; &#48516;&#49437;
+  ├─ &#51032;&#49324;&#44208;&#51221; &#53944;&#47532; &#49692;&#54924; → &#50529;&#49496; &#53468;&#49828;&#53356; &#51088;&#46041; &#48176;&#51221;
+  └─ MD &#45824;&#49884;&#48372;&#46300;&#50640; 15&#44060; &#53468;&#49828;&#53356; &#54392;&#49884;
+
+<span class="fn">STEP 5</span> [09:00] <span class="st">MD &#50508;&#47548; &#48156;&#49569;</span>
+  ├─ &#49836;&#47001; / &#54392;&#49884; / &#51060;&#47700;&#51068;
+  └─ &#51204;&#51068; &#45824;&#48708; &#48320;&#46041;&#49324;&#54637; &#50836;&#50557; &#54252;&#54632;</div>
+</div>
+
+<!-- Realtime triggers -->
+<div class="card" style="border-left:3px solid var(--red)">
+  <div style="font-size:15px;font-weight:700;margin-bottom:8px">&#49892;&#49884;&#44036; &#53944;&#47532;&#44144; (&#51068;&#48176;&#52824; &#50808; &#48324;&#46020; &#44048;&#49884;)</div>
+  <div class="code"><span class="cm">// 4&#49884;&#44036;&#47560;&#45796; &#49892;&#54665; &#8212; &#44032;&#44201; &#44596;&#44553; &#44048;&#51648;</span>
+<span class="fn">PRICE_WATCH</span> [&#47588; 4h: 02:00, 06:00, 10:00, 14:00, 18:00, 22:00]
+  IF &#49345;&#54408;_PCI &#8805; <span class="nu">130</span>:
+    → <span class="hl">&#51593;&#49884; PRICE-X &#53944;&#47532;&#44144;</span> → &#45796;&#51020; &#51068;&#48176;&#52824; &#44592;&#45796;&#47532;&#51648; &#50506;&#44256; &#51593;&#49884; S &#48512;&#50668;
+    → MD&#50640;&#44172; &#44596;&#44553; &#50508;&#47548; &#51593;&#49884; &#48156;&#49569;
+
+<span class="cm">// &#49548;&#49500; &#47784;&#45768;&#53552;&#47553; &#8212; &#48148;&#51060;&#47092; &#44048;&#51648;</span>
+<span class="fn">SURGE_WATCH</span> [&#49892;&#49884;&#44036; &#49828;&#53944;&#47548;]
+  IF &#44160;&#49353;&#47049;_MoM &#8805; <span class="nu">300%</span> OR &#49548;&#49500;_&#48260;&#51592; &#44048;&#51648;:
+    → <span class="hl">&#51593;&#49884; SURGE &#53944;&#47532;&#44144;</span>
+    → MD &#44596;&#44553; &#50508;&#47548; + &#51116;&#44256; &#54869;&#51064; &#50836;&#52397;
+
+<span class="cm">// &#50808;&#48512; &#53356;&#47204;&#47553; &#49892;&#54056; &#44048;&#49884;</span>
+<span class="fn">HEALTH_CHECK</span> [&#47588; 1h]
+  IF &#53356;&#47204;&#47553;_&#49892;&#54056;&#50984; &gt; <span class="nu">20%</span>:
+    → &#50868;&#50689;&#54016; &#50508;&#47548; (&#49324;&#51060;&#53944; &#52264;&#45800;/&#44396;&#51312;&#48320;&#44221; &#44032;&#45733;&#49457;)
+    → &#54644;&#45817; &#52629; &#45936;&#51060;&#53552; <span class="st">"STALE"</span> &#47560;&#53433; → &#51060;&#51204;&#44050; &#50976;&#51648;</div>
+</div>
+
+<!-- ====== PART 2: DECISION ENGINE ====== -->
+<div class="sec">
+  <div class="sec-t">PART 2. &#50529;&#49496; &#51088;&#46041; &#47588;&#52845; &#51032;&#49324;&#44208;&#51221; &#53944;&#47532;</div>
+  <div class="sec-d">6&#45824;&#52629; &#48516;&#49437; &#44208;&#44284;&#47196; &#49472;&#47113;&#49496;/&#44396;&#49353;/&#44032;&#44201; Gap&#51012; &#54032;&#48324;&#54620; &#54980;, GPS &#51216;&#49688; → &#54000;&#50612; → &#50529;&#49496; &#53468;&#49828;&#53356;&#47484; MD&#50640;&#44172; &#51088;&#46041; &#48176;&#51221;. &#49324;&#46988;&#51060; &#44264;&#46972;&#50556; &#54616;&#45716; &#49688;&#46041; &#44060;&#51077; &#48520;&#54596;&#50836;.</div>
+</div>
+
+<div class="card">
+  <div style="font-size:15px;font-weight:700;margin-bottom:16px">&#51204;&#52404; &#51032;&#49324;&#44208;&#51221; &#54540;&#47196;&#50864; (&#50948;&#50640;&#49436; &#50500;&#47000;&#47196; &#49692;&#52264;&#51201;)</div>
+  <div class="code"><span class="cm">// &#49345;&#54408; 1&#44148; &#51077;&#47141; → &#50529;&#49496; &#53468;&#49828;&#53356; &#52636;&#47141;</span>
+<span class="fn">function</span> <span class="kw">assignAction</span>(product) {
+
+  <span class="cm">// &#9312; 6&#45824;&#52629; &#45936;&#51060;&#53552; &#44592;&#48152; Gap &#54032;&#48324; (&#51216;&#49688;&#48372;&#45796; &#50864;&#49440;)</span>
+
+  <span class="cm">// &#49472;&#47113;&#49496; Gap: &#44221;&#51137;&#49324;&#50640;&#45716; &#51080;&#51004;&#45208; &#51088;&#49324; &#48120;&#51077;&#51216; &#49345;&#54408;</span>
+  <span class="kw">if</span> (product.exists === <span class="nu">false</span>)
+    <span class="kw">return</span> <span class="hl">AUTO_S</span> → &#50529;&#49496;: <span class="st">"&#51077;&#51216; &#51228;&#50504;/&#49472;&#47084; &#52968;&#53469;"</span>
+
+  <span class="cm">// &#44032;&#44201; Gap: 6&#45824;&#52629; &#44032;&#44201; &#45936;&#51060;&#53552;(PCI)&#47196; &#44048;&#51648;</span>
+  <span class="kw">if</span> (product.price.pci &gt;= <span class="nu">130</span>)
+    <span class="kw">return</span> <span class="hl">PRICE_X</span> → &#50529;&#49496;: <span class="st">"&#44032;&#44201; &#51593;&#49884; &#51312;&#51221;"</span>
+
+  <span class="cm">// &#44032;&#44201; Gap(&#47784;&#47704;&#53568;): 6&#45824;&#52629; &#47784;&#47704;&#53568; &#45936;&#51060;&#53552;&#47196; &#44048;&#51648;</span>
+  <span class="kw">if</span> (product.momentum.mom &gt;= <span class="nu">300</span> || product.momentum.viral)
+    <span class="kw">return</span> <span class="hl">SURGE</span> → &#50529;&#49496;: <span class="st">"&#44596;&#44553; &#45432;&#52636;/&#51116;&#44256; &#54869;&#48372;"</span>
+
+  <span class="cm">// &#9313; &#44396;&#49353; Gap: 6&#45824;&#52629; &#48372;&#51221;&#44228;&#49688;&#47196; &#44396;&#49353; &#48520;&#44512;&#54805; &#44048;&#51648; → GPS &#51216;&#49688; &#49328;&#52636; → &#54000;&#50612; &#54032;&#51221;</span>
+  score = <span class="fn">calcGPS</span>(product)
+  tier  = score &gt;= <span class="nu">85</span> ? <span class="hl">'S'</span>
+        : score &gt;= <span class="nu">65</span> ? <span class="st">'A'</span>
+        : score &gt;= <span class="nu">40</span> ? <span class="st">'B'</span>
+        : <span class="st">'C'</span>
+
+  <span class="cm">// &#9314; &#52629;&#48324; Gap &#54056;&#53556; &#48516;&#49437; → &#50529;&#49496; &#44208;&#51221;</span>
+  gaps = <span class="fn">sortByGap</span>(product.axes)  <span class="cm">// Gap &#45236;&#47548;&#52264;&#49692;</span>
+  top1 = gaps[0]  <span class="cm">// &#44032;&#51109; &#53360; Gap &#52629;</span>
+  top2 = gaps[1]  <span class="cm">// &#46160; &#48264;&#51704; Gap &#52629;</span>
+
+  <span class="cm">// &#9315; &#47588;&#52845; &#47196;&#51649; (&#54000;&#50612;&#48324;)</span>
+  <span class="kw">return</span> <span class="fn">matchAction</span>(tier, top1, top2, product.category)
+}</div>
+</div>
+
+<!-- Decision tree: Match logic detail -->
+<div class="card">
+  <div style="font-size:15px;font-weight:700;margin-bottom:12px">matchAction() &#49345;&#49464; &#47588;&#52845; &#47196;&#51649;</div>
+
+  <!-- S Tier -->
+  <div class="dnode" onclick="this.classList.toggle('open')">
+    <div class="dnode-head">
+      <div class="dnode-icon" style="background:rgba(255,59,48,.12);color:var(--red);font-weight:800">S</div>
+      <div class="dnode-body">
+        <div class="dnode-title">S&#46321;&#44553; &#47588;&#52845; (GPS &#8805; 85 &#46608;&#45716; &#50724;&#48260;&#46972;&#51060;&#46300;)</div>
+        <div class="dnode-cond">SLA 24h / 7&#44060; &#50529;&#49496; &#54056;&#53556;</div>
+      </div>
+      <span class="dnode-chev">&#9654;</span>
+    </div>
+    <div class="dnode-detail">
+      <div class="code"><span class="kw">if</span> (tier === <span class="hl">'S'</span>) {
+  <span class="cm">// &#50724;&#48260;&#46972;&#51060;&#46300;&#45716; &#50948;&#50640;&#49436; &#51060;&#48120; &#52376;&#47532;&#46120;</span>
+  <span class="cm">// &#51216;&#49688; &#44592;&#48152; S&#45716; top1, top2&#47196; &#44208;&#51221;</span>
+
+  <span class="kw">if</span> (top1.axis === <span class="st">'&#44032;&#44201;'</span> &amp;&amp; top2.axis === <span class="st">'&#46364;'</span>)
+    → <span class="hl">"&#44032;&#44201; &#51312;&#51221; + &#54532;&#47196;&#47784;&#49496; &#48264;&#46308;"</span>
+  <span class="kw">else if</span> (top1.axis === <span class="st">'&#44032;&#44201;'</span> &amp;&amp; top2.axis === <span class="st">'&#47532;&#48624;'</span>)
+    → <span class="hl">"&#44032;&#44201; &#51312;&#51221; &#49440;&#54665; + &#47532;&#48624; &#51060;&#48292;&#53944;"</span>
+  <span class="kw">else if</span> (top1.axis === <span class="st">'&#44032;&#44201;'</span> &amp;&amp; top2.axis === <span class="st">'&#48176;&#49569;'</span>)
+    → <span class="hl">"&#44032;&#44201; &#51312;&#51221; + &#48176;&#49569; &#50629;&#44536;&#47112;&#51060;&#46300;"</span>
+  <span class="kw">else if</span> (top1.axis === <span class="st">'&#44032;&#44201;'</span>)
+    → <span class="hl">"&#44032;&#44201; &#44596;&#44553; &#51312;&#51221; + &#47784;&#45768;&#53552;&#47553;"</span>
+  <span class="kw">else if</span> (criticalCount &gt;= <span class="nu">3</span>)
+    → <span class="hl">"&#49345;&#54408; &#51204;&#47029; &#44596;&#44553; &#54924;&#51032; + &#51316;&#54224; &#44160;&#53664;"</span>
+  <span class="kw">else</span>
+    → <span class="hl">"top1&#52629; &#50864;&#49440; &#44060;&#49440; + top2&#52629; &#54980;&#49549;"</span>
+}</div>
+    </div>
+  </div>
+
+  <!-- A Tier -->
+  <div class="dnode" onclick="this.classList.toggle('open')">
+    <div class="dnode-head">
+      <div class="dnode-icon" style="background:rgba(255,149,0,.12);color:var(--orange);font-weight:800">A</div>
+      <div class="dnode-body">
+        <div class="dnode-title">A&#46321;&#44553; &#47588;&#52845; (GPS 65~84)</div>
+        <div class="dnode-cond">SLA 7d / 6&#44060; &#50529;&#49496; &#54056;&#53556;</div>
+      </div>
+      <span class="dnode-chev">&#9654;</span>
+    </div>
+    <div class="dnode-detail">
+      <div class="code"><span class="kw">if</span> (tier === <span class="st">'A'</span>) {
+  <span class="kw">switch</span> (top1.axis) {
+    <span class="kw">case</span> <span class="st">'&#44032;&#44201;'</span>:  → <span class="ho">"&#49472;&#47084; &#44032;&#44201; &#54801;&#51032; + &#51221;&#44592; &#53216;&#54256; &#49464;&#54021;"</span>
+    <span class="kw">case</span> <span class="st">'&#46364;'</span>:    → <span class="ho">"&#49472;&#47553;&#54252;&#51064;&#53944; &#51116;&#51089;&#49457; + &#52852;&#53580;&#44256;&#47532; &#50948;&#52824; &#51312;&#51221;"</span>
+    <span class="kw">case</span> <span class="st">'&#47784;&#47704;&#53568;'</span>: → <span class="ho">"&#54856; &#45432;&#52636; + &#53440;&#51076;&#46364;/&#53945;&#44032; &#54532;&#47196;&#47784;&#49496;"</span>
+    <span class="kw">case</span> <span class="st">'&#51648;&#54364;'</span>:  → <span class="ho">"&#49345;&#49464;&#54168;&#51060;&#51648; UX &#44060;&#49440; + &#44396;&#47588;&#50976;&#46020; &#53216;&#54256;"</span>
+    <span class="kw">case</span> <span class="st">'&#47532;&#48624;'</span>:  → <span class="ho">"&#47532;&#48624; &#51060;&#48292;&#53944; + &#54252;&#53664;&#47532;&#48624; &#52896;&#54168;&#51064;"</span>
+    <span class="kw">case</span> <span class="st">'&#48176;&#49569;'</span>:  → <span class="ho">"&#48176;&#49569; &#50629;&#44536;&#47112;&#51060;&#46300; &#54801;&#51032; + &#48176;&#49569;&#48708; &#54532;&#47196;&#47784;"</span>
+  }
+  <span class="cm">// top2 Gap &#8805; 40&#51060;&#47732; &#48373;&#54633; &#50529;&#49496; &#51088;&#46041; &#52628;&#44032;</span>
+  <span class="kw">if</span> (top2.gap &gt;= <span class="nu">40</span>)
+    → &#48373;&#54633;: <span class="ho">"top1&#52629; + top2&#52629; &#46041;&#49884; &#44060;&#49440;"</span>
+}</div>
+    </div>
+  </div>
+
+  <!-- B Tier -->
+  <div class="dnode" onclick="this.classList.toggle('open')">
+    <div class="dnode-head">
+      <div class="dnode-icon" style="background:rgba(0,113,227,.12);color:var(--blue);font-weight:800">B</div>
+      <div class="dnode-body">
+        <div class="dnode-title">B&#46321;&#44553; &#47588;&#52845; (GPS 40~64)</div>
+        <div class="dnode-cond">SLA 14d / 3&#44060; &#50529;&#49496; &#54056;&#53556;</div>
+      </div>
+      <span class="dnode-chev">&#9654;</span>
+    </div>
+    <div class="dnode-detail">
+      <div class="code"><span class="kw">if</span> (tier === <span class="st">'B'</span>) {
+  <span class="kw">switch</span> (top1.axis) {
+    <span class="kw">case</span> <span class="st">'&#44032;&#44201;'</span>:  → <span class="hb">"&#44032;&#44201; &#47784;&#45768;&#53552;&#47553; &#50508;&#47548; &#49464;&#54021;"</span>
+    <span class="kw">case</span> <span class="st">'&#46364;'</span>:    → <span class="hb">"&#49472;&#47553;&#54252;&#51064;&#53944; &#48120;&#49464;&#51312;&#51221; + &#44592;&#54925;&#51204; &#52280;&#50668;"</span>
+    <span class="kw">case</span> <span class="st">'&#47784;&#47704;&#53568;'</span>: → <span class="hb">"&#51060;&#47700;&#51068;/&#54392;&#49884; &#47532;&#53440;&#44191;&#54021;"</span>
+    <span class="kw">case</span> <span class="st">'&#51648;&#54364;'</span>:  → <span class="hb">"SEO &#53412;&#50892;&#46300; &#52572;&#51201;&#54868; + &#44305;&#44256; &#54252;&#51064;&#53944;"</span>
+    <span class="kw">case</span> <span class="st">'&#47532;&#48624;'</span>:  → <span class="hb">"&#51221;&#44592; &#47532;&#48624; &#51060;&#48292;&#53944; (&#49548;&#44508;&#47784;)"</span>
+    <span class="kw">case</span> <span class="st">'&#48176;&#49569;'</span>:  → <span class="hb">"&#48176;&#49569; &#50741;&#49496; &#44060;&#49440; &#54801;&#51032; (&#51109;&#44592;)"</span>
+  }
+  <span class="cm">// B&#46321;&#44553;&#51008; top1&#52629;&#47564; &#50529;&#49496;. &#48373;&#54633; &#50630;&#51020;.</span>
+  <span class="cm">// 2&#52629;+ Gap &#8805; 30&#51060;&#47732; A &#49849;&#44201; &#51076;&#48149; &#50508;&#47548; &#52628;&#44032;</span>
+}</div>
+    </div>
+  </div>
+
+  <!-- C Tier -->
+  <div class="dnode" onclick="this.classList.toggle('open')">
+    <div class="dnode-head">
+      <div class="dnode-icon" style="background:var(--sf2);color:var(--txm);font-weight:800">C</div>
+      <div class="dnode-body">
+        <div class="dnode-title">C&#46321;&#44553; &#47588;&#52845; (GPS &lt; 40)</div>
+        <div class="dnode-cond">SLA 30d / 2&#44060; &#50529;&#49496; &#54056;&#53556;</div>
+      </div>
+      <span class="dnode-chev">&#9654;</span>
+    </div>
+    <div class="dnode-detail">
+      <div class="code"><span class="kw">if</span> (tier === <span class="st">'C'</span>) {
+  → <span class="cm">"&#50900;&#44036; &#53944;&#47116;&#46300; &#47532;&#54252;&#53944; &#54869;&#51064;"</span>
+  <span class="cm">// C&#46321;&#44553;&#51008; &#50529;&#49496;&#51060; &#44144;&#51032; &#50630;&#51020;.</span>
+  <span class="cm">// &#45800; 2&#44032;&#51648; &#51088;&#46041; &#44048;&#49884;:</span>
+  <span class="kw">if</span> (anyAxis.gap &#8805; <span class="nu">20</span>)
+    → &#52628;&#44032;: <span class="cm">"B &#49849;&#44201; &#51076;&#44228; &#50508;&#47548; &#50976;&#51648;"</span>
+  <span class="kw">if</span> (seasonal.dDay &lt;= <span class="nu">30</span>)
+    → &#52628;&#44032;: <span class="cm">"&#49884;&#51596;&#45328; &#49324;&#51204; &#51456;&#48708; (&#51116;&#44256;/&#54532;&#47196;&#47784;&#49496;)"</span>
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== PART 2.5: Summary count ====== -->
+<div class="card" style="border-left:3px solid var(--blue)">
+  <div style="font-size:15px;font-weight:700;margin-bottom:8px">&#50529;&#49496; &#53468;&#49828;&#53356; &#51204;&#52404; &#49688;&#47049; &#51221;&#47532; (37 → 22&#44060;&#47196; &#51221;&#47532;)</div>
+  <div style="font-size:13px;color:var(--tx2);line-height:1.8">
+    <strong style="color:var(--red)">S&#46321;&#44553;:</strong> &#50724;&#48260;&#46972;&#51060;&#46300; 3&#44060;(AUTO-S, PRICE-X, SURGE) + top1×top2 &#51312;&#54633; 4&#44060;(&#44032;&#44201;+&#46364;, &#44032;&#44201;+&#47532;&#48624;, &#44032;&#44201;+&#48176;&#49569;, 3&#52629;+&#50948;&#44592;) = <strong>7&#44060;</strong><br>
+    <strong style="color:var(--orange)">A&#46321;&#44553;:</strong> &#45800;&#51068;&#52629; 6&#44060; + &#48373;&#54633;&#52629; &#51088;&#46041;&#49373;&#49457; = <strong>6&#44060;+&#945;</strong><br>
+    <strong style="color:var(--blue)">B&#46321;&#44553;:</strong> &#45800;&#51068;&#52629; 6&#44060; + &#49849;&#44201;&#50696;&#48169; 1&#44060; = <strong>7&#44060;</strong><br>
+    <strong style="color:var(--txm)">C&#46321;&#44553;:</strong> &#47784;&#45768;&#53552;&#47553; 1&#44060; + &#51076;&#44228;&#44048;&#49884; 1&#44060; = <strong>2&#44060;</strong><br><br>
+    <strong>&#44592;&#51316; 37&#44060; → 22&#44060; &#54645;&#49900;</strong>&#51004;&#47196; &#51221;&#47532;. &#45208;&#47672;&#51648; 15&#44060;&#45716; &#48156;&#49373; &#48712;&#46020; &#45230;&#51008; &#48320;&#54805;&#51004;&#47196; &#53685;&#54633; &#44032;&#45733;.
+  </div>
+</div>
+
+<!-- ====== PART 3: Interactive Simulator ====== -->
+<div class="sec">
+  <div class="sec-t">PART 3. &#49884;&#48044;&#47112;&#51060;&#53552; &#8212; &#49345;&#54408; &#51077;&#47141; → &#50529;&#49496; &#52636;&#47141;</div>
+  <div class="sec-d">&#49345;&#54408; &#51312;&#44148;&#51012; &#49444;&#51221;&#54616;&#47732; &#51032;&#49324;&#44208;&#51221; &#53944;&#47532;&#44032; &#49692;&#54924;&#54616;&#47728; &#50529;&#49496; &#53468;&#49828;&#53356;&#47484; &#51088;&#46041; &#48176;&#51221;&#54633;&#45768;&#45796;.</div>
+</div>
+
+<div class="sim-box">
+  <div style="font-size:17px;font-weight:800;margin-bottom:16px">&#49345;&#54408; &#51312;&#44148; &#51077;&#47141;</div>
+  <div class="sim-inputs">
+    <div class="sim-input">
+      <label>&#52852;&#53580;&#44256;&#47532;</label>
+      <select id="sim-cat" onchange="simRun()">
+        <option value="common">&#44277;&#53685;</option>
+        <option value="mart">&#47560;&#53944;</option>
+        <option value="fashion">&#54056;&#49496;</option>
+        <option value="beauty">&#48624;&#54000;</option>
+        <option value="living">&#47532;&#48729;</option>
+      </select>
+    </div>
+    <div class="sim-input">
+      <label>&#49345;&#54408; &#49345;&#53468;</label>
+      <select id="sim-state" onchange="simRun()">
+        <option value="normal">&#51221;&#49345; &#51077;&#51216;</option>
+        <option value="auto-s">&#48120;&#51077;&#51216; (AUTO-S)</option>
+        <option value="price-x">&#44032;&#44201;&#50669;&#51204; PCI&#8805;130</option>
+        <option value="surge">&#48148;&#51060;&#47092; MoM&#8805;300%</option>
+      </select>
+    </div>
+    <div class="sim-input">
+      <label>GPS &#51216;&#49688; (&#51221;&#49345; &#51077;&#51216; &#49884;)</label>
+      <input type="range" id="sim-score" min="0" max="100" value="72" oninput="simRun();document.getElementById('sim-score-v').textContent=this.value">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--tx3)"><span>0</span><span id="sim-score-v" style="font-weight:800;font-size:15px;color:var(--tx)">72</span><span>100</span></div>
+    </div>
+  </div>
+
+  <div style="font-size:15px;font-weight:700;margin-bottom:8px">&#52629;&#48324; Gap &#49444;&#51221;</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px" id="sim-axes"></div>
+
+  <div class="sim-result" id="sim-output">
+    <div style="color:var(--txm);font-size:13px;text-align:center;padding:20px">&#50948;&#50640;&#49436; &#51312;&#44148;&#51012; &#49444;&#51221;&#54616;&#49464;&#50836;</div>
+  </div>
+</div>
+
+</div>
+
+<script>
+var AXES_NAME = ['&#44032;&#44201;','&#46364; &#49892;&#51201;','&#47784;&#47704;&#53568;','&#51648;&#54364;/CVR','&#47532;&#48624;','&#48176;&#49569;'];
+var AXES_COLOR = ['var(--red)','var(--orange)','var(--purple)','var(--blue)','var(--green)','var(--teal)'];
+
+function initAxes() {
+  var c = document.getElementById('sim-axes');
+  c.innerHTML = '';
+  var defaults = [75,45,30,50,20,15];
+  AXES_NAME.forEach(function(name,i){
+    var d = document.createElement('div');
+    d.style.cssText = 'display:flex;align-items:center;gap:6px';
+    d.innerHTML = '<span style="font-size:11px;font-weight:700;width:55px;flex-shrink:0;color:'+AXES_COLOR[i]+'">'+name+'</span>'
+      +'<input type="range" min="0" max="100" value="'+defaults[i]+'" id="sg-'+i+'" oninput="simRun()" style="flex:1;accent-color:'+AXES_COLOR[i]+'">'
+      +'<span style="font-size:13px;font-weight:800;width:28px;text-align:right;font-variant-numeric:tabular-nums" id="sgv-'+i+'">'+defaults[i]+'</span>';
+    c.appendChild(d);
+  });
+}
+
+function simRun() {
+  var state = document.getElementById('sim-state').value;
+  var score = parseInt(document.getElementById('sim-score').value);
+  var cat = document.getElementById('sim-cat').value;
+  var gaps = [];
+  for(var i=0;i<6;i++){
+    var v = parseInt(document.getElementById('sg-'+i).value);
+    document.getElementById('sgv-'+i).textContent = v;
+    gaps.push({axis:AXES_NAME[i],gap:v,color:AXES_COLOR[i],idx:i});
+  }
+
+  var out = document.getElementById('sim-output');
+  var tier, tierColor, tierLabel, sla, actions = [];
+
+  // Override check
+  if (state === 'auto-s') {
+    tier = 'S'; tierColor = 'var(--red)'; sla = '24h';
+    tierLabel = 'AUTO-S &#50724;&#48260;&#46972;&#51060;&#46300;: &#48120;&#51077;&#51216;';
+    actions = [
+      {pri:'P1',name:'&#51077;&#51216; &#51228;&#50504;&#49436; &#48156;&#49569;',desc:'&#44221;&#51137;&#49324; &#54032;&#47588; &#45936;&#51060;&#53552; &#52392;&#48512;, &#50696;&#49345; GMV &#49328;&#52636;',sla:'24h &#45236; &#48156;&#49569;'},
+      {pri:'P1',name:'&#49472;&#47084; &#52968;&#53469; &#48143; &#54801;&#49345;',desc:'&#51077;&#51216; &#51312;&#44148; &#54801;&#51032; (&#49688;&#49688;&#47308;, &#48176;&#49569;, &#44032;&#44201;)',sla:'72h &#45236; &#44228;&#50557;'},
+      {pri:'P2',name:'&#49345;&#54408; &#46321;&#47197; &#51648;&#50896;',desc:'&#49472;&#47084; &#46321;&#47197; &#50612;&#47140;&#50872; &#49884; MD &#51649;&#51217; &#46321;&#47197;',sla:'48h &#45236;'}
+    ];
+  } else if (state === 'price-x') {
+    tier = 'S'; tierColor = 'var(--red)'; sla = '24h';
+    tierLabel = 'PRICE-X &#50724;&#48260;&#46972;&#51060;&#46300;: &#44032;&#44201;&#50669;&#51204; PCI&#8805;130';
+    actions = [
+      {pri:'P1',name:'&#44032;&#44201; &#51593;&#49884; &#51312;&#51221; &#50836;&#52397;',desc:'&#49472;&#47084;&#50640;&#44172; &#44221;&#51137;&#49324; &#44032;&#44201; &#45936;&#51060;&#53552; &#52392;&#48512;, &#44032;&#44201; &#51312;&#51221; &#50836;&#52397;',sla:'12h &#45236; PCI<110'},
+      {pri:'P1',name:'&#44596;&#44553; &#53216;&#54256; &#48156;&#54665;',desc:'&#44032;&#44201; &#51312;&#51221; &#48520;&#44032; &#49884; &#53216;&#54256;/&#54252;&#51064;&#53944;&#47196; &#48372;&#52649;',sla:'6h &#45236; &#53216;&#54256; &#46972;&#51060;&#48652;'},
+      {pri:'P2',name:'&#44032;&#44201; &#47784;&#45768;&#53552;&#47553; &#49464;&#54021;',desc:'&#54644;&#45817; &#49345;&#54408; &#44221;&#51137;&#49324; &#44032;&#44201; &#51088;&#46041; &#52628;&#51201;',sla:'&#49464;&#54021; &#50756;&#47308;'}
+    ];
+  } else if (state === 'surge') {
+    tier = 'S'; tierColor = 'var(--red)'; sla = '24h';
+    tierLabel = 'SURGE &#50724;&#48260;&#46972;&#51060;&#46300;: &#48148;&#51060;&#47092; MoM&#8805;300%';
+    actions = [
+      {pri:'P1',name:'&#44596;&#44553; &#51116;&#44256; &#54869;&#48372;',desc:'&#49472;&#47084; &#51116;&#44256; &#54869;&#51064; + &#47932;&#47448;&#49468;&#53552; &#51077;&#44256; &#54869;&#51064;',sla:'4h &#45236; &#51116;&#44256;&#8805;7&#51068;&#52824;'},
+      {pri:'P1',name:'&#54856; &#48176;&#45320; / &#52628;&#52380; &#50689;&#50669; &#45432;&#52636;',desc:'&#54856; &#53485; &#48176;&#45320;, &#49892;&#49884;&#44036; &#51064;&#44592; &#50689;&#50669; &#45432;&#52636; &#49464;&#54021;',sla:'6h &#45236; &#45432;&#52636; &#46972;&#51060;&#48652;'},
+      {pri:'P2',name:'&#53412;&#50892;&#46300; &#44305;&#44256; &#48512;&#49828;&#54021;',desc:'&#44288;&#47144; &#53412;&#50892;&#46300; CPC &#44305;&#44256; &#51077;&#52272; + &#50696;&#49328; &#54869;&#45824;',sla:'12h &#45236; &#44305;&#44256; &#46972;&#51060;&#48652;'}
+    ];
+  } else {
+    // Score-based
+    if (score >= 85) { tier = 'S'; tierColor = 'var(--red)'; sla = '24h'; }
+    else if (score >= 65) { tier = 'A'; tierColor = 'var(--orange)'; sla = '7d'; }
+    else if (score >= 40) { tier = 'B'; tierColor = 'var(--blue)'; sla = '14d'; }
+    else { tier = 'C'; tierColor = 'var(--txm)'; sla = '30d'; }
+
+    var sorted = gaps.slice().sort(function(a,b){return b.gap - a.gap});
+    var top1 = sorted[0], top2 = sorted[1];
+    var critCount = gaps.filter(function(g){return g.gap >= 70}).length;
+    tierLabel = tier + '&#46321;&#44553; (GPS ' + score + ') &#8212; &#52572;&#45824; Gap: ' + top1.axis + '(' + top1.gap + ')';
+
+    if (tier === 'S') {
+      if (top1.axis === '&#44032;&#44201;' && top2.gap >= 50) {
+        actions = [
+          {pri:'P1',name:'&#44032;&#44201; &#51312;&#51221; + ' + top2.axis + ' &#46041;&#49884; &#44060;&#49440;',desc:'&#44032;&#44201; &#50864;&#49440; &#54644;&#44208; &#54980; ' + top2.axis + ' &#52629; &#44060;&#49440; &#46041;&#49884; &#51652;&#54665;',sla:'24h &#45236; &#52572;&#50864;&#49440; 1&#44148;'},
+          {pri:'P2',name:'&#44221;&#51137;&#49324; &#47784;&#45768;&#53552;&#47553; &#49464;&#54021;',desc:'&#44032;&#44201; &#51088;&#46041; &#52628;&#51201; &#49444;&#51221;',sla:'&#49464;&#54021; &#50756;&#47308;'}
+        ];
+      } else if (critCount >= 3) {
+        actions = [
+          {pri:'P1',name:'&#49345;&#54408; &#51204;&#47029; &#44596;&#44553; &#54924;&#51032;',desc:'&#54016;&#51109;&#44284; &#54632;&#44760; &#49345;&#54408; &#51316;&#54224;/&#51204;&#47029;&#48320;&#44221; &#54032;&#45800;',sla:'12h &#45236; &#50529;&#49496;&#54540;&#47004; &#54869;&#51221;'},
+          {pri:'P1',name:top1.axis + ' &#52629; &#50864;&#49440; &#44060;&#49440;',desc:'&#44032;&#51109; &#53360; Gap &#52629;&#48512;&#53552; &#49692;&#52264; &#54644;&#44208;',sla:'24h &#45236; 1&#44148; &#52265;&#49688;'}
+        ];
+      } else {
+        actions = [
+          {pri:'P1',name:top1.axis + ' &#44596;&#44553; &#44060;&#49440;',desc:top1.axis + ' Gap ' + top1.gap + ' → &#51593;&#49884; &#50529;&#49496; &#54596;&#50836;',sla:'24h &#45236;'},
+          {pri:'P2',name:top2.axis + ' &#54980;&#49549; &#44060;&#49440;',desc:top2.axis + ' Gap ' + top2.gap + ' → &#48337;&#54665; &#51652;&#54665;',sla:'24h &#45236;'}
+        ];
+      }
+    } else if (tier === 'A') {
+      var aActions = {
+        '&#44032;&#44201;': {name:'&#49472;&#47084; &#44032;&#44201; &#54801;&#51032; + &#51221;&#44592; &#53216;&#54256;',desc:'&#44221;&#51137;&#49324; &#44032;&#44201; &#45936;&#51060;&#53552; &#44277;&#50976; + &#51312;&#51221; &#50836;&#52397;'},
+        '&#46364; &#49892;&#51201;': {name:'&#49472;&#47553;&#54252;&#51064;&#53944; &#51116;&#51089;&#49457; + &#52852;&#53580;&#44256;&#47532; &#50948;&#52824; &#51312;&#51221;',desc:'&#51228;&#47785;/&#50040;&#45348;&#51068;/&#49345;&#49464;&#54168;&#51060;&#51648; A/B &#53580;&#49828;&#53944;'},
+        '&#47784;&#47704;&#53568;': {name:'&#54856; &#45432;&#52636; + &#53440;&#51076;&#46364; &#54532;&#47196;&#47784;&#49496;',desc:'&#54616;&#46973;&#49464; &#48152;&#51204;&#51012; &#50948;&#54620; &#54532;&#47196;&#47784;&#49496;+&#45432;&#52636;'},
+        '&#51648;&#54364;/CVR': {name:'&#49345;&#49464;&#54168;&#51060;&#51648; UX &#44060;&#49440;',desc:'&#49345;&#49464; &#51060;&#48120;&#51648;, &#49345;&#54408; &#51221;&#48372;, &#44396;&#47588;&#48260;&#53948; &#52572;&#51201;&#54868;'},
+        '&#47532;&#48624;': {name:'&#47532;&#48624; &#51060;&#48292;&#53944; + &#54252;&#53664;&#47532;&#48624; &#52896;&#54168;&#51064;',desc:'&#44396;&#47588;&#54869;&#51221; &#44256;&#44061; &#45824;&#49345; &#54252;&#51064;&#53944; &#47532;&#48624; &#51060;&#48292;&#53944;'},
+        '&#48176;&#49569;': {name:'&#48176;&#49569; &#50629;&#44536;&#47112;&#51060;&#46300; &#54801;&#51032;',desc:'&#49472;&#47084;&#50752; &#51061;&#51068;/&#53945;&#44553;&#48176;&#49569; &#51204;&#54872; &#54801;&#51032;'}
+      };
+      var a1 = aActions[top1.axis] || {name:top1.axis+' &#44060;&#49440;',desc:''};
+      actions = [{pri:'P1',name:a1.name,desc:a1.desc,sla:'7d &#45236;'}];
+      if (top2.gap >= 40) {
+        var a2 = aActions[top2.axis] || {name:top2.axis+' &#44060;&#49440;',desc:''};
+        actions.push({pri:'P2',name:'+ ' + a2.name,desc:'&#48373;&#54633;: ' + top2.axis + ' Gap ' + top2.gap + '&#46020; &#46041;&#49884; &#44060;&#49440;',sla:'7d &#45236;'});
+      }
+    } else if (tier === 'B') {
+      var bActions = {
+        '&#44032;&#44201;': {name:'&#44032;&#44201; &#47784;&#45768;&#53552;&#47553; &#50508;&#47548; &#49464;&#54021;',desc:'&#44221;&#51137;&#49324; &#44032;&#44201; &#48320;&#46041; &#50508;&#47548;'},
+        '&#46364; &#49892;&#51201;': {name:'&#49472;&#47553;&#54252;&#51064;&#53944; &#48120;&#49464;&#51312;&#51221;',desc:'&#50040;&#45348;&#51068; &#44060;&#49440;, &#49345;&#49464;&#54168;&#51060;&#51648; &#49548;&#54253; &#49688;&#51221;'},
+        '&#47784;&#47704;&#53568;': {name:'&#51060;&#47700;&#51068;/&#54392;&#49884; &#47532;&#53440;&#44191;&#54021;',desc:'&#44592;&#51316; &#44396;&#47588;&#44256;&#44061; &#51116;&#44396;&#47588; &#50976;&#46020;'},
+        '&#51648;&#54364;/CVR': {name:'SEO &#53412;&#50892;&#46300; &#52572;&#51201;&#54868;',desc:'&#49345;&#54408;&#47749;/&#53468;&#44536; &#44060;&#49440; + &#44305;&#44256; &#54252;&#51064;&#53944;'},
+        '&#47532;&#48624;': {name:'&#51221;&#44592; &#47532;&#48624; &#51060;&#48292;&#53944;',desc:'&#50900;&#44036; &#49548;&#44508;&#47784; &#54252;&#51064;&#53944; &#47532;&#48624;'},
+        '&#48176;&#49569;': {name:'&#48176;&#49569; &#50741;&#49496; &#44060;&#49440; &#54801;&#51032; (&#51109;&#44592;)',desc:'&#49472;&#47084;&#50752; &#48176;&#49569; &#50741;&#49496; &#44060;&#49440; &#54801;&#51032;'}
+      };
+      var b1 = bActions[top1.axis] || {name:top1.axis+' &#44060;&#49440;',desc:''};
+      actions = [{pri:'P2',name:b1.name,desc:b1.desc,sla:'14d &#45236;'}];
+      var warnCount = gaps.filter(function(g){return g.gap>=30}).length;
+      if (warnCount >= 2) actions.push({pri:'P3',name:'A &#49849;&#44201; &#51076;&#48149; &#50508;&#47548;',desc:'Gap 40 &#46020;&#45804; &#49884; &#51088;&#46041; A&#46321;&#44553; &#49849;&#44201;',sla:'&#50508;&#47548; &#49464;&#54021;'});
+    } else {
+      actions = [{pri:'P3',name:'&#50900;&#44036; &#53944;&#47116;&#46300; &#47532;&#54252;&#53944; &#54869;&#51064;',desc:'GPS &#52628;&#51060; &#48320;&#54868; &#54869;&#51064;. &#51060;&#49345; &#51669;&#54980; &#49884; &#51088;&#46041; &#49849;&#44201;',sla:'30d'}];
+      var nearThreshold = gaps.filter(function(g){return g.gap>=20}).length;
+      if (nearThreshold > 0) actions.push({pri:'P3',name:'B &#49849;&#44201; &#51076;&#44228; &#50508;&#47548; &#50976;&#51648;',desc:'Gap 20 &#51217;&#44540; &#52629; &#47784;&#45768;&#53552;&#47553;',sla:'&#49345;&#49884;'});
+    }
+  }
+
+  // Render
+  var tierBg = tier==='S'?'rgba(255,59,48,.08)':tier==='A'?'rgba(255,149,0,.06)':tier==='B'?'rgba(0,113,227,.06)':'var(--sf2)';
+  var html = '<div class="sim-result-title">'
+    +'<span style="font-size:13px;font-weight:800;padding:4px 12px;border-radius:100px;color:#fff;background:'+tierColor+'">'+tier+'</span>'
+    +'<span style="font-size:15px;font-weight:700">'+tierLabel+'</span>'
+    +'<span style="font-size:11px;color:var(--tx3);margin-left:auto">SLA: '+sla+'</span>'
+    +'</div>';
+
+  actions.forEach(function(a){
+    var priColor = a.pri==='P1'?'rgba(255,59,48,.12);color:var(--red)':a.pri==='P2'?'rgba(255,149,0,.12);color:var(--orange)':'var(--sf2);color:var(--txm)';
+    html += '<div class="sim-task">'
+      +'<div class="sim-task-pri" style="background:'+priColor+'">'+a.pri+'</div>'
+      +'<div class="sim-task-body">'
+      +'<div class="sim-task-name">'+a.name+'</div>'
+      +'<div class="sim-task-desc">'+a.desc+'</div>'
+      +(a.sla?'<div class="sim-task-sla">&#50756;&#47308; &#44592;&#51456;: '+a.sla+'</div>':'')
+      +'</div></div>';
+  });
+
+  out.innerHTML = html;
+  out.style.background = tierBg;
+}
+
+initAxes();
+simRun();
+</script>
