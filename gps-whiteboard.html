@@ -1,0 +1,1502 @@
+<title>Essential GPS · 화이트보드 스토리</title>
+<style>
+  /* ── Design Plan ──
+     Color: Deep navy ink (#0d1117), warm stone (#f6f4f0),
+            signal blue (#2563eb), amber flow (#d97706),
+            eucalyptus (#059669), mist (#e8e6e1)
+     Type: System SF/Pretendard stack — tight tracking on headings,
+           generous line-height on body. Numbers get tabular-nums.
+     Layout: Single-column narrative scroll. Cards float on a stone ground
+             with generous vertical rhythm. Pipeline rendered as a
+             connected vertical timeline with animated reveal on scroll.
+             Sections reveal on scroll with staggered timing.
+  */
+
+  @font-face {
+    font-family: 'Pretendard';
+    src: local('Pretendard'), local('Apple SD Gothic Neo'), local('Malgun Gothic');
+    font-weight: 100 900;
+    font-display: swap;
+  }
+
+  :root {
+    --ground: #f6f4f0;
+    --surface: #ffffff;
+    --surface-elevated: #ffffff;
+    --ink: #0d1117;
+    --ink-secondary: #4a4f57;
+    --ink-tertiary: #8b9099;
+    --border: rgba(13,17,23,.08);
+    --border-strong: rgba(13,17,23,.14);
+    --signal: #2563eb;
+    --signal-soft: rgba(37,99,235,.08);
+    --signal-medium: rgba(37,99,235,.15);
+    --amber: #d97706;
+    --amber-soft: rgba(217,119,6,.08);
+    --green: #059669;
+    --green-soft: rgba(5,150,105,.08);
+    --red: #dc2626;
+    --red-soft: rgba(220,38,38,.06);
+    --timeline-line: rgba(13,17,23,.1);
+    --glass: rgba(255,255,255,.72);
+    --glass-border: rgba(255,255,255,.5);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.04), 0 1px 3px rgba(0,0,0,.02);
+    --shadow-md: 0 4px 16px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.04);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,.08), 0 2px 8px rgba(0,0,0,.04);
+    --radius: 20px;
+    --radius-sm: 12px;
+    --radius-xs: 8px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0d1117;
+      --surface: #161b22;
+      --surface-elevated: #1c2128;
+      --ink: #e6edf3;
+      --ink-secondary: #9da5b0;
+      --ink-tertiary: #6b7280;
+      --border: rgba(230,237,243,.08);
+      --border-strong: rgba(230,237,243,.14);
+      --signal: #58a6ff;
+      --signal-soft: rgba(88,166,255,.1);
+      --signal-medium: rgba(88,166,255,.18);
+      --amber: #e3a008;
+      --amber-soft: rgba(227,160,8,.1);
+      --green: #34d399;
+      --green-soft: rgba(52,211,153,.1);
+      --red: #f87171;
+      --red-soft: rgba(248,113,113,.08);
+      --timeline-line: rgba(230,237,243,.1);
+      --glass: rgba(22,27,34,.8);
+      --glass-border: rgba(255,255,255,.06);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,.2);
+      --shadow-md: 0 4px 16px rgba(0,0,0,.3);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --ground: #f6f4f0;
+    --surface: #ffffff;
+    --surface-elevated: #ffffff;
+    --ink: #0d1117;
+    --ink-secondary: #4a4f57;
+    --ink-tertiary: #8b9099;
+    --border: rgba(13,17,23,.08);
+    --border-strong: rgba(13,17,23,.14);
+    --signal: #2563eb;
+    --signal-soft: rgba(37,99,235,.08);
+    --signal-medium: rgba(37,99,235,.15);
+    --amber: #d97706;
+    --amber-soft: rgba(217,119,6,.08);
+    --green: #059669;
+    --green-soft: rgba(5,150,105,.08);
+    --red: #dc2626;
+    --red-soft: rgba(220,38,38,.06);
+    --timeline-line: rgba(13,17,23,.1);
+    --glass: rgba(255,255,255,.72);
+    --glass-border: rgba(255,255,255,.5);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.04), 0 1px 3px rgba(0,0,0,.02);
+    --shadow-md: 0 4px 16px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.04);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,.08), 0 2px 8px rgba(0,0,0,.04);
+  }
+  :root[data-theme="dark"] {
+    --ground: #0d1117;
+    --surface: #161b22;
+    --surface-elevated: #1c2128;
+    --ink: #e6edf3;
+    --ink-secondary: #9da5b0;
+    --ink-tertiary: #6b7280;
+    --border: rgba(230,237,243,.08);
+    --border-strong: rgba(230,237,243,.14);
+    --signal: #58a6ff;
+    --signal-soft: rgba(88,166,255,.1);
+    --signal-medium: rgba(88,166,255,.18);
+    --amber: #e3a008;
+    --amber-soft: rgba(227,160,8,.1);
+    --green: #34d399;
+    --green-soft: rgba(52,211,153,.1);
+    --red: #f87171;
+    --red-soft: rgba(248,113,113,.08);
+    --timeline-line: rgba(230,237,243,.1);
+    --glass: rgba(22,27,34,.8);
+    --glass-border: rgba(255,255,255,.06);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.2);
+    --shadow-md: 0 4px 16px rgba(0,0,0,.3);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,.4);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    background: var(--ground);
+    color-scheme: light dark;
+  }
+
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--ground);
+    font-size: 15px;
+    line-height: 1.7;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ── Scroll reveal ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Page structure ── */
+  .page {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    padding: 0 0 56px;
+  }
+  .hero-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--signal);
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 5vw, 44px);
+    font-weight: 800;
+    letter-spacing: -.03em;
+    line-height: 1.15;
+    text-wrap: balance;
+    margin-bottom: 20px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--signal);
+  }
+  .hero-sub {
+    font-size: 17px;
+    font-weight: 350;
+    color: var(--ink-secondary);
+    max-width: 56ch;
+    line-height: 1.7;
+  }
+  .hero-sub b {
+    font-weight: 650;
+    color: var(--ink);
+  }
+  .hero-meta {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .hero-meta span {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-tertiary);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    border-radius: 999px;
+  }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 30px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow .3s ease, transform .3s ease;
+  }
+  .card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+  .card.accent-top-amber { border-top: 2.5px solid var(--amber); }
+  .card.accent-top-green { border-top: 2.5px solid var(--green); }
+
+  /* ── Section headers ── */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 52px 0 16px;
+  }
+  .section-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    background: var(--ink);
+    color: var(--surface);
+    font-size: 14px;
+    font-weight: 800;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    letter-spacing: -.02em;
+  }
+  .section-num.muted { background: var(--ink-tertiary); }
+  .section-num.signal { background: var(--signal); }
+  .section-title {
+    font-size: 22px;
+    font-weight: 750;
+    letter-spacing: -.025em;
+    line-height: 1.25;
+  }
+  .section-sub {
+    font-size: 13px;
+    color: var(--ink-tertiary);
+    font-weight: 400;
+    margin-left: 2px;
+  }
+
+  /* ── Roadmap rows ── */
+  .rm-row {
+    display: flex;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .rm-row:last-child { border-bottom: none; }
+  .rm-phase {
+    flex: 0 0 42px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--signal);
+    letter-spacing: .04em;
+    padding-top: 3px;
+  }
+  .rm-text {
+    flex: 1;
+    font-size: 13.5px;
+    color: var(--ink-secondary);
+    font-weight: 400;
+    line-height: 1.6;
+  }
+  .rm-text b { color: var(--ink); font-weight: 650; }
+  .rm-status { flex: 0 0 auto; padding-top: 1px; }
+
+  /* ── Badges ── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 10.5px;
+    font-weight: 650;
+    border-radius: 999px;
+    padding: 4px 12px;
+    letter-spacing: .02em;
+    white-space: nowrap;
+    transition: transform .2s ease;
+  }
+  .badge:hover { transform: scale(1.04); }
+  .badge-done { background: var(--green-soft); color: var(--green); }
+  .badge-doing { background: var(--amber-soft); color: var(--amber); }
+  .badge-plan { background: var(--signal-soft); color: var(--ink-tertiary); }
+  .badge-tbd { background: var(--red-soft); color: var(--red); }
+
+  /* ── Source data twin columns ── */
+  .source-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 0;
+  }
+  .source-col {
+    border: 1px solid var(--border);
+    padding: 24px 24px;
+    background: var(--surface-elevated);
+    position: relative;
+  }
+  .source-col:first-child {
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    border-right: none;
+  }
+  .source-col:last-child {
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+  .source-col .src-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+  }
+  .source-col.naver .src-badge {
+    background: var(--green-soft);
+    color: var(--green);
+  }
+  .source-col.general .src-badge {
+    background: var(--amber-soft);
+    color: var(--amber);
+  }
+  .source-col.naver { border-left: 3px solid var(--green); }
+  .source-col.general { border-left: 3px solid var(--amber); }
+  .source-col h4 {
+    font-size: 15px;
+    font-weight: 750;
+    margin-bottom: 14px;
+    letter-spacing: -.02em;
+  }
+  .source-col h4 code {
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-tertiary);
+    margin-left: 8px;
+    letter-spacing: .06em;
+  }
+  .source-vs {
+    position: absolute;
+    right: -16px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--surface);
+    font-size: 10px;
+    font-weight: 800;
+    display: grid;
+    place-items: center;
+    letter-spacing: .05em;
+    box-shadow: var(--shadow-md);
+  }
+  .src-stat-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .src-stat {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--green);
+    background: var(--green-soft);
+    padding: 3px 10px;
+    border-radius: 6px;
+  }
+  .src-stat.amber {
+    color: var(--amber);
+    background: var(--amber-soft);
+  }
+  .general-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13.5px;
+    color: var(--ink-secondary);
+  }
+  .general-item:last-child { border-bottom: none; }
+  .general-item .gi-icon {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .general-item .gi-icon.on { background: var(--amber); }
+  .general-item .gi-icon.off { background: var(--border-strong); }
+  .general-item b { color: var(--ink); font-weight: 650; }
+
+  /* ── Mini tables ── */
+  .mini-tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+  }
+  .mini-tbl td, .mini-tbl th {
+    font-size: 12px;
+    padding: 5px 10px;
+    border: 1px solid var(--border);
+    text-align: center;
+    font-weight: 400;
+    color: var(--ink-secondary);
+  }
+  .mini-tbl th {
+    background: var(--ground);
+    color: var(--ink-tertiary);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: .03em;
+  }
+  .mini-tbl .hl {
+    background: var(--signal-soft);
+    font-weight: 700;
+    color: var(--signal);
+  }
+
+  /* ── Callout (blue note) ── */
+  .callout {
+    background: var(--signal-soft);
+    border: 1px solid var(--signal-medium);
+    border-radius: var(--radius-sm);
+    padding: 18px 22px;
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--signal);
+    font-weight: 400;
+    line-height: 1.65;
+  }
+  .callout b { font-weight: 700; }
+
+  /* ── Connectors ── */
+  .connector {
+    display: flex;
+    justify-content: center;
+    padding: 4px 0;
+  }
+  .connector-line {
+    width: 2px;
+    height: 32px;
+    background: var(--timeline-line);
+    border-radius: 1px;
+  }
+
+  /* ── Flow chips ── */
+  .flow-chain {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+  }
+  .flow-chip {
+    font-size: 12px;
+    font-weight: 600;
+    background: var(--surface-elevated);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 7px 16px;
+    color: var(--ink-secondary);
+    transition: background .2s ease, transform .2s ease;
+    cursor: default;
+  }
+  .flow-chip:hover {
+    background: var(--signal-soft);
+    transform: translateY(-1px);
+  }
+  .flow-arrow {
+    color: var(--ink-tertiary);
+    font-size: 12px;
+    font-weight: 400;
+  }
+  .flow-chip.endpoint {
+    background: var(--signal);
+    color: #fff;
+    border-color: var(--signal);
+    font-size: 14px;
+    font-weight: 800;
+    padding: 8px 22px;
+    letter-spacing: .04em;
+  }
+  .flow-chip.endpoint:hover {
+    background: var(--signal);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* ── Data tables ── */
+  .data-tbl {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .data-tbl th {
+    text-align: left;
+    font-size: 11px;
+    color: var(--ink-tertiary);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-strong);
+    padding: 8px 10px;
+    letter-spacing: .04em;
+  }
+  .data-tbl td {
+    font-size: 13px;
+    padding: 10px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    font-weight: 400;
+    color: var(--ink-secondary);
+  }
+  .data-tbl td.label {
+    font-weight: 650;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  /* ── Channel matrix ── */
+  .ch-matrix {
+    width: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+    margin-top: 8px;
+  }
+  .ch-matrix th, .ch-matrix td {
+    font-size: 11.5px;
+    padding: 7px 6px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink-secondary);
+    font-weight: 400;
+    white-space: nowrap;
+  }
+  .ch-matrix th {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--ink-tertiary);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    background: var(--ground);
+    position: sticky;
+    top: 0;
+  }
+  .ch-matrix td:first-child, .ch-matrix th:first-child {
+    text-align: left;
+    padding-left: 12px;
+    font-weight: 650;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .ch-matrix tr:last-child td { border-bottom: none; }
+  .ch-matrix tr:hover td { background: var(--signal-soft); }
+  .ch-matrix tr.ref-row td { background: var(--signal-soft); }
+  .ch-matrix tr.ref-row td:first-child { color: var(--signal); font-weight: 750; }
+  .ch-matrix .ck { color: var(--green); font-weight: 700; }
+  .ch-matrix .cx { color: var(--ink-tertiary); font-weight: 400; }
+  .ch-matrix .cp { color: var(--amber); font-weight: 700; }
+  .ch-diff {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 2px 8px;
+  }
+  .ch-diff.hi { background: var(--red-soft); color: var(--red); }
+  .ch-diff.md { background: var(--amber-soft); color: var(--amber); }
+  .ch-diff.lo { background: var(--green-soft); color: var(--green); }
+  .ch-legend {
+    font-size: 11px;
+    color: var(--ink-tertiary);
+    margin-top: 8px;
+    font-weight: 350;
+  }
+  .ch-legend b { color: var(--ink-secondary); font-weight: 600; }
+  .ch-site-card {
+    background: var(--surface-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px 18px;
+    margin-bottom: 8px;
+  }
+  .ch-site-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .ch-site-head .ch-idx {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--signal);
+    letter-spacing: .08em;
+  }
+  .ch-site-head h5 {
+    font-size: 14px;
+    font-weight: 750;
+    letter-spacing: -.01em;
+  }
+  .ch-site-head .ch-tag {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--ink-tertiary);
+    background: var(--ground);
+    border-radius: 999px;
+    padding: 2px 10px;
+  }
+  .ch-site-head .ch-tag.vert { background: var(--signal-soft); color: var(--signal); }
+  .ch-kv {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    gap: 1px 12px;
+    font-size: 12px;
+  }
+  .ch-kv .ck-label {
+    color: var(--ink-tertiary);
+    font-weight: 600;
+    padding: 4px 0;
+  }
+  .ch-kv .ck-val {
+    color: var(--ink-secondary);
+    padding: 4px 0;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.55;
+  }
+  .ch-kv .ck-val:last-child { border-bottom: none; }
+  .ch-kv .ck-val b { color: var(--ink); font-weight: 650; }
+  .ch-kv code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 10.5px;
+    background: var(--ground);
+    border-radius: 4px;
+    padding: 1px 5px;
+    color: var(--ink-secondary);
+    word-break: break-all;
+  }
+  .ch-note {
+    background: var(--signal-soft);
+    border-radius: var(--radius-xs);
+    padding: 8px 12px;
+    font-size: 11.5px;
+    color: var(--signal);
+    margin-top: 10px;
+    line-height: 1.55;
+  }
+  .ch-note b { font-weight: 700; }
+  .ch-sites-scroll {
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+  .ch-disc {
+    background: var(--amber-soft);
+    border: 1px solid rgba(217,119,6,.18);
+    border-radius: var(--radius-xs);
+    padding: 10px 14px;
+    font-size: 11.5px;
+    color: var(--amber);
+    margin: 12px 0 4px;
+    line-height: 1.55;
+  }
+  .ch-disc b { font-weight: 700; }
+  @media (max-width:680px) {
+    .ch-matrix { display: block; overflow-x: auto; }
+    .ch-kv { grid-template-columns: 76px 1fr; }
+  }
+
+  /* ── Expandable details ── */
+  .expandable {
+    margin-top: 14px;
+  }
+  .expandable summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 650;
+    color: var(--ink);
+    padding: 10px 0;
+    user-select: none;
+    transition: color .2s ease;
+  }
+  .expandable summary::-webkit-details-marker { display: none; }
+  .expandable summary::before {
+    content: '▸';
+    font-size: 11px;
+    color: var(--signal);
+    transition: transform .25s cubic-bezier(.16,1,.3,1);
+    display: inline-block;
+  }
+  .expandable[open] summary::before { transform: rotate(90deg); }
+  .expandable summary:hover { color: var(--signal); }
+  .expandable .expand-body {
+    padding: 4px 0 8px 20px;
+    animation: expandIn .35s cubic-bezier(.16,1,.3,1);
+  }
+  @keyframes expandIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Chips ── */
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 8px 0;
+  }
+  .chip {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-secondary);
+    background: var(--surface-elevated);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 5px 14px;
+    transition: background .2s ease;
+    cursor: default;
+  }
+  .chip:hover { background: var(--signal-soft); }
+
+  /* ── Warn box ── */
+  .warn-box {
+    border: 1px solid var(--border-strong);
+    border-left: 3px solid var(--amber);
+    border-radius: var(--radius-xs);
+    padding: 16px 20px;
+    font-size: 13px;
+    margin-top: 16px;
+    color: var(--ink-secondary);
+    background: var(--surface-elevated);
+    line-height: 1.65;
+  }
+  .warn-box b { color: var(--ink); font-weight: 700; }
+
+  /* ── Note ── */
+  .note {
+    font-size: 12px;
+    color: var(--ink-tertiary);
+    margin-top: 10px;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+  .note b { color: var(--ink-secondary); font-weight: 600; }
+
+  /* ── Section subtitle ── */
+  .sub-heading {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 20px 0 8px;
+    letter-spacing: -.01em;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .legend {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .footer-credit {
+    font-size: 11px;
+    color: var(--ink-tertiary);
+    font-weight: 400;
+    letter-spacing: .03em;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .page { padding: 40px 18px 60px; }
+    .card { padding: 22px 20px; border-radius: 16px; }
+    .source-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 28px; }
+    .section-label { margin-top: 40px; }
+    .data-tbl, .mini-tbl { display: block; overflow-x: auto; }
+    .fork-question { font-size: 14px; padding: 12px 28px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .expandable .expand-body { animation: none; }
+    * { transition-duration: 0s !important; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .card { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+
+<div class="page">
+
+  <!-- Hero -->
+  <div class="hero reveal">
+    <div class="hero-eyebrow">AX TF</div>
+    <h1><em>ESSENTIAL GPS</em> <span style="font-weight:350;font-size:clamp(18px,2.8vw,26px);color:var(--ink-secondary);letter-spacing:-.01em;vertical-align:baseline">데이터가 흐르는 이야기</span></h1>
+    <div class="hero-sub">경쟁 채널의 <b>랭킹 원천 데이터</b>에서 출발해, 수집 → 매칭 → <b>미입점 발굴</b>을 거쳐 <b>SO(AI 에이전트 자동화)</b>로 확장하는 파이프라인.</div>
+    <div class="hero-meta">
+      <span>2026.07.21</span>
+      <span>Weekly Pipeline</span>
+    </div>
+  </div>
+
+  <!-- 00 · 출발점 -->
+  <div class="section-label reveal">
+    <div class="section-num muted">00</div>
+    <div>
+      <div class="section-title">출발점 — 원천 데이터</div>
+    </div>
+  </div>
+
+  <div class="card reveal">
+    <div class="source-grid">
+      <div class="source-col naver">
+        <div class="source-vs">VS</div>
+        <div class="src-badge">다차원 수집</div>
+        <h4>네이버 쇼핑</h4>
+        <table class="mini-tbl">
+          <tr><th colspan="2">구분</th><th>랭킹</th></tr>
+          <tr><td rowspan="3" style="font-weight:600">많이 본<br><span style="font-size:10px;font-weight:400;color:var(--ink-tertiary)">(클릭순)</span></td><td>대분류</td><td>5</td></tr>
+          <tr><td>중분류</td><td>3</td></tr>
+          <tr><td>소분류</td><td>1</td></tr>
+          <tr><td rowspan="3" style="font-weight:600">많이<br>구매한<br><span style="font-size:10px;font-weight:400;color:var(--ink-tertiary)">(구매순)</span></td><td>대분류</td><td>1</td></tr>
+          <tr><td>중분류</td><td class="hl">7</td></tr>
+          <tr><td>소분류</td><td>1</td></tr>
+        </table>
+        <div class="src-stat-row">
+          <span class="src-stat">별점</span>
+          <span class="src-stat">리뷰수</span>
+          <span class="src-stat">가격</span>
+          <span class="src-stat">브랜드</span>
+        </div>
+        <div style="margin-top:16px;font-size:12.5px;font-weight:700">× 세그먼트 13종</div>
+        <table class="mini-tbl" style="margin-top:6px">
+          <tr><th>성별＼연령</th><th>전체</th><th>10</th><th>20</th><th>30</th><th>40</th><th>50~</th></tr>
+          <tr><td style="font-weight:600" class="hl">전체</td><td class="hl">✓</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td></tr>
+          <tr><td style="font-weight:600">여성</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+          <tr><td style="font-weight:600">남성</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        </table>
+        <div class="note">정렬 2종(구매순·클릭순) × 카테고리 11개 × 세그 13종 = <b>대량 조합 수집</b></div>
+      </div>
+      <div class="source-col general">
+        <div class="src-badge">단일 리스트 수집</div>
+        <h4>일반 판매 채널 <code>10개</code></h4>
+        <div style="padding-top:4px">
+          <div class="general-item"><span class="gi-icon on"></span><b style="color:var(--signal)">Best 랭킹</b> — 채널 자체 순위 <span style="font-size:11px;color:var(--ink-tertiary)">(10/10)</span></div>
+          <div class="general-item"><span class="gi-icon on"></span>별점·리뷰수 <span style="font-size:11px;color:var(--ink-tertiary)">(8/10 — 카카오·GS 부분적)</span></div>
+          <div class="general-item"><span class="gi-icon on"></span>순위변동 <span style="font-size:11px;color:var(--ink-tertiary)">(SSG·무신사·카카오만)</span></div>
+          <div class="general-item"><span class="gi-icon off"></span><span style="color:var(--ink-tertiary)">정렬 구분 없음 <span style="font-size:11px">(클릭순·구매순 구분 없이 단일 Best)</span></span></div>
+          <div class="general-item"><span class="gi-icon off"></span><span style="color:var(--ink-tertiary)">세그먼트 — <b style="color:var(--amber)">무신사만</b> 성별·연령 제공</span></div>
+        </div>
+        <div class="note" style="margin-top:16px"><b>종합</b> G마켓·옥션·롯데온·SSG · <b>홈쇼핑</b> GS SHOP · <b>버티컬</b> 올리브영·무신사·오늘의집·마켓컬리 · <b>기프팅</b> 카카오</div>
+      </div>
+    </div>
+    <div class="callout">
+      양쪽의 랭킹 구조가 다르다 → <b>파란색 표시 기준</b>(네이버: 많이 구매한 × 중분류 × 세그 '전체' / 일반 채널: Best 랭킹)<b>으로 통합 랭킹을 산정</b>한다
+    </div>
+
+    <details class="expandable">
+      <summary>경쟁 채널 베스트 코너 · 크롤링 가능 범위 (10개 채널 상세)</summary>
+      <div class="expand-body">
+        <div class="ch-disc"><b>⚠ 외부 공개 페이지 관찰 기준 추정치</b>입니다. URL·노출 순위 수·robots.txt·차단 정책은 수시로 변경되므로 실제 수집기 커버리지와 대조 필요.</div>
+
+        <div style="overflow-x:auto;margin-top:14px">
+          <table class="ch-matrix">
+            <tr>
+              <th>채널</th><th>성별·연령<br>세그</th><th>별점·리뷰</th><th>순위변동</th><th>기간 필터</th><th>수집 난이도</th><th>성격</th>
+            </tr>
+            <tr class="ref-row">
+              <td>네이버쇼핑 <span style="font-size:10px;color:var(--ink-tertiary);font-weight:500">N001·기준</span></td><td class="ck">✓✓</td><td class="ck">✓</td><td class="cp">△</td><td>일/주</td><td><span class="ch-diff md">중</span></td><td>포털·종합</td>
+            </tr>
+            <tr><td>G마켓</td><td class="cx">✗</td><td class="ck">✓</td><td class="cp">△</td><td>실/일/주</td><td><span class="ch-diff md">중</span></td><td>종합</td></tr>
+            <tr><td>옥션</td><td class="cx">✗</td><td class="ck">✓</td><td class="cp">△</td><td>실/일/주</td><td><span class="ch-diff md">중</span></td><td>종합</td></tr>
+            <tr><td>롯데온</td><td class="cx">✗</td><td class="ck">✓</td><td class="cx">✗</td><td>확인필요</td><td><span class="ch-diff hi">상</span></td><td>종합</td></tr>
+            <tr><td>SSG</td><td class="cx">✗</td><td class="ck">✓</td><td class="ck">✓</td><td>실시간</td><td><span class="ch-diff md">중</span></td><td>종합</td></tr>
+            <tr><td>GS SHOP</td><td class="cx">✗</td><td class="cp">△</td><td class="cx">✗</td><td>실시간</td><td><span class="ch-diff hi">상</span></td><td>홈쇼핑</td></tr>
+            <tr><td>올리브영</td><td class="cp">△</td><td class="ck">✓</td><td class="cx">✗</td><td>일/주</td><td><span class="ch-diff hi">중상</span></td><td>뷰티</td></tr>
+            <tr><td>무신사</td><td class="ck">✓</td><td class="ck">✓</td><td class="ck">✓</td><td>실/월</td><td><span class="ch-diff md">중</span></td><td>패션</td></tr>
+            <tr><td>오늘의집</td><td class="cx">✗</td><td class="ck">✓</td><td class="cx">✗</td><td>역대~실시간</td><td><span class="ch-diff md">중</span></td><td>리빙</td></tr>
+            <tr><td>마켓컬리</td><td class="cx">✗</td><td class="ck">✓</td><td class="cx">✗</td><td>확인필요</td><td><span class="ch-diff md">중</span></td><td>식품</td></tr>
+            <tr><td>카카오</td><td class="cx">✗</td><td class="cp">△</td><td class="ck">✓</td><td>실시간</td><td><span class="ch-diff md">중</span></td><td>기프팅</td></tr>
+          </table>
+        </div>
+        <div class="ch-legend">✓ 제공 · △ 부분/확인필요 · ✗ 미제공 — 성별·연령 세그를 네이버처럼 직접 주는 곳은 <b>무신사</b>가 사실상 유일</div>
+
+        <details class="expandable" style="margin-top:18px">
+          <summary>사이트별 상세 — 경로 · 수집 범위 · 분석</summary>
+          <div class="expand-body">
+            <div class="ch-sites-scroll">
+
+              <div class="ch-site-card">
+                <div class="ch-site-head"><span class="ch-idx">01</span><h5>G마켓</h5><span class="ch-tag">오픈마켓 · 종합</span></div>
+                <div class="ch-kv">
+                  <div class="ck-label">베스트 경로</div><div class="ck-val">PC <code>gmarket.co.kr/n/best</code> · 모바일 <code>mobile.gmarket.co.kr/Best</code></div>
+                  <div class="ck-label">카테 depth</div><div class="ck-val">대분류 → 중/소분류 (소분류 베스트 확인필요)</div>
+                  <div class="ck-label">랭킹/기간</div><div class="ck-val"><b>실시간 · 일간 · 주간</b> — 판매수량·매출 가중, 최근 2시간 실시간 갱신</div>
+                  <div class="ck-label">세그·필터</div><div class="ck-val">성별·연령 ✗ / 가격대 가중은 내부 반영</div>
+                  <div class="ck-label">별점·리뷰</div><div class="ck-val">평점·리뷰수 ✓</div>
+                  <div class="ck-label">렌더</div><div class="ck-val"><code>/n/</code> 신규(부분 JS) + 레거시 <code>.aspx</code> 혼재</div>
+                </div>
+                <div class="ch-note"><b>분석</b> — 종합 카테 넓고 리뷰까지 있음. 단 리스트에 <b>광고(랭크·파워클릭) 혼입</b>되어 순수 판매순 분리 필요. 옥션과 동일 인프라.</div>
+              </div>
+
+              <div class="ch-site-card">
+                <div class="ch-site-head"><span class="ch-idx">02</span><h5>옥션</h5><span class="ch-tag">오픈마켓 · 종합</span></div>
+                <div class="ch-kv">
+                  <div class="ck-label">베스트 경로</div><div class="ck-val">PC <code>corners.auction.co.kr/corner/categorybest.aspx</code></div>
+                  <div class="ck-label">카테 depth</div><div class="ck-val">대/중 (소분류 확인필요)</div>
+                  <div class="ck-label">랭킹/기간</div><div class="ck-val">실시간·일간·주간 추정 (G마켓 동일 계열)</div>
+                  <div class="ck-label">별점·리뷰</div><div class="ck-val">평점·리뷰수 ✓</div>
+                  <div class="ck-label">렌더</div><div class="ck-val">레거시 <code>.aspx</code> — 정적 파싱 용이</div>
+                </div>
+                <div class="ch-note"><b>분석</b> — G마켓과 상품·랭킹 구조 거의 동일. <b>중복 상품 다수</b>라 통합 시 G마켓과 중복 제거 대상 1순위.</div>
+              </div>
+
+              <div class="ch-site-card">
+                <div class="ch-site-head"><span class="ch-idx">03</span><h5>롯데온</h5><span class="ch-tag">종합 · 계열 통합</span></div>
+                <div class="ch-kv">
+                  <div class="ck-label">베스트 경로</div><div class="ck-val"><code>lotteon.com/p/display/…</code> 계열별 <code>mall_no</code> 파라미터</div>
+                  <div class="ck-label">카테 depth</div><div class="ck-val">계열사(백화점·마트·뷰티·홈쇼핑)별 → 대/중/소</div>
+                  <div class="ck-label">별점·리뷰</div><div class="ck-val">평점·리뷰수 ✓</div>
+                  <div class="ck-label">렌더</div><div class="ck-val"><b>React SPA · 내부 JSON API</b> — 헤드리스/API 분석 필수</div>
+                </div>
+                <div class="ch-note"><b>분석</b> — 계열몰 분기로 <b>수집 경로가 mall별로 분기</b>. JS 무거워 난이도 상. 내부 랭킹 API 찾으면 오히려 안정적.</div>
+              </div>
+
+              <div class="ch-site-card">
+                <div class="ch-site-head"><span class="ch-idx">04</span><h5>SSG</h5><span class="ch-tag">종합 · 신세계</span></div>
+                <div class="ch-kv">
+                  <div class="ck-label">베스트 경로</div><div class="ck-val">PC <code>ssg.com/page/pc/ranking.ssg</code> · 실시간 <code>realtimebest.ssg</code> · 리뷰랭킹 별도</div>
+                  <div class="ck-label">카테 depth</div><div class="ck-val">뷰티/유아동/스포츠/디지털/패션/식품/리빙/가구 → 하위</div>
+                  <div class="ck-label">순위변동</div><div class="ck-val"><b>NEW·순위상승 표시 ✓</b></div>
+                  <div class="ck-label">별점·리뷰</div><div class="ck-val">별점 + 리뷰수 ✓ (풍부)</div>
+                  <div class="ck-label">렌더</div><div class="ck-val"><code>.ssg</code> + <b>상품 객체 JSON 임베드</b> → JSON 파싱 유리</div>
+                </div>
+                <div class="ch-note"><b>분석</b> — <b>데이터 풍부도 상위</b>. 별점·리뷰·순위변동까지 있어 네이버 다음으로 품질 가중·변화감지에 유리. 서브몰 분기만 정리하면 됨.</div>
+              </div>
+
+              <div class="ch-site-card">
+                <div class="ch-site-head"><span class="ch-idx">05</span><h5>GS SHOP</h5><span class="ch-tag">홈쇼핑 · T커머스</span></div>
+                <div class="ch-kv">
+                  <div class="ck-label">베스트 경로</div><div class="ck-val"><code>gsshop.com/shop/spa/nowBest.gs</code> (나우 베스트)</div>
+                  <div class="ck-label">카테 depth</div><div class="ck-val">대/중 (확인필요) · 방송상품 + 온라인 혼재</div>
+                  <div class="ck-label">별점·리뷰</div><div class="ck-val">부분(확인필요)</div>
+                  <div class="ck-label">렌더</div><div class="ck-val"><b>AngularJS SPA</b> — 헤드리스/API 필요</div>
+                </div>
+                <div class="ch-note"><b>분석</b> — 홈쇼핑 특성상 <b>SKU가 방송상품 중심</b>이라 11번가 오픈마켓 매칭률 낮을 수 있음. 우선순위 후순위 권장.</div>
+              </div>
+
+              <div class="ch-site-card">
+                <div class="ch-site-head"><span class="ch-idx">06</span><h5>올리브영</h5><span class="ch-tag vert">버티컬 · 뷰티</span></div>
+                <div class="ch-kv">
+                  <div class="ck-label">베스트 경로</div><div class="ck-val"><code>oliveyoung.co.kr/store/main/getBestList.do</code></div>
+                  <div class="ck-label">카테 depth</div><div class="ck-val">스킨케어/메이크업 등 뷰티 세분 + 올영픽 태그</div>
+                  <div class="ck-label">랭킹/기간</div><div class="ck-val">실시간·일간·주간 (확인필요) / 성별·연령 필터 확인필요</div>
+                  <div class="ck-label">별점·리뷰</div><div class="ck-val">리뷰·평점 ✓</div>
+                  <div class="ck-label">렌더</div><div class="ck-val"><code>.do</code> 서버렌더 + JS. <b>브라우저/UA 감지</b> → 헤더·세션 관리 주의</div>
+                </div>
+                <div class="ch-note"><b>분석</b> — <b>뷰티 카테 한정</b>이지만 국내 H&B 1위라 뷰티 매칭엔 최우선. 봇 차단 중상.</div>
+              </div>
+
+              <div class="ch-site-card">
+                <div class="ch-site-head"><span class="ch-idx">07</span><h5>무신사</h5><span class="ch-tag vert">버티컬 · 패션</span></div>
+                <div class="ch-kv">
+                  <div class="ck-label">베스트 경로</div><div class="ck-val"><code>musinsa.com/main/ranking</code> · 뷰티 <code>/beauty/ranking</code> · 월간 <code>/ranking/archive</code></div>
+                  <div class="ck-label">카테 depth</div><div class="ck-val">아우터/상의/하의 + 브랜드 랭킹 + 검색어 랭킹</div>
+                  <div class="ck-label">세그·필터</div><div class="ck-val"><b>성별(남/여) + 연령대 필터 ✓✓</b> — 네이버 세그축과 직접 대응</div>
+                  <div class="ck-label">순위변동</div><div class="ck-val"><b>급상승 ✓</b> · 판매수·조회수·구매중·좋아요 노출</div>
+                  <div class="ck-label">렌더</div><div class="ck-val"><b>랭킹 API(databricks 스코어링)</b> → 리스트 JSON 수집 용이</div>
+                  <div class="ck-label">차단</div><div class="ck-val">리스트 O / <b>상세 403 차단</b> → 리스트 레벨 위주 수집</div>
+                </div>
+                <div class="ch-note"><b>분석</b> — <b>세그 정합성 최상</b>. 10개 중 유일하게 성별×연령 네이버처럼 제공 → 세그 랭킹의 핵심 소스. 상세 차단되니 리스트 필드에서 최대한 확보.</div>
+              </div>
+
+              <div class="ch-site-card">
+                <div class="ch-site-head"><span class="ch-idx">08</span><h5>오늘의집</h5><span class="ch-tag vert">버티컬 · 리빙</span></div>
+                <div class="ch-kv">
+                  <div class="ck-label">베스트 경로</div><div class="ck-val"><code>store.ohou.se/ranks</code></div>
+                  <div class="ck-label">카테 depth</div><div class="ck-val">가구/패브릭/조명/수납/데코/가전/생활용품</div>
+                  <div class="ck-label">랭킹/기간</div><div class="ck-val"><b>역대(누적) ~ 실시간</b> · 약 1~400위 (확인필요)</div>
+                  <div class="ck-label">별점·리뷰</div><div class="ck-val">판매량·리뷰·평점 ✓</div>
+                  <div class="ck-label">렌더</div><div class="ck-val">React SPA / JSON API</div>
+                </div>
+                <div class="ch-note"><b>분석</b> — <b>리빙·인테리어 특화</b>. 역대~실시간 기간축이 넓어 스테디셀러 판별에 유리. 홈 카테 매칭 시 최우선.</div>
+              </div>
+
+              <div class="ch-site-card">
+                <div class="ch-site-head"><span class="ch-idx">09</span><h5>마켓컬리</h5><span class="ch-tag vert">버티컬 · 식품</span></div>
+                <div class="ch-kv">
+                  <div class="ck-label">베스트 경로</div><div class="ck-val"><code>kurly.com/collections/market-best</code> (<code>site=MARKET</code> 식품 / <code>site=BEAUTY</code> 뷰티)</div>
+                  <div class="ck-label">카테 depth</div><div class="ck-val">식품(마켓컬리) / 뷰티(뷰티컬리) 분리 → 하위 카테</div>
+                  <div class="ck-label">별점·리뷰</div><div class="ck-val">리뷰·별점 ✓</div>
+                  <div class="ck-label">렌더</div><div class="ck-val">Next.js SPA / JSON API</div>
+                </div>
+                <div class="ch-note"><b>분석</b> — <b>신선식품·프리미엄 식품 특화</b>. 11번가 식품 카테 갭 진단에 유효. site 파라미터로 식품/뷰티 분기만 잡으면 됨.</div>
+              </div>
+
+              <div class="ch-site-card">
+                <div class="ch-site-head"><span class="ch-idx">10</span><h5>카카오</h5><span class="ch-tag">기프팅 · 선물하기/톡딜</span></div>
+                <div class="ch-kv">
+                  <div class="ck-label">베스트 경로</div><div class="ck-val">선물하기 <code>gift.kakao.com/ranking</code> (급상승·카테·선물테마 3탭) · 톡딜 <code>store.kakao.com/home/best</code></div>
+                  <div class="ck-label">산정 기준</div><div class="ck-val">배송상품 <b>판매량·위시수·클릭수</b> 점수화</div>
+                  <div class="ck-label">카테 depth</div><div class="ck-val">메이크업/향수 등 + 선물테마(생일·집들이) + 급상승 세부</div>
+                  <div class="ck-label">순위변동</div><div class="ck-val"><b>급상승 탭 ✓</b></div>
+                  <div class="ck-label">별점·리뷰</div><div class="ck-val">선물하기 후기 제한적(확인필요)</div>
+                  <div class="ck-label">렌더</div><div class="ck-val">SPA / JSON API</div>
+                </div>
+                <div class="ch-note"><b>분석</b> — <b>기프팅 시장</b>이라 상품 구성이 일반 판매와 성격 다름(상품권·세트·니치 뷰티 상위). 위시수 지표는 독특하나 직접 비교엔 <b>보정 필요</b>.</div>
+              </div>
+
+            </div>
+          </div>
+        </details>
+
+        <div style="margin-top:16px;padding:16px 18px;background:var(--surface-elevated);border:1px solid var(--border);border-radius:var(--radius-sm)">
+          <div style="font-size:13px;font-weight:750;margin-bottom:10px;letter-spacing:-.01em">종합 분석 — 통합 랭킹 매핑 관점</div>
+          <div style="font-size:12px;color:var(--ink-secondary);line-height:1.65">
+            <div style="padding:5px 0;padding-left:14px;position:relative"><span style="position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:var(--signal)"></span><b>세그(성별·연령)</b> — 네이버처럼 직접 주는 곳은 <b>무신사</b>가 유일. 나머지 9곳은 카테·기간·변동 축으로만 통합.</div>
+            <div style="padding:5px 0;padding-left:14px;position:relative"><span style="position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:var(--signal)"></span><b>별점·리뷰 품질 가중</b> — SSG·오늘의집·올리브영·마켓컬리·무신사가 풍부. 카카오·GS샵은 약함 → 채널별 결손 처리 규칙 필요.</div>
+            <div style="padding:5px 0;padding-left:14px;position:relative"><span style="position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:var(--signal)"></span><b>순위변동(신규·급상승)</b> — SSG·무신사·카카오가 명시 제공 → 채널 네이티브 신호로 바로 수신 가능.</div>
+            <div style="padding:5px 0;padding-left:14px;position:relative"><span style="position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:var(--signal)"></span><b>수집 난이도</b> — 롯데온·GS샵(SPA) 상, 올리브영(UA 감지) 중상. SSG(JSON 임베드)·무신사(API)는 오히려 유리.</div>
+            <div style="padding:5px 0;padding-left:14px;position:relative"><span style="position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:var(--signal)"></span><b>중복 제거</b> — G마켓 ↔ 옥션 동시 노출로 상품 중복 다수 → 다채널 통합 가중치 산정 시 최우선 dedup 대상.</div>
+          </div>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <div class="connector reveal"><div class="connector-line"></div></div>
+
+  <!-- 01 · 수집 -->
+  <div class="section-label reveal">
+    <div class="section-num">01</div>
+    <div>
+      <div class="section-title">데이터 수집</div>
+      <div class="section-sub">위 원천 데이터를 매일 가져온다</div>
+    </div>
+  </div>
+
+  <div class="card reveal">
+    <div class="rm-row"><div class="rm-phase">1차</div><div class="rm-text"><b>네이버 + 10개 판매 채널</b> 자동 수집 — 상품·가격·리뷰·랭킹 안정화 · 품질 검증</div><div class="rm-status"><span class="badge badge-done">완료</span></div></div>
+    <div class="rm-row"><div class="rm-phase">2차</div><div class="rm-text"><b>쿠팡 포함 수집 확대</b> · 수집 항목 확대 · 실시간 전환</div><div class="rm-status"><span class="badge badge-tbd">TBD</span></div></div>
+    <div class="rm-row"><div class="rm-phase">3차</div><div class="rm-text"><b>판매자 정보 추가 수집</b> — 신규 셀러 영입 대상 발굴 (개인정보 이슈 검토 선행)</div><div class="rm-status"><span class="badge badge-tbd">TBD</span></div></div>
+    <div class="note">현재 규모(7/8 기준): 상품 21만 · 가격·리뷰 36만 · 랭킹 196만 기록 · 매일 04:00 KST 스냅샷</div>
+  </div>
+
+  <div class="connector reveal"><div class="connector-line"></div></div>
+
+  <!-- 02 · 매칭 -->
+  <div class="section-label reveal">
+    <div class="section-num">02</div>
+    <div>
+      <div class="section-title">11번가 상품 매칭</div>
+      <div class="section-sub">모은 상품이 11번가에 있는가?</div>
+    </div>
+  </div>
+
+  <div class="card reveal">
+    <div class="rm-row"><div class="rm-phase">1차</div><div class="rm-text"><b>기본 매칭 완료</b> — 상품명·브랜드·용량·구성 기반 자동 판정 · EXACT 정확도 89% (5,000건 표본) · 전체 매칭률 69.9%</div><div class="rm-status"><span class="badge badge-done">완료</span></div></div>
+    <div class="rm-row"><div class="rm-phase">2차</div><div class="rm-text"><b>판매 단위(품목) 구분</b> — 신규 셀러 영입 / 상품 등록 요청 분리</div><div class="rm-status"><span class="badge badge-doing">진척 50%</span></div></div>
+    <div class="rm-row"><div class="rm-phase">3차</div><div class="rm-text"><b>정확도 고도화</b> — 오매칭·미매칭 개선 · 목표치 설정</div><div class="rm-status"><span class="badge badge-tbd">TBD</span></div></div>
+    <div class="note">판정 로직: EXACT(≥85 바로 채택) → STRONG(≥70 &amp; 가격 ±50%) → AI(애매·경합은 Gemini 재판정) → NULL</div>
+  </div>
+
+  <div class="connector reveal"><div class="connector-line"></div></div>
+
+  <!-- 03 · 미입점 발굴 -->
+  <div class="section-label reveal">
+    <div class="section-num">03</div>
+    <div>
+      <div class="section-title">미입점 발굴</div>
+      <div class="section-sub">매칭 N — 경쟁사에선 잘 팔리는데 11번가엔 없는 상품</div>
+    </div>
+  </div>
+
+  <div class="card accent-top-amber reveal">
+    <div class="rm-row"><div class="rm-phase">1차</div><div class="rm-text"><b>중분류 기반 통합 랭킹</b> (1등 × 중분류수) — 날짜별 조회 ✓ · 채널·카테별 인기도 ✓ → 랭킹 산정 ✓ → 등급 산정</div><div class="rm-status"><span class="badge badge-doing">진행중</span></div></div>
+    <div class="rm-row"><div class="rm-phase">2차</div><div class="rm-text"><b>세그먼트 랭킹</b> — 수집 중인 성별·연령·별점·리뷰·일별 스냅샷을 활용해 세그 단위 순위 산출 + 상승·하락·신규 변화 감지</div><div class="rm-status"><span class="badge badge-plan">예정</span></div></div>
+    <div class="rm-row"><div class="rm-phase">3차</div><div class="rm-text"><b>다채널 통합</b> — N + 판매채널별 동일 상품 중복 탐지 → 가중치 적용</div><div class="rm-status"><span class="badge badge-plan">예정</span></div></div>
+
+    <details class="expandable" open>
+      <summary>통합 랭킹 산출 절차</summary>
+      <div class="expand-body">
+        <div class="flow-chain">
+          <span class="flow-chip">① 11번가에 없는 경쟁사 인기상품만 추출</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-chip">② 통합 랭킹 산정</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-chip">③ 인기 순 정렬 → 입점 우선순위 제시</span>
+        </div>
+        <div class="note">② 현재 1안 — 날짜별로 채널·카테고리별 베스트 순위 1위만 가져와 통합</div>
+        <details class="expandable" open style="margin-top:10px">
+        <summary>점수식 (안) — 0~100 정규화 → 품질·세그 가중 → 등급 S/A/B/C</summary>
+        <div class="expand-body">
+          <table class="data-tbl">
+            <tr><td class="label" style="width:100px">현재 1안</td><td>네이버 베스트 순위 · 순위 0~100 정규화 · <b>구매순 &gt; 클릭순</b> 적용 (다채널 통합·가중치는 3차)</td></tr>
+            <tr><td class="label">안 · 품질</td><td>× 리뷰수 (로그 정규화 · 수집 O) · × 별점 (하한 게이트 · 별점 확인 필요)</td></tr>
+            <tr><td class="label">안 · 세그</td><td>전체 × 0.7 + 타깃 세그(성별×연령) × 0.3 · 또는 세그 필터 (수집 O)</td></tr>
+            <tr><td class="label">변화 감지</td><td>상승/하락/신규 = 전일 스냅샷 대비 점수 변화 (2차)</td></tr>
+          </table>
+        </div>
+        </details>
+        <div style="display:flex;align-items:center;gap:6px;margin-top:6px;padding-left:2px">
+          <span style="color:var(--ink-tertiary);font-size:11px">↳</span>
+          <details class="expandable" style="margin-top:0;flex:1">
+            <summary style="color:var(--ink-secondary);font-size:13px;font-weight:600;padding:6px 0">세부안 — 통합 등급(S / A / B / C) 산정 기준 (B안)</summary>
+            <div class="expand-body">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;font-size:12.5px">
+
+        <div style="font-size:11.5px;color:var(--ink-tertiary);margin-bottom:14px;line-height:1.6">
+          채널마다 "베스트"의 기준이 다르므로, 원시 순위를 <b style="color:var(--ink)">0~100 통합 점수</b>로 정규화한 뒤 품질·세그 가중을 곱해 등급을 산출한다.
+        </div>
+
+        <div style="font-weight:700;font-size:12px;color:var(--signal);margin-bottom:6px;letter-spacing:.03em">STEP 1 — 기본 점수 (Base Score)</div>
+        <div style="background:var(--ground);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--ink-secondary);margin-bottom:14px;line-height:1.7">
+          채널 내 순위를 0~100으로 정규화<br>
+          <code style="font-family:ui-monospace,monospace;font-size:11px;background:var(--surface-elevated);border:1px solid var(--border);border-radius:4px;padding:1px 6px">base = (1 − rank / total) × 100</code><br>
+          <span style="font-size:11px;color:var(--ink-tertiary)">네이버: 구매순 가중 &gt; 클릭순 / 일반 채널: Best 랭킹 단일</span>
+        </div>
+
+        <div style="font-weight:700;font-size:12px;color:var(--signal);margin-bottom:6px;letter-spacing:.03em">STEP 2 — 품질 가중 (Quality Gate)</div>
+        <div style="background:var(--ground);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--ink-secondary);margin-bottom:14px;line-height:1.7">
+          <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:4px">
+            <span style="flex-shrink:0;font-weight:700;color:var(--ink);width:54px">리뷰수</span>
+            <span>log₁₀(리뷰수 + 1) 정규화 → 0~1 계수<br><span style="font-size:11px;color:var(--ink-tertiary)">리뷰 없는 채널(카카오·GS) → 계수 1.0 (패널티 없음, 데이터 결손 처리)</span></span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:flex-start">
+            <span style="flex-shrink:0;font-weight:700;color:var(--ink);width:54px">별점</span>
+            <span>하한 게이트: 별점 &lt; 3.5 → 1등급 하향<br><span style="font-size:11px;color:var(--ink-tertiary)">별점 미제공 채널 → 게이트 미적용</span></span>
+          </div>
+        </div>
+
+        <div style="font-weight:700;font-size:12px;color:var(--signal);margin-bottom:6px;letter-spacing:.03em">STEP 3 — 세그먼트 가중 (네이버 · 무신사 한정)</div>
+        <div style="background:var(--ground);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--ink-secondary);margin-bottom:14px;line-height:1.7">
+          <code style="font-family:ui-monospace,monospace;font-size:11px;background:var(--surface-elevated);border:1px solid var(--border);border-radius:4px;padding:1px 6px">final = base × 0.7 + seg_base × 0.3</code><br>
+          <span style="font-size:11px;color:var(--ink-tertiary)">세그 데이터 없는 8개 채널 → 전체(seg_base = base)로 대체, 실질 가중 없음</span>
+        </div>
+
+        <div style="font-weight:700;font-size:12px;color:var(--signal);margin-bottom:6px;letter-spacing:.03em">STEP 4 — 등급 스코어링 기준</div>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:12px;margin-bottom:4px">
+            <tr style="background:var(--ground)">
+              <th style="padding:7px 12px;text-align:center;font-weight:700;font-size:11px;color:var(--ink-tertiary);border:1px solid var(--border)">등급</th>
+              <th style="padding:7px 12px;text-align:center;font-weight:700;font-size:11px;color:var(--ink-tertiary);border:1px solid var(--border)">점수 범위</th>
+              <th style="padding:7px 12px;text-align:left;font-weight:700;font-size:11px;color:var(--ink-tertiary);border:1px solid var(--border)">의미</th>
+            </tr>
+            <tr>
+              <td style="padding:7px 12px;text-align:center;font-weight:800;color:var(--signal);border:1px solid var(--border);background:var(--signal-soft)">S</td>
+              <td style="padding:7px 12px;text-align:center;border:1px solid var(--border);font-weight:600">85 ~</td>
+              <td style="padding:7px 12px;border:1px solid var(--border);color:var(--ink-secondary)">카테고리 최상위 경쟁력 — 즉시 입점 검토 대상</td>
+            </tr>
+            <tr>
+              <td style="padding:7px 12px;text-align:center;font-weight:800;color:var(--green);border:1px solid var(--border)">A</td>
+              <td style="padding:7px 12px;text-align:center;border:1px solid var(--border);font-weight:600">65 ~ 84</td>
+              <td style="padding:7px 12px;border:1px solid var(--border);color:var(--ink-secondary)">경쟁력 양호 — 입점 우선 추천 풀</td>
+            </tr>
+            <tr>
+              <td style="padding:7px 12px;text-align:center;font-weight:800;color:var(--amber);border:1px solid var(--border)">B</td>
+              <td style="padding:7px 12px;text-align:center;border:1px solid var(--border);font-weight:600">40 ~ 64</td>
+              <td style="padding:7px 12px;border:1px solid var(--border);color:var(--ink-secondary)">중위권 — 카테·셀러 조건 맞으면 선별 검토</td>
+            </tr>
+            <tr>
+              <td style="padding:7px 12px;text-align:center;font-weight:800;color:var(--ink-tertiary);border:1px solid var(--border)">C</td>
+              <td style="padding:7px 12px;text-align:center;border:1px solid var(--border);font-weight:600">~ 39</td>
+              <td style="padding:7px 12px;border:1px solid var(--border);color:var(--ink-secondary)">하위권 — 모니터링만, 입점 추천 제외</td>
+            </tr>
+          </table>
+        </div>
+        <div style="font-size:11px;color:var(--ink-tertiary);margin-top:6px;line-height:1.55">
+          스코어링 기준은 초기 분포 확인 후 조정. 별점 게이트에 걸리면 최종 등급 1단계 하향 (S→A, A→B …)
+        </div>
+
+        <div style="font-weight:700;font-size:12px;color:var(--signal);margin-bottom:6px;margin-top:14px;letter-spacing:.03em">STEP 5 — 다채널 중복 탐지 · 가중 (3차)</div>
+        <div style="background:var(--ground);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--ink-secondary);margin-bottom:14px;line-height:1.7">
+          <div style="margin-bottom:6px">동일 상품이 <b style="color:var(--ink)">여러 채널 베스트에 동시 노출</b>되면 → 중복 탐지 후 가중 적용</div>
+          <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:4px">
+            <span style="flex-shrink:0;font-weight:700;color:var(--ink);width:54px">탐지</span>
+            <span>상품명·브랜드·용량 매칭 키로 채널 간 동일 상품 식별 (매칭 로직 재활용)</span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:4px">
+            <span style="flex-shrink:0;font-weight:700;color:var(--ink);width:54px">가중</span>
+            <span>노출 채널 수에 따라 부스트 — <code style="font-family:ui-monospace,monospace;font-size:11px;background:var(--surface-elevated);border:1px solid var(--border);border-radius:4px;padding:1px 6px">boost = 1 + 0.1 × (채널수 − 1)</code><br><span style="font-size:11px;color:var(--ink-tertiary)">2개 채널 → ×1.1 / 3개 채널 → ×1.2 / 최대 ×1.5 캡</span></span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:flex-start">
+            <span style="flex-shrink:0;font-weight:700;color:var(--ink);width:54px">채택</span>
+            <span>중복 그룹 내 <b style="color:var(--ink)">최고 점수 채널 1건만 채택</b>, 나머지는 병합 처리</span>
+          </div>
+        </div>
+
+        <details class="expandable" style="margin-top:14px">
+        <summary>시뮬레이션 — 10개 채널 × 가상 상품 예시</summary>
+        <div class="expand-body">
+        <div style="font-size:11px;color:var(--ink-tertiary);margin-bottom:10px;line-height:1.5">
+          각 채널 베스트 상위 상품 1건을 가정하고 STEP 1→4를 적용한 예시. 숫자는 설명용 가상치.
+        </div>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:11.5px">
+            <tr style="background:var(--ground)">
+              <th style="padding:7px 8px;text-align:left;font-weight:700;font-size:10px;color:var(--ink-tertiary);border:1px solid var(--border);white-space:nowrap">채널</th>
+              <th style="padding:7px 8px;text-align:left;font-weight:700;font-size:10px;color:var(--ink-tertiary);border:1px solid var(--border);white-space:nowrap">상품 예시</th>
+              <th style="padding:7px 8px;text-align:center;font-weight:700;font-size:10px;color:var(--ink-tertiary);border:1px solid var(--border);white-space:nowrap">순위</th>
+              <th style="padding:7px 8px;text-align:center;font-weight:700;font-size:10px;color:var(--ink-tertiary);border:1px solid var(--border);white-space:nowrap">① Base</th>
+              <th style="padding:7px 8px;text-align:center;font-weight:700;font-size:10px;color:var(--ink-tertiary);border:1px solid var(--border);white-space:nowrap">리뷰수</th>
+              <th style="padding:7px 8px;text-align:center;font-weight:700;font-size:10px;color:var(--ink-tertiary);border:1px solid var(--border);white-space:nowrap">별점</th>
+              <th style="padding:7px 8px;text-align:center;font-weight:700;font-size:10px;color:var(--ink-tertiary);border:1px solid var(--border);white-space:nowrap">② 품질<br>계수</th>
+              <th style="padding:7px 8px;text-align:center;font-weight:700;font-size:10px;color:var(--ink-tertiary);border:1px solid var(--border);white-space:nowrap">③ 세그<br>가중</th>
+              <th style="padding:7px 8px;text-align:center;font-weight:700;font-size:10px;color:var(--ink-tertiary);border:1px solid var(--border);white-space:nowrap">Final</th>
+              <th style="padding:7px 8px;text-align:center;font-weight:700;font-size:10px;color:var(--ink-tertiary);border:1px solid var(--border);white-space:nowrap">등급</th>
+            </tr>
+            <tr style="background:var(--signal-soft)">
+              <td style="padding:6px 8px;border:1px solid var(--border);font-weight:650;color:var(--signal);white-space:nowrap">네이버</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);color:var(--ink-secondary)">비타민C 세럼 (뷰티·중분류)</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">2/100</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:700">98</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center">12,840</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center">4.7</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">×0.95</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">여20대 +3</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800">96</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800;color:var(--signal)">S</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 8px;border:1px solid var(--border);font-weight:650;white-space:nowrap">무신사</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);color:var(--ink-secondary)">오버핏 반팔티 (상의·남)</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">5/200</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:700">97</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center">3,210</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center">4.6</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">×0.88</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">남20대 +2</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800">88</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800;color:var(--signal)">S</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 8px;border:1px solid var(--border);font-weight:650;white-space:nowrap">SSG</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);color:var(--ink-secondary)">프리미엄 올리브유 1L (식품)</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">8/150</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:700">95</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center">1,580</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center">4.8</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">×0.82</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;color:var(--ink-tertiary);font-size:10px">세그 없음</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800">78</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800;color:var(--green)">A</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 8px;border:1px solid var(--border);font-weight:650;white-space:nowrap">올리브영</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);color:var(--ink-secondary)">수분크림 50ml (스킨케어)</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">3/80</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:700">96</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center">8,420</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center">4.5</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">×0.92</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;color:var(--ink-tertiary);font-size:10px">세그 없음</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800">88</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800;color:var(--signal)">S</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 8px;border:1px solid var(--border);font-weight:650;white-space:nowrap">G마켓</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);color:var(--ink-secondary)">무선청소기 (생활가전)</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">15/200</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:700">92</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center">620</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center">4.3</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">×0.72</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;color:var(--ink-tertiary);font-size:10px">세그 없음</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800">66</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800;color:var(--green)">A</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 8px;border:1px solid var(--border);font-weight:650;white-space:nowrap">오늘의집</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);color:var(--ink-secondary)">LED 스탠드 조명 (조명)</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">12/400</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:700">97</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center">2,150</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center">4.4</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">×0.84</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;color:var(--ink-tertiary);font-size:10px">세그 없음</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800">82</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800;color:var(--green)">A</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 8px;border:1px solid var(--border);font-weight:650;white-space:nowrap">마켓컬리</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);color:var(--ink-secondary)">유기농 바나나 1.2kg (과일)</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">20/100</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:700">80</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center">940</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center">4.2</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">×0.76</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;color:var(--ink-tertiary);font-size:10px">세그 없음</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800">61</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800;color:var(--amber)">B</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 8px;border:1px solid var(--border);font-weight:650;white-space:nowrap">옥션</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);color:var(--ink-secondary)">무선청소기 (= G마켓 동일)</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">18/200</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:700">91</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center">580</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center">4.3</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">×0.71</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;color:var(--ink-tertiary);font-size:10px">세그 없음</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800">65</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800;color:var(--green)">A</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 8px;border:1px solid var(--border);font-weight:650;white-space:nowrap">카카오</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);color:var(--ink-secondary)">향수 미니어처 세트 (선물)</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">25/100</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:700">75</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;color:var(--ink-tertiary);font-style:italic">—</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;color:var(--ink-tertiary);font-style:italic">—</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600;color:var(--ink-tertiary)">×1.0</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;color:var(--ink-tertiary);font-size:10px">세그 없음</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800">75</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800;color:var(--green)">A</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 8px;border:1px solid var(--border);font-weight:650;white-space:nowrap">롯데온</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);color:var(--ink-secondary)">유아 물티슈 캡형 (유아동)</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">40/120</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:700">67</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center">310</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;color:var(--red);font-weight:600">3.2</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">×0.64</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;color:var(--ink-tertiary);font-size:10px">세그 없음</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800">43</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800;color:var(--amber)">B→<span style="color:var(--ink-tertiary)">C</span></td>
+            </tr>
+            <tr>
+              <td style="padding:6px 8px;border:1px solid var(--border);font-weight:650;white-space:nowrap">GS SHOP</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);color:var(--ink-secondary)">압력밥솥 세트 (주방)</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600">50/100</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:700">50</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;color:var(--ink-tertiary);font-style:italic">—</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;color:var(--ink-tertiary);font-style:italic">—</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:600;color:var(--ink-tertiary)">×1.0</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;color:var(--ink-tertiary);font-size:10px">세그 없음</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800">50</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;font-weight:800;color:var(--amber)">B</td>
+            </tr>
+          </table>
+        </div>
+
+        <div style="margin-top:10px;font-size:11px;color:var(--ink-tertiary);line-height:1.65">
+          <div style="display:flex;gap:6px;align-items:flex-start;margin-bottom:4px">
+            <span style="flex-shrink:0;font-weight:700;color:var(--signal);font-size:10px">KEY</span>
+            <span><b style="color:var(--ink-secondary)">롯데온 물티슈</b> — 별점 3.2 &lt; 게이트 3.5 → 원래 B(43점)에서 <b style="color:var(--red)">1등급 하향 → C</b>. 별점 게이트가 실제로 작동하는 케이스.</span>
+          </div>
+          <div style="display:flex;gap:6px;align-items:flex-start;margin-bottom:4px">
+            <span style="flex-shrink:0;font-weight:700;color:var(--signal);font-size:10px">KEY</span>
+            <span><b style="color:var(--ink-secondary)">카카오·GS</b> — 리뷰 결손 채널은 품질 계수 1.0(패널티 없음). Base 점수만으로 등급 결정.</span>
+          </div>
+          <div style="display:flex;gap:6px;align-items:flex-start;margin-bottom:4px">
+            <span style="flex-shrink:0;font-weight:700;color:var(--signal);font-size:10px">KEY</span>
+            <span><b style="color:var(--ink-secondary)">G마켓 ↔ 옥션</b> — 동일 상품(무선청소기)이 양쪽 베스트에 동시 노출 → dedup 후 <b style="color:var(--ink)">높은 쪽(G마켓 66점) 채택</b>, 2채널 부스트 ×1.1 → <b style="color:var(--ink)">73점 A</b>.</span>
+          </div>
+          <div style="display:flex;gap:6px;align-items:flex-start;margin-bottom:4px">
+            <span style="flex-shrink:0;font-weight:700;color:var(--signal);font-size:10px">KEY</span>
+            <span><b style="color:var(--ink-secondary)">올리브영 ↔ 네이버 뷰티</b> — 수분크림이 올리브영 Best + 네이버 구매순에 동시 등장 → 2채널 부스트 ×1.1. 버티컬 강세 상품은 다채널 노출 빈도 높음.</span>
+          </div>
+          <div style="display:flex;gap:6px;align-items:flex-start;margin-bottom:4px">
+            <span style="flex-shrink:0;font-weight:700;color:var(--signal);font-size:10px">KEY</span>
+            <span><b style="color:var(--ink-secondary)">SSG ↔ 롯데온 ↔ G마켓</b> — 생활용품(무선청소기 등)이 3개 종합몰에 동시 노출되면 3채널 부스트 ×1.2. 종합몰 간 중복이 가장 빈번.</span>
+          </div>
+          <div style="display:flex;gap:6px;align-items:flex-start;margin-bottom:4px">
+            <span style="flex-shrink:0;font-weight:700;color:var(--signal);font-size:10px">KEY</span>
+            <span><b style="color:var(--ink-secondary)">네이버·무신사</b> — 세그 가중이 적용되는 유일한 2채널. 타깃 세그(여20대·남20대)에서 순위가 높으면 +2~3점 부스트.</span>
+          </div>
+        </div>
+        </div>
+        </details>
+
+      </div>
+      </div>
+      </details>
+    </div>
+
+        <div class="callout" style="margin-top:14px">
+          <div style="margin-bottom:10px"><b>등급 ≠ 등급</b> — 채널별 등급의 의미가 다르다</div>
+          <div style="font-size:12.5px;line-height:1.65;margin-bottom:12px">
+            <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:4px"><span style="flex-shrink:0;font-weight:700;color:var(--green)">DONE</span><span>통합 랭킹 산출 로직 1안 적용 · 0~100 정규화 · 등급 S/A/B/C 구분</span></div>
+            <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:4px"><span style="flex-shrink:0;font-weight:700;color:var(--green)">DONE</span><span>네이버 구매순 &gt; 클릭순 가중 적용</span></div>
+            <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:4px"><span style="flex-shrink:0;font-weight:700;color:var(--green)">DONE</span><span>일반 채널 Best 랭킹 단일 기준 적용</span></div>
+          </div>
+          <div style="font-size:12.5px;line-height:1.65;margin-bottom:12px">
+            <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:4px"><span style="flex-shrink:0;font-weight:700;color:var(--red)">OPEN</span><span><b>등급 정책 확정 필요</b> — 채널마다 수집 데이터·모수·산정 기준이 달라 같은 S등급이라도 의미가 다름 (수집 다차원 vs 단일, 10만 상품 중 1위 vs 5천 상품 중 1위). 품질 가중 계수 · 세그 비율 · 등급 스코어링 기준 · 다채널 부스트 · 노출 방식(통합 등급 vs 채널별 병기) 확정 필요</span></div>
+          </div>
+        </div>
+
+      </div>
+    </details>
+  </div>
+
+  <div class="connector reveal"><div class="connector-line"></div></div>
+
+  <!-- 04 · 실행과 자동화 -->
+  <div class="section-label reveal">
+    <div class="section-num">04</div>
+    <div>
+      <div class="section-title">실행과 자동화</div>
+      <div class="section-sub">발굴된 갭을 현업이 실행하고, 자동화로 확장한다</div>
+    </div>
+  </div>
+
+  <div class="card accent-top-green reveal">
+    <div class="flow-chain" style="justify-content:center">
+      <span class="flow-chip">GPS 화면<span style="font-size:10px;color:var(--ink-tertiary);margin-left:4px">7/22</span></span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-chip">Task 배정</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-chip">현업 검증</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-chip">정책 보정</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-chip">API + MCP</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-chip endpoint">SO</span>
+    </div>
+    <div class="note" style="text-align:center;margin-top:14px"><b>영업 GPS 통합 화면 v1</b>로 현업 접점 시작 → 검증 데이터 축적 → 등급 기준 자동 보정 → <b>SO(AI 에이전트)</b> 자동화로 확장</div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer reveal">
+    <div class="footer-credit">Made by SEUL KI AN</div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  const els = document.querySelectorAll('.reveal');
+  if (!els.length) return;
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    els.forEach(function(el) { el.classList.add('visible'); });
+    return;
+  }
+
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  els.forEach(function(el, i) {
+    el.style.transitionDelay = (i < 3 ? i * 80 : 0) + 'ms';
+    observer.observe(el);
+  });
+})();
+</script>
