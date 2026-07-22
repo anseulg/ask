@@ -1,0 +1,792 @@
+<title>ESSENTIAL GPS — Weekly Pipeline</title>
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+
+  :root{
+    --ink:#1a1c1f;
+    --ink-soft:#42474d;
+    --ink-faint:#6a6f77;
+    --line:#e6e8eb;
+    --line-soft:#f0f1f3;
+    --surface:#ffffff;
+    --surface-2:#fafbfc;
+    --bg:#eceef1;
+    --accent:#0066cc;
+    --accent-soft:#eef4fd;
+    --tbd:#b0762b;
+    --tbd-soft:#fbf3e6;
+    --prog:#2f7d54;
+    --prog-soft:#e8f2ec;
+    --shadow:0 1px 0 rgba(0,0,0,.03);
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --ink:#e9ebee;
+      --ink-soft:#c6ccd3;
+      --ink-faint:#949aa2;
+      --line:#2c2f34;
+      --line-soft:#232529;
+      --surface:#1a1c1f;
+      --surface-2:#202327;
+      --bg:#121316;
+      --accent:#5aa2f0;
+      --accent-soft:#182533;
+      --tbd:#d0a15a;
+      --tbd-soft:#2c2415;
+      --prog:#5cb98a;
+      --prog-soft:#16271e;
+      --shadow:0 1px 0 rgba(0,0,0,.25);
+    }
+  }
+  :root[data-theme="light"]{
+    --ink:#1a1c1f;--ink-soft:#42474d;--ink-faint:#6a6f77;--line:#e6e8eb;--line-soft:#f0f1f3;
+    --surface:#ffffff;--surface-2:#fafbfc;--bg:#eceef1;--accent:#0066cc;--accent-soft:#eef4fd;
+    --tbd:#b0762b;--tbd-soft:#fbf3e6;--prog:#2f7d54;--prog-soft:#e8f2ec;--shadow:0 1px 0 rgba(0,0,0,.03);
+  }
+  :root[data-theme="dark"]{
+    --ink:#e9ebee;--ink-soft:#c6ccd3;--ink-faint:#949aa2;--line:#2c2f34;--line-soft:#232529;
+    --surface:#1a1c1f;--surface-2:#202327;--bg:#121316;--accent:#5aa2f0;--accent-soft:#182533;
+    --tbd:#d0a15a;--tbd-soft:#2c2415;--prog:#5cb98a;--prog-soft:#16271e;--shadow:0 1px 0 rgba(0,0,0,.25);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+
+  html,body{
+    background:var(--bg);
+    font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    font-weight:400;
+  }
+
+  .page{
+    max-width:1200px;
+    margin:28px auto;
+    background:var(--surface);
+    padding:44px 48px 40px;
+    border-radius:18px;
+    box-shadow:var(--shadow);
+  }
+
+  /* Header */
+  header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:24px;
+    padding-bottom:20px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:26px;
+  }
+  .eyebrow{
+    font-size:11px;
+    letter-spacing:.22em;
+    font-weight:600;
+    color:var(--accent);
+    text-transform:uppercase;
+    margin-bottom:9px;
+  }
+  h1{
+    font-size:26px;
+    font-weight:700;
+    letter-spacing:-.02em;
+    line-height:1.2;
+    text-wrap:balance;
+  }
+  .sub{
+    font-size:13px;
+    color:var(--ink-soft);
+    margin-top:7px;
+    font-weight:400;
+    white-space:nowrap;
+  }
+  .sub b{color:var(--ink);font-weight:700;}
+  .meta{
+    text-align:right;
+    font-size:12px;
+    color:var(--ink-faint);
+    font-weight:400;
+    line-height:1.7;
+    white-space:nowrap;
+  }
+  .meta b{font-weight:600;color:var(--ink-soft);}
+
+  /* Pipeline strip */
+  .pipeline{
+    display:flex;
+    align-items:stretch;
+    gap:24px;
+    margin-bottom:30px;
+  }
+  .stage{
+    flex:1;
+    position:relative;
+    padding:13px 15px 14px;
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    border-radius:12px;
+    box-shadow:var(--shadow);
+  }
+  .stage .no{
+    font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.05em;
+  }
+  .stage .nm{
+    font-size:14px;font-weight:700;margin-top:5px;letter-spacing:-.01em;color:var(--ink);
+  }
+  .stage .dc{
+    font-size:11px;color:var(--ink-soft);margin-top:3px;font-weight:400;
+  }
+  .stage .st{
+    display:inline-block;margin-top:8px;font-size:9.5px;font-weight:600;letter-spacing:.02em;
+    padding:2px 7px;border-radius:9999px;
+  }
+  .st.done{background:var(--accent-soft);color:var(--accent);}
+  .st.prog{background:var(--prog-soft);color:var(--prog);}
+  .st.plan{background:var(--tbd-soft);color:var(--tbd);}
+  .stage .stps{display:flex;flex-wrap:wrap;gap:4px;margin-top:9px;}
+  .sp{font-size:9px;font-weight:700;padding:2px 6px;border-radius:6px;white-space:nowrap;letter-spacing:.01em;}
+  .sp.done{background:var(--accent-soft);color:var(--accent);}
+  .sp.prog{background:var(--prog-soft);color:var(--prog);}
+  .sp.plan{background:var(--tbd-soft);color:var(--tbd);}
+  .stage .arw{
+    position:absolute;right:-20px;top:50%;transform:translateY(-50%);
+    width:20px;height:20px;background:var(--surface);border:1px solid var(--line);
+    border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:11px;color:var(--accent);font-weight:700;z-index:2;box-shadow:var(--shadow);
+  }
+  .stage:last-child .arw{display:none;}
+
+  /* Grid */
+  .grid{
+    display:grid;
+    grid-template-columns:1.55fr 1fr;
+    gap:24px;
+    margin-bottom:26px;
+  }
+
+  /* Stage rows — left roadmap card / right stage detail */
+  .stages{display:flex;flex-direction:column;gap:22px;margin-bottom:32px;}
+  .srow{display:grid;grid-template-columns:1.5fr 1fr;gap:22px;align-items:start;}
+  .srow .scol-r{display:flex;flex-direction:column;gap:14px;}
+  .srow .card{margin-top:0;}
+  .mini-title{font-size:11.5px;font-weight:700;letter-spacing:-.01em;color:var(--ink-soft);margin-bottom:9px;display:flex;align-items:center;gap:7px;}
+  .mini-title::before{content:'';width:3px;height:12px;background:var(--accent);border-radius:2px;}
+  .mini-title .tag{font-weight:400;color:var(--ink-faint);font-size:10px;letter-spacing:0;}
+
+  /* Collapsible */
+  .fold{margin:0;}
+  .fold summary{list-style:none;cursor:pointer;display:flex;align-items:center;}
+  .fold summary::-webkit-details-marker{display:none;}
+  .fold summary .mini-title{margin-bottom:0;width:100%;}
+  .fold-hint{margin-left:auto;font-size:10px;font-weight:600;color:var(--accent);letter-spacing:0;white-space:nowrap;}
+  .fold:not([open]) .fold-hint::after{content:'▸ 펼치기';}
+  .fold[open] .fold-hint::after{content:'▾ 접기';}
+  .fold[open] summary{margin-bottom:8px;}
+  .talk{font-size:12px;color:var(--ink-soft);line-height:1.7;}
+  .talk p{margin-bottom:7px;} .talk p:last-child{margin-bottom:0;}
+  .talk b{color:var(--ink);font-weight:700;}
+
+  /* Match-tier ladder (exec view) */
+  .mlead{font-size:12px;color:var(--ink-soft);font-weight:400;line-height:1.55;margin-bottom:12px;}
+  .mlead b{color:var(--ink);font-weight:700;}
+  .tierlad{display:flex;flex-direction:column;gap:9px;}
+  .tl{display:grid;grid-template-columns:62px 1fr;gap:11px;align-items:center;padding:11px 12px;border:1px solid var(--line);border-left-width:4px;border-radius:10px;background:var(--surface);}
+  .tl.t-exact{border-left-color:var(--prog);}
+  .tl.t-strong{border-left-color:var(--accent);}
+  .tl.t-ai{border-left-color:var(--tbd);}
+  .tl.t-null{border-left-color:var(--ink-faint);}
+  .tl .tb{font-size:11px;font-weight:800;letter-spacing:.02em;text-align:center;padding:4px 0;border-radius:7px;}
+  .tl.t-exact .tb{background:var(--prog-soft);color:var(--prog);}
+  .tl.t-strong .tb{background:var(--accent-soft);color:var(--accent);}
+  .tl.t-ai .tb{background:var(--tbd-soft);color:var(--tbd);}
+  .tl.t-null .tb{background:var(--line-soft);color:var(--ink-faint);}
+  .tl .h{font-size:12.5px;font-weight:700;color:var(--ink);line-height:1.35;}
+  .tl .c{font-size:11px;font-weight:400;color:var(--ink-soft);line-height:1.5;margin-top:3px;}
+
+  .block-title{
+    font-size:12px;font-weight:700;letter-spacing:-.01em;color:var(--ink);
+    margin-bottom:12px;display:flex;align-items:center;gap:8px;
+  }
+  .block-title::before{
+    content:'';width:3px;height:13px;background:var(--accent);border-radius:2px;
+  }
+
+  /* Phase cards */
+  .cards{display:flex;flex-direction:column;gap:12px;}
+  .card{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:var(--surface);}
+  .card-head{display:flex;align-items:center;gap:9px;margin-bottom:11px;}
+  .card-num{
+    width:22px;height:22px;border-radius:7px;background:var(--ink);color:var(--surface);
+    font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .card-nm{font-size:13.5px;font-weight:600;letter-spacing:-.01em;}
+  .card-tag{margin-left:auto;font-size:10.5px;color:var(--ink-faint);font-weight:400;}
+
+  .phase-row{
+    display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:baseline;
+    padding:6px 0;font-size:12px;border-top:1px solid var(--line-soft);
+  }
+  .phase-row:first-of-type{border-top:none;}
+  .ph{font-weight:600;color:var(--accent);font-size:11.5px;}
+  .ph-txt{color:var(--ink-soft);line-height:1.55;font-weight:400;}
+  .ph-txt b{font-weight:600;color:var(--ink);}
+  .ph-txt i{font-style:normal;color:var(--ink-faint);}
+  .badge{
+    font-size:10px;font-weight:600;letter-spacing:.02em;padding:2px 8px;border-radius:9999px;white-space:nowrap;
+  }
+  .b-done{background:var(--accent-soft);color:var(--accent);}
+  .b-tbd{background:var(--tbd-soft);color:var(--tbd);}
+  .b-prog{background:var(--prog-soft);color:var(--prog);}
+
+  /* Right column */
+  .side{display:flex;flex-direction:column;gap:18px;}
+  .panel{border:1px solid var(--line);border-radius:14px;padding:15px 16px;background:var(--surface-2);}
+
+  .gap-tbl{border-collapse:collapse;width:100%;font-size:11.5px;}
+  .gap-tbl td{padding:8px 6px;border-top:1px solid var(--line-soft);vertical-align:top;line-height:1.5;}
+  .gap-tbl tr:first-child td{border-top:none;}
+  .gap-tbl .k{font-weight:600;color:var(--ink);white-space:nowrap;width:74px;}
+  .gap-tbl .v{color:var(--ink-soft);font-weight:400;}
+  .gap-tbl .e{color:var(--ink-faint);font-weight:400;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;}
+
+  .flow-node{
+    font-size:12px;color:var(--ink-soft);font-weight:400;line-height:1.5;
+    padding:7px 11px;background:var(--surface);border:1px solid var(--line);border-radius:9px;
+  }
+  .flow-node b{font-weight:600;color:var(--ink);}
+  .use-chain{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+  .chip{
+    font-size:11px;font-weight:500;color:var(--ink);background:var(--surface);
+    border:1px solid var(--line);padding:6px 11px;border-radius:9999px;
+  }
+  .chip.end{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600;}
+  .use-arw{color:var(--ink-faint);font-size:11px;}
+  .note{font-size:11px;color:var(--ink-faint);margin-top:9px;font-weight:400;line-height:1.55;}
+
+  .deploy{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  .deploy .big{font-size:19px;font-weight:700;color:var(--ink);letter-spacing:-.01em;}
+  .deploy .lbl{font-size:10.5px;color:var(--ink-faint);font-weight:400;margin-top:3px;}
+
+  /* Data sources */
+  .sources{border-top:1px solid var(--line);padding-top:22px;}
+  .src-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:24px;margin-top:4px;}
+  .src-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface);}
+  .src-hd{
+    background:var(--ink);color:var(--surface);padding:9px 15px;font-size:12px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .src-hd span{font-size:10.5px;font-weight:400;color:var(--ink-faint);letter-spacing:.05em;}
+  .src-body{padding:13px 15px;display:flex;gap:18px;flex-wrap:wrap;}
+  .src-col{flex:1;min-width:150px;}
+
+  table.tbl{border-collapse:collapse;width:100%;font-size:11.5px;}
+  table.tbl th,table.tbl td{padding:5px 8px;text-align:center;border:1px solid var(--line);font-weight:400;color:var(--ink-soft);}
+  table.tbl th{background:var(--surface-2);font-weight:600;color:var(--ink);font-size:11px;}
+  table.tbl td.k{font-weight:600;color:var(--ink);background:var(--surface-2);text-align:left;}
+  table.tbl td.on{color:var(--prog);font-weight:600;}
+  table.tbl td.hi{color:var(--accent);font-weight:600;font-variant-numeric:tabular-nums;}
+  .tbl-wrap{overflow-x:auto;}
+
+  .blist{list-style:none;margin:0;padding:0;font-size:11.5px;color:var(--ink-soft);}
+  .blist li{padding:6px 0;border-top:1px solid var(--line-soft);display:flex;gap:7px;line-height:1.5;}
+  .blist li:first-child{border-top:none;}
+  .blist li::before{content:'·';color:var(--accent);font-weight:800;}
+  .blist b{color:var(--ink);font-weight:600;}
+  .field-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;}
+  .field{
+    font-size:10.5px;font-weight:400;color:var(--ink-soft);background:var(--surface-2);
+    border:1px solid var(--line);padding:3px 8px;border-radius:7px;
+  }
+
+  /* Scale strip */
+  .scale{border-top:1px solid var(--line);padding-top:22px;margin-top:26px;}
+  .scale-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
+  .pill{
+    font-size:12px;font-weight:400;color:var(--ink-soft);background:var(--surface-2);
+    border:1px solid var(--line);padding:6px 13px;border-radius:9999px;
+  }
+  .pill b{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;margin-right:3px;}
+  .chan{display:flex;flex-wrap:wrap;gap:5px;}
+  .chan span{
+    font-size:11px;font-weight:400;color:var(--ink-soft);background:var(--surface);
+    border:1px solid var(--line);padding:4px 10px;border-radius:7px;
+  }
+  .chan span.off{color:var(--ink-faint);border-style:dashed;}
+
+  /* Footer */
+  footer{
+    margin-top:26px;padding-top:16px;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+    font-size:10.5px;color:var(--ink-faint);font-weight:400;
+  }
+  .legend{display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
+  .legend span{display:flex;align-items:center;gap:5px;}
+  .dot{width:8px;height:8px;border-radius:9999px;display:inline-block;}
+  .dot.done{background:var(--accent);}
+  .dot.prog{background:var(--prog);}
+  .dot.tbd{background:var(--tbd);}
+
+  /* Branching flow — mono / tone-on-tone */
+  .flow{margin:0 0 30px;padding-top:4px;}
+  .flow-title{font-size:11px;font-weight:700;color:var(--ink-faint);letter-spacing:.06em;text-transform:uppercase;text-align:center;margin-bottom:16px;}
+  .flow-top{display:flex;align-items:center;justify-content:center;}
+  .fnode{display:flex;align-items:center;gap:10px;padding:11px 16px;border-radius:12px;border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow);}
+  .fnode .fn-ic{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:var(--ink);color:var(--surface);font-size:13px;font-weight:800;flex-shrink:0;}
+  .fnode .fn-nm{font-size:13px;font-weight:700;line-height:1.25;color:var(--ink);}
+  .fnode .fn-st{font-size:10.5px;color:var(--ink-soft);margin-top:2px;}
+  .farrow{padding:0 12px;color:var(--ink-faint);display:flex;align-items:center;}
+  /* connectors (continuous) */
+  .fstem{position:relative;height:16px;}
+  .fstem::before{content:'';position:absolute;top:0;left:50%;width:2px;height:100%;background:var(--line);transform:translateX(-50%);}
+  .fork{position:relative;height:18px;margin:0 25%;}
+  .fork::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--line);}
+  .fork i{position:absolute;top:0;width:2px;height:100%;background:var(--line);}
+  .fork i.l{left:0;} .fork i.r{right:0;}
+  .merge{position:relative;height:18px;margin:0 25%;}
+  .merge::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--line);}
+  .merge i{position:absolute;top:0;width:2px;height:100%;background:var(--line);}
+  .merge i.l{left:0;} .merge i.r{right:0;}
+  .farms{display:grid;grid-template-columns:1fr 1fr;gap:26px;}
+  .ftag{text-align:center;margin-bottom:10px;}
+  .ftag span{display:inline-block;font-size:11px;font-weight:700;padding:4px 12px;border-radius:99px;background:var(--surface-2);color:var(--ink-soft);border:1px solid var(--line);}
+  .acard{padding:14px;border-radius:12px;text-align:center;border:1px solid var(--line);background:var(--surface-2);max-width:360px;margin:0 auto;}
+  .acard .a-ic{width:28px;height:28px;border-radius:8px;display:inline-grid;place-items:center;background:var(--ink);color:var(--surface);font-size:13px;font-weight:800;margin-bottom:6px;}
+  .acard .a-nm{font-size:14px;font-weight:700;color:var(--ink);}
+  .acard .a-desc{font-size:11.5px;color:var(--ink-soft);line-height:1.5;margin-top:4px;}
+  .adown{position:relative;height:16px;}
+  .adown::before{content:'';position:absolute;top:0;left:50%;width:2px;height:100%;background:var(--line);transform:translateX(-50%);}
+  .aout{text-align:center;font-size:11.5px;color:var(--ink-soft);line-height:1.5;background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:9px 10px;max-width:360px;margin:0 auto;}
+  .aout b{color:var(--ink);font-weight:700;}
+  .fbottom{display:flex;justify-content:center;}
+  @media (max-width:720px){
+    .flow-top{flex-direction:column;gap:10px;}
+    .farrow{transform:rotate(90deg);}
+    .fork,.merge{display:none;}
+    .farms{grid-template-columns:1fr;gap:14px;}
+  }
+
+  @media print{
+    html,body{background:#fff;}
+    .page{margin:0;width:100%;max-width:none;box-shadow:none;border-radius:0;padding:24px 28px;}
+    @page{size:A4 landscape;margin:8mm;}
+  }
+  @media (max-width:1080px){
+    .page{margin:14px;padding:32px 24px;}
+    .grid{grid-template-columns:1fr;}
+    .srow{grid-template-columns:1fr;}
+    .src-grid{grid-template-columns:1fr;}
+    .pipeline{flex-wrap:wrap;gap:8px;}
+    .stage{flex:1 1 45%;border-radius:12px !important;border-left:1px solid var(--line) !important;}
+    .stage .arw{display:none !important;}
+    header{flex-direction:column;align-items:flex-start;}
+    .meta{text-align:left;}
+    .sub{white-space:normal;}
+  }
+</style>
+
+<div class="page">
+
+  <header>
+    <div>
+      <div class="eyebrow">AX TF · Essential GPS · Weekly</div>
+      <h1>Essential GPS</h1>
+      <div class="sub">경쟁 채널 베스트 데이터를 매일 수집·매칭해, 11번가에 <b>없는 상품은 발굴</b>하고 <b>있는 상품은 경쟁력을 진단</b>하는 5단계 파이프라인 현황.</div>
+    </div>
+    <div class="meta">
+      <div><b>2026.07.21</b></div>
+    </div>
+  </header>
+
+  <!-- Pipeline -->
+  <div class="pipeline">
+    <div class="stage"><div class="no">STEP 1</div><div class="nm">데이터 수집</div><div class="dc">10개 경쟁 채널</div><div class="stps"><span class="sp done">1차 완료</span></div><div class="arw">→</div></div>
+    <div class="stage"><div class="no">STEP 2</div><div class="nm">11번가 매칭</div><div class="dc">상품 정합 · Y/N</div><div class="stps"><span class="sp done">1차 완료</span><span class="sp prog">2차 진행중</span></div><div class="arw">→</div></div>
+    <div class="stage"><div class="no">STEP 3</div><div class="nm">미입점 발굴 · N</div><div class="dc">통합 랭킹 → 우선순위</div><div class="stps"><span class="sp prog">1차 진행중</span></div><div class="arw">→</div></div>
+    <div class="stage"><div class="no">STEP 4</div><div class="nm">경쟁력 진단 · Y</div><div class="dc">유사 BuyBox → 갭 분석</div><div class="stps"><span class="sp prog">1차 진행중</span></div><div class="arw">→</div></div>
+    <div class="stage"><div class="no">STEP 5</div><div class="nm">GPS 화면</div><div class="dc">현업 공유용</div><div class="stps"><span class="sp prog">7/22 배포예정</span></div><div class="arw">→</div></div>
+  </div>
+
+  <!-- Branching flow (mono) -->
+  <details class="fold" style="margin-bottom:28px">
+    <summary><div class="mini-title">데이터 파이프라인 흐름 <span class="fold-hint"></span></div></summary>
+    <div class="flow">
+    <div class="flow-top">
+      <div class="fnode"><div class="fn-ic">1</div><div><div class="fn-nm">경쟁사 데이터 수집</div><div class="fn-st">10개 채널</div><div class="stps"><span class="sp done">1차 완료</span></div></div></div>
+      <div class="farrow"><svg width="46" height="14" viewBox="0 0 46 14" fill="none"><line x1="0" y1="7" x2="34" y2="7" stroke="currentColor" stroke-width="2" stroke-dasharray="4 3"/><polygon points="34,2 46,7 34,12" fill="currentColor"/></svg></div>
+      <div class="fnode"><div class="fn-ic">2</div><div><div class="fn-nm">11번가 상품 매칭</div><div class="fn-st">상품 정합 · Y/N</div><div class="stps"><span class="sp done">1차 완료</span><span class="sp prog">2차 진행중</span></div></div></div>
+    </div>
+    <div class="fstem"></div>
+    <div class="fork"><i class="l"></i><i class="r"></i></div>
+    <div class="farms">
+      <div class="farm">
+        <div class="ftag"><span>매칭 N — 11번가에 없음</span></div>
+        <div class="acard"><div class="a-ic">3</div><div class="a-nm">미입점 발굴</div><div class="a-desc">경쟁사에서 잘 팔리는데<br>11번가에 없는 상품 발굴</div><div class="stps" style="justify-content:center"><span class="sp prog">1차 진행중</span></div></div>
+        <div class="adown"></div>
+        <div class="aout">통합 랭킹 순으로 정렬<br><b>입점 우선순위 제시</b></div>
+      </div>
+      <div class="farm">
+        <div class="ftag"><span>매칭 Y — 11번가에 있음</span></div>
+        <div class="acard"><div class="a-ic">4</div><div class="a-nm">경쟁력 진단</div><div class="a-desc">경쟁사와 비교해서<br>갭이 있는 부분 진단</div><div class="stps" style="justify-content:center"><span class="sp prog">1차 진행중</span></div></div>
+        <div class="adown"></div>
+        <div class="aout">갭 분석 → 검증<br><b>카테고리별 고도화</b></div>
+      </div>
+    </div>
+    <div class="merge"><i class="l"></i><i class="r"></i></div>
+    <div class="fstem"></div>
+    <div class="fbottom">
+      <div class="fnode"><div class="fn-ic">5</div><div><div class="fn-nm">Essential GPS 화면</div><div class="fn-st">현업 공유용</div><div class="stps"><span class="sp prog">7/22 배포예정</span></div></div></div>
+    </div>
+  </div>
+  </details>
+
+  <!-- Stage rows: left roadmap card / right stage detail -->
+  <div class="block-title">단계별 로드맵 &amp; 단계별 상세</div>
+  <div class="stages">
+
+    <!-- ① 데이터 수집 -->
+    <div class="srow">
+      <div class="scol-l">
+        <div class="card">
+          <div class="card-head">
+            <div class="card-num">1</div>
+            <div class="card-nm">데이터 수집</div>
+            <div class="card-tag">경쟁 채널 베스트 소싱</div>
+          </div>
+          <div class="phase-row"><span class="ph">1차</span><span class="ph-txt"><b>10개 채널 자동 수집</b> · 상품·가격·리뷰·랭킹 안정화 · 품질 검증</span><span class="badge b-done">완료</span></div>
+          <div class="phase-row"><span class="ph">2차</span><span class="ph-txt"><b>신규 채널(쿠팡) 추가</b> · 수집 항목 확대 · 실시간 수집 전환</span><span class="badge b-tbd">예정</span></div>
+          <div class="phase-row"><span class="ph">3차</span><span class="ph-txt"><b>판매자 정보 수집 추가</b> — <b>신규 셀러 영입 대상 발굴</b> <i>(난이도↑ · 개인정보 이슈 검토)</i></span><span class="badge b-tbd">예정</span></div>
+        </div>
+      </div>
+      <div class="scol-r">
+        <div>
+          <div class="mini-title">수집 규모 &amp; 채널 <span class="tag">· 2026-07-08 기준</span></div>
+          <div class="panel">
+            <div class="scale-row" style="margin-bottom:10px">
+              <span class="pill"><b>21만</b> 상품</span>
+              <span class="pill"><b>36만</b> 가격·리뷰 기록</span>
+              <span class="pill"><b>196만</b> 랭킹 기록</span>
+            </div>
+            <div class="chan">
+              <span>네이버 쇼핑</span><span>카카오</span><span>마켓컬리</span><span>롯데온</span><span>무신사</span>
+              <span>오늘의집</span><span>SSG</span><span>GS SHOP</span><span>올리브영</span><span>옥션</span><span>G마켓</span>
+              <span class="off">쿠팡 (확장 중)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ② 11번가 매칭 -->
+    <div class="srow">
+      <div class="scol-l">
+        <div class="card">
+          <div class="card-head">
+            <div class="card-num">2</div>
+            <div class="card-nm">11번가 상품 매칭</div>
+            <div class="card-tag">정합도 향상</div>
+          </div>
+          <div class="phase-row"><span class="ph">1차</span><span class="ph-txt"><b>기본 매칭 완료</b> — 상품명·브랜드·용량·구성 기반 자동 매칭 <i>(EXACT 매칭 정확도 89%)</i></span><span class="badge b-done">완료</span></div>
+          <div class="phase-row"><span class="ph">2차</span><span class="ph-txt"><b>판매 단위(품목) 구분</b> — <b>신규 셀러 영입 / 상품 등록 요청</b> 분리 <i>(진척도 50%)</i></span><span class="badge b-prog">진행중</span></div>
+          <div class="phase-row"><span class="ph">3차</span><span class="ph-txt">매칭 정확도 고도화 — 오매칭·미매칭 개선 · 목표치 설정</span><span class="badge b-tbd">TBD</span></div>
+        </div>
+      </div>
+      <div class="scol-r">
+        <details class="fold">
+          <summary><div class="mini-title">매칭 1차 로직 <span class="tag">· MATCH_TIER</span> <span class="fold-hint"></span></div></summary>
+          <div class="panel">
+            <div class="mlead"><b>외부 인기상품이 11번가에 있나?</b> — 후보 중 <b>대표 1개</b>를 골라 <b>유사도 점수(0~100)</b>와 <b>가격 격차(±50%)</b> 게이트로 4단계 자동 판정</div>
+            <div class="tierlad">
+              <div class="tl t-exact">
+                <div class="tb">EXACT</div>
+                <div><div class="h">확실 매칭 → 바로 채택</div><div class="c">점수 ≥85 · 또는 모델코드/(상품명 포함+브랜드) 일치 · 규칙 기반</div></div>
+              </div>
+              <div class="tl t-strong">
+                <div class="tb">STRONG</div>
+                <div><div class="h">신뢰 매칭 → 바로 채택</div><div class="c">점수 ≥70 & 가격 ±50% 內 · 규칙 기반</div></div>
+              </div>
+              <div class="tl t-ai">
+                <div class="tb">AI</div>
+                <div><div class="h">애매·경합 → AI가 재판정</div><div class="c">규칙으로 애매한 건(경합·가격밖·WEAK)을 Gemini가 동일상품인지 재확인 → 맞으면 채택</div></div>
+              </div>
+              <div class="tl t-null">
+                <div class="tb">NULL</div>
+                <div><div class="h">미매칭</div><div class="c">점수 ≥40은 '유사후보'로 검수 대상 (WEAK · tier 아님)</div></div>
+              </div>
+            </div>
+            <div class="note" style="margin-top:10px;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:8px 10px"><b>점수</b> = 상품명 유사도 + 브랜드·모델·색 <b>가점</b> − 금액권·상품권·부속품 불일치 <b>감점</b></div>
+          </div>
+        </details>
+        <details class="fold">
+          <summary><div class="mini-title">매칭률 <span class="tag">· 7/14 갭아이템 기준</span> <span class="fold-hint"></span></div></summary>
+          <div class="panel">
+            <table class="gap-tbl">
+              <tr><td class="k" style="width:auto">전체 크롤 대비 매칭률</td><td class="e" style="color:var(--accent);font-weight:700;font-size:15px">69.9%</td></tr>
+              <tr><td class="k" style="width:auto">EXACT 매칭률 (전체 대비)</td><td class="e" style="font-weight:600">38.9%</td></tr>
+              <tr><td class="k" style="width:auto">매칭 상품 중 EXACT 비율</td><td class="e" style="font-weight:600">55.6%</td></tr>
+              <tr><td class="k" style="width:auto">EXACT 매칭 정확도</td><td class="e" style="color:var(--prog);font-weight:700;font-size:15px">89%</td></tr>
+            </table>
+            <div class="note">정확도 = EXACT 5,000건 표본 검수 (1,000건 시점에도 ~89%) · <b>모수 확대 채점 진행중</b>, 완료 시 추가 공유</div>
+          </div>
+        </details>
+        <details class="fold">
+          <summary><div class="mini-title">정확도 고도화 방향 + 레퍼런스 <span class="tag">· 3차</span> <span class="fold-hint"></span></div></summary>
+          <div class="panel">
+            <div class="mlead"><b>애매·경합(유사후보)</b>을 어떻게 더 정확히 가릴까 — 쉬운 4가지</div>
+            <ul class="blist">
+              <li><b>① 규격·모델명 정리</b> — "140g×4 = 560g"처럼 단위·모델명을 표준화해 헷갈림을 없앰</li>
+              <li><b>② 글자 아닌 '뜻'으로 비교</b> — AI가 의미로 유사도 판단, 애매하면 <b>근거·확신도</b>까지 붙여 최종 확인</li>
+              <li><b>③ 사람 검수 → 자동 학습</b> — 애매한 것만 사람이 확인하고, 그 결과를 다시 학습에 넣어 <b>점점 똑똑해짐</b>(액티브 러닝)</li>
+              <li><b>④ 이미지까지 비교</b> — 글자로 안 갈리면 상품 <b>사진</b>으로 대조(멀티모달)</li>
+            </ul>
+            <div class="note" style="margin-top:9px"><b>레퍼런스</b> ·
+              <a href="https://arxiv.org/abs/2004.00584" style="color:var(--accent)">Ditto (AI 상품매칭)</a> ·
+              <a href="https://webdatacommons.org/largescaleproductcorpus/" style="color:var(--accent)">WDC 상품매칭 벤치마크</a> ·
+              <a href="https://github.com/anhaidgroup/deepmatcher" style="color:var(--accent)">DeepMatcher</a> ·
+              <a href="https://arxiv.org/abs/1907.00937" style="color:var(--accent)">Amazon 시맨틱 검색</a> ·
+              <a href="https://www.snorkel.org/" style="color:var(--accent)">Snorkel (약지도 학습)</a>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- ③ 미입점 발굴 -->
+    <div class="srow">
+      <div class="scol-l">
+        <div class="card">
+          <div class="card-head">
+            <div class="card-num">3</div>
+            <div class="card-nm">미입점 발굴 — 매칭 N</div>
+            <div class="card-tag">입점 우선순위</div>
+          </div>
+          <div class="phase-row"><span class="ph">1차</span><span class="ph-txt"><b>중분류 기반 통합 랭킹</b> — 날짜별 조회 ✓ · 채널·카테별 인기도 ✓ → 랭킹 산정 ✓</span><span class="badge b-prog">진행중</span></div>
+          <div class="phase-row"><span class="ph">2차</span><span class="ph-txt"><b>세그먼트 랭킹</b> — 성별·연령 ✓ · 리뷰수 ✓ · 일별 스냅샷 ✓</span><span class="badge b-tbd">상승/하락/신규 예정</span></div>
+          <div class="phase-row"><span class="ph">3차</span><span class="ph-txt"><b>다채널 통합</b> — 채널 간 동일 상품 중복 탐지 → 가중치 적용</span><span class="badge b-tbd">예정</span></div>
+        </div>
+      </div>
+      <div class="scol-r">
+        <div>
+          <div class="mini-title">통합 랭킹 산출 <span class="tag">· 매칭 N</span></div>
+          <div class="panel">
+            <div class="flow-node" style="margin-bottom:8px"><b>①</b> 11번가에 <b>없는</b> 경쟁사 인기상품만 추출</div>
+            <div class="flow-node" style="margin-bottom:8px"><b>②</b> <b>통합 랭킹 산정</b> <span class="badge b-done">현재 1안</span> — 날짜별로 <b>채널·카테고리별 베스트 순위 1위만</b> 가져와 통합</div>
+            <div class="flow-node"><b>③</b> 인기 순 정렬 → <b>먼저 입점시킬 우선순위</b> 제시</div>
+            <div class="note">현재: 날짜별 조회 · 등급 산정 (정책 수립 중) · <i>상승/하락/신규·세그먼트는 2차</i></div>
+          </div>
+        </div>
+        <details class="fold">
+          <summary><div class="mini-title">통합 랭킹 산출 로직 (안) <span class="tag">· 점수식</span> <span class="fold-hint"></span></div></summary>
+          <div class="panel">
+            <div class="mlead">베스트 순위를 <b>0~100 점수로 정규화</b>한 뒤 품질·세그로 가중 → 통합 점수 → 등급(S/A/B/C)</div>
+            <table class="gap-tbl">
+              <tr><td class="k" style="white-space:nowrap">현재 1안</td><td class="v"><b>네이버 베스트 순위</b> · 순위 0~100 정규화 · 구매순 &gt; 클릭순 <span class="sp done">적용</span> <span style="color:var(--ink-faint)">(다채널 통합·가중치는 3차)</span></td></tr>
+              <tr><td class="k" style="white-space:nowrap">안 · 품질</td><td class="v">× 리뷰수(로그 정규화) <span class="sp done">수집 O</span> · × 별점(하한 게이트) <span class="sp plan">별점 확인 필요</span></td></tr>
+              <tr><td class="k" style="white-space:nowrap">안 · 세그</td><td class="v">전체 × 0.7 + 타깃 세그(성별×연령) × 0.3 · 또는 세그 필터 <span class="sp done">수집 O</span></td></tr>
+            </table>
+            <div class="note">현재 = <b>네이버 베스트 순위(1안)</b> 적용 · 다음 = 리뷰수·별점·세그 가중 반영해 <b>등급 고도화</b> · 상승/하락/신규 = 전일 스냅샷 점수 변화</div>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- ④ 경쟁력 진단 -->
+    <div class="srow">
+      <div class="scol-l">
+        <div class="card">
+          <div class="card-head">
+            <div class="card-num">4</div>
+            <div class="card-nm">경쟁력 진단 — 매칭 Y</div>
+            <div class="card-tag">디스커버리 결합</div>
+          </div>
+          <div class="phase-row"><span class="ph">1차</span><span class="ph-txt">카탈로그·상품 기반 — <b>마진 · 실적 · 매출 · 리뷰 · 검색 랭킹</b> → 유사 BuyBox → <b>대상 추출</b></span><span class="badge b-prog">수집완료·가공중</span></div>
+          <div class="phase-row"><span class="ph">2차</span><span class="ph-txt"><b>갭 분석 → 검증</b> — 직책자가 Task 분배 · 현업이 검증치 축적</span><span class="badge b-tbd">예정</span></div>
+          <div class="phase-row"><span class="ph">고도화</span><span class="ph-txt">검증 데이터로 정책 정교화 · <b>API + MCP Task 자동 생성 → SO AI 에이전트</b>까지 확장</span><span class="badge b-tbd">TBD</span></div>
+        </div>
+      </div>
+      <div class="scol-r">
+        <div>
+          <div class="mini-title">갭 진단 관점 <span class="tag">· 매칭 Y</span></div>
+          <div class="panel">
+            <table class="gap-tbl">
+              <tr><td class="k" style="white-space:nowrap"><span class="sp prog">진행중</span> 가격</td><td class="v">가격 갭이 있는가?</td><td class="e">경쟁사 대비 +12%</td></tr>
+              <tr><td class="k" style="white-space:nowrap"><span class="sp prog">진행중</span> 리뷰·검색</td><td class="v">노출 갭이 있는가?</td><td class="e">2,847 vs 421건</td></tr>
+              <tr><td class="k" style="white-space:nowrap"><span class="sp prog">진행중</span> 마진·실적</td><td class="v">매출·마진 기회는?</td><td class="e">거래액·CPC·PV</td></tr>
+              <tr style="opacity:.55"><td class="k" style="white-space:nowrap"><span class="sp" style="background:var(--tbd-soft);color:var(--tbd)">매칭 N</span> <s>셀러 영입</s></td><td class="v"><s>셀러 확보가 필요?</s></td><td class="e">영입 대상 추출</td></tr>
+              <tr style="opacity:.55"><td class="k" style="white-space:nowrap"><span class="sp" style="background:var(--tbd-soft);color:var(--tbd)">매칭 N</span> <s>구색</s></td><td class="v"><s>미취급 상품은?</s></td><td class="e">TOP100 중 32개</td></tr>
+            </table>
+            <div class="note">구색 · 셀러 영입은 11번가에 <b>없는 상품(매칭 N)</b> 관점 → <b>③ 미입점 발굴</b>에서 다룸</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑤ GPS 화면 -->
+    <div class="srow">
+      <div class="scol-l">
+        <div class="card">
+          <div class="card-head">
+            <div class="card-num">5</div>
+            <div class="card-nm">Essential GPS 화면</div>
+            <div class="card-tag">통합 조회 · 공유</div>
+          </div>
+          <div class="phase-row"><span class="ph">1차</span><span class="ph-txt"><b>GPS 통합 화면 v1</b> — 경쟁사 랭킹 조회 · 매칭 결과·갭 현황 · 현업 공유용</span><span class="badge b-prog">7/22 배포예정</span></div>
+          <div class="phase-row"><span class="ph">이후</span><span class="ph-txt">진단 대시보드 · 카테고리별 드릴다운 · Task 현황·검증 결과 반영</span><span class="badge b-tbd">예정</span></div>
+        </div>
+      </div>
+      <div class="scol-r">
+        <div>
+          <div class="mini-title">영업 실행 화면 <span class="tag">· 화면 구성 v2 · 현업 공유용</span></div>
+          <div class="panel">
+            <div style="font-size:11.5px;color:var(--ink-soft);line-height:1.5;margin-bottom:8px">미입점 인기상품을 <b style="color:var(--ink)">직책자가 배정</b> → <b style="color:var(--ink)">담당자가 셀러 영입·상품 등록</b> 실행·상태 관리</div>
+            <table class="gap-tbl">
+              <tr><td class="k" style="width:52px">직책자</td><td class="v">미입점 인기상품 조회 → 담당자 배정 (셀러 통배정 · 불가처리) · 진행현황/관리</td></tr>
+              <tr><td class="k" style="width:52px">담당자</td><td class="v">처리 상태관리 (상태 · 배정일 · 메모) · 완료 시 셀러ID·상품번호 · TOP100 선점</td></tr>
+            </table>
+            <div class="use-chain" style="margin-top:9px">
+              <span class="chip">미배정</span><span class="use-arw">→</span>
+              <span class="chip">대기</span><span class="use-arw">→</span>
+              <span class="chip">진행중</span><span class="use-arw">→</span>
+              <span class="chip end">완료</span>
+              <span class="chip" style="border-color:#e6a2a2;color:#c0392b">불가</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Data sources -->
+  <div class="sources">
+    <div class="block-title">네이버 쇼핑 베스트 수집 구조 <span style="font-weight:400;color:var(--ink-faint);font-size:10.5px;margin-left:2px;">· naver-best-crawler</span></div>
+
+    <div class="scale-row" style="margin-bottom:16px">
+      <span class="pill"><b>매일 04:00</b> KST 자동 수집</span>
+      <span class="pill">snxbest.naver.com API</span>
+      <span class="pill"><b>15,675</b> 호출/일 → <b>~33만</b> 건 적재</span>
+      <span class="pill">수집 <b>~2h</b> · 가격·리뷰 일별 스냅샷</span>
+    </div>
+
+    <div class="src-grid">
+
+      <div class="src-card">
+        <div class="src-hd">수집 축 — snxbest.naver.com <span>베스트상품·브랜드·키워드</span></div>
+        <div class="src-body">
+          <div class="src-col">
+            <div class="tbl-wrap">
+              <table class="tbl">
+                <tr><th style="text-align:left">베스트 탭</th><th>정렬 / 수집 값</th></tr>
+                <tr><td class="k">베스트상품 · 구매순</td><td class="on">많이 구매한 BEST</td></tr>
+                <tr><td class="k">베스트상품 · 클릭순</td><td class="on">많이 본 BEST</td></tr>
+                <tr><td class="k">베스트브랜드</td><td>인기 · 이슈</td></tr>
+                <tr><td class="k">베스트키워드</td><td>인기 키워드</td></tr>
+              </table>
+            </div>
+            <div class="note"><b>URL 파라미터</b> · sortType=PRODUCT_CLICK · categoryId=A(전체) · periodType=DAILY · ageType=ALL &nbsp;→&nbsp; 카테고리 11개(대·중·소 leaf) × 세그 13종 조합</div>
+          </div>
+          <div class="src-col">
+            <div class="tbl-wrap">
+              <table class="tbl">
+                <tr><th>성별＼연령</th><th>전체</th><th>10대</th><th>20대</th><th>30대</th><th>40대</th><th>50+</th></tr>
+                <tr><td class="k">전체</td><td class="on">✓</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td></tr>
+                <tr><td class="k">여성</td><td class="on">✓</td><td class="on">✓</td><td class="on">✓</td><td class="on">✓</td><td class="on">✓</td><td class="on">✓</td></tr>
+                <tr><td class="k">남성</td><td class="on">✓</td><td class="on">✓</td><td class="on">✓</td><td class="on">✓</td><td class="on">✓</td><td class="on">✓</td></tr>
+              </table>
+            </div>
+            <div class="note">세그 <b>13종</b> = 전체 + (여성·남성) × (전체·10·20·30·40·50대+) · ageType 값으로 지정</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="src-card">
+        <div class="src-hd">예시 · 베스트상품 · 전체 세그 · 일간 <span>PRODUCT_CLICK</span></div>
+        <div class="src-body">
+          <div class="src-col">
+            <div style="font-size:12px;font-weight:600;margin-bottom:8px">1위 · <b>삼양짜르르</b> <span style="color:var(--prog);font-weight:600">▲</span> <span style="color:var(--ink-faint);font-weight:400">· 라면/면류</span></div>
+            <div class="tbl-wrap">
+              <table class="tbl">
+                <tr><th style="text-align:left">대표 상품</th><th>판매가</th><th>★ · 리뷰</th></tr>
+                <tr><td class="k" style="font-weight:400">우지짜르르 140g × 4개입</td><td class="hi">5,300</td><td>4.86 · 241</td></tr>
+                <tr><td class="k" style="font-weight:400">프리미엄 짜장라면 짜르르</td><td class="hi">38,160 <span style="color:var(--tbd);font-size:10px">10%↓</span></td><td>4.87 · 2,241</td></tr>
+                <tr><td class="k" style="font-weight:400">우지 짜르르 낱개 골라담기</td><td class="hi">1,590 <span style="color:var(--tbd);font-size:10px">20%↓</span></td><td>4.91 · 5,332</td></tr>
+                <tr><td class="k" style="font-weight:400">짜르르 우지 140g 4입 × 2</td><td class="hi">12,420</td><td>5.0 · 3</td></tr>
+              </table>
+            </div>
+            <div class="note">snxbest 실측 · 순위는 네이버 랭킹기준 · 상품별 가격·리뷰수는 <b>매일 스냅샷</b>으로 이력 적재</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="src-grid" style="margin-top:18px">
+
+      <div class="src-card">
+        <div class="src-hd">매칭 예시 — 경쟁사 vs 11번가 <span>MATCH</span></div>
+        <div class="src-body">
+          <div class="src-col">
+            <div class="tbl-wrap">
+              <table class="tbl">
+                <tr><th style="text-align:left">비교 항목</th><th>네이버 1위</th><th>11번가</th></tr>
+                <tr><td class="k">상품명</td><td>에어맥스 97</td><td>에어맥스 97 BW</td></tr>
+                <tr><td class="k">판매가</td><td class="hi">129,000</td><td class="hi" style="color:var(--tbd)">139,000</td></tr>
+                <tr><td class="k">별점</td><td>★ 4.8</td><td>★ 4.3</td></tr>
+                <tr><td class="k">리뷰수</td><td>2,847</td><td>421</td></tr>
+              </table>
+            </div>
+            <div class="note">매칭 Y → ④ 경쟁력 진단 (직접 비교) &nbsp;|&nbsp; 매칭 N → ③ 미입점 발굴</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="src-card">
+        <div class="src-hd">상품당 수집 &amp; 스냅샷 <span>SCHEMA</span></div>
+        <div class="src-body">
+          <div class="src-col">
+            <div class="field-list">
+              <span class="field">상품명</span><span class="field">브랜드</span><span class="field">판매자</span>
+              <span class="field">카테고리</span><span class="field">판매가</span><span class="field">정가</span>
+              <span class="field">할인율</span><span class="field">별점</span><span class="field">리뷰수</span>
+              <span class="field">순위</span><span class="field">배송유형</span>
+            </div>
+            <div class="note">마스터(키워드·상품·브랜드) + <b>일별 이력(랭킹·가격·리뷰)</b> 분리 저장 · 가격·리뷰수 매일 스냅샷 → <b>추정 구매수 = 전일 대비 리뷰 증감 × 25</b></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 활용 (전체 파이프라인) -->
+  <div class="sources">
+    <div class="block-title">활용 — MVP 기반 점진 고도화</div>
+    <div class="panel">
+      <div class="use-chain" style="justify-content:center">
+        <span class="chip">MVP 갭분석</span>
+        <span class="use-arw">→</span>
+        <span class="chip">Task 분배</span>
+        <span class="use-arw">→</span>
+        <span class="chip">현업 검증</span>
+        <span class="use-arw">→</span>
+        <span class="chip">정책 고도화</span>
+        <span class="use-arw">→</span>
+        <span class="chip">API + MCP</span>
+        <span class="use-arw">→</span>
+        <span class="chip end">SO</span>
+      </div>
+      <div class="note" style="text-align:center">직책자가 카테고리별 Task를 분배 → 현업이 실행하며 검증치를 축적 → 검증 결과로 정책을 정교화하고 자동화(SO AI 에이전트)까지 확장</div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="legend">
+      <span><i class="dot done"></i>확정 / 완료</span>
+      <span><i class="dot prog"></i>진행중</span>
+      <span><i class="dot tbd"></i>예정 · TBD</span>
+    </div>
+    <div>Made by SEUL KI AN</div>
+  </footer>
+
+</div>
+
+</body></html>
