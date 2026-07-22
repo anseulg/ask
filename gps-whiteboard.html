@@ -1,3 +1,4 @@
+<!doctype html><html><head><!-- frame-runtime --><script>window.__FRAME_PREAMBLE={"capabilities":{"downloads":"downloads.BABDwU1K.js","mcp":"mcp.hoz5jxDa.js","permissions":"permissions.ByA9Fd8x.js","self":"self.D3u1zjZe.js","user":"user.Cp1-RnjB.js"},"transforms":"_transforms.DYk1Ltlh.js","comments":"_comments.Dp6RDy7J.js","translate":"_translate.B0Uk6lS7.js"}</script><script>(function(){"use strict";const we="modulepreload",Oe=function(e){return"/"+e},Se={},ee=function(t,n,c){let i=Promise.resolve();function s(f){const a=new Event("vite:preloadError",{cancelable:!0});if(a.payload=f,window.dispatchEvent(a),!a.defaultPrevented)throw f}return i.then(f=>{for(const a of f||[])a.status==="rejected"&&s(a.reason);return t().catch(s)})},te=["light","dark","system"];function ne(e){if(e===null||typeof e!="object")return!1;const t=e.__frame_init;return t!==null&&typeof t=="object"}function Y(e){return e!==null&&typeof e=="object"&&e.__frame_size_poke===!0}function re(e){if(e===null||typeof e!="object")return!1;const t=e.__frame_theme;if(t===null||typeof t!="object")return!1;const n=t.theme;return typeof n=="string"&&te.includes(n)}function se(e){try{typeof reportError=="function"?reportError(e):setTimeout(()=>{throw e},0)}catch{}}const oe=Object.freeze(Object.assign(Object.create(null),{user:Object.freeze(Object.assign(Object.create(null),{id:null,isOwner:!1,canEdit:!1,name:null,avatarUrl:null,email:null}))})),ie={};function K(e){if(window===top||e.type==="auxclick"&&e.button!==1)return;const t=e.composedPath?e.composedPath():[e.target];let n=null;for(let f=0;f<t.length;f++){const a=t[f];if(a&&a.matches&&a.matches("a[href],area[href]")){n=a;break}}if(!n&&e.target&&e.target.closest&&(n=e.target.closest("a[href],area[href]")),!n)return;const c=n.getAttribute("href");if(!c)return;let i,s;try{i=new URL(c,document.baseURI),s=new URL(document.baseURI).origin}catch{return}(i.protocol==="http:"||i.protocol==="https:")&&i.origin!==s&&(e.preventDefault(),parent.postMessage({__frame_nav:!0,url:i.href},"*"))}const x={};function I(e){if(window===top)return;const t=Date.now();t-(x[e]||0)<500||(x[e]=t,parent.postMessage({__frame_engaged:!0,kind:e},"*"))}const ae=2e3,J=["wheel","touchstart","touchmove","keydown","pointerdown"];let G=0;function ce(e){e.isTrusted&&(G=Date.now())}function le(){addEventListener("click",K,!0),addEventListener("auxclick",K,!0)}function ue(){for(let e=0;e<J.length;e++)addEventListener(J[e],ce,{capture:!0,passive:!0});addEventListener("scroll",e=>{e.isTrusted&&Date.now()-G<ae&&I("scroll")},{capture:!0,passive:!0}),addEventListener("pointermove",e=>{e.isTrusted&&I("pointer")},{capture:!0,passive:!0}),addEventListener("click",e=>{e.isTrusted&&I("click")},{capture:!0,passive:!0})}const U="__frame_scroll",fe=150,de=310,pe=160,me=3e4;function he(){let e=0,t=!1,n=!1,c=!1,i=0;const s=p=>{try{sessionStorage.setItem(U,JSON.stringify({y:p}))}catch{}},f=()=>{if(t){t=!1;return}n=!0,clearTimeout(e),e=setTimeout(()=>s(scrollY),fe)};try{addEventListener("scroll",f,{passive:!0}),addEventListener("pagehide",()=>{clearTimeout(e),s(scrollY)})}catch{}const a=()=>{let p;try{p=sessionStorage.getItem(U)}catch{return null}if(p===null)return null;let b;try{b=JSON.parse(p)}catch{b=null}const l=b?.y;if(!(typeof l=="number"&&Number.isFinite(l)&&l>=0)){try{sessionStorage.removeItem(U)}catch{}return null}return l};let _=!1;const h=p=>{try{const b=scrollY;scrollTo({top:p,left:0,behavior:"instant"}),i=p,c=!0,s(p);const l=scrollY;l!==b&&(t=!0),l!==p&&!_&&(_=!0,addEventListener("load",()=>{try{if(scrollY===l){const g=a();h(g!==null?g:i)}}catch{}},{once:!0}))}catch{}},o=()=>{try{return!!location.hash}catch{return!0}};let u=!1;const d=()=>{try{if(u||innerWidth>de||innerHeight>pe)return;u=!0;const p=Date.now(),b=()=>{try{removeEventListener("resize",b)}catch{}if(Date.now()-p>me||n||o())return;const l=a();h(l!==null?l:i)};addEventListener("resize",b)}catch{}};let m=!1,y=!1;return{restore(){if(m||(m=!0,o()))return;const p=a();p!==null&&(h(p),d())},promoted(){if(y||(y=!0,o()))return;const p=a();p!==null?(h(p),d()):c&&h(i)}}}function ge(e,t,n){const c=[...t.values()].filter(i=>i.targets.some(s=>s.startsWith(e+".")));return{wrap(i,s){const f=`${e}.${i}`,a=c.filter(_=>_.targets.includes(f));return a.length===0?(..._)=>{try{return s(..._)}catch(h){return Promise.reject(h)}}:(..._)=>{let h=_;for(const u of a){const d=u.module.parameters;if(d)try{h=d(h)}catch{return Promise.reject({code:"transform_error",id:u.id,scope:e,message:"parameters transform failed"})}}let o;try{o=s(...h)}catch(u){o=Promise.reject(u)}return o.then(u=>{for(let d=a.length-1;d>=0;d--){const m=a[d],y=m.module.returns;if(y)try{u=y(u)}catch{return n({id:m.id,scope:e,leg:"returns"}),u}}return u},u=>{for(let d=a.length-1;d>=0;d--){const m=a[d],y=m.module.throws;if(y)try{u=y(u)}catch{return n({id:m.id,scope:e,leg:"throws"}),Promise.reject(u)}}return Promise.reject(u)})}}}}function _e(e,t,n,c=()=>{}){const i=new Set(e.changes??[]),s=new Map;for(const f of i){const a=t[f];a&&s.set(f,a)}return{contract:e.contract,changes:i,flags:new Set(e.flags??[]),capabilities:e.capabilities??{},capBudgets:e.capBudgets??{},transforms:s,shellOrigin:n.shellOrigin,mount:n.mount,pipe:f=>ge(f,s,c)}}(function(){const e=Object.defineProperty,t=globalThis,n=["RTCPeerConnection","webkitRTCPeerConnection","RTCDataChannel","RTCIceCandidate","RTCSessionDescription","RTCRtpSender","RTCRtpReceiver"];let c=0;for(let i=0;i<n.length;i++){const s=n[i];try{e(t,s,{value:void 0,writable:!1,configurable:!1})}catch{try{delete t[s]}catch{}try{e(t,s,{value:void 0,writable:!1,configurable:!0})}catch{}}typeof t[s]=="function"&&c++}if(c&&window!==top)try{parent.postMessage({__frame_rtc_lockdown_failed:c},"*")}catch{}})();const ye=1e4,be=Object.freeze([...window.__FRAME_PREAMBLE?.origins??["https://claude.ai","https://preview.claude.ai"]]);function V(e){for(const t of be)if(t.endsWith(":*"))try{const n=new URL(e);if(`${n.protocol}//${n.hostname}:*`===t)return!0}catch{}else if(e===t)return!0;return!1}const T=Object.freeze({...window.__FRAME_PREAMBLE?.capabilities}),z=window.__FRAME_PREAMBLE?.transforms,q=window.__FRAME_PREAMBLE?.comments,$=window.__FRAME_PREAMBLE?.translate,C=/^[\w.-]+\.js$/,ve=/^[a-z][a-z0-9_-]{0,63}$/;let X=null,P=null;function B(e,t,n){try{Object.defineProperty(e,t,{value:n,writable:!1,configurable:!1,enumerable:!0})}catch{try{Object.defineProperty(e,t,{value:n,writable:!1,configurable:!0,enumerable:!0})}catch{}}}let F=!1;function Q(e){const t=document.documentElement;e==="light"||e==="dark"?(t.dataset.theme=e,t.style.colorScheme=e,F=!0):F&&(delete t.dataset.theme,t.style.colorScheme="",F=!1)}const M=Object.assign(Object.create(null),{mcp:Object.assign(Object.create(null),{watchTool:{handlerArg:3}})}),R=new Map;function Z(e,t){const n=R.get(e);if(!n)return;const c=Object.assign(Object.create(null),t);Object.assign(n.impl,c),n.impl.__settled=()=>Promise.reject({code:"capability_removed",message:`${e}: method not in this runtime`});const i=n.queue;n.queue=[];for(const s of i){const f=c[s.method];if(f)if(M[e]?.[s.method])try{s.resolve(f(...s.args))}catch{k(s,M[e][s.method].handlerArg,{code:"transform_error",message:`${e}.${s.method} rejected its arguments`})}else f(...s.args).then(s.resolve,s.reject);else{const a={code:"capability_removed",message:`${e}.${s.method} is not in this runtime`},_=M[e]?.[s.method];if(_){k(s,_.handlerArg,a);continue}s.reject(a)}}}function Ee(e,t){const n=R.get(e);if(!n)return;n.impl.__settled=()=>Promise.reject(t);const c=n.queue;n.queue=[];for(const i of c){const s=M[e]?.[i.method];if(s){k(i,s.handlerArg,t);continue}i.reject(t)}}function N(e,t){const n=oe[e];if(!n){Ee(e,t);return}Z(e,Object.fromEntries(Object.entries(n).map(([c,i])=>[c,()=>Promise.resolve(i)])))}function k(e,t,n){if(e.syncState?.dead)return;const c=e.args[t];typeof c=="function"&&queueMicrotask(()=>{if(!e.syncState?.dead)try{c({type:"error",error:n})}catch(i){se(i)}})}const H=Object.getOwnPropertyDescriptor(window,"claude");if(window!==top&&!(H&&H.writable===!1)){le(),ue();let e=null;try{e=he()}catch{}const t=H?.value??{};B(window,"claude",t);const n=o=>{const u={impl:Object.create(null),queue:[]};R.set(o,u);const d=u.impl,m=ie[o],y=m===void 0?d:()=>{},p=new Proxy(y,{apply:(b,l,g)=>{const v=m,O=d[v]??d.__settled;return O?O(...g):new Promise((E,w)=>{u.queue.push({method:v,args:g,resolve:E,reject:w})})},get:(b,l)=>{if(typeof l!="string"||l==="then"||l==="toJSON"||l==="valueOf")return;if(l==="toString")return Object.prototype.toString;if(m!==void 0&&(l==="call"||l==="apply"||l==="bind"))return Function.prototype[l];const g=M[o]?.[l];return g?(...v)=>{if(typeof v[g.handlerArg]!="function")throw new TypeError(`${o}.${l} requires a handler function`);const O=d[l];if(O)return O(...v);if(d.__settled){const S={dead:!1},A={args:[...v],syncState:S};return d.__settled().catch(D=>k(A,g.handlerArg,D)),()=>{S.dead=!0}}let E=null;const w={dead:!1};return u.queue.push({method:l,args:v,resolve:S=>{E=typeof S=="function"?S:null,w.dead&&E?.()},reject:()=>{},syncState:w}),()=>{w.dead=!0,E?.()}}:(...v)=>{const O=d[l]??d.__settled;return O?O(...v):new Promise((E,w)=>{u.queue.push({method:l,args:v,resolve:E,reject:w})})}},set:()=>!1});B(t,o,p)};for(const o of Object.keys(T)){if(t[o]!==void 0){B(t,o,t[o]);continue}n(o)}let c=null,i=null,s=0;const f=o=>{o.source!==parent||!V(o.origin)||ne(o.data)&&(c=o.data.__frame_init,P=o.origin,removeEventListener("message",f),clearTimeout(s),i?.())};addEventListener("message",f),parent.postMessage({__frame_connect:!0},"*");const a=new Promise(o=>{i=o,s=setTimeout(()=>{removeEventListener("message",f),o()},ye)}),_=document.readyState==="loading"?new Promise(o=>document.addEventListener("DOMContentLoaded",()=>o(),{once:!0})):Promise.resolve();_.then(()=>{try{e?.restore()}catch{}});const h=o=>{if(!(o.source!==parent||!V(o.origin))&&Y(o.data)){removeEventListener("message",h);try{e?.promoted()}catch{}}};addEventListener("message",h),a.then(async()=>{if(!c||!P){for(const r of R.keys())N(r,{code:"not_granted",message:"frame initialization did not arrive - capability unavailable"});return}Q(c.theme);const o=P;let u=!1,d=!1;addEventListener("message",r=>{if(r.source!==parent||r.origin!==o)return;re(r.data)&&Q(r.data.__frame_theme.theme);const j=r.data?.__fc_mode;j&&typeof j=="object"&&!u&&q&&C.test(q)&&(u=!0,m(q).then(W=>W.install?.(o,j.on===!0)).catch(()=>{}));const L=r.data?.__ft_cmd;L&&typeof L=="object"&&!d&&$&&C.test($)&&(d=!0,m($).then(W=>W.install?.(o,L)).catch(()=>{}))});const m=r=>ee(()=>import("/_runtime/"+r),void 0),y=Object.keys(c.capabilities??{});for(const r of y)Object.hasOwn(T,r)||ve.test(r)&&t[r]===void 0&&(n(r),N(r,{code:"capability_disabled",message:"capability not in this runtime generation"}));const p=y.filter(r=>Object.hasOwn(T,r)).map(r=>[r,T[r]]).filter(r=>typeof r[1]=="string"&&C.test(r[1])),[b,...l]=await Promise.allSettled([z&&C.test(z)?m(z):Promise.resolve({}),...p.map(([,r])=>m(r))]),g=P;X=_e(c,b.status==="fulfilled"&&b.value?.TRANSFORMS||{},{shellOrigin:g,mount:Z},r=>parent.postMessage({__frame_cap_telemetry:r},g));const v=r=>parent.postMessage({__frame_cap_telemetry:{kind:"cap-load-error",cap:r}},g),O=X;l.forEach((r,j)=>{const L=p[j][0];if(r.status!=="fulfilled"){v(L);return}try{r.value?.install?.(O)}catch{v(L)}});for(const[r,j]of R)if(!(j.queue.length===0&&Object.keys(j.impl).length>0)){if(y.includes(r)){N(r,{code:"capability_disabled",message:"capability not available in this session"});continue}N(r,{code:"not_granted",message:"capability not available in this session"})}await _,parent.postMessage({__frame_ready:!0},P);let E=-1,w=0;const S=()=>{w=0;const r=Math.max(document.documentElement.scrollHeight,document.body?document.body.scrollHeight:0);r!==E&&(E=r,parent.postMessage({__frame_size:!0,h:r},g))},A=()=>{w||(w=setTimeout(S,200))},D=new ResizeObserver(A);D.observe(document.documentElement),document.body&&D.observe(document.body),document.addEventListener("load",A,!0),document.fonts?.ready.then(A,()=>{}),addEventListener("beforeprint",()=>{E=-1,S()}),A(),addEventListener("message",r=>{if(!(r.source!==parent||r.origin!==g)&&Y(r.data)){try{e?.promoted()}catch{}E=-1,A()}})})}})();</script><!-- /frame-runtime --><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}</style></head><body>
 <title>Essential GPS · 화이트보드 스토리</title>
 <style>
   /* ── Design Plan ──
@@ -842,7 +843,7 @@
   <div class="hero reveal">
     <div class="hero-eyebrow">AX TF</div>
     <h1><em>ESSENTIAL GPS</em> <span style="font-weight:350;font-size:clamp(18px,2.8vw,26px);color:var(--ink-secondary);letter-spacing:-.01em;vertical-align:baseline">데이터가 흐르는 이야기</span></h1>
-    <div class="hero-sub">경쟁 채널의 <b>랭킹 원천 데이터</b>에서 출발해, 수집 → 매칭 → <b>미입점 발굴</b>을 거쳐 <b>SO(AI 에이전트 자동화)</b>로 확장하는 파이프라인.</div>
+    <div class="hero-sub">경쟁 채널의 <b>랭킹 원천 데이터</b>에서 출발해, 수집 → 매칭 → <b>미입점 발굴</b> → <b>경쟁력 진단</b>까지 이어지는 파이프라인.</div>
     <div class="hero-meta">
       <span>2026.07.21</span>
       <span>Weekly Pipeline</span>
@@ -1442,36 +1443,69 @@
 
   <div class="connector reveal"><div class="connector-line"></div></div>
 
-  <!-- 04 · 실행과 자동화 -->
+  <!-- 04 · 경쟁력 진단 -->
   <div class="section-label reveal">
-    <div class="section-num">04</div>
+    <div class="section-num signal">04</div>
     <div>
-      <div class="section-title">실행과 자동화</div>
-      <div class="section-sub">발굴된 갭을 현업이 실행하고, 자동화로 확장한다</div>
+      <div class="section-title">경쟁력 진단 — 매칭 Y</div>
+      <div class="section-sub">11번가에 있는 상품, 경쟁사 대비 어디가 약한가?</div>
     </div>
   </div>
 
-  <div class="card accent-top-green reveal">
-    <div class="flow-chain" style="justify-content:center">
-      <span class="flow-chip">GPS 화면<span style="font-size:10px;color:var(--ink-tertiary);margin-left:4px">7/22</span></span>
-      <span class="flow-arrow">→</span>
-      <span class="flow-chip">Task 배정</span>
-      <span class="flow-arrow">→</span>
-      <span class="flow-chip">현업 검증</span>
-      <span class="flow-arrow">→</span>
-      <span class="flow-chip">정책 보정</span>
-      <span class="flow-arrow">→</span>
-      <span class="flow-chip">API + MCP</span>
-      <span class="flow-arrow">→</span>
-      <span class="flow-chip endpoint">SO</span>
+  <div class="card reveal" style="border-top:2.5px solid var(--signal)">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+      <span style="font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--signal);background:var(--signal-soft);padding:4px 12px;border-radius:6px">디스커버리 결합</span>
+      <span style="font-size:12px;color:var(--ink-tertiary)">매칭 Y 상품 중심 · 카탈로그 데이터 기반 갭 분석</span>
     </div>
-    <div class="note" style="text-align:center;margin-top:14px"><b>영업 GPS 통합 화면 v1</b>로 현업 접점 시작 → 검증 데이터 축적 → 등급 기준 자동 보정 → <b>SO(AI 에이전트)</b> 자동화로 확장</div>
+
+    <div class="rm-row"><div class="rm-phase">1차</div><div class="rm-text"><b>카탈로그·상품 기반</b> — 마진·실적·매출·리뷰·검색 랭킹 → 유사 BuyBox → <b>갭 대상 추출</b></div><div class="rm-status"><span class="badge badge-doing">수집완료 · 가공중</span></div></div>
+    <div class="rm-row"><div class="rm-phase">2차</div><div class="rm-text"><b>갭 분석 → 검증</b> — 직책자가 Task 분배 · 현업이 검증치 축적</div><div class="rm-status"><span class="badge badge-plan">예정</span></div></div>
+    <div class="rm-row" style="border-bottom:none"><div class="rm-phase" style="color:var(--amber)">고도화</div><div class="rm-text"><b>검증 데이터로 정책 정교화</b> · API + MCP Task 자동 생성 → <b>SO AI 에이전트</b>까지 확장</div><div class="rm-status"><span class="badge badge-tbd">TBD</span></div></div>
+
+    <div style="margin-top:20px;padding-top:18px;border-top:1px solid var(--border)">
+      <div style="font-size:13px;font-weight:750;letter-spacing:-.01em;margin-bottom:14px;display:flex;align-items:center;gap:8px">
+        <span style="width:4px;height:16px;background:var(--signal);border-radius:2px;flex-shrink:0"></span>
+        갭 진단 관점
+      </div>
+
+      <div style="display:grid;grid-template-columns:auto 1fr auto auto;gap:0;font-size:13px">
+        <div style="padding:6px 12px;border-bottom:1px solid var(--border);font-size:10px;font-weight:600;color:var(--ink-tertiary);letter-spacing:.04em">상태</div>
+        <div style="padding:6px 12px;border-bottom:1px solid var(--border);font-size:10px;font-weight:600;color:var(--ink-tertiary);letter-spacing:.04em">항목</div>
+        <div style="padding:6px 12px;border-bottom:1px solid var(--border);font-size:10px;font-weight:600;color:var(--ink-tertiary);letter-spacing:.04em">질문</div>
+        <div style="padding:6px 12px;border-bottom:1px solid var(--border);font-size:10px;font-weight:600;color:var(--ink-tertiary);letter-spacing:.04em;text-align:right">예시 <span style="font-weight:400;font-style:italic">— 실제 수치 아님</span></div>
+
+        <div style="padding:10px 12px;border-bottom:1px solid var(--border);font-weight:600"><span class="badge badge-doing" style="font-size:9.5px;padding:3px 10px">진행중</span></div>
+        <div style="padding:10px 12px;border-bottom:1px solid var(--border);font-weight:700;color:var(--ink)">가격</div>
+        <div style="padding:10px 12px;border-bottom:1px solid var(--border);color:var(--ink-secondary)">가격 갭이 있는가?</div>
+        <div style="padding:10px 12px;border-bottom:1px solid var(--border);text-align:right;white-space:nowrap;color:var(--ink-tertiary);font-style:italic">경쟁사 대비 +12%</div>
+
+        <div style="padding:10px 12px;border-bottom:1px solid var(--border);font-weight:600"><span class="badge badge-doing" style="font-size:9.5px;padding:3px 10px">진행중</span></div>
+        <div style="padding:10px 12px;border-bottom:1px solid var(--border);font-weight:700;color:var(--ink)">리뷰 · 검색</div>
+        <div style="padding:10px 12px;border-bottom:1px solid var(--border);color:var(--ink-secondary)">노출 갭이 있는가?</div>
+        <div style="padding:10px 12px;border-bottom:1px solid var(--border);text-align:right;white-space:nowrap;color:var(--ink-tertiary);font-style:italic">2,847 vs 421건</div>
+
+        <div style="padding:10px 12px;border-bottom:1px solid var(--border);font-weight:600"><span class="badge badge-doing" style="font-size:9.5px;padding:3px 10px">진행중</span></div>
+        <div style="padding:10px 12px;border-bottom:1px solid var(--border);font-weight:700;color:var(--ink)">마진 · 실적</div>
+        <div style="padding:10px 12px;border-bottom:1px solid var(--border);color:var(--ink-secondary)">매출 · 마진 기회는?</div>
+        <div style="padding:10px 12px;border-bottom:1px solid var(--border);text-align:right;white-space:nowrap;color:var(--ink-tertiary);font-style:italic">거래액 · CPC · PV</div>
+
+        <div style="padding:10px 12px;border-bottom:1px solid var(--border);font-weight:600;opacity:.45"><span class="badge badge-done" style="font-size:9.5px;padding:3px 10px">완료</span></div>
+        <div style="padding:10px 12px;border-bottom:1px solid var(--border);font-weight:700;color:var(--ink-tertiary);text-decoration:line-through;text-decoration-color:var(--ink-tertiary)">셀러 영입</div>
+        <div style="padding:10px 12px;border-bottom:1px solid var(--border);color:var(--ink-tertiary);text-decoration:line-through;text-decoration-color:var(--ink-tertiary)">셀러 확보가 필요?</div>
+        <div style="padding:10px 12px;border-bottom:1px solid var(--border);text-align:right;white-space:nowrap;color:var(--ink-tertiary);font-style:italic;text-decoration:line-through;text-decoration-color:var(--ink-tertiary)">영입 대상 추출</div>
+
+        <div style="padding:10px 12px;font-weight:600;opacity:.45"><span class="badge badge-done" style="font-size:9.5px;padding:3px 10px">완료</span></div>
+        <div style="padding:10px 12px;font-weight:700;color:var(--ink-tertiary);text-decoration:line-through;text-decoration-color:var(--ink-tertiary)">구색</div>
+        <div style="padding:10px 12px;color:var(--ink-tertiary);text-decoration:line-through;text-decoration-color:var(--ink-tertiary)">미취급 상품은?</div>
+        <div style="padding:10px 12px;text-align:right;white-space:nowrap;color:var(--ink-tertiary);font-style:italic;text-decoration:line-through;text-decoration-color:var(--ink-tertiary)">TOP100 중 32개</div>
+      </div>
+
+      <div style="margin-top:10px;font-size:12px;color:var(--ink-tertiary);padding-left:2px;line-height:1.6">
+        ↳ 셀러 영입 · 구색은 상품 미매칭 건(매칭 N) → <b style="color:var(--ink-secondary)">③ 미입점 발굴</b>에서 다룸
+      </div>
+    </div>
   </div>
 
-  <!-- Footer -->
-  <div class="footer reveal">
-    <div class="footer-credit">Made by SEUL KI AN</div>
-  </div>
 
 </div>
 
@@ -1500,3 +1534,4 @@
   });
 })();
 </script>
+</body></html>
