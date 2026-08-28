@@ -4,7 +4,11 @@
 git submodule at `agent-company/`, installed with the `blank` template.
 
 The submodule records only the upstream commit — the install itself (`node_modules`,
-`.env`, the expanded template) is local. After cloning this repo:
+`.env`, the expanded template) is local, so its working tree is permanently dirty.
+The submodule is marked `ignore = dirty` in `.gitmodules` to keep that noise out of
+`git status` here; changes to the pinned commit still show up.
+
+After cloning this repo:
 
 ```bash
 git submodule update --init agent-company

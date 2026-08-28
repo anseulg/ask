@@ -4,3 +4,4 @@
 [submodule "agent-company"]
 	path = agent-company
 	url = https://github.com/TOKTOKHAN-DEV/agent-company.git
+	ignore = dirty
