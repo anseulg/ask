@@ -1,8 +1,8 @@
 {
-  "name": "slack-bot",
+  "name": "ax-bot",
   "version": "1.0.0",
   "private": true,
-  "description": "Slack bot starter built with Bolt (Socket Mode)",
+  "description": "AX company-efficiency Slack bot agent (Bolt Socket Mode + Claude)",
   "type": "commonjs",
   "main": "app.js",
   "scripts": {
@@ -13,6 +13,7 @@
     "node": ">=18"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.122.0",
     "@slack/bolt": "^3.19.0",
     "dotenv": "^16.4.5"
   }
