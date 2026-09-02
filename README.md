@@ -13,5 +13,10 @@ alert(code);
 브라우저로 바로 열면 되고, 검색 / 관계 추적 / 라이트·다크 전환 / PNG·SVG 내보내기를 지원합니다.
 
 - 명세: `docs/architecture.json` (Archify architecture 스키마, `d15f8c5` 기준 코드 근거 12건 검증)
-- 재생성: [Archify](https://github.com/tt-a1i/archify) 스킬에서
-  `node bin/archify.mjs deliver architecture docs/architecture.json docs/architecture.html --quality showcase --repo-root .`
+- 생성 도구: [Archify](https://github.com/tt-a1i/archify) — `.claude/skills/archify`에 설치되어 있습니다
+- 재생성 (저장소 루트에서):
+
+```bash
+node .claude/skills/archify/bin/archify.mjs deliver architecture \
+  docs/architecture.json docs/architecture.html --quality showcase --repo-root .
+```
