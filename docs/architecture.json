@@ -1,0 +1,436 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "ask — PHP micro-blog architecture",
+    "quality_profile": "showcase",
+    "locale": "en",
+    "repository": {
+      "url": "https://github.com/anseulg/ask",
+      "revision": "d15f8c5742da147f2ecb425a87f3d19df185051f"
+    },
+    "views": [
+      {
+        "id": "post-path",
+        "label": "Write a post",
+        "focus": [
+          "browser",
+          "index",
+          "save",
+          "common",
+          "mysql"
+        ],
+        "note": "The compose form posts to save.php over jQuery AJAX; index.php renders the feed."
+      },
+      {
+        "id": "identity",
+        "label": "Sign-in and session",
+        "focus": [
+          "browser",
+          "login",
+          "signup",
+          "logout",
+          "facebook",
+          "session"
+        ],
+        "note": "Password sign-in and the Facebook redirect both end in the same PHP session keys."
+      },
+      {
+        "id": "shared-bootstrap",
+        "label": "Shared bootstrap",
+        "focus": [
+          "common",
+          "config",
+          "session",
+          "mysql"
+        ],
+        "note": "common.php is the only place a session starts and the only place a PDO handle is opened."
+      }
+    ]
+  },
+  "layout": {
+    "mode": "grid",
+    "origin": [
+      40,
+      40
+    ],
+    "cols": 4,
+    "cellW": 160,
+    "cellH": 72,
+    "gapX": 180,
+    "gapY": 36
+  },
+  "components": [
+    {
+      "id": "browser",
+      "type": "external",
+      "label": "Browser",
+      "sublabel": "Bootstrap 3 · jQuery",
+      "row": 2,
+      "col": 0,
+      "size": [
+        160,
+        72
+      ],
+      "sources": [
+        {
+          "path": "header.php",
+          "line": 32,
+          "end_line": 33,
+          "label": "bower_components assets"
+        },
+        {
+          "path": "index.php",
+          "line": 36,
+          "end_line": 55,
+          "label": "AJAX submit handler"
+        }
+      ]
+    },
+    {
+      "id": "login",
+      "type": "security",
+      "label": "login.php",
+      "sublabel": "password + Facebook",
+      "tag": "POST /login.php",
+      "row": 0,
+      "col": 1,
+      "size": [
+        160,
+        72
+      ],
+      "sources": [
+        {
+          "path": "login.php",
+          "line": 10,
+          "end_line": 68,
+          "label": "both sign-in branches"
+        }
+      ]
+    },
+    {
+      "id": "signup",
+      "type": "backend",
+      "label": "signup.php",
+      "sublabel": "creates a users row",
+      "tag": "POST /signup.php",
+      "row": 1,
+      "col": 1,
+      "size": [
+        160,
+        72
+      ],
+      "sources": [
+        {
+          "path": "signup.php",
+          "line": 5,
+          "label": "INSERT INTO users"
+        }
+      ]
+    },
+    {
+      "id": "index",
+      "type": "backend",
+      "label": "index.php",
+      "sublabel": "feed + compose form",
+      "tag": "GET /",
+      "row": 2,
+      "col": 1,
+      "size": [
+        160,
+        72
+      ],
+      "sources": [
+        {
+          "path": "index.php",
+          "line": 22,
+          "label": "posts JOIN users query"
+        }
+      ]
+    },
+    {
+      "id": "save",
+      "type": "backend",
+      "label": "save.php",
+      "sublabel": "JSON write endpoint",
+      "tag": "POST /save.php · AJAX",
+      "row": 3,
+      "col": 1,
+      "size": [
+        160,
+        72
+      ],
+      "sources": [
+        {
+          "path": "save.php",
+          "line": 4,
+          "end_line": 16,
+          "label": "session gate + INSERT"
+        }
+      ]
+    },
+    {
+      "id": "logout",
+      "type": "backend",
+      "label": "logout.php",
+      "sublabel": "clears session keys",
+      "tag": "GET /logout.php",
+      "row": 4,
+      "col": 1,
+      "size": [
+        160,
+        72
+      ],
+      "sources": [
+        {
+          "path": "logout.php",
+          "line": 4,
+          "end_line": 7,
+          "label": "null out + redirect"
+        }
+      ]
+    },
+    {
+      "id": "facebook",
+      "type": "external",
+      "label": "Facebook Login",
+      "sublabel": "Graph API · SDK v4",
+      "tag": "submodule missing",
+      "brand": "facebook",
+      "row": 0,
+      "col": 2,
+      "size": [
+        160,
+        72
+      ],
+      "sources": [
+        {
+          "path": "login.php",
+          "line": 11,
+          "end_line": 30,
+          "label": "redirect helper + /me"
+        }
+      ]
+    },
+    {
+      "id": "common",
+      "type": "backend",
+      "label": "common.php",
+      "sublabel": "session + PDO setup",
+      "row": 2,
+      "col": 2,
+      "size": [
+        160,
+        152
+      ],
+      "sources": [
+        {
+          "path": "common.php",
+          "line": 2,
+          "end_line": 8,
+          "label": "session_start + new PDO"
+        }
+      ]
+    },
+    {
+      "id": "session",
+      "type": "security",
+      "label": "PHP session",
+      "sublabel": "login + user_id keys",
+      "row": 1,
+      "col": 3,
+      "size": [
+        160,
+        72
+      ],
+      "sources": [
+        {
+          "path": "login.php",
+          "line": 54,
+          "end_line": 55,
+          "label": "keys written on sign-in"
+        }
+      ]
+    },
+    {
+      "id": "mysql",
+      "type": "database",
+      "label": "MySQL",
+      "sublabel": "users · posts",
+      "brand": "mysql",
+      "row": 2,
+      "col": 3,
+      "size": [
+        160,
+        72
+      ],
+      "sources": [
+        {
+          "path": "index.php",
+          "line": 22,
+          "label": "only join in the app"
+        }
+      ]
+    },
+    {
+      "id": "config",
+      "type": "security",
+      "label": "config.php",
+      "sublabel": "DB + Facebook secrets",
+      "tag": "gitignored",
+      "row": 3,
+      "col": 3,
+      "size": [
+        160,
+        72
+      ],
+      "sources": [
+        {
+          "path": ".gitignore",
+          "line": 3,
+          "label": "never committed"
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "browse-feed",
+      "from": "browser",
+      "to": "index",
+      "variant": "emphasis",
+      "label": "GET /",
+      "labelAt": [
+        340,
+        292
+      ]
+    },
+    {
+      "id": "ajax-write",
+      "from": "browser",
+      "to": "save",
+      "variant": "emphasis",
+      "label": "POST · AJAX",
+      "labelAt": [
+        335,
+        400
+      ]
+    },
+    {
+      "id": "sign-in",
+      "from": "browser",
+      "to": "login",
+      "label": "POST",
+      "labelAt": [
+        335,
+        76
+      ]
+    },
+    {
+      "id": "register",
+      "from": "browser",
+      "to": "signup",
+      "label": "POST",
+      "labelAt": [
+        335,
+        184
+      ]
+    },
+    {
+      "id": "sign-out",
+      "from": "browser",
+      "to": "logout",
+      "label": "GET",
+      "labelAt": [
+        335,
+        508
+      ]
+    },
+    {
+      "id": "fb-oauth",
+      "from": "login",
+      "to": "facebook",
+      "label": "OAuth · GET /me",
+      "variant": "security"
+    },
+    {
+      "id": "login-boot",
+      "from": "login",
+      "to": "common"
+    },
+    {
+      "id": "signup-boot",
+      "from": "signup",
+      "to": "common"
+    },
+    {
+      "id": "index-boot",
+      "from": "index",
+      "to": "common"
+    },
+    {
+      "id": "save-boot",
+      "from": "save",
+      "to": "common"
+    },
+    {
+      "id": "logout-boot",
+      "from": "logout",
+      "to": "common"
+    },
+    {
+      "id": "session-start",
+      "from": "common",
+      "to": "session",
+      "label": "session_start()",
+      "variant": "security",
+      "fromSide": "top",
+      "toSide": "left"
+    },
+    {
+      "id": "pdo",
+      "from": "common",
+      "to": "mysql",
+      "label": "PDO mysql: SQL",
+      "variant": "emphasis"
+    },
+    {
+      "id": "credentials",
+      "from": "common",
+      "to": "config",
+      "label": "reads $db_* / $fb_*",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "left"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Request surface",
+      "items": [
+        "One top-level PHP script per URL — no router, no framework",
+        "index.php renders the feed; jQuery posts to save.php",
+        "Bootstrap 3 and jQuery load from bower_components"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Shared bootstrap",
+      "items": [
+        "Every entry point includes common.php, so those edges need no label",
+        "common.php: session_start(), config.php, one PDO handle",
+        "Both sign-in paths end at $_SESSION login + user_id"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Read from the code",
+      "items": [
+        "Every query interpolates $_POST / $_SESSION into SQL",
+        "Passwords are unsalted SHA-1; posts are echoed unescaped",
+        ".gitmodules still declares the deleted Facebook SDK path"
+      ]
+    }
+  ]
+}
