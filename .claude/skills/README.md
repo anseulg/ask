@@ -46,10 +46,13 @@ python3 .claude/skills/ui-ux-pro-max/scripts/search.py "saas landing page" --dom
 
 ### 이름 충돌 주의
 
-**`design`은 현재 로드되지 않습니다.** Claude Code가 기본 제공하는 `design` 스킬(디자인 캔버스)이
-같은 이름을 선점하고 있어, 설치 후 스킬 목록에 나머지 여섯 개만 올라옵니다. 이 스킬의 기능 대부분은
-`banner-design`·`slides`·`design-system`·`brand`에 나뉘어 들어 있으므로 실질적인 손실은 적습니다.
-굳이 쓰려면 폴더 이름을 `uupm-design` 같은 다른 이름으로 바꾸고 `SKILL.md`의 `name:`도 함께 고치세요.
+**`design`은 Claude Code 기본 제공 `design` 스킬(디자인 캔버스)과 이름이 같습니다.** 둘 중 하나만
+로드되며 어느 쪽이 이기는지는 고정적이지 않습니다(같은 세션 안에서도 양쪽 모두 관측됐습니다).
+기본 제공 디자인 캔버스를 쓰던 흐름이 있다면 이 폴더가 그걸 가릴 수 있습니다.
+
+둘 다 살리려면 이 폴더 이름을 `uupm-design` 같은 것으로 바꾸고 `SKILL.md`의 `name:`도 함께 고치세요.
+번들 `design`의 기능 대부분은 `banner-design`·`slides`·`design-system`·`brand`에 나뉘어 들어 있으므로,
+그냥 폴더를 지워도 실질적인 손실은 적습니다.
 
 `slides`와 `design-system`은 로드되지만 위의 `html-deck`과 발표자료 영역이 겹칩니다. 요청 내용에 따라
 둘 중 하나가 잡히므로, 원하는 쪽을 `/html-deck`이나 `/slides`로 직접 부르는 편이 확실합니다.
