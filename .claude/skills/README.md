@@ -57,6 +57,43 @@ python3 .claude/skills/ui-ux-pro-max/scripts/search.py "saas landing page" --dom
 겹치는 스킬이 문제가 되면 해당 폴더만 지우면 됩니다. `ui-ux-pro-max` 본체는 다른 여섯 개 없이도
 동작합니다.
 
+## diagram-design
+
+출처: https://github.com/cathrynlavery/diagram-design (v2.6.23, MIT)
+
+아키텍처도·플로차트·시퀀스·ER·타임라인·스윔레인·간트·사분면·Sankey·피쉬본·Wardley 맵 등
+40여 종의 다이어그램을 단일 파일 HTML/SVG/PNG로 만듭니다. `.drawio`, Mermaid `.mmd`,
+Excalidraw 파일을 읽어 다시 그리는 것도 됩니다. 웹사이트에서 브랜드 토큰을 가져와
+자기 색·서체로 맞추는 온보딩 기능이 있습니다.
+
+원본은 플러그인 저장소라 `skills/diagram-design/`이 실제 스킬입니다. 그 폴더와 함께
+`commands/`의 슬래시 커맨드 6개를 `.claude/commands/`에 넣었습니다. 커맨드가 스킬 참조 문서를
+`../skills/diagram-design/references/`로 찾는데, 이 배치에서 경로가 그대로 맞습니다.
+
+| 커맨드 | 역할 |
+|---|---|
+| `/export-diagram` | 생성한 다이어그램을 PNG·SVG로 내보내기 |
+| `/import-drawio` | `.drawio` 파일을 읽어 다시 그리기 |
+| `/import-mermaid` | Mermaid `.mmd` 파일을 읽어 다시 그리기 |
+| `/import-excalidraw` | Excalidraw 파일을 읽어 다시 그리기 |
+| `/profile` | 브랜드 프로파일 저장·적용 |
+| `/doctor` | 실행 환경 진단 |
+
+산출물 자체 검사:
+
+```bash
+python3 .claude/skills/diagram-design/scripts/self_check.py 다이어그램.html
+```
+
+### 이름 충돌 주의
+
+`/doctor`는 Claude Code 기본 명령과 이름이 같습니다. 진단이 아니라 기본 `/doctor`가 뜨면
+`.claude/commands/doctor.md`의 파일 이름을 `diagram-doctor.md` 같은 것으로 바꾸세요.
+
+다이어그램 영역이 `html-diagram`과 겹치지만 성격이 다릅니다. `html-diagram`은 브라우저에서
+직접 고치는 편집 엔진이 붙은 도식이고, `diagram-design`은 브랜드 토큰을 입힌 정적
+단일 파일 산출물에 가깝습니다.
+
 ## 다른 환경에 설치하기
 
 이 저장소 밖에서도 쓰려면 원본을 직접 받는 쪽이 갱신에 유리합니다.
@@ -72,6 +109,10 @@ git clone https://github.com/tonywjs/html-deck.git ~/.claude/skills/html-deck
 
 # 또는 CLI
 npx ui-ux-pro-max-cli init --ai claude
+
+# diagram-design (Claude Code 마켓플레이스)
+/plugin marketplace add cathrynlavery/diagram-design
+/plugin install diagram-design@diagram-design
 ```
 
 Codex CLI는 `~/.agents/skills/`를 읽습니다.
