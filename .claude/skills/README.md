@@ -97,6 +97,38 @@ python3 .claude/skills/diagram-design/scripts/self_check.py 다이어그램.html
 직접 고치는 편집 엔진이 붙은 도식이고, `diagram-design`은 브랜드 토큰을 입힌 정적
 단일 파일 산출물에 가깝습니다.
 
+## excalidraw-diagram
+
+출처: https://github.com/alxmax/excalidraw-diagram (v1.1.0, MIT)
+
+시스템·흐름·아키텍처 설명을 받아 `.excalidraw` 씬 파일과 자체완결 HTML 뷰어를 만듭니다.
+산출된 씬은 excalidraw.com이나 Excalidraw 앱에서 그대로 열어 손으로 고칠 수 있습니다.
+
+**요청하신 excalidraw/excalidraw 저장소는 스킬이 아닙니다.** Excalidraw 앱 자체의 소스
+모노레포라 `SKILL.md`도 플러그인 매니페스트도 없습니다. 대신 서드파티 Excalidraw 스킬 네 개를
+받아 비교하고 이것을 골랐습니다.
+
+| 후보 | 방식 | 전제 |
+|---|---|---|
+| **alxmax/excalidraw-diagram** (채택) | 표준 라이브러리 Python 빌더, 레이아웃 겹침 자체 검사 | 없음 |
+| coleam00/excalidraw-diagram-skill | Playwright로 렌더해 보고 스스로 교정 | `pip install playwright` |
+| robonuggets/excalidraw-skill | MCP 서버로 라이브 캔버스에 그림 | MCP 서버 상시 실행 |
+| rnjn/cc-excalidraw-skill | 참조 문서만, 스크립트 없음 | 없음 (검증도 없음) |
+
+alxmax를 고른 이유는 npm·API 키·상시 서버 없이 Python 표준 라이브러리만으로 돌고, 스킬 안에
+회귀 테스트가 들어 있어 설치 상태를 스스로 확인할 수 있기 때문입니다.
+
+```bash
+# 회귀 테스트 (63개)
+python3 .claude/skills/excalidraw-diagram/scripts/test_excalidraw.py
+
+# 예시 생성 — 현재 폴더 아래 diagrams/ 에 .excalidraw 와 .html 이 나옵니다
+python3 .claude/skills/excalidraw-diagram/examples/make_explainer.py
+```
+
+`diagram-design`의 `/import-excalidraw`와 방향이 반대라 서로 겹치지 않습니다. 이쪽은
+`.excalidraw`를 **만들고**, 저쪽은 `.excalidraw`를 **읽어** 브랜드 입힌 다이어그램으로 다시 그립니다.
+
 ## 다른 환경에 설치하기
 
 이 저장소 밖에서도 쓰려면 원본을 직접 받는 쪽이 갱신에 유리합니다.
@@ -116,6 +148,10 @@ npx ui-ux-pro-max-cli init --ai claude
 # diagram-design (Claude Code 마켓플레이스)
 /plugin marketplace add cathrynlavery/diagram-design
 /plugin install diagram-design@diagram-design
+
+# excalidraw-diagram — 저장소의 plugin/skills/excalidraw-diagram/ 이 실제 스킬
+git clone https://github.com/alxmax/excalidraw-diagram.git /tmp/exc
+cp -r /tmp/exc/plugin/skills/excalidraw-diagram ~/.claude/skills/
 ```
 
 Codex CLI는 `~/.agents/skills/`를 읽습니다.

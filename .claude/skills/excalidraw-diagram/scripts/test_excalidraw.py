@@ -1,0 +1,972 @@
+#!/usr/bin/env python3
+# tested-by: ARCH-EXCALIDRAW-030  # tested-by: REQ-EXCALIDRAW-844  # tested-by: REQ-EXCALIDRAW-845
+# tested-by: ARCH-EXCALIDRAW-031
+# tested-by: ARCH-EXCALIDRAW-032
+# tested-by: ARCH-EXCALIDRAW-034
+# tested-by: ARCH-EXCALIDRAW-033
+"""Regression gate for the excalidraw-diagram skill.
+
+This is the operational definition of "professional / understandable" for a
+generated diagram: every example scene must build with ZERO overlapping shapes
+AND ZERO arrow crossings. If a future change (or a new example) introduces
+either, this test fails — the quality bar is mechanical, not a matter of taste.
+
+Run:  python -X utf8 -m unittest test_excalidraw -v   (from this scripts/ dir)
+It executes each examples/*.py with a stubbed Scene.save (nothing is written to
+disk) and asserts on the in-memory scene.
+"""
+import glob
+import json
+import os
+import runpy
+import subprocess
+import sys
+import tempfile
+import unittest
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+EXAMPLES_DIR = os.path.join(HERE, "..", "examples")
+sys.path.insert(0, HERE)
+
+import excalidraw_builder as eb  # noqa: E402
+
+
+def _example_files():
+    return sorted(glob.glob(os.path.join(EXAMPLES_DIR, "*.py")))
+
+
+class TestExampleDiagrams(unittest.TestCase):
+    """One assertion per example: clean layout (no overlaps, no crossings)."""
+
+
+def _make_case(path):
+    def case(self):
+        captured = {}
+        original_save = eb.Scene.save
+
+        def fake_save(self, *a, **k):
+            captured["scene"] = self           # keep the built scene, write nothing
+            return ("(stubbed).excalidraw", "(stubbed).html")
+
+        eb.Scene.save = fake_save
+        try:
+            runpy.run_path(path, run_name="__main__")
+        finally:
+            eb.Scene.save = original_save
+
+        scene = captured.get("scene")
+        self.assertIsNotNone(scene, f"{os.path.basename(path)} never called save()")
+        assert scene is not None               # narrow for type-checkers
+        self.assertEqual(
+            scene.check_overlaps(), [],
+            f"{os.path.basename(path)} has overlapping shapes")
+        self.assertEqual(
+            scene.check_arrow_crossings(), [],
+            f"{os.path.basename(path)} has arrow(s) crossing an unrelated box")
+        self.assertEqual(
+            scene.check_legend_coverage(), [],
+            f"{os.path.basename(path)} uses fill colour(s) absent from its "
+            f"legend (colour-SSOT)")
+        self.assertEqual(
+            scene.check_text_overflow(), [],
+            f"{os.path.basename(path)} has bound text bigger than its box "
+            f"(label spills outside the shape)")
+        self.assertEqual(
+            scene.check_text_overlaps(), [],
+            f"{os.path.basename(path)} has free text label(s) overlapping "
+            f"(a caption/header sits on another)")
+        self.assertEqual(
+            scene.check_short_arrows(), [],
+            f"{os.path.basename(path)} has a bound arrow too short to render "
+            f"as a visible line (shapes placed too close — only the label "
+            f"would show)")
+        self.assertEqual(
+            scene.check_arrow_label_fit(), [],
+            f"{os.path.basename(path)} has an arrow label wider than its "
+            f"connector (the label crowds the arrowheads or spills onto a box)")
+
+    return case
+
+
+def _install_cases():
+    files = _example_files()
+    assert files, f"no example diagrams found under {EXAMPLES_DIR}"
+    for path in files:
+        name = "test_" + os.path.splitext(os.path.basename(path))[0]
+        setattr(TestExampleDiagrams, name, _make_case(path))
+
+
+_install_cases()
+
+
+class TestBuilderUnits(unittest.TestCase):  # tested-by: REQ-EXCALIDRAW-846  # tested-by: REQ-EXCALIDRAW-847  # tested-by: REQ-EXCALIDRAW-849
+    """Unit coverage for the Phase-1 builder helpers (gaps closed after the
+    consilium pre-merge review: the example tests prove clean layouts but did
+    not exercise these paths directly)."""
+
+    def test_move_node_updates_element_coordinates(self):
+        s = eb.Scene(seed=99)
+        nid = s.box("X", 0, 0, 80, 40)
+        s._move_node(nid, 100, 200)
+        el = next(e for e in s.elements if e["id"] == nid)
+        self.assertEqual((el["x"], el["y"]), (100.0, 200.0))
+        self.assertEqual(s._geom[nid][:2], (100, 200))
+
+    def test_move_node_shifts_bound_text(self):
+        s = eb.Scene(seed=99)
+        nid = s.box("Hello", 0, 0, 80, 40)
+        el = next(e for e in s.elements if e["id"] == nid)
+        txt = next(e for e in s.elements if e["id"] == el["boundElements"][0]["id"])
+        ox, oy = txt["x"], txt["y"]
+        s._move_node(nid, 50, 30)
+        self.assertAlmostEqual(txt["x"], ox + 50)
+        self.assertAlmostEqual(txt["y"], oy + 30)
+
+    def test_move_node_textless_box_ok(self):
+        s = eb.Scene(seed=99)
+        nid = s.box("", 0, 0, 40, 40)        # no bound text -> no children to shift
+        s._move_node(nid, 10, 10)            # must not raise
+        self.assertEqual(s._geom[nid][:2], (10, 10))
+
+    def test_save_crossing_check_error_raises(self):  # verifies: REQ-EXCALIDRAW-846#CASE-1  # verifies: REQ-EXCALIDRAW-846#CASE-2
+        s = eb.Scene(seed=99)
+        left = s.box("L", 0, 0, 80, 40)
+        s.box("M", 200, 0, 80, 40)
+        right = s.box("R", 400, 0, 80, 40)
+        s.arrow(left, right)                 # straight line passes through M
+        with tempfile.TemporaryDirectory() as d:
+            with self.assertRaises(ValueError):
+                s.save("x", out_dir=d, crossing_check="error")
+
+    def test_save_crossing_check_warn_default_does_not_raise(self):  # verifies: REQ-EXCALIDRAW-846#CASE-1
+        s = eb.Scene(seed=99)
+        left = s.box("L", 0, 0, 80, 40)
+        s.box("M", 200, 0, 80, 40)
+        right = s.box("R", 400, 0, 80, 40)
+        s.arrow(left, right)
+        with tempfile.TemporaryDirectory() as d:
+            s.save("x", out_dir=d)           # default "warn" — must not raise
+
+    def test_fill_none_is_transparent(self):
+        s = eb.Scene(seed=99, roles={"agent": "blue"})
+        nid = s.box("T", 0, 0, fill=None)
+        el = next(e for e in s.elements if e["id"] == nid)
+        self.assertEqual(el["backgroundColor"], "transparent")
+
+    def test_fill_role_resolves(self):
+        s = eb.Scene(seed=99, roles={"agent": "blue"})
+        nid = s.box("T", 0, 0, fill="agent")
+        el = next(e for e in s.elements if e["id"] == nid)
+        self.assertEqual(el["backgroundColor"], eb._FILL["blue"])
+
+    def test_legend_coverage_clean_when_legend_covers_fills(self):
+        s = eb.Scene(seed=99)
+        s.box("a", 0, 0, fill="blue")
+        s.box("b", 0, 200, fill="green")
+        s.legend([("input", "blue"), ("output", "green")], x=400, y=0)
+        self.assertEqual(s.check_legend_coverage(), [])
+
+    def test_legend_coverage_flags_unlegended_fill(self):
+        s = eb.Scene(seed=99)
+        s.box("a", 0, 0, fill="blue")
+        s.box("b", 0, 200, fill="indigo")          # not in the legend below
+        s.legend([("input", "blue")], x=400, y=0)
+        self.assertEqual(s.check_legend_coverage(), [eb._FILL["indigo"]])
+
+    def test_legend_coverage_noop_without_legend(self):  # verifies: REQ-EXCALIDRAW-846#CASE-3
+        s = eb.Scene(seed=99)
+        s.box("a", 0, 0, fill="indigo")            # no legend() -> nothing to enforce
+        self.assertEqual(s.check_legend_coverage(), [])
+
+    def test_save_legend_check_error_raises_on_uncovered_fill(self):  # verifies: REQ-EXCALIDRAW-846#CASE-3
+        s = eb.Scene(seed=99)
+        s.box("a", 0, 0, fill="blue")
+        s.box("b", 0, 200, fill="violet")          # uncovered
+        s.legend([("input", "blue")], x=400, y=0)
+        with tempfile.TemporaryDirectory() as d:
+            with self.assertRaises(ValueError):
+                s.save("x", out_dir=d, legend_check="error")
+
+    def test_save_legend_check_warn_default_does_not_raise(self):
+        s = eb.Scene(seed=99)
+        s.box("a", 0, 0, fill="blue")
+        s.box("b", 0, 200, fill="violet")          # uncovered, but warn-only
+        s.legend([("input", "blue")], x=400, y=0)
+        with tempfile.TemporaryDirectory() as d:
+            s.save("x", out_dir=d)                  # default "warn" — must not raise
+
+    def test_save_rejects_bad_legend_check(self):
+        s = eb.Scene(seed=99)
+        with tempfile.TemporaryDirectory() as d:
+            with self.assertRaises(ValueError):
+                s.save("x", out_dir=d, legend_check="nope")
+
+    # -- text-overflow gate (label bigger than its box) -------------------
+    def test_check_text_overflow_detects_oversized_label(self):
+        s = eb.Scene(seed=99)
+        s.box("a label far too wide for this tiny box", 0, 0, 40, 30, fill="blue")
+        self.assertTrue(s.check_text_overflow(),
+                        "bound text wider than its box must be flagged")
+
+    def test_check_text_overflow_clean_when_box_fits(self):
+        s = eb.Scene(seed=99)
+        s.box("ok", 0, 0, 160, 70, fill="blue")
+        self.assertEqual(s.check_text_overflow(), [])
+
+    def test_fit_text_box_clears_overflow_check(self):
+        s = eb.Scene(seed=99)
+        wrapped, w, h = eb.Scene.fit_text("a label far too wide for one line",
+                                          font=14, max_chars=16)
+        s.box(wrapped, 0, 0, w, h, fill="blue")
+        self.assertEqual(s.check_text_overflow(), [],
+                         "a box sized by fit_text must clear the overflow check")
+
+    def test_save_overflow_check_error_raises(self):  # verifies: REQ-EXCALIDRAW-846#CASE-4
+        s = eb.Scene(seed=99)
+        s.box("a label far too wide for this tiny box", 0, 0, 40, 30, fill="blue")
+        with tempfile.TemporaryDirectory() as d:
+            with self.assertRaises(ValueError):
+                s.save("x", out_dir=d, overflow_check="error")
+
+    def test_save_overflow_check_warn_default_does_not_raise(self):
+        s = eb.Scene(seed=99)
+        s.box("a label far too wide for this tiny box", 0, 0, 40, 30, fill="blue")
+        with tempfile.TemporaryDirectory() as d:
+            s.save("x", out_dir=d)                  # default "warn" — must not raise
+
+    # -- free-text-overlap gate (caption colliding with header) -----------
+    def test_check_text_overlaps_detects_overlapping_captions(self):
+        s = eb.Scene(seed=99)
+        s.label("a caption sitting right here", 100, 100, size=14)
+        s.label("another caption on top of it", 100, 103, size=14)
+        self.assertTrue(s.check_text_overlaps(),
+                        "two overlapping free captions must be flagged")
+
+    def test_check_text_overlaps_ignores_bound_labels(self):
+        s = eb.Scene(seed=99)
+        s.box("one", 0, 0, 160, 70, fill="blue")
+        s.box("two", 0, 100, 160, 70, fill="green")
+        s.legend([("input", "blue"), ("output", "green")], x=400, y=0)
+        self.assertEqual(s.check_text_overlaps(), [],
+                         "bound labels (box + legend rows) must not be flagged")
+
+    def test_save_text_overlap_check_error_raises(self):  # verifies: REQ-EXCALIDRAW-847#CASE-1
+        s = eb.Scene(seed=99)
+        s.label("caption one is here", 100, 100, size=14)
+        s.label("caption two is here", 100, 103, size=14)
+        with tempfile.TemporaryDirectory() as d:
+            with self.assertRaises(ValueError):
+                s.save("x", out_dir=d, text_overlap_check="error")
+
+    def test_save_rejects_bad_overflow_check(self):
+        s = eb.Scene(seed=99)
+        with tempfile.TemporaryDirectory() as d:
+            with self.assertRaises(ValueError):
+                s.save("x", out_dir=d, overflow_check="nope")
+
+    # -- short-arrow gate (shapes too close -> invisible connector) --------
+    def test_check_short_arrows_flags_close_boxes(self):
+        # 4px of clear space between borders -> arrow() clamps the connector to
+        # ~0px: Excalidraw draws no line, only the floating label. This is the
+        # exact "text without arrow" defect; the boxes do NOT overlap, so
+        # check_overlaps() is blind to it and check_short_arrows() must catch it.
+        s = eb.Scene(seed=99)
+        a = s.box("A", 0, 0, 120, 60)
+        b = s.box("B", 124, 0, 120, 60)        # 4px gap
+        s.arrow(a, b, label="x")
+        self.assertEqual(s.check_overlaps(), [],
+                         "boxes 4px apart do not overlap")
+        hits = s.check_short_arrows()
+        self.assertEqual(len(hits), 1, f"degenerate arrow not flagged: {hits}")
+        self.assertLess(hits[0][2], 24.0)      # measured length below threshold
+
+    def test_check_short_arrows_clean_when_boxes_spaced(self):
+        s = eb.Scene(seed=99)
+        a = s.box("A", 0, 0, 120, 60)
+        b = s.box("B", 320, 0, 120, 60)        # 196px gap -> visible arrow
+        s.arrow(a, b, label="x")
+        self.assertEqual(s.check_short_arrows(), [])
+
+    def test_check_short_arrows_ignores_unbound_connectors(self):
+        # path()/free_arrow()/route_under() are intentional routed lines, not
+        # box-to-box bindings — never flagged even if short.
+        s = eb.Scene(seed=99)
+        s.path([(0, 0), (5, 0)])               # tiny unbound connector
+        self.assertEqual(s.check_short_arrows(), [])
+
+    def test_save_short_arrow_raises_by_default(self):  # verifies: REQ-EXCALIDRAW-847#CASE-3
+        s = eb.Scene(seed=99)
+        a = s.box("A", 0, 0, 120, 60)
+        b = s.box("B", 124, 0, 120, 60)
+        s.arrow(a, b, label="x")
+        with tempfile.TemporaryDirectory() as d:
+            with self.assertRaises(ValueError):
+                s.save("x", out_dir=d)         # hard gate — raises with no opt-out
+
+    def test_save_short_arrow_allow_escape(self):  # verifies: REQ-EXCALIDRAW-847#CASE-3
+        s = eb.Scene(seed=99)
+        a = s.box("A", 0, 0, 120, 60)
+        b = s.box("B", 124, 0, 120, 60)
+        s.arrow(a, b, label="x")
+        with tempfile.TemporaryDirectory() as d:
+            s.save("x", out_dir=d, allow_short_arrows=True)   # opt-out: must not raise
+
+    # -- arrow-label-fit gate (label wider than its connector) -------------
+    def test_check_arrow_label_fit_flags_wide_label(self):
+        # boxes close together + a long label: the label is wider than the
+        # arrow, so it spills onto both boxes — invisible to the box/free-text
+        # checks, caught here.
+        s = eb.Scene(seed=99)
+        a = s.box("A", 0, 0, 120, 60)
+        b = s.box("B", 240, 0, 120, 60)        # 120px gap
+        s.arrow(a, b, label="a very long label that is wider than the arrow")
+        hits = s.check_arrow_label_fit()
+        self.assertEqual(len(hits), 1, f"wide label not flagged: {hits}")
+        self.assertLess(hits[0][1], 24.0)
+
+    def test_check_arrow_label_fit_clean_when_spaced(self):
+        s = eb.Scene(seed=99)
+        a = s.box("A", 0, 0, 120, 60)
+        b = s.box("B", 600, 0, 120, 60)        # far apart -> short label fits
+        s.arrow(a, b, label="ok")
+        self.assertEqual(s.check_arrow_label_fit(), [])
+
+    def test_save_label_fit_error_raises(self):  # verifies: REQ-EXCALIDRAW-847#CASE-2
+        s = eb.Scene(seed=99)
+        a = s.box("A", 0, 0, 120, 60)
+        b = s.box("B", 240, 0, 120, 60)
+        s.arrow(a, b, label="a very long label that is wider than the arrow")
+        with tempfile.TemporaryDirectory() as d:
+            with self.assertRaises(ValueError):
+                s.save("x", out_dir=d, label_fit_check="error")
+
+    def test_save_label_fit_warn_default_does_not_raise(self):
+        s = eb.Scene(seed=99)
+        a = s.box("A", 0, 0, 120, 60)
+        b = s.box("B", 240, 0, 120, 60)
+        s.arrow(a, b, label="a very long label that is wider than the arrow")
+        with tempfile.TemporaryDirectory() as d:
+            s.save("x", out_dir=d)             # default "warn" — must not raise
+
+    def test_path_label_overlapping_a_box_is_detected(self):
+        s = eb.Scene(seed=99)
+        s.box("B", 0, 0, 200, 80, fill="blue")
+        s.path([(0, 40), (200, 40)], label="routed label over the box")
+        hits = s.check_overlaps()
+        self.assertTrue(any("label" in a or "label" in b for a, b in hits),
+                        f"path label over a box must be flagged: {hits}")
+
+    def test_path_label_in_clear_space_is_not_flagged(self):
+        s = eb.Scene(seed=99)
+        s.box("B", 0, 0, 100, 40, fill="blue")
+        s.path([(0, 300), (200, 300)], label="clear")   # well below the box
+        self.assertEqual(s.check_overlaps(), [])
+
+    def test_glossary_renders_and_is_overlap_checked(self):  # verifies: REQ-EXCALIDRAW-849#CASE-3  # verifies: REQ-EXCALIDRAW-849#CASE-5
+        s = eb.Scene(seed=99)
+        s.glossary([("SSOT", "single source of truth"),
+                    ("dogfood", "runs on its own requirements")], 0, 0)
+        # the glossary box is registered as checkable content
+        self.assertTrue(any("glossary" in lab for *_, lab in s._nodes))
+        # a box dropped on top of it must be flagged
+        s.box("X", 10, 10, 80, 40, fill="blue")
+        self.assertNotEqual(s.check_overlaps(), [])
+
+    def test_glossary_empty_raises(self):  # verifies: REQ-EXCALIDRAW-849#CASE-4
+        with self.assertRaises(ValueError):
+            eb.Scene(seed=99).glossary([], 0, 0)
+
+    def test_glossary_line_reads_term_dash_meaning(self):  # verifies: REQ-EXCALIDRAW-849#CASE-3
+        s = eb.Scene(seed=99)
+        s.glossary([("SSOT", "single source of truth")], 0, 0)
+        texts = [e.get("text") for e in s.elements if e.get("type") == "text"]
+        self.assertIn("SSOT — single source of truth", texts)
+
+    def test_legend_from_declared_roles(self):  # verifies: REQ-EXCALIDRAW-849#CASE-1
+        s = eb.Scene(seed=99, roles={"agent": "violet"})
+        s.legend(x=0, y=0)
+        texts = [e.get("text") for e in s.elements if e.get("type") == "text"]
+        self.assertIn("agent", texts)
+        self.assertIn(eb._FILL["violet"], s._legend_colours)
+
+    def test_legend_empty_raises(self):  # verifies: REQ-EXCALIDRAW-849#CASE-2
+        with self.assertRaises(ValueError):
+            eb.Scene(seed=99).legend(x=0, y=0)
+
+    def test_polyline_midpoint_edges(self):
+        self.assertEqual(eb.Scene._polyline_midpoint([(3, 7)]), (3, 7))
+        self.assertEqual(eb.Scene._polyline_midpoint([(0, 0), (0, 0)]), (0, 0))
+        mid = eb.Scene._polyline_midpoint([(0, 0), (0, 100), (200, 100), (200, 0)])
+        self.assertAlmostEqual(mid[0], 100)
+        self.assertAlmostEqual(mid[1], 100)
+
+    def test_bounds_paths_only_and_empty(self):
+        self.assertEqual(eb.Scene(seed=99).bounds(), (0, 0, 0, 0))
+        s = eb.Scene(seed=99)
+        s.path([(10, 20), (100, 200)])
+        self.assertEqual(s.bounds(), (10, 20, 100, 200))
+
+
+class TestCli(unittest.TestCase):  # tested-by: REQ-EXCALIDRAW-848
+    """The render + discover CLI verbs, and the preserved no-arg smoke test."""
+
+    BUILDER = os.path.join(HERE, "excalidraw_builder.py")
+
+    # --- render: rebuild the .html viewer from an existing .excalidraw scene ---
+    def test_render_rebuilds_html_from_scene(self):  # verifies: REQ-EXCALIDRAW-848#CASE-2
+        with tempfile.TemporaryDirectory() as d:
+            s = eb.Scene(seed=7)
+            s.box("A", 0, 0)
+            s.box("B", 0, 120)
+            pj, ph = s.save("demo", out_dir=d)
+            os.remove(ph)                          # delete html so render must recreate it
+            out = eb.render_html(pj)
+            self.assertEqual(out, os.path.join(d, "demo.html"))
+            self.assertTrue(os.path.exists(out))
+            with open(out, encoding="utf-8") as f:
+                html = f.read()
+            self.assertIn("excalidraw", html.lower())   # the embedded scene + viewer
+            self.assertIn('"type":', html)              # scene JSON inlined
+
+    def test_render_rejects_non_scene(self):
+        with tempfile.TemporaryDirectory() as d:
+            bad = os.path.join(d, "bad.excalidraw")
+            with open(bad, "w", encoding="utf-8") as f:
+                f.write('{"nope": 1}')               # valid JSON, but no "elements"
+            with self.assertRaises(ValueError):
+                eb.render_html(bad)
+
+    def test_render_rejects_non_dict_elements(self):
+        with tempfile.TemporaryDirectory() as d:
+            bad = os.path.join(d, "bad.excalidraw")
+            with open(bad, "w", encoding="utf-8") as f:
+                f.write('{"elements": [1, 2, 3]}')    # a list, but not element objects
+            with self.assertRaises(ValueError):
+                eb.render_html(bad)
+
+    # --- discover: scan a repo -> a runnable Python generator stub ---
+    def test_discover_components_prunes_and_sorts(self):
+        with tempfile.TemporaryDirectory() as d:
+            os.makedirs(os.path.join(d, "core"))
+            with open(os.path.join(d, "core", "engine.py"), "w") as f:
+                f.write("x = 1\n")
+            with open(os.path.join(d, "app.py"), "w") as f:
+                f.write("y = 2\n")
+            os.makedirs(os.path.join(d, "node_modules"))     # must be pruned
+            with open(os.path.join(d, "node_modules", "z.js"), "w") as f:
+                f.write("zz\n")
+            comps = eb.discover_components(d)
+            self.assertIn("core", comps)
+            self.assertIn("app.py", comps)
+            self.assertNotIn("node_modules", comps)
+            self.assertEqual(comps, sorted(comps))           # deterministic
+
+    def test_discover_stub_is_runnable(self):  # verifies: REQ-EXCALIDRAW-848#CASE-3
+        with tempfile.TemporaryDirectory() as d:
+            os.makedirs(os.path.join(d, "core"))
+            with open(os.path.join(d, "core", "engine.py"), "w") as f:
+                f.write("x = 1\n")
+            with open(os.path.join(d, "app.py"), "w") as f:
+                f.write("y = 2\n")
+            stub = eb.discover_stub(d, out_path=os.path.join(d, "make_diagram.py"))
+            self.assertTrue(os.path.exists(stub))
+            with open(stub, encoding="utf-8") as f:
+                compile(f.read(), stub, "exec")        # syntactically valid
+            env = dict(os.environ, PYTHONPATH=HERE)      # so `from excalidraw_builder import Scene` resolves
+            r = subprocess.run([sys.executable, "-X", "utf8", stub],
+                               cwd=d, capture_output=True, text=True, env=env)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            self.assertTrue(glob.glob(os.path.join(d, "*.excalidraw")),
+                            "stub ran but saved no scene")
+
+    def test_discover_empty_repo_stub_still_runs(self):
+        with tempfile.TemporaryDirectory() as d:
+            stub = eb.discover_stub(d, out_path=os.path.join(d, "make_diagram.py"))
+            with open(stub, encoding="utf-8") as f:
+                compile(f.read(), stub, "exec")        # placeholders, still valid
+            env = dict(os.environ, PYTHONPATH=HERE)
+            r = subprocess.run([sys.executable, "-X", "utf8", stub],
+                               cwd=d, capture_output=True, text=True, env=env)
+            self.assertEqual(r.returncode, 0, r.stderr)
+
+    def test_discover_stub_truncates_at_cap(self):
+        # a repo with more components than max_components emits the truncation
+        # NOTE and caps the component list to the first `max_components`.
+        with tempfile.TemporaryDirectory() as d:
+            for i in range(25):
+                sub = os.path.join(d, "mod%02d" % i)
+                os.makedirs(sub)
+                with open(os.path.join(sub, "x.py"), "w") as f:
+                    f.write("x = 1\n")
+            stub = eb.discover_stub(d, out_path=os.path.join(d, "make_diagram.py"),
+                                    max_components=20)
+            with open(stub, encoding="utf-8") as f:
+                code = f.read()
+            self.assertIn("more components than the cap", code)  # truncation NOTE present
+            self.assertIn("mod00", code)                         # first component kept
+            self.assertNotIn("mod24", code)                      # 25th is past the cap of 20
+
+    def test_discover_stub_is_multilayer_poster(self):  # verifies: REQ-EXCALIDRAW-848#CASE-3
+        # the stub scaffolds the adaptive multi-layer poster (live STRUCTURE +
+        # commented optional layers) and carries the portable fallback import so
+        # it runs from any repo, not only next to the builder / on PYTHONPATH.
+        with tempfile.TemporaryDirectory() as d:
+            with open(os.path.join(d, "app.py"), "w") as f:
+                f.write("x = 1\n")
+            stub = eb.discover_stub(d, out_path=os.path.join(d, "make_diagram.py"))
+            with open(stub, encoding="utf-8") as f:
+                code = f.read()
+        for layer in ("STRUCTURE", "WORKFLOW", "INTEGRATION", "MODES",
+                      "MODEL", "DATA"):
+            self.assertIn(layer, code, f"stub missing the {layer} layer scaffold")
+        self.assertIn("s.section(", code)              # uses the poster helper
+        self.assertIn("s.lane(", code)                 # per-tool sub-workflow hint
+        self.assertIn("except ModuleNotFoundError", code)   # portable fallback import
+        self.assertIn("plugins", code)                 # cache resolver present
+        self.assertIn('overflow_check="error"', code)  # ships gates at error
+
+    # --- the no-arg invocation must still be the smoke test (CI depends on it) ---
+    def test_cli_no_args_runs_selftest(self):  # verifies: REQ-EXCALIDRAW-848#CASE-1
+        env = dict(os.environ, PYTHONPATH=HERE)
+        r = subprocess.run([sys.executable, "-X", "utf8", self.BUILDER],
+                           capture_output=True, text=True, env=env)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("OK smoke test", r.stdout)
+
+    def test_cli_render_subcommand(self):  # verifies: REQ-EXCALIDRAW-848#CASE-2
+        with tempfile.TemporaryDirectory() as d:
+            s = eb.Scene(seed=8)
+            s.box("X", 0, 0)
+            pj, ph = s.save("scene", out_dir=d)
+            os.remove(ph)
+            r = subprocess.run([sys.executable, "-X", "utf8", self.BUILDER, "render", pj],
+                               capture_output=True, text=True)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            self.assertTrue(os.path.exists(os.path.join(d, "scene.html")))
+
+    def test_render_stub_handles_hostile_repo_name(self):
+        # a repo dir name with quotes/triple-quotes must not break the generated
+        # stub's docstring or string literals (FS-independent: call _render_stub direct)
+        code = eb._render_stub('a"""b\'c"d', ["x"], False)
+        compile(code, "<stub>", "exec")            # must not raise SyntaxError
+
+    def test_cli_unknown_verb_exits_nonzero(self):  # verifies: REQ-EXCALIDRAW-848#CASE-4
+        r = subprocess.run([sys.executable, "-X", "utf8", self.BUILDER, "bogus"],
+                           capture_output=True, text=True)
+        self.assertEqual(r.returncode, 2)
+
+
+import json as _json
+import ast as _ast
+
+try:
+    _STDLIB = set(sys.stdlib_module_names)   # Python 3.10+
+except AttributeError:
+    _STDLIB = {"json", "math", "os", "random", "sys", "time", "re", "io", "typing",
+               "itertools", "functools", "collections", "dataclasses", "pathlib",
+               "argparse", "subprocess", "tempfile", "unittest", "glob", "runpy",
+               "datetime", "hashlib", "textwrap", "string", "copy", "enum"}
+
+
+class CasesExcalidraw030(unittest.TestCase):  # tested-by: REQ-EXCALIDRAW-844  # tested-by: REQ-EXCALIDRAW-845
+    def test_scene_save_produces_importable_json(self):  # verifies: REQ-EXCALIDRAW-844#CASE-1
+        with tempfile.TemporaryDirectory() as d:
+            s = eb.Scene(seed=1)
+            s.box("Hello", 0, 0)
+            p_json, _p_html = s.save("t1", out_dir=d)
+            with open(p_json, encoding="utf-8") as f:
+                scene = _json.load(f)
+        self.assertEqual(scene["type"], "excalidraw")
+        self.assertIn("elements", scene)
+        self.assertIsInstance(scene["elements"], list)
+        self.assertTrue(scene["elements"])
+
+    def test_shape_primitives_each_add_one_element_of_their_kind(self):  # verifies: REQ-EXCALIDRAW-844#CASE-2
+        s = eb.Scene(seed=1)
+        s.box("B", 0, 0)
+        s.ellipse("E", 300, 0)
+        s.diamond("D", 600, 0)
+        s.frame(0, 400, 100, 100)
+        types = [el["type"] for el in s.elements]
+        self.assertEqual(types.count("rectangle"), 2)   # box() + frame() both render "rectangle"
+        self.assertEqual(types.count("ellipse"), 1)
+        self.assertEqual(types.count("diamond"), 1)
+
+    def test_iso5807_aliases_add_elements_without_raising(self):  # verifies: REQ-EXCALIDRAW-844#CASE-3
+        s = eb.Scene(seed=1)
+        before = len(s.elements)
+        s.process("P", 0, 0)
+        s.terminator("T", 300, 0)
+        s.decision("D", 600, 0)
+        s.data("Dt", 0, 200)
+        s.predefined_process("PP", 300, 200)
+        s.preparation("Pr", 600, 200)
+        s.connector("C", 900, 0)
+        self.assertGreater(len(s.elements), before)
+        types = {el["type"] for el in s.elements}
+        self.assertIn("diamond", types)     # decision -> diamond
+        self.assertIn("ellipse", types)     # connector -> ellipse
+
+    def test_annotation_helpers_do_not_raise_and_save_succeeds(self):  # verifies: REQ-EXCALIDRAW-844#CASE-5
+        with tempfile.TemporaryDirectory() as d:
+            s = eb.Scene(seed=1)
+            s.box("A", 0, 0, fill="blue")
+            before = len(s.elements)
+            s.title("Title", 0, -60)
+            s.label("A label", 0, -20)
+            s.role("agent", "blue")
+            s.legend(x=0, y=200)
+            s.glossary([("TERM", "meaning")], 400, 200)
+            self.assertGreater(len(s.elements), before)   # title/label/legend/glossary all draw
+            p_json, p_html = s.save("ann", out_dir=d)
+            self.assertTrue(os.path.exists(p_json))
+            self.assertTrue(os.path.exists(p_html))
+
+    def test_seeded_scene_reproduces_byte_identical_output(self):  # verifies: REQ-EXCALIDRAW-845#CASE-3
+        def _build():
+            s = eb.Scene(seed=42)
+            a = s.box("A", 0, 0)
+            b = s.box("B", 300, 0)
+            s.arrow(a, b)
+            return s
+        with tempfile.TemporaryDirectory() as d:
+            p1, _h1 = _build().save("seed1", out_dir=d)
+            p2, _h2 = _build().save("seed2", out_dir=d)
+            with open(p1, "rb") as f:
+                c1 = f.read()
+            with open(p2, "rb") as f:
+                c2 = f.read()
+        self.assertEqual(c1, c2)
+
+    def test_builder_imports_stdlib_only(self):  # verifies: REQ-EXCALIDRAW-845#CASE-4
+        path = os.path.join(HERE, "excalidraw_builder.py")
+        with open(path, encoding="utf-8") as f:
+            tree = _ast.parse(f.read(), filename=path)
+        names = []
+        for node in tree.body:            # top-level only, not nested inside functions
+            if isinstance(node, _ast.Import):
+                names.extend(a.name.split(".")[0] for a in node.names)
+            elif isinstance(node, _ast.ImportFrom) and node.level == 0 and node.module:
+                names.append(node.module.split(".")[0])
+        self.assertTrue(names, "no top-level imports found")
+        for name in names:
+            self.assertIn(name, _STDLIB, "%r is not a stdlib module" % name)
+
+
+class CasesExcalidraw031(unittest.TestCase):  # tested-by: REQ-EXCALIDRAW-847
+    def test_check_arrow_crossings_returns_items_without_saving(self):  # verifies: REQ-EXCALIDRAW-847#CASE-4
+        s = eb.Scene(seed=99)
+        left = s.box("L", 0, 0, 80, 40)
+        s.box("M", 200, 0, 80, 40)
+        right = s.box("R", 400, 0, 80, 40)
+        s.arrow(left, right)                 # straight line passes through M
+        crossings = s.check_arrow_crossings()
+        self.assertEqual(len(crossings), 1)
+        self.assertEqual(s.check_text_overflow(), [])   # an unaffected check stays clean
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
+
+class CasesExcalidraw033(unittest.TestCase):  # tested-by: ARCH-EXCALIDRAW-033
+    def test_legend_and_glossary_decode_colours_and_terms_on_the_canvas(self):  # verifies: ARCH-EXCALIDRAW-033#CASE-1
+        s = eb.Scene(seed=99, roles={"engine": "violet", "plan": "indigo"})
+        a = s.box("the plan", 0, 0, fill="plan")
+        b = s.box("the engine", 300, 0, fill="engine")
+        s.arrow(a, b, label="checks")
+        s.legend(x=0, y=200)
+        s.glossary([("SSOT", "single source of truth")], 300, 200)
+        self.assertEqual(s.check_legend_coverage(), [])
+        texts = [e.get("text") for e in s.elements if e.get("type") == "text"]
+        self.assertIn("engine", texts)
+        self.assertIn("SSOT — single source of truth", texts)
+        with tempfile.TemporaryDirectory() as d:
+            s.save("decodable", out_dir=d, legend_check="error")
+
+    def test_explainer_example_is_a_decodable_teaching_diagram(self):  # verifies: ARCH-EXCALIDRAW-033#CASE-2
+        path = os.path.join(EXAMPLES_DIR, "make_explainer.py")
+        captured = {}
+        original_save = eb.Scene.save
+
+        def fake_save(self, *a, **k):
+            captured["scene"] = self
+            return ("(stubbed).excalidraw", "(stubbed).html")
+
+        eb.Scene.save = fake_save
+        try:
+            runpy.run_path(path, run_name="__main__")
+        finally:
+            eb.Scene.save = original_save
+        s = captured["scene"]
+        # a legend was rendered and decodes every fill in use
+        self.assertTrue(s._legend_colours, "explainer renders no legend")
+        self.assertEqual(s.check_legend_coverage(), [])
+        # a glossary box is on the canvas
+        self.assertTrue(any("glossary" in lab for *_, lab in s._nodes),
+                        "explainer renders no glossary")
+        # it opens with a title-sized heading
+        sizes = [e.get("fontSize", 0) for e in s.elements if e.get("type") == "text"]
+        self.assertTrue(any(sz >= 28 for sz in sizes), "explainer has no title")
+
+# ---------------------------------------------------------------------------
+# pack() — the auto-layout. Every case here asserts the SEVEN inspection checks
+# come back empty, because a layout that merely runs is worth nothing: the whole
+# point of computing the coordinates is that the result is readable. The graphs
+# below are deliberately different shapes, so passing is not one hand-tuned case.
+# ---------------------------------------------------------------------------
+def _all_gates(scene):
+    """Every inspection check, as {name: offenders} for the ones that fired."""
+    checks = {
+        "overlaps": scene.check_overlaps(),
+        "crossings": scene.check_arrow_crossings(),
+        "text_overflow": scene.check_text_overflow(),
+        "text_overlaps": scene.check_text_overlaps(),
+        "short_arrows": scene.check_short_arrows(),
+        "label_fit": scene.check_arrow_label_fit(),
+        "legend": scene.check_legend_coverage(),
+    }
+    return {name: hits for name, hits in checks.items() if hits}
+
+
+class CasesExcalidraw034(unittest.TestCase):  # tested-by: REQ-EXCALIDRAW-851
+    """pack() lays a described graph out cleanly, whatever shape it has."""
+
+    # a 13-node graph with two groups, a back edge and a layer-skipping edge —
+    # the shape the requirement's CASE-1 names
+    NODES = [{"id": i} for i in
+             ("ask", "match", "read", "write", "layer", "order", "route",
+              "gate", "scene", "html", "edit", "ci", "ship")]
+    EDGES = [
+        {"src": "ask", "dst": "match", "label": "triggers"},
+        {"src": "match", "dst": "read"},
+        {"src": "read", "dst": "write"},
+        {"src": "write", "dst": "layer", "label": "no coordinates"},
+        {"src": "layer", "dst": "order"},
+        {"src": "order", "dst": "route"},
+        {"src": "route", "dst": "gate"},
+        {"src": "gate", "dst": "scene", "label": "clean"},
+        {"src": "gate", "dst": "html"},
+        {"src": "gate", "dst": "write", "label": "not clean: try again"},   # back
+        {"src": "scene", "dst": "edit", "label": "still editable"},
+        {"src": "scene", "dst": "ci"},
+        {"src": "ci", "dst": "ship"},
+        {"src": "ask", "dst": "ship", "dashed": True},                      # skips
+    ]
+    GROUPS = [{"label": "what the skill decides", "members": ["read", "write"]},
+              {"label": "what pack() does", "members": ["layer", "order", "route"]}]
+
+    def test_layered_graph_with_feedback_edge_is_gate_clean(self):  # verifies: ARCH-EXCALIDRAW-034#CASE-1
+        for direction in ("LR", "TB"):
+            s = eb.Scene(seed=11)
+            placed = s.pack(self.NODES, self.EDGES, direction=direction,
+                            groups=self.GROUPS)
+            self.assertEqual(len(placed), len(self.NODES))
+            self.assertEqual(_all_gates(s), {}, "%s layout is not clean" % direction)
+
+    def test_a_second_feedback_graph_of_a_different_shape_is_also_clean(self):  # verifies: ARCH-EXCALIDRAW-034#CASE-2
+        # the point of this one: it is NOT the graph the implementation was
+        # tuned against. Two back edges at different spans, one forward edge that
+        # skips a layer, no groups. A layout that only passes on its own example
+        # is the "three toy graphs pass, the fourth does not" failure.
+        nodes = [{"id": c} for c in "abcdefg"]
+        edges = [{"src": "a", "dst": "b"}, {"src": "b", "dst": "c"},
+                 {"src": "c", "dst": "d"}, {"src": "d", "dst": "e"},
+                 {"src": "e", "dst": "f"}, {"src": "f", "dst": "g"},
+                 {"src": "f", "dst": "b", "label": "retry"},        # mid-flow back
+                 {"src": "g", "dst": "a", "label": "restart"},      # full-span back
+                 {"src": "b", "dst": "e", "label": "fast path"}]    # forward skip
+        for direction in ("LR", "TB"):
+            s = eb.Scene(seed=12)
+            s.pack(nodes, edges, direction=direction)
+            self.assertEqual(_all_gates(s), {}, "%s layout is not clean" % direction)
+
+    def test_back_edges_are_routed_never_drawn_straight(self):  # verifies: REQ-EXCALIDRAW-851#CASE-1
+        # barycenter ordering minimises edge-EDGE crossings; the gate measures an
+        # edge cutting through a BOX. Routing is what keeps them apart, so assert
+        # the back edge really became an unbound routed path and not an arrow.
+        s = eb.Scene(seed=13)
+        s.pack([{"id": "a"}, {"id": "b"}, {"id": "c"}],
+               [{"src": "a", "dst": "b"}, {"src": "b", "dst": "c"},
+                {"src": "c", "dst": "a", "label": "loop"}])
+        arrows = [e for e in s.elements if e.get("type") == "arrow"]
+        bound = [e for e in arrows if e.get("startBinding") and e.get("endBinding")]
+        routed = [e for e in arrows if not e.get("startBinding")]
+        self.assertEqual(len(bound), 2, "the two forward edges stay bound arrows")
+        self.assertEqual(len(routed), 1, "the back edge is routed, not bound")
+        self.assertGreater(len(routed[0]["points"]), 2, "a routed edge turns corners")
+
+    def test_a_long_chain_does_not_recurse(self):  # verifies: ARCH-EXCALIDRAW-034#CASE-3  # verifies: REQ-EXCALIDRAW-851#CASE-2
+        # longest-path layering over 200 chained nodes: Kahn's algorithm, so the
+        # depth of the graph never becomes the depth of the Python stack
+        s = eb.Scene(seed=14)
+        nodes = [{"id": "n%d" % i} for i in range(200)]
+        edges = [{"src": "n%d" % i, "dst": "n%d" % (i + 1)} for i in range(199)]
+        s.pack(nodes, edges)
+        self.assertEqual(_all_gates(s), {})
+
+    def test_disconnected_components_and_an_isolated_node(self):  # verifies: ARCH-EXCALIDRAW-034#CASE-3
+        s = eb.Scene(seed=15)
+        s.pack([{"id": c} for c in "abcdef"] + [{"id": "solo"}],
+               [{"src": "a", "dst": "b"}, {"src": "b", "dst": "c"},
+                {"src": "d", "dst": "e"}, {"src": "e", "dst": "f"}])
+        self.assertEqual(_all_gates(s), {})
+
+    def test_a_wide_fan_out_and_back_in(self):  # verifies: ARCH-EXCALIDRAW-034#CASE-3
+        s = eb.Scene(seed=16)
+        fan = [{"id": "w%d" % i} for i in range(12)]
+        s.pack([{"id": "in"}] + fan + [{"id": "out"}],
+               [{"src": "in", "dst": w["id"]} for w in fan]
+               + [{"src": w["id"], "dst": "out"} for w in fan])
+        self.assertEqual(_all_gates(s), {})
+
+    def test_a_long_edge_label_widens_its_gap_instead_of_crowding(self):  # verifies: REQ-EXCALIDRAW-851#CASE-3
+        s = eb.Scene(seed=17)
+        s.pack([{"id": "a"}, {"id": "b"}],
+               [{"src": "a", "dst": "b",
+                 "label": "consumers receive it eventually"}])
+        self.assertEqual(s.check_arrow_label_fit(), [])
+
+    def test_roles_and_shapes_reach_the_elements(self):  # verifies: REQ-EXCALIDRAW-851#CASE-4
+        s = eb.Scene(seed=18, roles={"gate": "orange"})
+        s.pack([{"id": "a", "label": "start", "kind": "terminator"},
+                {"id": "b", "label": "ok?", "kind": "decision", "fill": "gate"}],
+               [{"src": "a", "dst": "b"}])
+        kinds = [e["type"] for e in s.elements if e.get("type") in ("rectangle", "diamond")]
+        self.assertIn("diamond", kinds, "kind='decision' must reach the element")
+        self.assertIn(eb._FILL["orange"], [e.get("backgroundColor") for e in s.elements])
+
+    def test_a_malformed_graph_raises_valueerror_not_something_else(self):  # verifies: ARCH-EXCALIDRAW-034#CASE-4  # verifies: REQ-EXCALIDRAW-851#CASE-5
+        for build, why in (
+                (lambda: eb.Scene(seed=19).pack([], []), "no nodes"),
+                (lambda: eb.Scene(seed=19).pack([{"id": "a"}, {"id": "a"}], []),
+                 "duplicate id"),
+                (lambda: eb.Scene(seed=19).pack([{"id": "a"}],
+                                                [{"src": "a", "dst": "ghost"}]),
+                 "edge to an unknown node"),
+                (lambda: eb.Scene(seed=19).pack([{"id": "a"}],
+                                                [{"src": "a", "dst": "a"}]),
+                 "self-edge"),
+                (lambda: eb.Scene(seed=19).pack([{"id": ""}], []), "empty id"),
+                (lambda: eb.Scene(seed=19).pack([{"id": "a"}], [], direction="up"),
+                 "bad direction"),
+        ):
+            with self.assertRaises(ValueError, msg=why):
+                build()
+
+
+class CasesExcalidrawSceneVerb(unittest.TestCase):  # tested-by: REQ-EXCALIDRAW-850
+    """`scene --from-json` — the coordinate-free path from JSON to both files."""
+
+    BUILDER = os.path.join(HERE, "excalidraw_builder.py")
+
+    GRAPH = {
+        "name": "from_json",
+        "title": "A described system",
+        "subtitle": "Left to right.",
+        "direction": "LR",
+        "seed": 21,
+        "roles": {"step": "blue", "gate": "orange"},
+        "nodes": [{"id": "a", "label": "ingest", "fill": "step"},
+                  {"id": "b", "label": "parse", "fill": "step"},
+                  {"id": "c", "label": "ok?", "fill": "gate", "kind": "decision"},
+                  {"id": "d", "label": "store", "fill": "step"}],
+        "edges": [{"src": "a", "dst": "b"}, {"src": "b", "dst": "c"},
+                  {"src": "c", "dst": "d", "label": "yes"},
+                  {"src": "c", "dst": "a", "label": "no: read it again"}],
+        "groups": [{"label": "the pipeline", "members": ["a", "b"]}],
+        "legend": True,
+        "glossary": [["gate", "a check that can fail the build"]],
+    }
+
+    def _write(self, directory, spec, name="graph.json"):
+        path = os.path.join(directory, name)
+        with open(path, "w", encoding="utf-8") as fh:
+            json.dump(spec, fh)
+        return path
+
+    def test_a_coordinate_free_graph_writes_both_files_gate_clean(self):  # verifies: REQ-EXCALIDRAW-850#CASE-1
+        with tempfile.TemporaryDirectory() as d:
+            spec = self._write(d, self.GRAPH)
+            pj, ph = eb.scene_from_json(spec, out_dir=d)
+            self.assertTrue(os.path.exists(pj) and os.path.exists(ph))
+            with open(pj, encoding="utf-8") as fh:
+                scene = json.load(fh)
+            self.assertEqual(scene["type"], "excalidraw")
+            self.assertTrue(scene["elements"])
+            # nothing in the description carried a coordinate; every x/y in the
+            # scene was computed by pack()
+            described = json.dumps(self.GRAPH)
+            self.assertNotIn('"x"', described)
+            self.assertNotIn('"y"', described)
+            self.assertTrue(any("x" in e for e in scene["elements"]))
+
+    def test_the_same_description_twice_is_byte_identical(self):  # verifies: REQ-EXCALIDRAW-850#CASE-2
+        with tempfile.TemporaryDirectory() as d:
+            spec = self._write(d, self.GRAPH)
+            first, _ = eb.scene_from_json(spec, out_dir=os.path.join(d, "one"))
+            second, _ = eb.scene_from_json(spec, out_dir=os.path.join(d, "two"))
+            with open(first, "rb") as fa, open(second, "rb") as fb:
+                self.assertEqual(fa.read(), fb.read())
+
+    def test_the_legend_and_glossary_land_below_the_diagram(self):  # verifies: REQ-EXCALIDRAW-850#CASE-3
+        with tempfile.TemporaryDirectory() as d:
+            spec = self._write(d, self.GRAPH)
+            pj, _ = eb.scene_from_json(spec, out_dir=d)
+            with open(pj, encoding="utf-8") as fh:
+                texts = [e.get("text") for e in json.load(fh)["elements"]
+                         if e.get("type") == "text"]
+            self.assertIn("A described system", texts)
+            self.assertIn("What the colours mean", texts)
+            self.assertIn("gate — a check that can fail the build", texts)
+
+    def test_a_malformed_description_exits_1_with_one_readable_line(self):  # verifies: REQ-EXCALIDRAW-850#CASE-4
+        cases = {
+            "not-json": "{oops",
+            "not-an-object": "[1, 2, 3]",
+            "no-nodes": '{"nodes": []}',
+            "unknown-node": '{"nodes": [{"id": "a"}], "edges": [{"src": "a", "dst": "z"}]}',
+            "edges-not-a-list": '{"nodes": [{"id": "a"}], "edges": 3}',
+        }
+        with tempfile.TemporaryDirectory() as d:
+            for name, body in cases.items():
+                path = os.path.join(d, name + ".json")
+                with open(path, "w", encoding="utf-8") as fh:
+                    fh.write(body)
+                r = subprocess.run(
+                    [sys.executable, "-X", "utf8", self.BUILDER,
+                     "scene", "--from-json", path, "-o", d],
+                    capture_output=True, text=True)
+                self.assertEqual(r.returncode, 1, "%s: %s" % (name, r.stderr))
+                self.assertTrue(r.stderr.startswith("error: "), r.stderr)
+                self.assertNotIn("Traceback", r.stderr)
+
+    def test_the_verb_without_a_spec_exits_2_with_usage(self):  # verifies: REQ-EXCALIDRAW-850#CASE-5
+        for args in (["scene"], ["scene", "--from-json"], ["scene", "-o", "out"]):
+            r = subprocess.run([sys.executable, "-X", "utf8", self.BUILDER] + args,
+                               capture_output=True, text=True)
+            self.assertEqual(r.returncode, 2, r.stderr)
+            self.assertIn("usage:", r.stderr)
+
+    def test_the_cli_writes_both_files_and_the_other_verbs_are_untouched(self):  # verifies: REQ-EXCALIDRAW-850#CASE-1
+        with tempfile.TemporaryDirectory() as d:
+            spec = self._write(d, self.GRAPH)
+            r = subprocess.run(
+                [sys.executable, "-X", "utf8", self.BUILDER,
+                 "scene", "--from-json", spec, "-o", d],
+                capture_output=True, text=True)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            self.assertTrue(os.path.exists(os.path.join(d, "from_json.excalidraw")))
+            self.assertTrue(os.path.exists(os.path.join(d, "from_json.html")))
+        # the no-arg smoke test is still the smoke test, and an unknown verb
+        # still exits 2 — adding a verb must not shadow either
+        env = dict(os.environ, PYTHONPATH=HERE)
+        smoke = subprocess.run([sys.executable, "-X", "utf8", self.BUILDER],
+                               capture_output=True, text=True, env=env)
+        self.assertEqual(smoke.returncode, 0, smoke.stderr)
+        self.assertIn("OK smoke test", smoke.stdout)
+        unknown = subprocess.run(
+            [sys.executable, "-X", "utf8", self.BUILDER, "frobnicate"],
+            capture_output=True, text=True)
+        self.assertEqual(unknown.returncode, 2, unknown.stderr)
+        self.assertIn("scene", unknown.stderr)   # the new verb is offered
+
