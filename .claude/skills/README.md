@@ -31,7 +31,7 @@ python3 .claude/skills/html-deck/assets/static-check.py 산출.html
 | 스킬 | 역할 |
 |---|---|
 | `ui-ux-pro-max` | 핵심 스킬. 79개 스타일·192개 팔레트·74개 폰트 조합·119개 UX 지침·25개 차트·22개 스택의 로컬 검색 DB |
-| `design` | 로고·CI·배너·아이콘·슬라이드를 아우르는 통합 디자인 |
+| `uupm-design` | 로고·CI·배너·아이콘·슬라이드를 아우르는 통합 디자인 (원래 이름 `design`에서 개명) |
 | `design-system` | 디자인 토큰 3계층(primitive→semantic→component), 컴포넌트 명세 |
 | `brand` | 브랜드 보이스, 비주얼 아이덴티티, 메시징 프레임워크 |
 | `slides` | Chart.js 기반 HTML 프레젠테이션 |
@@ -46,13 +46,18 @@ python3 .claude/skills/ui-ux-pro-max/scripts/search.py "saas landing page" --dom
 
 ### 이름 충돌 주의
 
-**`design`은 Claude Code 기본 제공 `design` 스킬(디자인 캔버스)과 이름이 같습니다.** 둘 중 하나만
-로드되며 어느 쪽이 이기는지는 고정적이지 않습니다(같은 세션 안에서도 양쪽 모두 관측됐습니다).
-기본 제공 디자인 캔버스를 쓰던 흐름이 있다면 이 폴더가 그걸 가릴 수 있습니다.
+**번들의 `design`은 `uupm-design`으로 이름을 바꿔 두었습니다(해결됨).** 원래 이름이 Claude Code
+기본 제공 `design` 스킬(디자인 캔버스)과 같아 둘 중 하나만 로드됐고, 어느 쪽이 이기는지도
+고정적이지 않았습니다. 이제 이름이 갈려서 둘 다 살아 있습니다 — 기본 제공 `design`은 디자인 캔버스,
+`uupm-design`은 로고·CI·배너·아이콘 쪽입니다.
 
-둘 다 살리려면 이 폴더 이름을 `uupm-design` 같은 것으로 바꾸고 `SKILL.md`의 `name:`도 함께 고치세요.
-번들 `design`의 기능 대부분은 `banner-design`·`slides`·`design-system`·`brand`에 나뉘어 들어 있으므로,
-그냥 폴더를 지워도 실질적인 손실은 적습니다.
+개명하면서 함께 고친 것:
+
+- `SKILL.md`의 `name: design` → `name: uupm-design`
+- 참조 문서와 스크립트에 하드코딩돼 있던 `~/.claude/skills/design/...` 경로 48곳
+  (`skills/design-system`은 패턴이 달라 영향 없음)
+
+원본에서 갱신본을 다시 받으면 이 개명이 지워집니다. 그때는 위 두 가지를 다시 적용하세요.
 
 `slides`와 `design-system`은 로드되지만 위의 `html-deck`과 발표자료 영역이 겹칩니다. 요청 내용에 따라
 둘 중 하나가 잡히므로, 원하는 쪽을 `/html-deck`이나 `/slides`로 직접 부르는 편이 확실합니다.
