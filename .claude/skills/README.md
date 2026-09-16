@@ -1,0 +1,164 @@
+# Claude Code 스킬
+
+이 폴더의 스킬은 이 저장소에서 Claude Code 세션을 열면 자동으로 인식됩니다.
+
+## html-deck 계열
+
+| 스킬 | 역할 | 출처 |
+|---|---|---|
+| `html-deck` | 장면(step) 기반 HTML 발표자료 생성 | https://github.com/tonywjs/html-deck |
+| `html-diagram` | 편집 가능한 HTML 도식 생성 + 편집 엔진 원본 | https://github.com/tonywjs/html-diagram |
+
+`html-deck`은 `html-diagram`을 전제로 합니다(도식 규약과 편집 엔진). 두 폴더가 나란히 있어야
+조립 스크립트가 엔진을 찾습니다.
+
+원본 저장소에서 `SKILL.md`, `assets/`, `examples/`, `README.md`, `LICENSE`만 가져왔습니다.
+모델 비교 자료(`compare/`, 약 49MB)와 README용 스크린샷(`docs/`)은 스킬 동작에 필요 없어 제외했습니다.
+
+```bash
+python3 .claude/skills/html-deck/assets/build-template.py 소스.html 산출.html
+python3 .claude/skills/html-deck/assets/static-check.py 산출.html
+```
+
+## ui-ux-pro-max 계열
+
+출처: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill (v2.13.0, MIT)
+
+공식 설치 도구 `npx ui-ux-pro-max-cli init --ai claude`가 생성한 7개 스킬을 그대로 넣었습니다.
+저장소를 통째로 복사한 것이 아니라 CLI 산출물이라, 플랫폼별 올바른 파일 구조와 경량 에셋을 씁니다
+(저장소의 `ui-styling`은 5.8MB지만 CLI 산출물은 220KB입니다).
+
+| 스킬 | 역할 |
+|---|---|
+| `ui-ux-pro-max` | 핵심 스킬. 79개 스타일·192개 팔레트·74개 폰트 조합·119개 UX 지침·25개 차트·22개 스택의 로컬 검색 DB |
+| `uupm-design` | 로고·CI·배너·아이콘·슬라이드를 아우르는 통합 디자인 (원래 이름 `design`에서 개명) |
+| `design-system` | 디자인 토큰 3계층(primitive→semantic→component), 컴포넌트 명세 |
+| `brand` | 브랜드 보이스, 비주얼 아이덴티티, 메시징 프레임워크 |
+| `slides` | Chart.js 기반 HTML 프레젠테이션 |
+| `banner-design` | 소셜·광고·웹 히어로·인쇄용 배너 |
+| `ui-styling` | shadcn/ui + Tailwind 기반 UI 구현 |
+
+검색 스크립트에는 Python 3.x가 필요합니다. 표준 라이브러리만 쓰고 네트워크 요청을 보내지 않습니다.
+
+```bash
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "saas landing page" --domain style
+```
+
+### 이름 충돌 주의
+
+**번들의 `design`은 `uupm-design`으로 이름을 바꿔 두었습니다(해결됨).** 원래 이름이 Claude Code
+기본 제공 `design` 스킬(디자인 캔버스)과 같아 둘 중 하나만 로드됐고, 어느 쪽이 이기는지도
+고정적이지 않았습니다. 이제 이름이 갈려서 둘 다 살아 있습니다 — 기본 제공 `design`은 디자인 캔버스,
+`uupm-design`은 로고·CI·배너·아이콘 쪽입니다.
+
+개명하면서 함께 고친 것:
+
+- `SKILL.md`의 `name: design` → `name: uupm-design`
+- 참조 문서와 스크립트에 하드코딩돼 있던 `~/.claude/skills/design/...` 경로 48곳
+  (`skills/design-system`은 패턴이 달라 영향 없음)
+
+원본에서 갱신본을 다시 받으면 이 개명이 지워집니다. 그때는 위 두 가지를 다시 적용하세요.
+
+`slides`와 `design-system`은 로드되지만 위의 `html-deck`과 발표자료 영역이 겹칩니다. 요청 내용에 따라
+둘 중 하나가 잡히므로, 원하는 쪽을 `/html-deck`이나 `/slides`로 직접 부르는 편이 확실합니다.
+
+겹치는 스킬이 문제가 되면 해당 폴더만 지우면 됩니다. `ui-ux-pro-max` 본체는 다른 여섯 개 없이도
+동작합니다.
+
+## diagram-design
+
+출처: https://github.com/cathrynlavery/diagram-design (v2.6.23, MIT)
+
+아키텍처도·플로차트·시퀀스·ER·타임라인·스윔레인·간트·사분면·Sankey·피쉬본·Wardley 맵 등
+40여 종의 다이어그램을 단일 파일 HTML/SVG/PNG로 만듭니다. `.drawio`, Mermaid `.mmd`,
+Excalidraw 파일을 읽어 다시 그리는 것도 됩니다. 웹사이트에서 브랜드 토큰을 가져와
+자기 색·서체로 맞추는 온보딩 기능이 있습니다.
+
+원본은 플러그인 저장소라 `skills/diagram-design/`이 실제 스킬입니다. 그 폴더와 함께
+`commands/`의 슬래시 커맨드 6개를 `.claude/commands/`에 넣었습니다. 커맨드가 스킬 참조 문서를
+`../skills/diagram-design/references/`로 찾는데, 이 배치에서 경로가 그대로 맞습니다.
+
+| 커맨드 | 역할 |
+|---|---|
+| `/export-diagram` | 생성한 다이어그램을 PNG·SVG로 내보내기 |
+| `/import-drawio` | `.drawio` 파일을 읽어 다시 그리기 |
+| `/import-mermaid` | Mermaid `.mmd` 파일을 읽어 다시 그리기 |
+| `/import-excalidraw` | Excalidraw 파일을 읽어 다시 그리기 |
+| `/profile` | 브랜드 프로파일 저장·적용 |
+| `/doctor` | 실행 환경 진단 |
+
+산출물 자체 검사:
+
+```bash
+python3 .claude/skills/diagram-design/scripts/self_check.py 다이어그램.html
+```
+
+### 이름 충돌 주의
+
+`/doctor`는 Claude Code 기본 명령과 이름이 같습니다. 진단이 아니라 기본 `/doctor`가 뜨면
+`.claude/commands/doctor.md`의 파일 이름을 `diagram-doctor.md` 같은 것으로 바꾸세요.
+
+다이어그램 영역이 `html-diagram`과 겹치지만 성격이 다릅니다. `html-diagram`은 브라우저에서
+직접 고치는 편집 엔진이 붙은 도식이고, `diagram-design`은 브랜드 토큰을 입힌 정적
+단일 파일 산출물에 가깝습니다.
+
+## excalidraw-diagram
+
+출처: https://github.com/alxmax/excalidraw-diagram (v1.1.0, MIT)
+
+시스템·흐름·아키텍처 설명을 받아 `.excalidraw` 씬 파일과 자체완결 HTML 뷰어를 만듭니다.
+산출된 씬은 excalidraw.com이나 Excalidraw 앱에서 그대로 열어 손으로 고칠 수 있습니다.
+
+**요청하신 excalidraw/excalidraw 저장소는 스킬이 아닙니다.** Excalidraw 앱 자체의 소스
+모노레포라 `SKILL.md`도 플러그인 매니페스트도 없습니다. 대신 서드파티 Excalidraw 스킬 네 개를
+받아 비교하고 이것을 골랐습니다.
+
+| 후보 | 방식 | 전제 |
+|---|---|---|
+| **alxmax/excalidraw-diagram** (채택) | 표준 라이브러리 Python 빌더, 레이아웃 겹침 자체 검사 | 없음 |
+| coleam00/excalidraw-diagram-skill | Playwright로 렌더해 보고 스스로 교정 | `pip install playwright` |
+| robonuggets/excalidraw-skill | MCP 서버로 라이브 캔버스에 그림 | MCP 서버 상시 실행 |
+| rnjn/cc-excalidraw-skill | 참조 문서만, 스크립트 없음 | 없음 (검증도 없음) |
+
+alxmax를 고른 이유는 npm·API 키·상시 서버 없이 Python 표준 라이브러리만으로 돌고, 스킬 안에
+회귀 테스트가 들어 있어 설치 상태를 스스로 확인할 수 있기 때문입니다.
+
+```bash
+# 회귀 테스트 (63개)
+python3 .claude/skills/excalidraw-diagram/scripts/test_excalidraw.py
+
+# 예시 생성 — 현재 폴더 아래 diagrams/ 에 .excalidraw 와 .html 이 나옵니다
+python3 .claude/skills/excalidraw-diagram/examples/make_explainer.py
+```
+
+`diagram-design`의 `/import-excalidraw`와 방향이 반대라 서로 겹치지 않습니다. 이쪽은
+`.excalidraw`를 **만들고**, 저쪽은 `.excalidraw`를 **읽어** 브랜드 입힌 다이어그램으로 다시 그립니다.
+
+## 다른 환경에 설치하기
+
+이 저장소 밖에서도 쓰려면 원본을 직접 받는 쪽이 갱신에 유리합니다.
+
+```bash
+# html-deck 계열
+git clone https://github.com/tonywjs/html-diagram.git ~/.claude/skills/html-diagram
+git clone https://github.com/tonywjs/html-deck.git ~/.claude/skills/html-deck
+
+# ui-ux-pro-max 계열 (Claude Code 마켓플레이스)
+/plugin marketplace add nextlevelbuilder/ui-ux-pro-max-skill
+/plugin install ui-ux-pro-max@ui-ux-pro-max-skill
+
+# 또는 CLI
+npx ui-ux-pro-max-cli init --ai claude
+
+# diagram-design (Claude Code 마켓플레이스)
+/plugin marketplace add cathrynlavery/diagram-design
+/plugin install diagram-design@diagram-design
+
+# excalidraw-diagram — 저장소의 plugin/skills/excalidraw-diagram/ 이 실제 스킬
+git clone https://github.com/alxmax/excalidraw-diagram.git /tmp/exc
+cp -r /tmp/exc/plugin/skills/excalidraw-diagram ~/.claude/skills/
+```
+
+Codex CLI는 `~/.agents/skills/`를 읽습니다.
+
+모든 스킬이 MIT 라이선스입니다.
