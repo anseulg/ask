@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "agent-notion-template-docs": {
+      "source": {
+        "source": "github",
+        "repo": "heyman333/agent-notion-template-docs"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "notion-doc@agent-notion-template-docs": true
+  }
+}
