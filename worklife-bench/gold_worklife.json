@@ -1,0 +1,482 @@
+{
+  "1": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.08
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "2": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.08
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "3": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.1
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "4": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.08
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "5": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.06
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "6": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.08
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "7": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.05
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "8": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.06
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "9": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.3
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "10": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.28
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "11": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.35
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "12": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.3
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "13": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.72
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "14": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.7
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "15": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.74
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "16": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.78
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "17": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.7
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "18": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.88
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "19": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.93
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "20": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.92
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "21": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.95
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "22": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.9
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "23": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.85
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "24": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "yes": {
+        "type": "noul",
+        "noul": 0.8
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "25": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "team": {
+        "type": "choice",
+        "choice": "hr"
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "26": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "team": {
+        "type": "choice",
+        "choice": "scheduling"
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "27": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "team": {
+        "type": "choice",
+        "choice": "payroll"
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "28": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "team": {
+        "type": "choice",
+        "choice": "payroll"
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "29": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "team": {
+        "type": "choice",
+        "choice": "safety"
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "30": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "team": {
+        "type": "choice",
+        "choice": "hr"
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "31": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "team": {
+        "type": "choice",
+        "choice": "scheduling"
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "32": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "team": {
+        "type": "choice",
+        "choice": "scheduling"
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "33": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "team": {
+        "type": "choice",
+        "choice": "hr"
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "34": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "team": {
+        "type": "choice",
+        "choice": "payroll"
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "35": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "team": {
+        "type": "choice",
+        "choice": "safety"
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "36": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "team": {
+        "type": "choice",
+        "choice": "hr"
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "37": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "urgency": {
+        "type": "score",
+        "score": 3.0
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "38": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "urgency": {
+        "type": "score",
+        "score": 0.5
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "39": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "urgency": {
+        "type": "score",
+        "score": 1.5
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "40": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "urgency": {
+        "type": "score",
+        "score": 2.0
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "41": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "urgency": {
+        "type": "score",
+        "score": 2.5
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "42": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "urgency": {
+        "type": "score",
+        "score": 3.5
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "43": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "urgency": {
+        "type": "score",
+        "score": 4.0
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "44": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "urgency": {
+        "type": "score",
+        "score": 0.5
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "45": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "urgency": {
+        "type": "score",
+        "score": 2.0
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "46": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "urgency": {
+        "type": "score",
+        "score": 3.0
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "47": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "urgency": {
+        "type": "score",
+        "score": 0.0
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  },
+  "48": {
+    "model": "worklife-rubric-v1",
+    "answers": {
+      "urgency": {
+        "type": "score",
+        "score": 4.0
+      }
+    },
+    "rubric": "kitchen-worklife-v1"
+  }
+}

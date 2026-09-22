@@ -1,0 +1,782 @@
+[
+  {
+    "id": "wl_noul_pref_1",
+    "kind": "noul",
+    "lang": "en",
+    "state": "Kitchen asks whether the staff-meal break can move from 15:00 to 15:30.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "Is immediate management action required to protect the staff?"
+      }
+    },
+    "idx": 1
+  },
+  {
+    "id": "wl_noul_pref_2",
+    "kind": "noul",
+    "lang": "ko",
+    "state": "주방 직원이 휴게실에 커피머신을 놓아달라고 한다.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "직원 보호를 위해 즉시 조치가 필요한가?"
+      }
+    },
+    "idx": 2
+  },
+  {
+    "id": "wl_noul_pref_3",
+    "kind": "noul",
+    "lang": "en",
+    "state": "Line cook asks to swap next month's Tuesday off with a colleague.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "Is immediate management action required to protect the staff?"
+      }
+    },
+    "idx": 3
+  },
+  {
+    "id": "wl_noul_pref_4",
+    "kind": "noul",
+    "lang": "ko",
+    "state": "마감조가 조리복 세탁 주기를 주 2회로 늘려달라고 한다.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "직원 보호를 위해 즉시 조치가 필요한가?"
+      }
+    },
+    "idx": 4
+  },
+  {
+    "id": "wl_noul_pref_5",
+    "kind": "noul",
+    "lang": "en",
+    "state": "Kitchen wants the shift roster posted as a PDF instead of a printout.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "Is immediate management action required to protect the staff?"
+      }
+    },
+    "idx": 5
+  },
+  {
+    "id": "wl_noul_lex_1",
+    "kind": "noul",
+    "lang": "en",
+    "state": "HR asks the kitchen to re-run the annual work-life-balance survey.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "Is immediate management action required to protect the staff?"
+      }
+    },
+    "idx": 6
+  },
+  {
+    "id": "wl_noul_lex_2",
+    "kind": "noul",
+    "lang": "ko",
+    "state": "워라벨 캠페인 포스터를 주방 게시판에 붙여도 되냐고 묻는다.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "직원 보호를 위해 즉시 조치가 필요한가?"
+      }
+    },
+    "idx": 7
+  },
+  {
+    "id": "wl_noul_lex_3",
+    "kind": "noul",
+    "lang": "en",
+    "state": "Kitchen asks if next week's work-life balance workshop can be recorded.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "Is immediate management action required to protect the staff?"
+      }
+    },
+    "idx": 8
+  },
+  {
+    "id": "wl_noul_watch_1",
+    "kind": "noul",
+    "lang": "en",
+    "state": "Prep cook worked 46 hours this week; last week was 41.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "Is immediate management action required to protect the staff?"
+      }
+    },
+    "idx": 9
+  },
+  {
+    "id": "wl_noul_watch_2",
+    "kind": "noul",
+    "lang": "ko",
+    "state": "주방 직원 1명이 이번 주 연장근로 6시간을 기록했다.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "직원 보호를 위해 즉시 조치가 필요한가?"
+      }
+    },
+    "idx": 10
+  },
+  {
+    "id": "wl_noul_watch_3",
+    "kind": "noul",
+    "lang": "en",
+    "state": "Two kitchen staff swapped into a back-to-back close/open once this month.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "Is immediate management action required to protect the staff?"
+      }
+    },
+    "idx": 11
+  },
+  {
+    "id": "wl_noul_watch_4",
+    "kind": "noul",
+    "lang": "ko",
+    "state": "조리팀 연차 소진율이 분기 기준 38%에 머물러 있다.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "직원 보호를 위해 즉시 조치가 필요한가?"
+      }
+    },
+    "idx": 12
+  },
+  {
+    "id": "wl_noul_limit_1",
+    "kind": "noul",
+    "lang": "en",
+    "state": "Prep team averaged 54 hours a week for two consecutive weeks.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "Is immediate management action required to protect the staff?"
+      }
+    },
+    "idx": 13
+  },
+  {
+    "id": "wl_noul_limit_2",
+    "kind": "noul",
+    "lang": "ko",
+    "state": "디너 러시 6시간 동안 주방 인력이 휴게시간을 한 번도 쓰지 못했다.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "직원 보호를 위해 즉시 조치가 필요한가?"
+      }
+    },
+    "idx": 14
+  },
+  {
+    "id": "wl_noul_limit_3",
+    "kind": "noul",
+    "lang": "en",
+    "state": "Closing crew finished at 01:40 and is rostered to open at 09:00 the same morning.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "Is immediate management action required to protect the staff?"
+      }
+    },
+    "idx": 15
+  },
+  {
+    "id": "wl_noul_limit_4",
+    "kind": "noul",
+    "lang": "ko",
+    "state": "조리장이 주휴일 없이 12일 연속 근무 중이다.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "직원 보호를 위해 즉시 조치가 필요한가?"
+      }
+    },
+    "idx": 16
+  },
+  {
+    "id": "wl_noul_limit_5",
+    "kind": "noul",
+    "lang": "en",
+    "state": "Kitchen has run three people short for five weeks; nightly overtime is now mandatory.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "Is immediate management action required to protect the staff?"
+      }
+    },
+    "idx": 17
+  },
+  {
+    "id": "wl_noul_viol_1",
+    "kind": "noul",
+    "lang": "ko",
+    "state": "주방 마감조가 3주 연속 주 62시간 근무 중이다. 내일 예약은 만석이다.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "직원 보호를 위해 즉시 조치가 필요한가?"
+      }
+    },
+    "idx": 18
+  },
+  {
+    "id": "wl_noul_viol_2",
+    "kind": "noul",
+    "lang": "en",
+    "state": "Line cook fell asleep at the pass after six straight 16-hour days.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "Is immediate management action required to protect the staff?"
+      }
+    },
+    "idx": 19
+  },
+  {
+    "id": "wl_noul_viol_3",
+    "kind": "noul",
+    "lang": "ko",
+    "state": "18세 미만 실습생이 오후 10시 이후 조리 라인에 투입되고 있다.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "직원 보호를 위해 즉시 조치가 필요한가?"
+      }
+    },
+    "idx": 20
+  },
+  {
+    "id": "wl_noul_viol_4",
+    "kind": "noul",
+    "lang": "en",
+    "state": "Sous chef reported chest pain after a fourth consecutive double shift.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "Is immediate management action required to protect the staff?"
+      }
+    },
+    "idx": 21
+  },
+  {
+    "id": "wl_noul_viol_5",
+    "kind": "noul",
+    "lang": "ko",
+    "state": "임신 중인 조리사가 주 12시간 연장근로에 배정됐다.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "직원 보호를 위해 즉시 조치가 필요한가?"
+      }
+    },
+    "idx": 22
+  },
+  {
+    "id": "wl_noul_cross_1",
+    "kind": "noul",
+    "lang": "en",
+    "state": "Cold room #3 sat at 12C for 70 minutes; the cook due to check it is on his 13th straight day.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "Is immediate management action required to protect the staff?"
+      }
+    },
+    "idx": 23
+  },
+  {
+    "id": "wl_noul_cross_2",
+    "kind": "noul",
+    "lang": "ko",
+    "state": "냉장고 온도 점검이 3일 누락됐고 담당자는 연속 야근 중이다.",
+    "questions": {
+      "yes": {
+        "type": "noul",
+        "instructions": "직원 보호를 위해 즉시 조치가 필요한가?"
+      }
+    },
+    "idx": 24
+  },
+  {
+    "id": "wl_choice_route_1",
+    "kind": "choice",
+    "lang": "en",
+    "state": "Closing crew logged 62h this week; the statutory weekly cap is exceeded.",
+    "questions": {
+      "team": {
+        "type": "choice",
+        "instructions": "Which team should own this?",
+        "criteria": {
+          "hr": "statutory limits, leave entitlement, contracts, labor complaints",
+          "scheduling": "rosters, shift swaps, coverage gaps",
+          "payroll": "overtime pay, night allowance, wage errors",
+          "safety": "fatigue-related hazards, injuries, food safety risk"
+        }
+      }
+    },
+    "idx": 25
+  },
+  {
+    "id": "wl_choice_route_2",
+    "kind": "choice",
+    "lang": "en",
+    "state": "Two cooks want to swap next Saturday's shift.",
+    "questions": {
+      "team": {
+        "type": "choice",
+        "instructions": "Which team should own this?",
+        "criteria": {
+          "hr": "statutory limits, leave entitlement, contracts, labor complaints",
+          "scheduling": "rosters, shift swaps, coverage gaps",
+          "payroll": "overtime pay, night allowance, wage errors",
+          "safety": "fatigue-related hazards, injuries, food safety risk"
+        }
+      }
+    },
+    "idx": 26
+  },
+  {
+    "id": "wl_choice_route_3",
+    "kind": "choice",
+    "lang": "en",
+    "state": "Night allowance is missing from the March payslip for three kitchen staff.",
+    "questions": {
+      "team": {
+        "type": "choice",
+        "instructions": "Which team should own this?",
+        "criteria": {
+          "hr": "statutory limits, leave entitlement, contracts, labor complaints",
+          "scheduling": "rosters, shift swaps, coverage gaps",
+          "payroll": "overtime pay, night allowance, wage errors",
+          "safety": "fatigue-related hazards, injuries, food safety risk"
+        }
+      }
+    },
+    "idx": 27
+  },
+  {
+    "id": "wl_choice_route_4",
+    "kind": "choice",
+    "lang": "ko",
+    "state": "야간근로수당이 3월 급여에서 누락됐다.",
+    "questions": {
+      "team": {
+        "type": "choice",
+        "instructions": "어느 팀이 담당해야 하는가?",
+        "criteria": {
+          "hr": "statutory limits, leave entitlement, contracts, labor complaints",
+          "scheduling": "rosters, shift swaps, coverage gaps",
+          "payroll": "overtime pay, night allowance, wage errors",
+          "safety": "fatigue-related hazards, injuries, food safety risk"
+        }
+      }
+    },
+    "idx": 28
+  },
+  {
+    "id": "wl_choice_route_5",
+    "kind": "choice",
+    "lang": "en",
+    "state": "A cook nodded off while operating the slicer after a double shift.",
+    "questions": {
+      "team": {
+        "type": "choice",
+        "instructions": "Which team should own this?",
+        "criteria": {
+          "hr": "statutory limits, leave entitlement, contracts, labor complaints",
+          "scheduling": "rosters, shift swaps, coverage gaps",
+          "payroll": "overtime pay, night allowance, wage errors",
+          "safety": "fatigue-related hazards, injuries, food safety risk"
+        }
+      }
+    },
+    "idx": 29
+  },
+  {
+    "id": "wl_choice_route_6",
+    "kind": "choice",
+    "lang": "ko",
+    "state": "연차 사용 신청이 3개월째 반려되고 있다.",
+    "questions": {
+      "team": {
+        "type": "choice",
+        "instructions": "어느 팀이 담당해야 하는가?",
+        "criteria": {
+          "hr": "statutory limits, leave entitlement, contracts, labor complaints",
+          "scheduling": "rosters, shift swaps, coverage gaps",
+          "payroll": "overtime pay, night allowance, wage errors",
+          "safety": "fatigue-related hazards, injuries, food safety risk"
+        }
+      }
+    },
+    "idx": 30
+  },
+  {
+    "id": "wl_choice_route_7",
+    "kind": "choice",
+    "lang": "en",
+    "state": "The roster has no cover for Friday dinner service.",
+    "questions": {
+      "team": {
+        "type": "choice",
+        "instructions": "Which team should own this?",
+        "criteria": {
+          "hr": "statutory limits, leave entitlement, contracts, labor complaints",
+          "scheduling": "rosters, shift swaps, coverage gaps",
+          "payroll": "overtime pay, night allowance, wage errors",
+          "safety": "fatigue-related hazards, injuries, food safety risk"
+        }
+      }
+    },
+    "idx": 31
+  },
+  {
+    "id": "wl_choice_route_8",
+    "kind": "choice",
+    "lang": "ko",
+    "state": "교대 근무표가 매주 목요일에야 나와 개인 일정을 잡기 어렵다.",
+    "questions": {
+      "team": {
+        "type": "choice",
+        "instructions": "어느 팀이 담당해야 하는가?",
+        "criteria": {
+          "hr": "statutory limits, leave entitlement, contracts, labor complaints",
+          "scheduling": "rosters, shift swaps, coverage gaps",
+          "payroll": "overtime pay, night allowance, wage errors",
+          "safety": "fatigue-related hazards, injuries, food safety risk"
+        }
+      }
+    },
+    "idx": 32
+  },
+  {
+    "id": "wl_choice_route_9",
+    "kind": "choice",
+    "lang": "en",
+    "state": "A kitchen porter's contract says 40h but he is rostered for 55h.",
+    "questions": {
+      "team": {
+        "type": "choice",
+        "instructions": "Which team should own this?",
+        "criteria": {
+          "hr": "statutory limits, leave entitlement, contracts, labor complaints",
+          "scheduling": "rosters, shift swaps, coverage gaps",
+          "payroll": "overtime pay, night allowance, wage errors",
+          "safety": "fatigue-related hazards, injuries, food safety risk"
+        }
+      }
+    },
+    "idx": 33
+  },
+  {
+    "id": "wl_choice_route_10",
+    "kind": "choice",
+    "lang": "ko",
+    "state": "주방 보조가 연장근로수당 계산이 틀렸다고 문의했다.",
+    "questions": {
+      "team": {
+        "type": "choice",
+        "instructions": "어느 팀이 담당해야 하는가?",
+        "criteria": {
+          "hr": "statutory limits, leave entitlement, contracts, labor complaints",
+          "scheduling": "rosters, shift swaps, coverage gaps",
+          "payroll": "overtime pay, night allowance, wage errors",
+          "safety": "fatigue-related hazards, injuries, food safety risk"
+        }
+      }
+    },
+    "idx": 34
+  },
+  {
+    "id": "wl_choice_route_11",
+    "kind": "choice",
+    "lang": "en",
+    "state": "Burn injury on the line during the 14th consecutive working hour.",
+    "questions": {
+      "team": {
+        "type": "choice",
+        "instructions": "Which team should own this?",
+        "criteria": {
+          "hr": "statutory limits, leave entitlement, contracts, labor complaints",
+          "scheduling": "rosters, shift swaps, coverage gaps",
+          "payroll": "overtime pay, night allowance, wage errors",
+          "safety": "fatigue-related hazards, injuries, food safety risk"
+        }
+      }
+    },
+    "idx": 35
+  },
+  {
+    "id": "wl_choice_route_12",
+    "kind": "choice",
+    "lang": "ko",
+    "state": "휴게시간 미부여로 근로감독관 진정이 접수됐다.",
+    "questions": {
+      "team": {
+        "type": "choice",
+        "instructions": "어느 팀이 담당해야 하는가?",
+        "criteria": {
+          "hr": "statutory limits, leave entitlement, contracts, labor complaints",
+          "scheduling": "rosters, shift swaps, coverage gaps",
+          "payroll": "overtime pay, night allowance, wage errors",
+          "safety": "fatigue-related hazards, injuries, food safety risk"
+        }
+      }
+    },
+    "idx": 36
+  },
+  {
+    "id": "wl_score_sev_1",
+    "kind": "score",
+    "lang": "ko",
+    "state": "주방 직원 2명이 연속 야근으로 번아웃을 호소한다.",
+    "questions": {
+      "urgency": {
+        "type": "score",
+        "instructions": "긴급도 0~4",
+        "criteria": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "critical"
+        ]
+      }
+    },
+    "idx": 37
+  },
+  {
+    "id": "wl_score_sev_2",
+    "kind": "score",
+    "lang": "en",
+    "state": "One cook asks to finish an hour earlier next Friday.",
+    "questions": {
+      "urgency": {
+        "type": "score",
+        "instructions": "Urgency from 0 to 4",
+        "criteria": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "critical"
+        ]
+      }
+    },
+    "idx": 38
+  },
+  {
+    "id": "wl_score_sev_3",
+    "kind": "score",
+    "lang": "en",
+    "state": "Kitchen overtime is running 18% above plan this month.",
+    "questions": {
+      "urgency": {
+        "type": "score",
+        "instructions": "Urgency from 0 to 4",
+        "criteria": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "critical"
+        ]
+      }
+    },
+    "idx": 39
+  },
+  {
+    "id": "wl_score_sev_4",
+    "kind": "score",
+    "lang": "ko",
+    "state": "조리팀 3명이 이번 분기 연차를 전혀 쓰지 못했다.",
+    "questions": {
+      "urgency": {
+        "type": "score",
+        "instructions": "긴급도 0~4",
+        "criteria": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "critical"
+        ]
+      }
+    },
+    "idx": 40
+  },
+  {
+    "id": "wl_score_sev_5",
+    "kind": "score",
+    "lang": "en",
+    "state": "Third sick call this month, all attributed to exhaustion.",
+    "questions": {
+      "urgency": {
+        "type": "score",
+        "instructions": "Urgency from 0 to 4",
+        "criteria": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "critical"
+        ]
+      }
+    },
+    "idx": 41
+  },
+  {
+    "id": "wl_score_sev_6",
+    "kind": "score",
+    "lang": "ko",
+    "state": "마감조 전원이 12일 연속 근무 중이다.",
+    "questions": {
+      "urgency": {
+        "type": "score",
+        "instructions": "긴급도 0~4",
+        "criteria": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "critical"
+        ]
+      }
+    },
+    "idx": 42
+  },
+  {
+    "id": "wl_score_sev_7",
+    "kind": "score",
+    "lang": "en",
+    "state": "A cook collapsed during service at the end of a 16-hour shift.",
+    "questions": {
+      "urgency": {
+        "type": "score",
+        "instructions": "Urgency from 0 to 4",
+        "criteria": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "critical"
+        ]
+      }
+    },
+    "idx": 43
+  },
+  {
+    "id": "wl_score_sev_8",
+    "kind": "score",
+    "lang": "ko",
+    "state": "휴게실 의자가 낡아 교체 요청이 들어왔다.",
+    "questions": {
+      "urgency": {
+        "type": "score",
+        "instructions": "긴급도 0~4",
+        "criteria": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "critical"
+        ]
+      }
+    },
+    "idx": 44
+  },
+  {
+    "id": "wl_score_sev_9",
+    "kind": "score",
+    "lang": "en",
+    "state": "Staff meal time was cut from 30 to 20 minutes to speed up prep.",
+    "questions": {
+      "urgency": {
+        "type": "score",
+        "instructions": "Urgency from 0 to 4",
+        "criteria": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "critical"
+        ]
+      }
+    },
+    "idx": 45
+  },
+  {
+    "id": "wl_score_sev_10",
+    "kind": "score",
+    "lang": "ko",
+    "state": "신규 채용 3명 중 2명이 근무시간을 이유로 2주 안에 퇴사했다.",
+    "questions": {
+      "urgency": {
+        "type": "score",
+        "instructions": "긴급도 0~4",
+        "criteria": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "critical"
+        ]
+      }
+    },
+    "idx": 46
+  },
+  {
+    "id": "wl_score_sev_11",
+    "kind": "score",
+    "lang": "en",
+    "state": "Kitchen wants a wellness poster put up in the locker room.",
+    "questions": {
+      "urgency": {
+        "type": "score",
+        "instructions": "Urgency from 0 to 4",
+        "criteria": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "critical"
+        ]
+      }
+    },
+    "idx": 47
+  },
+  {
+    "id": "wl_score_sev_12",
+    "kind": "score",
+    "lang": "ko",
+    "state": "18세 미만 실습생이 야간 조리 라인에 배치됐다.",
+    "questions": {
+      "urgency": {
+        "type": "score",
+        "instructions": "긴급도 0~4",
+        "criteria": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "critical"
+        ]
+      }
+    },
+    "idx": 48
+  }
+]
