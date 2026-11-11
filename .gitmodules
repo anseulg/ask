@@ -1,3 +1,9 @@
 [submodule "lib/facebook-php-sdk-v4"]
 	path = lib/facebook-php-sdk-v4
 	url = https://github.com/facebook/facebook-php-sdk-v4
+[submodule "astryx"]
+	path = astryx
+	url = https://github.com/meta/astryx.git
+[submodule "anarlog"]
+	path = anarlog
+	url = https://github.com/fastrepl/anarlog.git
