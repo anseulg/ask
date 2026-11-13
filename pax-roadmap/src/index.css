@@ -1,0 +1,14 @@
+@import '@astryxdesign/core/reset.css';
+@import '@astryxdesign/core/astryx.css';
+
+/* The artifact viewer paints its own ground behind the page, so the body
+   takes the theme's body color explicitly, and the side gutter clears a
+   phone's system bars. */
+body {
+  background: var(--color-background-body);
+  color: var(--color-text-primary);
+}
+#root {
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
