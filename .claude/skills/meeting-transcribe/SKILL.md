@@ -21,8 +21,10 @@ python meeting-transcribe/transcribe.py [파일 또는 폴더] --model small --l
 - 정확도가 부족하다고 하면 `--model medium` (GPU가 있으면 `turbo`)으로 다시 실행한다.
 - 녹음이 길면 오래 걸리므로 백그라운드로 실행하고 진행 상황을 알린다.
 
-## 3. 회의록 (요청 시)
-`output/파일명.txt` 를 읽고 `output/파일명-회의록.md` 를 아래 형식으로 작성한다.
+## 3. 요약본 (요청 시)
+- 사용자가 버튼 화면을 원하면 `python meeting-transcribe/app.py` 실행을 안내한다 (브라우저 UI, 변환+요약 버튼).
+- Claude API 키가 있으면 `python meeting-transcribe/summarize.py output/파일명.txt` 로 `output/파일명-요약.md` 를 만든다.
+- 키가 없으면 `output/파일명.txt` 를 직접 읽고 `output/파일명-요약.md` 를 아래 형식으로 작성한다.
 
 ```markdown
 # 회의록 — {회의 주제}

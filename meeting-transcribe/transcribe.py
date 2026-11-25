@@ -46,23 +46,37 @@ def main():
         print("변환할 녹음 파일이 없습니다. input/ 폴더에 넣거나 파일 경로를 지정하세요.")
         return 1
 
-    import whisper  # 무거우니 파일 확인 후 로드
+    run(files, args.model, args.language, args.output_dir, args.formats, args.prompt)
+    return 0
+
+
+_models = {}
+
+
+def run(files, model_name="small", language="Korean", output_dir=HERE / "output",
+        formats="txt,srt", prompt=None, log=print):
+    """녹음 파일들을 변환하고 생성된 txt 경로 목록을 돌려준다."""
+    import whisper  # 무거우니 필요할 때 로드
     from whisper.utils import get_writer
 
-    out = Path(args.output_dir)
+    out = Path(output_dir)
     out.mkdir(parents=True, exist_ok=True)
-    print(f"모델 '{args.model}' 불러오는 중… (첫 실행 시 다운로드)")
-    model = whisper.load_model(args.model)
-    writers = [get_writer(f.strip(), str(out)) for f in args.formats.split(",")]
+    if model_name not in _models:
+        log(f"모델 '{model_name}' 불러오는 중… (첫 실행 시 다운로드)")
+        _models[model_name] = whisper.load_model(model_name)
+    model = _models[model_name]
+    writers = [get_writer(f.strip(), str(out)) for f in formats.split(",")]
 
+    txts = []
     for i, f in enumerate(files, 1):
-        print(f"[{i}/{len(files)}] {f.name} 변환 중…")
-        result = model.transcribe(str(f), language=args.language,
-                                  initial_prompt=args.prompt, verbose=False)
+        log(f"[{i}/{len(files)}] {Path(f).name} 변환 중… (길면 오래 걸려요)")
+        result = model.transcribe(str(f), language=language,
+                                  initial_prompt=prompt, verbose=False)
         for w in writers:
             w(result, str(f), {})
-        print(f"   ✅ {out / f.stem}.{{{args.formats}}}")
-    return 0
+        log(f"   ✅ {Path(f).stem}.{{{formats}}}")
+        txts.append(out / f"{Path(f).stem}.txt")
+    return txts
 
 
 if __name__ == "__main__":

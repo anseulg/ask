@@ -1,7 +1,10 @@
 # 🎙️ 회의 녹음 → 글·자막 변환 (Whisper)
 
-회의 녹음 파일을 **글(txt)** 과 **자막(srt)** 으로 바꾸는 프로젝트입니다.
-OpenAI Whisper를 **내 컴퓨터에서** 돌리기 때문에 녹음이 외부 서버로 나가지 않습니다.
+회의 녹음 파일을 **글(txt)**, **자막(srt)**, **요약본(md)** 으로 바꾸는 프로젝트입니다.
+글·자막 변환은 OpenAI Whisper를 **내 컴퓨터에서** 돌리기 때문에 녹음이 외부 서버로 나가지 않습니다.
+요약본은 변환된 **글**을 Claude API로 보내 만듭니다 (녹음 파일 자체는 보내지 않음).
+
+![버튼 화면](docs/screenshot.png)
 
 ## 1. 설치 (처음 한 번)
 
@@ -14,10 +17,39 @@ OpenAI Whisper를 **내 컴퓨터에서** 돌리기 때문에 녹음이 외부 �
 cd meeting-transcribe
 python3 -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
-pip install -r requirements.txt  # openai-whisper
+pip install -r requirements.txt  # openai-whisper, anthropic
+```
+
+요약본 기능을 쓰려면 [Claude API 키](https://console.anthropic.com/)를 환경변수로 설정합니다.
+
+```bash
+export ANTHROPIC_API_KEY=sk-ant-...      # Windows: setx ANTHROPIC_API_KEY sk-ant-...  (설정 후 창 다시 열기)
 ```
 
 ## 2. 사용법
+
+### 🖱️ 버튼 화면 (추천)
+
+- **Mac**: `실행-Mac.command` 더블클릭 (처음엔 우클릭 → 열기)
+- **Windows**: `실행-Windows.bat` 더블클릭
+- 또는 터미널에서 `python app.py`
+
+브라우저에 화면이 열리면:
+
+1. 녹음 파일을 끌어다 놓기
+2. 정확도·용어 고르고 **요약본도 함께 만들기** 체크
+3. **▶ 변환 시작** → 아래 목록에서 글·자막·요약본 내려받기
+
+이미 만든 글(txt) 옆의 **✨ 요약본 만들기** 버튼으로 요약본만 따로 만들 수도 있습니다.
+화면은 `127.0.0.1`(내 컴퓨터)에서만 열리며, 끄려면 터미널 창에서 `Ctrl+C`.
+
+### 요약본만 명령어로
+
+```bash
+python summarize.py output/회의.txt     # → output/회의-요약.md
+```
+
+요약본 구성: 한눈에 보기 · 주요 논의 · 결정 사항 · 액션 아이템(담당/할 일/기한) · 미결 사항
 
 ### 가장 간단한 방법: 명령 한 줄
 
@@ -61,13 +93,14 @@ python transcribe.py --formats txt,srt,vtt      # 웹 자막(vtt)도 함께
 첫 실행 때 모델이 자동으로 내려받아집니다 (small 약 460MB).
 CPU만으로는 small 모델 기준 녹음 1시간에 수십 분 정도 걸릴 수 있습니다.
 
-## 4. 회의록까지 만들기 (Claude Code)
+## 4. Claude Code에서 쓰기
 
 이 저장소에는 `meeting-transcribe` 스킬이 들어 있습니다. Claude Code에서
-"input에 있는 회의 녹음 회의록으로 만들어줘"라고 하면 변환 → 요약 → 회의록(`output/파일명-회의록.md`)까지 진행합니다.
+"input에 있는 회의 녹음 회의록으로 만들어줘"라고 하면 변환 → 요약본(`output/파일명-요약.md`)까지 진행합니다.
 
 ## 자주 묻는 질문
 
 - **`ffmpeg not found`** → 1번의 ffmpeg 설치를 확인하세요.
 - **`FP16 is not supported on CPU` 경고** → 무시해도 됩니다 (CPU에서는 FP32로 자동 전환).
+- **요약본이 안 만들어져요** → 화면의 주황색 안내를 확인하세요. 대부분 `pip install anthropic` 또는 API 키 설정 문제입니다.
 - **화자 구분(누가 말했는지)** → Whisper 자체 기능에는 없습니다. 회의록 단계에서 맥락으로 추정하거나, 필요하면 pyannote 같은 도구를 추가해야 합니다.

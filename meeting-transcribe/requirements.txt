@@ -1,1 +1,2 @@
 openai-whisper
+anthropic   # 요약본 기능용
