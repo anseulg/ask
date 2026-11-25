@@ -1,0 +1,7 @@
+# 회의 녹음·결과물은 저장소에 올리지 않음 (개인정보 보호)
+input/*
+output/*
+!input/.gitkeep
+!output/.gitkeep
+.venv/
+__pycache__/
